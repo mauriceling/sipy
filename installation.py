@@ -39,3 +39,6 @@ if __name__ == "__main__":
         for package in pip_packages:
             trusted_hosts = "--trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org"
             os.system("pip install %s %s" % (trusted_hosts, package))
+    elif command.lower() == "remove":
+        environment = sys.argv[2]
+        os.system("conda remove --name %s --all" % environment)
