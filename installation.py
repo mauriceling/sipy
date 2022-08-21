@@ -25,11 +25,11 @@ import sys
 if __name__ == "__main__":
     command = sys.argv[1]
     if command.lower() == "freeze":
-        os.system("conda list --explicit > conda_rpython_environment.txt")
-        os.system("pip list --format=freeze > pip_rpython_environment.txt")
+        os.system("conda list --explicit > conda_sipy_environment.txt")
+        os.system("pip list --format=freeze > pip_sipy_environment.txt")
     elif command.lower() == "build":
         environment = sys.argv[2]
-        os.system("conda create --name %s --file conda_rpython_environment.txt" % environment)
+        os.system("conda create --name %s --file conda_sipy_environment.txt" % environment)
         try:
             os.system("activate %s" % environment)
         except:
