@@ -28,13 +28,13 @@ if __name__ == "__main__":
         os.system("conda list --explicit > conda_sipy_environment.txt")
         os.system("pip list --format=freeze > pip_sipy_environment.txt")
     elif command.lower() == "build":
-        environment = sys.argv[2]
+        environment = sys.argv[1]
         os.system("conda create --name %s --file conda_sipy_environment.txt" % environment)
         try:
             os.system("activate %s" % environment)
         except:
             os.system("source activate %s" % environment)
-        pip_packages = open("pip_rpython_environment.txt").readlines()
+        pip_packages = open("pip_sipy_environment.txt").readlines()
         pip_packages = [x[:-1] for x in pip_packages]
         for package in pip_packages:
             trusted_hosts = "--trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org"
