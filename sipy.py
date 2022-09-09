@@ -34,8 +34,42 @@ except ImportError:
                            '--trusted-host', 'files.pythonhosted.org'])
     import fire
 
+def arithmeticMean(datalist, module=False):
+    results = libsipy.base.arithmeticMean(datalist)
+    if module:
+       return results
+    else:
+        print("Arimethic mean = %f" % results)
+
+def availableModules(module=False):
+    """!
+    List all the available modules (in libsipy).
+
+    @param module Boolean: Flag to whether this function will be used as a module. If True, this function will return values to the calling function. Default = False
+    @return: List of available modules in libsipy.
+    """
+    ignores = ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']
+    results = [m for m in dir(libsipy) if m not in ignores]
+    if module: 
+        return results
+    else:
+        print("List of Available Modules:")
+        for m in results: print(m)
+
+def template(module=False):
+    """!
+
+    @param module Boolean: Flag to whether this function will be used as a module. If True, this function will return values to the calling function. Default = False
+    @return: List of available modules in libsipy.
+    """
+    
+    if module: 
+        return results
+    else:
+        print("xxx")
+        for m in results: print(m)
+
 if __name__ == '__main__':
-    exposed_functions = {}
+    exposed_functions = {"mean": arithmeticMean,
+                         "modules": availableModules}
     fire.Fire(exposed_functions)
-    print(dir())
-    print(dir(libsipy))

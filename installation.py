@@ -28,7 +28,7 @@ if __name__ == "__main__":
         os.system("conda list --explicit > conda_sipy_environment.txt")
         os.system("pip list --format=freeze > pip_sipy_environment.txt")
     elif command.lower() == "build":
-        environment = sys.argv[1]
+        environment = sys.argv[2]
         os.system("conda create --name %s --file conda_sipy_environment.txt" % environment)
         try:
             os.system("activate %s" % environment)
