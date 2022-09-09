@@ -1,4 +1,4 @@
-'''!
+"""!
 SiPy: Statistics in Python
 
 Date created: 9th September 2022
@@ -18,89 +18,223 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
-'''
+"""
+release_number = 1
+
+import datetime
 import os
 import subprocess
 import sys
+import traceback
 import warnings
 warnings.filterwarnings("ignore")
 
+import data_wrangler as dw
 import libsipy
 
-try: 
-    import fire
-except ImportError:
-    subprocess.check_call([sys.executable, '-m', 'pip', 
-                           'install', 'fire',
-                           '--trusted-host', 'pypi.org', 
-                           '--trusted-host', 'files.pythonhosted.org'])
-    import fire
 
-def arithmeticMean(values=(1,2,3,4,5), module=False):
-    """!
-    Calculating arithmetic mean of the values.
-
-    Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/Arithmetic-mean
-
-    @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
-    @param module Boolean: Flag to whether this function will be used as a module. If True, this function will return values to the calling function. Default = False
-    @return: Arithmetic mean.
-    """
-    result = libsipy.base.arithmeticMean(values)
-    if module:
-       return result
-    else:
-        print("Arimethic mean = %f" % result)
-
-def kurtosisNormalityTest(values=(1,2,3,4,5), module=False):
-    """!
-    Normality test - Kurtosis Test; where the null hypothesis = the values are normally distributed.
-
-    Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/Kurtosis-test
-
-    Reference: Anscombe FJ, Glynn WJ. 1983. Distribution of the kurtosis statistic b2 for normal samples. Biometrika 70, 227-234.
-
-    @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
-    @param module Boolean: Flag to whether this function will be used as a module. If True, this function will return values to the calling function. Default = False
-    @return: (Z-score, p-value).
-    """
-    result = libsipy.base.kurtosisNormalityTest(values)
-    if module:
-       return result
-    else:
-        print("Z-score = %f" % result[0])
-        print("p-value = %f" % result[1])
-
-def availableModules(module=False):
-    """!
-    List all the available modules (in libsipy).
-
-    @param module Boolean: Flag to whether this function will be used as a module. If True, this function will return values to the calling function. Default = False
-    @return: List of available modules in libsipy.
-    """
-    ignores = ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']
-    result = [m for m in dir(libsipy) if m not in ignores]
-    if module: 
-        return result
-    else:
-        print("List of Available Modules:")
-        for m in result: print(m)
-
-def template(module=False):
-    """!
-
-    @param module Boolean: Flag to whether this function will be used as a module. If True, this function will return values to the calling function. Default = False
-    @return: List of available modules in libsipy.
-    """
+class SiPy_Shell(object):
+    def __init__(self):
+        self.count = 1
+        self.data = {}
+        self.environment = {"cwd": os.getcwd(),
+                            "prompt": ">>>",
+                            "separator": ","}
+        self.history = {}
+        self.modules = [m for m in dir(libsipy) 
+                            if m not in ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']]
+        self.session = {}
     
-    if module: 
-        return result
-    else:
-        print("xxx")
-        for m in result: print(m)
+    def formatExceptionInfo(self, maxTBlevel=10):
+        """!
+        Method to gather information about an exception raised. It is used to readout the exception messages and type of exception. This method takes a parameter, maxTBlevel, which is set to 10, which defines the maximum level of tracebacks to recall.
+        
+        This method is obtained from http://www.linuxjournal.com/article.php?sid=5821
+        """
+        cla, exc, trbk = sys.exc_info()
+        excName = cla.__name__
+        try: excArgs = exc.__dict__["args"]
+        except KeyError: excArgs = "<no args>"
+        excTb = traceback.format_tb(trbk, maxTBlevel)
+        return (excName, excArgs, excTb)
+        
+    def header(self):
+        """!
+        Prints header, which is displayed at the start of the shell.
+        """
+        print("""
+SiPy: Statistics in Python, Release %s
+Type "copyright", "credits" or "license" for more information.
+To exit this application, type "exit".
+""" % (str(release_number)))
+        
+    def do_copyright(self):
+        """!
+        Prints copyright statement.
+        """
+        print("")
+        print("Copyright (C) 2022, Maurice HT Ling (on behalf of SiPy Team)")
+        print("")
+        return None
+    
+    def do_credits(self):
+        """!
+        Prints list of credits for TAPPS development.
+        """
+        print("")
+        print("""
+SiPy Project Team
+Project architect: Maurice HT Ling (mauriceling@acm.org)""")
+        print("")
+        return None
+        
+    def do_license(self):
+        """!
+        Prints license statement.
+        """
+        print("")
+        license = open("LICENSE", "r").readlines()
+        license = [x[:-1] for x in license]
+        for line in license: print(line)
+        print("")
+        return None
+        
+    def intercept_processor(self, statement):
+        """!
+        Method to intercept non-bytecode statements and channel to the appropriate handlers.
+        
+        @param statement String: command-line statement
+        """
+        if statement == "copyright": return self.do_copyright()
+        if statement == "credits": return self.do_credits()
+        if statement == "exit": return "exit"
+        if statement == "license": return self.do_license()
+        if statement == "quit": return "exit"
+        
+    def error_message(self, code, msg):
+        """!
+        Generic error code/message printer to display error/warning messages.
+        
+        @param code String: error/warning code to display
+        @param msg String: error/warning message to display
+        """
+        print("%s: %s" % (str(code), str(msg)))
 
-if __name__ == '__main__':
-    exposed_functions = {"kurtosistest": kurtosisNormalityTest,
-                         "mean": arithmeticMean,
-                         "modules": availableModules}
-    fire.Fire(exposed_functions)
+    def do_let(self, operand):
+        variable_name = operand[0]
+        data_type = operand[2]
+        data_values = "".join(operand[3:])
+        if data_type.lower() in ["numeric", "number", "num", "integer", "int", "float", "value"]:
+            data_values = float(data_values)
+        elif data_type.lower() in ["list", "series", "tuple", "vector"]:
+            data_values = [float(x) for x in data_values.split(self.environment["separator"])]
+        self.data[variable_name] = data_values
+
+    def do_mean(self, operand):
+        """!
+        Calculating various means (arithmetic mean, geometric mean, harmonic mean) of the values.
+
+        Reference: 
+            - https://github.com/mauriceling/mauriceling.github.io/wiki/Arithmetic-mean
+        """
+        variable_name = operand[1]
+        data_values = self.data[variable_name]
+        if operand[0].lower() in ["arithmetic", "amean", "average", "mean"]:
+            result = libsipy.base.arithmeticMean(data_values)
+            print("Arimethic mean = %f" % result)
+        else: 
+            print("Unknown operation: %s" % operand[0].lower())
+
+    def do_normality(self, operand):
+        """!
+        Perform normality test(s) on the values.
+
+        References: 
+            - Kurtosis test: Anscombe FJ, Glynn WJ. 1983. Distribution of the kurtosis statistic b2 for normal samples. Biometrika 70, 227-234. (https://github.com/mauriceling/mauriceling.github.io/wiki/Kurtosis-test)
+
+        """
+        variable_name = operand[1]
+        data_values = self.data[variable_name]
+        if operand[0].lower() == "kurtosis":
+            result = libsipy.base.kurtosisNormalityTest(data_values)
+            print("Z-score = %f" % result[0])
+            print("p-value = %f" % result[1])
+        else: 
+            print("Unknown operation: %s" % operand[0].lower())
+
+    def do_show(self, operand):
+        if operand[0].lower() == "data":
+            for x in self.data:
+                print("%s: %s" % (str(x), str(self.data[x])))
+        elif operand[0].lower() == "history":
+            for x in self.history:
+                print("%s: %s" % (str(x), str(self.history[x])))
+        elif operand[0].lower() == "environment":
+            for x in self.environment:
+                print("%s: %s" % (str(x), str(self.environment[x])))
+        elif operand[0].lower() == "modules":
+            print("List of Available Modules:")
+            for module in self.modules: print(module)
+
+    def command_processor(self, operator, operand):
+        """
+        Method to channel bytecodes operand(s), if any, into the respective bytecode processors.
+        
+        @param operator String: bytecode operator
+        @param operand list: bytecode operand(s), if any
+        """
+        if operator == "let": self.do_let(operand)
+        if operator == "mean": self.do_mean(operand)
+        if operator == "normality": self.do_normality(operand)
+        if operator == "show": self.do_show(operand)
+        print("")
+
+    def interpret(self, statement):
+        """!
+        Method to process an input statement by either sending it to SiPy_Shell.intercept_processor() or SiPy_Shell.command_processor().
+        
+        @param statement String: command-line statement
+        """
+        try:
+            self.history[str(self.count)] = statement
+            if statement.lower() in ["copyright", "copyright;", "credits", "credits;", "exit", "exit;",
+                                     "license", "license;", "quit", "quit;"]:
+                 state = self.intercept_processor(statement)
+                 if state == "exit": return "exit"
+            else:
+                statement = statement.strip()
+                statement = [x.strip() for x in statement.split()]
+                operator = statement[0].lower()
+                operand = statement[1:]
+                self.command_processor(operator, operand)
+            self.count = self.count + 1
+        except:
+            error_message = list(self.formatExceptionInfo())
+            for line in error_message:
+                if (type(line) == list):
+                    for l in line: 
+                        print(l)
+
+    def cmdLoop(self):
+        """!
+        Command-line loop executor. This runs the shell like a command-line interpreter and calls SiPy_Shell.interpret() method to process the statement/command from the command-line.
+        
+        @return: session dictionary
+        """
+        self.header()
+        while True:
+            statement = input("SiPy: %s %s " % (str(self.count), self.environment["prompt"])).strip() 
+            if statement == "exit": return 0
+            self.interpret(statement)
+        return self.session
+
+
+if __name__ == "__main__":
+    shell = SiPy_Shell()
+    if len(sys.argv) == 1:
+        shell.cmdLoop()
+        sys.exit()
+    """
+    if len(sys.argv) > 1:
+                    shell.cmdScript(sys.argv)
+                    sys.exit()"""
