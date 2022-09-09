@@ -30,3 +30,17 @@ def arithmeticMean(values=(1,2,3,4,5)):
     """
     result = stats.describe(values)
     return result.mean
+
+def kurtosisNormalityTest(values=(1,2,3,4,5)):
+    """!
+    Normality test - Kurtosis Test; where the null hypothesis = the values are normally distributed.
+
+    Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/Kurtosis-test
+
+    Reference: Anscombe FJ, Glynn WJ. 1983. Distribution of the kurtosis statistic b2 for normal samples. Biometrika 70, 227-234.
+
+    @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
+    @return: (Z-score, p-value).
+    """
+    result = stats.kurtosistest(values)
+    return (result[0], result[1])

@@ -22,6 +22,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 import os
 import subprocess
 import sys
+import warnings
+warnings.filterwarnings("ignore")
 
 import libsipy
 
@@ -42,12 +44,30 @@ def arithmeticMean(values=(1,2,3,4,5), module=False):
     @param module Boolean: Flag to whether this function will be used as a module. If True, this function will return values to the calling function. Default = False
     @return: Arithmetic mean.
     """
-    print(values)
-    results = libsipy.base.arithmeticMean(values)
+    result = libsipy.base.arithmeticMean(values)
     if module:
-       return results
+       return result
     else:
-        print("Arimethic mean = %f" % results)
+        print("Arimethic mean = %f" % result)
+
+def kurtosisNormalityTest(values=(1,2,3,4,5), module=False):
+    """!
+    Normality test - Kurtosis Test; where the null hypothesis = the values are normally distributed.
+
+    Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/Kurtosis-test
+
+    Reference: Anscombe FJ, Glynn WJ. 1983. Distribution of the kurtosis statistic b2 for normal samples. Biometrika 70, 227-234.
+
+    @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
+    @param module Boolean: Flag to whether this function will be used as a module. If True, this function will return values to the calling function. Default = False
+    @return: (Z-score, p-value).
+    """
+    result = libsipy.base.kurtosisNormalityTest(values)
+    if module:
+       return result
+    else:
+        print("Z-score = %f" % result[0])
+        print("p-value = %f" % result[1])
 
 def availableModules(module=False):
     """!
@@ -57,12 +77,12 @@ def availableModules(module=False):
     @return: List of available modules in libsipy.
     """
     ignores = ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']
-    results = [m for m in dir(libsipy) if m not in ignores]
+    result = [m for m in dir(libsipy) if m not in ignores]
     if module: 
-        return results
+        return result
     else:
         print("List of Available Modules:")
-        for m in results: print(m)
+        for m in result: print(m)
 
 def template(module=False):
     """!
@@ -72,12 +92,13 @@ def template(module=False):
     """
     
     if module: 
-        return results
+        return result
     else:
         print("xxx")
-        for m in results: print(m)
+        for m in result: print(m)
 
 if __name__ == '__main__':
-    exposed_functions = {"mean": arithmeticMean,
+    exposed_functions = {"kurtosistest": kurtosisNormalityTest,
+                         "mean": arithmeticMean,
                          "modules": availableModules}
     fire.Fire(exposed_functions)
