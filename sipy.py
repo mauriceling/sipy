@@ -20,6 +20,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
 release_number = 1
+release_code_name = "Giant Turtle"
+release_date = "10 October 2022"
 
 import datetime
 import os
@@ -34,7 +36,13 @@ import libsipy
 
 
 class SiPy_Shell(object):
+    """!
+    Command-line shell for SiPy.
+    """
     def __init__(self):
+        """!
+        Initialization method.
+        """
         self.count = 1
         self.data = {}
         self.environment = {"cwd": os.getcwd(),
@@ -63,10 +71,10 @@ class SiPy_Shell(object):
         Prints header, which is displayed at the start of the shell.
         """
         print("""
-SiPy: Statistics in Python, Release %s
+SiPy: Statistics in Python, Release %s (%s) dated %s
 Type "copyright", "credits" or "license" for more information.
 To exit this application, type "exit".
-""" % (str(release_number)))
+""" % (str(release_number), release_code_name, release_date))
         
     def do_copyright(self):
         """!
@@ -142,8 +150,7 @@ Project architect: Maurice HT Ling (mauriceling@acm.org)""")
         if operand[0].lower() in ["arithmetic", "amean", "average", "mean"]:
             result = libsipy.base.arithmeticMean(data_values)
             print("Arimethic mean = %f" % result)
-        else: 
-            print("Unknown operation: %s" % operand[0].lower())
+        else: print("Unknown sub-operation: %s" % operand[0].lower())
 
     def do_normality(self, operand):
         """!
@@ -159,22 +166,19 @@ Project architect: Maurice HT Ling (mauriceling@acm.org)""")
             result = libsipy.base.kurtosisNormalityTest(data_values)
             print("Z-score = %f" % result[0])
             print("p-value = %f" % result[1])
-        else: 
-            print("Unknown operation: %s" % operand[0].lower())
+        else: print("Unknown sub-operation: %s" % operand[0].lower())
 
     def do_show(self, operand):
-        if operand[0].lower() == "data":
-            for x in self.data:
-                print("%s: %s" % (str(x), str(self.data[x])))
-        elif operand[0].lower() == "history":
-            for x in self.history:
-                print("%s: %s" % (str(x), str(self.history[x])))
-        elif operand[0].lower() == "environment":
-            for x in self.environment:
-                print("%s: %s" % (str(x), str(self.environment[x])))
-        elif operand[0].lower() == "modules":
+        if operand[0].lower() in ["data", "d"]:
+            for x in self.data: print("%s: %s" % (str(x), str(self.data[x])))
+        elif operand[0].lower() in ["history", "hist", "h"]:
+            for x in self.history: print("%s: %s" % (str(x), str(self.history[x])))
+        elif operand[0].lower() in ["environment", "env", "e"]:
+            for x in self.environment: print("%s: %s" % (str(x), str(self.environment[x])))
+        elif operand[0].lower() in ["modules", "mod", "m"]:
             print("List of Available Modules:")
             for module in self.modules: print(module)
+        else: print("Unknown sub-operation: %s" % operand[0].lower())
 
     def command_processor(self, operator, operand):
         """
@@ -184,9 +188,10 @@ Project architect: Maurice HT Ling (mauriceling@acm.org)""")
         @param operand list: bytecode operand(s), if any
         """
         if operator == "let": self.do_let(operand)
-        if operator == "mean": self.do_mean(operand)
-        if operator == "normality": self.do_normality(operand)
-        if operator == "show": self.do_show(operand)
+        elif operator == "mean": self.do_mean(operand)
+        elif operator == "normality": self.do_normality(operand)
+        elif operator == "show": self.do_show(operand)
+        else: print("Unknown command / operation: %s" % operator)
         print("")
 
     def interpret(self, statement):
@@ -225,6 +230,21 @@ Project architect: Maurice HT Ling (mauriceling@acm.org)""")
         while True:
             statement = input("SiPy: %s %s " % (str(self.count), self.environment["prompt"])).strip() 
             if statement == "exit": return 0
+            elif statement.startswith("#"): continue
+            else: self.interpret(statement)
+        return self.session
+
+    def cmdScript(self, script):
+        """!
+        Script executor. This method is used to execute a script file that is passed into SiPy and calls SiPy_Shell.interpret() method to process the ordered list of commands in script.
+        
+        @param script: ordered list of commands in script to execute.
+        @return: session dictionary
+        """
+        for statement in script:
+            statement = statement.strip()
+            print('Command #%s: %s' % (str(self.count), statement))
+            if statement == 'exit': return 0
             self.interpret(statement)
         return self.session
 
@@ -234,7 +254,7 @@ if __name__ == "__main__":
     if len(sys.argv) == 1:
         shell.cmdLoop()
         sys.exit()
-    """
-    if len(sys.argv) > 1:
-                    shell.cmdScript(sys.argv)
-                    sys.exit()"""
+    if len(sys.argv) == 2:
+        scriptfile = os.path.abspath(sys.argv[1])
+        shell.cmdScript(script)
+        sys.exit()
