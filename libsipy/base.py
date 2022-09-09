@@ -21,6 +21,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 '''
 from scipy import stats
 
-def arithmeticMean(data):
-    result = stats.describe(data)
+def arithmeticMean(values=(1,2,3,4,5)):
+    """!
+    Calculating arithmetic mean of the values.
+
+    @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
+    @return: Arithmetic mean.
+    """
+    result = stats.describe(values)
     return result.mean

@@ -34,14 +34,16 @@ except ImportError:
                            '--trusted-host', 'files.pythonhosted.org'])
     import fire
 
-def arithmeticMean(datalist, module=False):
+def arithmeticMean(values=(1,2,3,4,5), module=False):
     """!
-    Calculating arithmetic mean of the datalist.
+    Calculating arithmetic mean of the values.
 
+    @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
     @param module Boolean: Flag to whether this function will be used as a module. If True, this function will return values to the calling function. Default = False
     @return: Arithmetic mean.
     """
-    results = libsipy.base.arithmeticMean(datalist)
+    print(values)
+    results = libsipy.base.arithmeticMean(values)
     if module:
        return results
     else:
