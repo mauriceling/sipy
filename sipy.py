@@ -35,6 +35,12 @@ except ImportError:
     import fire
 
 def arithmeticMean(datalist, module=False):
+    """!
+    Calculating arithmetic mean of the datalist.
+
+    @param module Boolean: Flag to whether this function will be used as a module. If True, this function will return values to the calling function. Default = False
+    @return: Arithmetic mean.
+    """
     results = libsipy.base.arithmeticMean(datalist)
     if module:
        return results
