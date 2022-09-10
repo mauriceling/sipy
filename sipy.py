@@ -131,24 +131,27 @@ class SiPy_Shell(object):
             let <variable_name> be frame <data descriptor>
         """
         variable_name = operand[0]
-        data_type = operand[2]
-        if data_type.lower() in ["numeric", "number", "num", "integer", "int", "float", "value"]:
-            data_values = operand[3]
-            self.data[variable_name] = float(data_values)
-            retR = "%s = %s" % (variable_name, str(data_values))
-        elif data_type.lower() in ["list", "series", "tuple", "vector"]:
-            data_values = "".join(operand[3:])
-            data_values = [float(x) for x in data_values.split(self.environment["separator"])]
-            self.data[variable_name] = pd.Series(data_values)
-            retR = "%s = %s" % (variable_name, str(data_values))
-        elif data_type.lower() in ["dataframe", "df", "frame", "table"]:
-            data_values = operand[3:]
-            source_descriptors = [x.split(":") for x in data_values]
-            source_data = {}
-            for d in source_descriptors: 
-                source_data[d[0]] = self.data[d[1]]
-            self.data[variable_name] = pd.concat(source_data, axis=1)
-            retR = "%s = %s" % (variable_name, str(data_values))
+        if operand[1].lower() == "be":
+            data_type = operand[2]
+            if data_type.lower() in ["numeric", "number", "num", "integer", "int", "float", "value"]:
+                data_values = operand[3]
+                self.data[variable_name] = float(data_values)
+                retR = "%s = %s" % (variable_name, str(data_values))
+            elif data_type.lower() in ["list", "series", "tuple", "vector"]:
+                data_values = "".join(operand[3:])
+                data_values = [float(x) for x in data_values.split(self.environment["separator"])]
+                self.data[variable_name] = pd.Series(data_values)
+                retR = "%s = %s" % (variable_name, str(data_values))
+            elif data_type.lower() in ["dataframe", "df", "frame", "table"]:
+                data_values = operand[3:]
+                source_descriptors = [x.split(":") for x in data_values]
+                source_data = {}
+                for d in source_descriptors: 
+                    source_data[d[0]] = self.data[d[1]]
+                self.data[variable_name] = pd.concat(source_data, axis=1)
+                retR = "%s = %s" % (variable_name, str(data_values))
+        elif operand[1].lower() == "from":
+            pass
         print(retR)
         return retR
 
