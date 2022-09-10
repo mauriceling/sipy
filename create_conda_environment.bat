@@ -1,1 +1,1 @@
-conda create --name sipy -c conda-forge scipy statsmodels pandas scikit-learn pingouin 
+conda create --name sipy -c conda-forge openpyxl pandas scipy pingouin scikit-learn statsmodels
