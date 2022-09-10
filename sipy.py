@@ -31,6 +31,8 @@ import traceback
 import warnings
 warnings.filterwarnings("ignore")
 
+import pandas as pd
+
 import data_wrangler as dw
 import libsipy
 
@@ -135,15 +137,25 @@ Project architect: Maurice HT Ling (mauriceling@acm.org)""")
         Commands: 
             let <variable_name> be number <value>
             let <variable_name> be list <comma-separated values>
+            let <variable_name> be frame <data descriptor>
         """
         variable_name = operand[0]
         data_type = operand[2]
         data_values = "".join(operand[3:])
         if data_type.lower() in ["numeric", "number", "num", "integer", "int", "float", "value"]:
-            data_values = float(data_values)
+            data_values = operand[3]
+            self.data[variable_name] = float(data_values)
         elif data_type.lower() in ["list", "series", "tuple", "vector"]:
+            data_values = "".join(operand[3:])
             data_values = [float(x) for x in data_values.split(self.environment["separator"])]
-        self.data[variable_name] = pd.Series(data_values)
+            self.data[variable_name] = pd.Series(data_values)
+        elif data_type.lower() in ["dataframe", "df", "frame", "table"]:
+            data_values = operand[3:]
+            source_descriptors = [x.split(":") for x in data_values]
+            source_data = {}
+            for d in source_descriptors: 
+                source_data[d[0]] = self.data[d[1]]
+            self.data[variable_name] = pd.concat(source_data, axis=1)
 
     def do_mean(self, operand):
         """!
