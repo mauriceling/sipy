@@ -205,12 +205,17 @@ class SiPy_Shell(object):
         Read external data files into SiPy.
 
         Commands: 
-            read excel <variable_name> be <file_name> <sheet_name>
+            read excel <variable_name> from <file_name> <sheet_name>
         """
         variable_name = operand[1]
         if operand[0].lower() == "excel":
-            df = pd.read_excel(operand[4], sheet_name=operand[5])
+            df = pd.read_excel(operand[3], sheet_name=operand[4])
             self.data[variable_name] = df
+            retR = "Read Excel: %s.%s into %s" % (operand[3], operand[4], operand[1])
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
 
     def do_show(self, operand):
         """!
