@@ -54,6 +54,7 @@ class SiPy_Shell(object):
         self.history = {}
         self.modules = [m for m in dir(libsipy) 
                             if m not in ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']]
+        self.result = {}
         self.session = {}
     
     def formatExceptionInfo(self, maxTBlevel=10):
@@ -138,10 +139,12 @@ class SiPy_Shell(object):
         if data_type.lower() in ["numeric", "number", "num", "integer", "int", "float", "value"]:
             data_values = operand[3]
             self.data[variable_name] = float(data_values)
+            retR = "%s = %s" % (variable_name, str(data_values))
         elif data_type.lower() in ["list", "series", "tuple", "vector"]:
             data_values = "".join(operand[3:])
             data_values = [float(x) for x in data_values.split(self.environment["separator"])]
             self.data[variable_name] = pd.Series(data_values)
+            retR = "%s = %s" % (variable_name, str(data_values))
         elif data_type.lower() in ["dataframe", "df", "frame", "table"]:
             data_values = operand[3:]
             source_descriptors = [x.split(":") for x in data_values]
@@ -149,6 +152,9 @@ class SiPy_Shell(object):
             for d in source_descriptors: 
                 source_data[d[0]] = self.data[d[1]]
             self.data[variable_name] = pd.concat(source_data, axis=1)
+            retR = "%s = %s" % (variable_name, str(data_values))
+        print(retR)
+        return retR
 
     def do_mean(self, operand):
         """!
@@ -164,8 +170,11 @@ class SiPy_Shell(object):
         data_values = self.data[variable_name]
         if operand[0].lower() in ["arithmetic", "amean", "average", "mean"]:
             result = libsipy.base.arithmeticMean(data_values)
-            print("Arimethic mean = %f" % result)
-        else: print("Unknown sub-operation: %s" % operand[0].lower())
+            retR = "Arimethic mean = %f" % result
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
 
     def do_normality(self, operand):
         """!
@@ -182,9 +191,23 @@ class SiPy_Shell(object):
         data_values = self.data[variable_name]
         if operand[0].lower() == "kurtosis":
             result = libsipy.base.kurtosisNormalityTest(data_values)
-            print("Z-score = %f" % result[0])
-            print("p-value = %f" % result[1])
-        else: print("Unknown sub-operation: %s" % operand[0].lower())
+            retR = "Z-score = %f; p-value = %f" % (result[0], result[1])
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+
+    def do_read(self, operand):
+        """!
+        Read external data files into SiPy.
+
+        Commands: 
+            read excel <variable_name> be <file_name> <sheet_name>
+        """
+        variable_name = operand[1]
+        if operand[0].lower() == "excel":
+            df = pd.read_excel(operand[4], sheet_name=operand[5])
+            self.data[variable_name] = df
 
     def do_show(self, operand):
         """!
@@ -194,15 +217,28 @@ class SiPy_Shell(object):
             show {data|history|environment|modules}
         """
         if operand[0].lower() in ["data", "d"]:
-            for x in self.data: print("%s: %s" % (str(x), str(self.data[x])))
+            for x in self.data: 
+                retR = self.data
+                print("%s: %s" % (str(x), str(self.data[x])))
         elif operand[0].lower() in ["history", "hist", "h"]:
-            for x in self.history: print("%s: %s" % (str(x), str(self.history[x])))
+            for x in self.history: 
+                retR = self.history
+                print("%s: %s" % (str(x), str(self.history[x])))
         elif operand[0].lower() in ["environment", "env", "e"]:
-            for x in self.environment: print("%s: %s" % (str(x), str(self.environment[x])))
+            for x in self.environment: 
+                retR = self.environment
+                print("%s: %s" % (str(x), str(self.environment[x])))
         elif operand[0].lower() in ["modules", "mod", "m"]:
             print("List of Available Modules:")
+            retR = self.modules
             for module in self.modules: print(module)
-        else: print("Unknown sub-operation: %s" % operand[0].lower())
+        elif operand[0].lower() in ["result", "r"]:
+            retR = self.result
+            for x in self.result:
+                print("%s: %s" % (str(x), str(self.result[x])))
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        return retR
 
     def command_processor(self, operator, operand):
         """
@@ -211,10 +247,11 @@ class SiPy_Shell(object):
         @param operator String: bytecode operator
         @param operand list: bytecode operand(s), if any
         """
-        if operator == "let": self.do_let(operand)
-        elif operator == "mean": self.do_mean(operand)
-        elif operator == "normality": self.do_normality(operand)
-        elif operator == "show": self.do_show(operand)
+        if operator == "let": return self.do_let(operand)
+        elif operator == "mean": return self.do_mean(operand)
+        elif operator == "normality": return self.do_normality(operand)
+        elif operator == "read": return self.do_read(operand)
+        elif operator == "show": return self.do_show(operand)
         else: print("Unknown command / operation: %s" % operator)
         print("")
 
@@ -228,14 +265,15 @@ class SiPy_Shell(object):
             self.history[str(self.count)] = statement
             if statement.lower() in ["copyright", "copyright;", "credits", "credits;", "exit", "exit;",
                                      "license", "license;", "quit", "quit;"]:
-                 state = self.intercept_processor(statement)
-                 if state == "exit": return "exit"
+                 retR = self.intercept_processor(statement)
+                 if retR == "exit": return "exit"
             else:
                 statement = statement.strip()
                 statement = [x.strip() for x in statement.split()]
                 operator = statement[0].lower()
                 operand = statement[1:]
-                self.command_processor(operator, operand)
+                retR = self.command_processor(operator, operand)
+            self.result[str(self.count)] = retR
             self.count = self.count + 1
         except:
             error_message = list(self.formatExceptionInfo())
@@ -256,6 +294,7 @@ class SiPy_Shell(object):
             if statement == "exit": return 0
             elif statement.startswith("#"): continue
             else: self.interpret(statement)
+            print("")
         return self.session
 
     def cmdScript(self, script):
