@@ -226,6 +226,7 @@ class SiPy_Shell(object):
 
         Commands:
             regress linear <dependent variable name> <independent variable name> [False for intercept=0]
+            regress logistic <dependent variable name> <independent variable name>
         """
         if operand[0].lower() in ["linear", "lin"]:
             try: 
@@ -239,6 +240,10 @@ class SiPy_Shell(object):
             y = self.data[operand[1]]
             X = self.data[operand[2]]
             retR = libsipy.base.regressionLinear(X, y, add_intercept)
+        elif operand[0].lower() in ["logistic", "log"]:
+            y = self.data[operand[1]]
+            X = self.data[operand[2]]
+            retR = libsipy.base.regressionLogistic(X, y)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)

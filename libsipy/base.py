@@ -52,6 +52,10 @@ def regressionLinear(X, y, add_intercept=True):
     result = pingouin.linear_regression(X, y, add_intercept=add_intercept)
     return result
 
+def regressionLogistic(X, y):
+    result = pingouin.logistic_regression(X, y)
+    return result
+
 def tTest1Sample(values=(1,2,3,4,5), mu=0):
     mu = float(mu)
     result = pingouin.ttest(values, mu)
