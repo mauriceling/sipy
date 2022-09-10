@@ -35,6 +35,7 @@ import pandas as pd
 
 import data_wrangler as dw
 import libsipy
+import sipy_info
 
 
 class SiPy_Shell(object):
@@ -72,31 +73,23 @@ class SiPy_Shell(object):
         """!
         Prints header, which is displayed at the start of the shell.
         """
-        print("""
-SiPy: Statistics in Python, Release %s (%s) dated %s
-Type "copyright", "credits" or "license" for more information.
-To exit this application, type "exit".
-""" % (str(release_number), release_code_name, release_date))
+        print(sipy_info.header)
+        return None
         
     def do_copyright(self):
         """!
         Prints copyright statement.
         """
-        print("")
-        print("Copyright (C) 2022, Maurice HT Ling (on behalf of SiPy Team)")
-        print("")
-        return None
+        print(sipy_info.copyright)
+        return sipy_info.copyright
     
     def do_credits(self):
         """!
-        Prints list of credits for TAPPS development.
+        Prints list of credits for SiPy development.
         """
-        print("")
-        print("""
-SiPy Project Team
-Project architect: Maurice HT Ling (mauriceling@acm.org)""")
-        print("")
-        return None
+        print(sipy_info.credits)
+        print(sipy_info.citations)
+        return sipy_info.credits + sipy_info.citations
         
     def do_license(self):
         """!
@@ -107,7 +100,7 @@ Project architect: Maurice HT Ling (mauriceling@acm.org)""")
         license = [x[:-1] for x in license]
         for line in license: print(line)
         print("")
-        return None
+        return license
         
     def intercept_processor(self, statement):
         """!
