@@ -4,6 +4,7 @@ cffi==1.15.1
 charset-normalizer==2.1.1
 cryptography==37.0.4
 cycler==0.11.0
+fire==0.4.0
 fonttools==4.37.1
 idna==3.3
 joblib==1.1.0
@@ -35,6 +36,7 @@ setuptools==65.3.0
 six==1.16.0
 statsmodels==0.13.2
 tabulate==0.8.10
+termcolor==1.1.0
 threadpoolctl==3.1.0
 typing_extensions==4.3.0
 unicodedata2==14.0.0
