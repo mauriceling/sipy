@@ -129,6 +129,11 @@ Project architect: Maurice HT Ling (mauriceling@acm.org)""")
         print("%s: %s" % (str(code), str(msg)))
 
     def do_let(self, operand):
+        """!
+        Assign a value or list of values to a variable.
+
+        Command: let <variable_name> be {number|list} <value(s)>
+        """
         variable_name = operand[0]
         data_type = operand[2]
         data_values = "".join(operand[3:])
@@ -141,6 +146,8 @@ Project architect: Maurice HT Ling (mauriceling@acm.org)""")
     def do_mean(self, operand):
         """!
         Calculating various means (arithmetic mean, geometric mean, harmonic mean) of the values.
+
+        Command: mean {arithmetic} <variable_name>
 
         Reference: 
             - https://github.com/mauriceling/mauriceling.github.io/wiki/Arithmetic-mean
@@ -156,6 +163,8 @@ Project architect: Maurice HT Ling (mauriceling@acm.org)""")
         """!
         Perform normality test(s) on the values.
 
+        Command: normality {kurtosis} <variable_name>
+
         References: 
             - Kurtosis test: Anscombe FJ, Glynn WJ. 1983. Distribution of the kurtosis statistic b2 for normal samples. Biometrika 70, 227-234. (https://github.com/mauriceling/mauriceling.github.io/wiki/Kurtosis-test)
 
@@ -169,6 +178,11 @@ Project architect: Maurice HT Ling (mauriceling@acm.org)""")
         else: print("Unknown sub-operation: %s" % operand[0].lower())
 
     def do_show(self, operand):
+        """!
+        Show various status of the SiPy.
+
+        Command: show {data|history|environment|modules}
+        """
         if operand[0].lower() in ["data", "d"]:
             for x in self.data: print("%s: %s" % (str(x), str(self.data[x])))
         elif operand[0].lower() in ["history", "hist", "h"]:
