@@ -19,10 +19,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
-release_number = 1
-release_code_name = "Giant Turtle"
-release_date = "10 October 2022"
-
 import datetime
 import os
 import subprocess
@@ -135,7 +131,6 @@ class SiPy_Shell(object):
         """
         variable_name = operand[0]
         data_type = operand[2]
-        data_values = "".join(operand[3:])
         if data_type.lower() in ["numeric", "number", "num", "integer", "int", "float", "value"]:
             data_values = operand[3]
             self.data[variable_name] = float(data_values)
@@ -215,6 +210,7 @@ class SiPy_Shell(object):
 
         Commands: 
             show {data|history|environment|modules}
+            show item <history number>
         """
         if operand[0].lower() in ["data", "d"]:
             for x in self.data: 
@@ -228,6 +224,13 @@ class SiPy_Shell(object):
             for x in self.environment: 
                 retR = self.environment
                 print("%s: %s" % (str(x), str(self.environment[x])))
+        elif operand[0].lower() in ["item", "i"]:
+            item = str(int(operand[1]))
+            retR = ["Command: %s" % (str(self.history[item])),
+                    "Result: %s" % (str(self.result[item]))]
+            print(retR[0])
+            print(retR[1])
+            retR = "\n".join(retR)
         elif operand[0].lower() in ["modules", "mod", "m"]:
             print("List of Available Modules:")
             retR = self.modules
@@ -253,7 +256,6 @@ class SiPy_Shell(object):
         elif operator == "read": return self.do_read(operand)
         elif operator == "show": return self.do_show(operand)
         else: print("Unknown command / operation: %s" % operator)
-        print("")
 
     def interpret(self, statement):
         """!
