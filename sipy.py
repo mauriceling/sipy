@@ -217,13 +217,21 @@ class SiPy_Shell(object):
         Show various status of the SiPy.
 
         Commands: 
-            show {data|history|environment|modules}
+            show data [variable name]
+            show {history|environment|modules}
             show item <history number>
         """
         if operand[0].lower() in ["data", "d"]:
-            for x in self.data: 
-                retR = self.data
-                print("%s: %s" % (str(x), str(self.data[x])))
+            if len(operand) == 1: 
+                # show data
+                for x in self.data: 
+                    retR = self.data
+                    print("%s: %s" % (str(x), str(self.data[x])))
+            else: 
+                # show data <variable name>
+                item = str(operand[1])
+                retR = {item: self.data[item]}
+                print("%s: %s" % (item, str(retR[item])))
         elif operand[0].lower() in ["history", "hist", "h"]:
             for x in self.history: 
                 retR = self.history
