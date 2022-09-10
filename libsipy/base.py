@@ -19,6 +19,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 '''
+import pingouin
 from scipy import stats
 
 def arithmeticMean(values=(1,2,3,4,5)):
@@ -46,3 +47,8 @@ def kurtosisNormalityTest(values=(1,2,3,4,5)):
     """
     result = stats.kurtosistest(values)
     return (result[0], result[1])
+
+def tTest1Sample(values=(1,2,3,4,5), mu=0):
+    mu = float(mu)
+    result = pingouin.ttest(values, mu)
+    return result
