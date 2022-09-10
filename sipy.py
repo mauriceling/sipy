@@ -220,6 +220,30 @@ class SiPy_Shell(object):
         print(retR)
         return retR
 
+    def do_regression(self, operand):
+        """!
+        Performs regression(s).
+
+        Commands:
+            regress linear <dependent variable name> <independent variable name> [False for intercept=0]
+        """
+        if operand[0].lower() in ["linear", "lin"]:
+            try: 
+                if operand[3] in [True, "True", "TRUE", "true", "T", "t", "Yes", "YES", "Y", "y"]:
+                    add_intercept = True
+                elif operand[3] in [False, "False", "FALSE", "false", "F", "f", "No", "NO", "N", "n"]:
+                    add_intercept = False
+                else:
+                    add_intercept = True
+            except IndexError: add_intercept = True
+            y = self.data[operand[1]]
+            X = self.data[operand[2]]
+            retR = libsipy.base.regressionLinear(X, y, add_intercept)
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+
     def do_show(self, operand):
         """!
         Show various status of the SiPy.
@@ -282,7 +306,7 @@ class SiPy_Shell(object):
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
         return retR
-        
+
     def command_processor(self, operator, operand):
         """
         Method to channel bytecodes operand(s), if any, into the respective bytecode processors.
@@ -294,6 +318,7 @@ class SiPy_Shell(object):
         elif operator == "mean": return self.do_mean(operand)
         elif operator == "normality": return self.do_normality(operand)
         elif operator == "read": return self.do_read(operand)
+        elif operator == "regress": return self.do_regression(operand)
         elif operator == "show": return self.do_show(operand)
         elif operator == "ttest": return self.do_ttest(operand)
         else: print("Unknown command / operation: %s" % operator)
