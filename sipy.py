@@ -143,7 +143,7 @@ Project architect: Maurice HT Ling (mauriceling@acm.org)""")
             data_values = float(data_values)
         elif data_type.lower() in ["list", "series", "tuple", "vector"]:
             data_values = [float(x) for x in data_values.split(self.environment["separator"])]
-        self.data[variable_name] = data_values
+        self.data[variable_name] = pd.Series(data_values)
 
     def do_mean(self, operand):
         """!
