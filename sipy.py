@@ -132,7 +132,9 @@ Project architect: Maurice HT Ling (mauriceling@acm.org)""")
         """!
         Assign a value or list of values to a variable.
 
-        Command: let <variable_name> be {number|list} <value(s)>
+        Commands: 
+            let <variable_name> be number <value>
+            let <variable_name> be list <comma-separated values>
         """
         variable_name = operand[0]
         data_type = operand[2]
@@ -147,7 +149,8 @@ Project architect: Maurice HT Ling (mauriceling@acm.org)""")
         """!
         Calculating various means (arithmetic mean, geometric mean, harmonic mean) of the values.
 
-        Command: mean {arithmetic} <variable_name>
+        Commands: 
+            mean {arithmetic} <variable_name>
 
         Reference: 
             - https://github.com/mauriceling/mauriceling.github.io/wiki/Arithmetic-mean
@@ -163,7 +166,8 @@ Project architect: Maurice HT Ling (mauriceling@acm.org)""")
         """!
         Perform normality test(s) on the values.
 
-        Command: normality {kurtosis} <variable_name>
+        Commands: 
+            normality {kurtosis} <variable_name>
 
         References: 
             - Kurtosis test: Anscombe FJ, Glynn WJ. 1983. Distribution of the kurtosis statistic b2 for normal samples. Biometrika 70, 227-234. (https://github.com/mauriceling/mauriceling.github.io/wiki/Kurtosis-test)
@@ -181,7 +185,8 @@ Project architect: Maurice HT Ling (mauriceling@acm.org)""")
         """!
         Show various status of the SiPy.
 
-        Command: show {data|history|environment|modules}
+        Commands: 
+            show {data|history|environment|modules}
         """
         if operand[0].lower() in ["data", "d"]:
             for x in self.data: print("%s: %s" % (str(x), str(self.data[x])))
