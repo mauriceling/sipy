@@ -203,22 +203,6 @@ class SiPy_Shell(object):
         print(retR)
         return retR
 
-    def do_ttest(self, operand):
-        """!
-        Performs Student's t-test(s) on values.
-
-        Commands:
-            ttest 1s <variable name> <population mean>
-        """
-        if operand[0].lower() in ["1s", "1sample"]:
-            data_values = self.data[operand[1]]
-            mu = float(operand[2])
-            retR = libsipy.base.tTest1Sample(data_values, mu)
-        else: 
-            retR = "Unknown sub-operation: %s" % operand[0].lower()
-        print(retR)
-        return retR
-
     def do_read(self, operand):
         """!
         Read external data files into SiPy.
@@ -283,6 +267,22 @@ class SiPy_Shell(object):
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         return retR
 
+    def do_ttest(self, operand):
+        """!
+        Performs Student's t-test(s) on values.
+
+        Commands:
+            ttest 1s <variable name> <population mean>
+        """
+        if operand[0].lower() in ["1s", "1sample"]:
+            data_values = self.data[operand[1]]
+            mu = float(operand[2])
+            retR = libsipy.base.tTest1Sample(data_values, mu)
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+        
     def command_processor(self, operator, operand):
         """
         Method to channel bytecodes operand(s), if any, into the respective bytecode processors.
