@@ -27,6 +27,7 @@ import traceback
 import warnings
 warnings.filterwarnings("ignore")
 
+import numpy
 import pandas as pd
 
 import data_wrangler as dw
@@ -49,7 +50,7 @@ class SiPy_Shell(object):
                             "separator": ","}
         self.history = {}
         self.modules = [m for m in dir(libsipy) 
-                            if m not in ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']]
+                        if m not in ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']]
         self.result = {}
         self.session = {}
     
@@ -163,9 +164,9 @@ class SiPy_Shell(object):
         """
         variable_name = operand[1]
         data_values = self.data[variable_name]
-        if operand[0].lower() in ["arithmetic", "amean", "average", "mean"]:
+        if operand[0].lower() in ["arithmetic", "amean", "average", "avg", "mean"]:
             result = libsipy.base.arithmeticMean(data_values)
-            retR = "Arimethic mean = %f" % result
+            retR = "Arimethic mean = %s" % result
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
@@ -186,7 +187,14 @@ class SiPy_Shell(object):
         data_values = self.data[variable_name]
         if operand[0].lower() == "kurtosis":
             result = libsipy.base.kurtosisNormalityTest(data_values)
-            retR = "Z-score = %f; p-value = %f" % (result[0], result[1])
+            if type(result[0]) is numpy.ndarray:
+                retR = "Z-score, p-value \n"
+                temp = [[str(result[0][i]), str(result[1][i])]
+                        for i in range(len(result[0]))]
+                temp = [", ".join(x) for x in temp]
+                retR = retR + " \n".join(temp)
+            else:
+                retR = "Z-score = %f; p-value = %f" % (result[0], result[1])
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
