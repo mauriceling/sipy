@@ -139,6 +139,9 @@ class SiPy_Shell(object):
         elif operand[0].lower() in ["se"]:
             result = libsipy.base.standardError(data_values)
             retR = "Standard error = %s" % result
+        elif operand[0].lower() in ["var", "var.s"]:
+            result = libsipy.base.variance(data_values)
+            retR = "Variance = %s" % result
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
