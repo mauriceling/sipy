@@ -121,6 +121,26 @@ class SiPy_Shell(object):
         """
         print("%s: %s" % (str(code), str(msg)))
 
+    def do_describe(self, operand):
+        """!
+        Calculating various descriptions(standard deviation, variance, standarad error) of the values.
+
+        Commands: 
+            describe {} <variable_name>
+
+        Reference: 
+            - 
+        """
+        variable_name = operand[1]
+        data_values = self.data[variable_name]
+        if operand[0].lower() in ["stdev", "stdev.s", "s", "sd"]:
+            result = libsipy.base.standardDeviation(data_values)
+            retR = "Standard deviation = %s" % result
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+
     def do_let(self, operand):
         """!
         Assign a value or list of values to a variable.
@@ -325,7 +345,8 @@ class SiPy_Shell(object):
         @param operator String: bytecode operator
         @param operand list: bytecode operand(s), if any
         """
-        if operator == "let": return self.do_let(operand)
+        if operator == "describe": return self.do_describe(operand)
+        elif operator == "let": return self.do_let(operand)
         elif operator == "mean": return self.do_mean(operand)
         elif operator == "normality": return self.do_normality(operand)
         elif operator == "read": return self.do_read(operand)

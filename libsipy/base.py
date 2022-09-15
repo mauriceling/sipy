@@ -33,7 +33,6 @@ def arithmeticMean(values=(1,2,3,4,5)):
     """
     result = stats.describe(values)
     return result.mean
-
 def geometricMean(values=(1,2,3,4,5)):
     """!
     Calculating geometric mean of the values.
@@ -50,12 +49,24 @@ def harmonicMean(values=(1,2,3,4,5)):
     """!
     Calculating harmonic mean of the values.
 
-    Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/Geometric-mean
+    Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/Harmonic-mean
 
     @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
     @return: Harmonic mean.
     """
     result = stats.hmean(values)
+    return result
+
+def standardDeviation(values=(1,2,3,4,5)):
+    """!
+    Calculating standard deviation of the values.
+
+    Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/Sample-standard-deviation
+
+    @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
+    @return: Standard deviation.
+    """
+    result = stats.tstd(values)
     return result
 
 def kurtosisNormalityTest(values=(1,2,3,4,5)):
