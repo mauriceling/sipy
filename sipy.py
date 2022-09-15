@@ -136,6 +136,9 @@ class SiPy_Shell(object):
         if operand[0].lower() in ["stdev", "stdev.s", "s", "sd"]:
             result = libsipy.base.standardDeviation(data_values)
             retR = "Standard deviation = %s" % result
+        elif operand[0].lower() in ["se"]:
+            result = libsipy.base.standardError(data_values)
+            retR = "Standard error = %s" % result
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)

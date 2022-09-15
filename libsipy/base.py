@@ -69,6 +69,18 @@ def standardDeviation(values=(1,2,3,4,5)):
     result = stats.tstd(values)
     return result
 
+def standardError(values=(1,2,3,4,5)):
+    """!
+    Calculating standard deviation of the values.
+
+    Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/Sample-standard-error
+
+    @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
+    @return: Standard error.
+    """
+    result = stats.tsem(values)
+    return result
+
 def kurtosisNormalityTest(values=(1,2,3,4,5)):
     """!
     Normality test - Kurtosis Test; where the null hypothesis = the values are normally distributed.
