@@ -46,7 +46,17 @@ def geometricMean(values=(1,2,3,4,5)):
     result = stats.gmean(values)
     return result
 
+def harmonicMean(values=(1,2,3,4,5)):
+    """!
+    Calculating harmonic mean of the values.
 
+    Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/Geometric-mean
+
+    @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
+    @return: Harmonic mean.
+    """
+    result = stats.hmean(values)
+    return result
 
 def kurtosisNormalityTest(values=(1,2,3,4,5)):
     """!

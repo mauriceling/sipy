@@ -160,7 +160,7 @@ class SiPy_Shell(object):
         Calculating various means (arithmetic mean, geometric mean, harmonic mean) of the values.
 
         Commands: 
-            mean {arithmetic|geometric} <variable_name>
+            mean {arithmetic|geometric|harmonic} <variable_name>
 
         Reference: 
             - https://github.com/mauriceling/mauriceling.github.io/wiki/Arithmetic-mean
@@ -173,6 +173,9 @@ class SiPy_Shell(object):
         elif operand[0].lower() in ["geometric", "gmean", "geo"]:
             result = libsipy.base.geometricMean(data_values)
             retR = "Geometric mean = %s" % result
+        elif operand[0].lower() in ["harmonic", "hmean", "harm"]:
+            result = libsipy.base.harmonicMean(data_values)
+            retR = "Harmonic mean = %s" % result
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
