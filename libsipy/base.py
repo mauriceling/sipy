@@ -57,6 +57,18 @@ def harmonicMean(values=(1,2,3,4,5)):
     result = stats.hmean(values)
     return result
 
+def kurtosis(values=(1,2,3,4,5)):
+    """!
+    Calculating kurtosis of the values.
+
+    Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/Kurtosis
+
+    @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
+    @return: Kurtosis.
+    """
+    result = stats.describe(values)
+    return result.kurtosis
+
 def skew(values=(1,2,3,4,5)):
     """!
     Calculating skew of the values.

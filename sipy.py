@@ -133,7 +133,10 @@ class SiPy_Shell(object):
         """
         variable_name = operand[1]
         data_values = self.data[variable_name]
-        if operand[0].lower() in ["skew" , "sk"]:
+        if operand[0].lower() in ["kurtosis" , "kurt"]:
+            result = libsipy.base.kurtosis(data_values)
+            retR = "Kurtosis = %s" % result
+        elif operand[0].lower() in ["skew" , "sk"]:
             result = libsipy.base.skew(data_values)
             retR = "Skew = %s" % result
         elif operand[0].lower() in ["stdev", "stdev.s", "s", "sd"]:
