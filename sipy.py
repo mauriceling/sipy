@@ -228,8 +228,12 @@ class SiPy_Shell(object):
             retR = "Z-score = %f; p-value = %f" % (result[0], result[1])
         elif operand[0].lower() in ["jb" , "jarquebera" , "jarqueBera"]:
             result = libsipy.base.jarqueBeraNormalityTest(data_values)
+            retR = "Z-score = %f; p-value = %f" % (result[0], result[1])
         elif operand[0].lower() in ["shapirowilk" , "sw" , "shapiroWilk"]:
             result = libsipy.base.shapiroWilkNormalityTest(data_values)
+            retR = "Z-score = %f; p-value = %f" % (result[0], result[1])
+        elif operand[0].lower() in ["skewtest" , "sk"]:
+            result = libsipy.base.skewNormalityTest(data_values)
             if type(result[0]) is numpy.ndarray:
                 retR = "Z-score, p-value \n"
                 temp = [[str(result[0][i]), str(result[1][i])]
