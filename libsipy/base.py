@@ -117,7 +117,7 @@ def variance(values=(1,2,3,4,5)):
     result = stats.describe(values)
     return result.variance
 
-def jarqueBera(values=(1,2,3,4,5)):
+def jarqueBeraNormalityTest(values=(1,2,3,4,5)):
     """!
     Normality test - Jarque Bera Test; where the null hypothesis = the values are normally distributed.
 
@@ -143,6 +143,20 @@ def kurtosisNormalityTest(values=(1,2,3,4,5)):
     @return: (Z-score, p-value).
     """
     result = stats.kurtosistest(values)
+    return (result[0], result[1])
+
+def shapiroWilkNormalityTest(values=(1,2,3,4,5)):
+    """!
+    Normality test - Shapiro Wilk Test; where the null hypothesis = the values are normally distributed.
+
+    Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/Shapiro-Wilk-test-for-normality
+
+    Reference: Shapiro SS, Wilk MB. 1965. An analysis of variance test for normality (complete samples). Biometrika 52, 591-611.
+
+    @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
+    @return: (Z-score, p-value).
+    """
+    result = stats.shapiro(values)
     return (result[0], result[1])
 
 def regressionLinear(X, y, add_intercept=True):
