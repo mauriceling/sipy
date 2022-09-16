@@ -25,6 +25,7 @@ import subprocess
 import sys
 import traceback
 import warnings
+
 warnings.filterwarnings("ignore")
 
 import numpy
@@ -219,15 +220,14 @@ class SiPy_Shell(object):
 
         Commands: 
             normality {kurtosis} <variable_name>
-
-        References: 
-            - Kurtosis test: Anscombe FJ, Glynn WJ. 1983. Distribution of the kurtosis statistic b2 for normal samples. Biometrika 70, 227-234. (https://github.com/mauriceling/mauriceling.github.io/wiki/Kurtosis-test)
-
         """
         variable_name = operand[1]
         data_values = self.data[variable_name]
         if operand[0].lower() == "kurtosis":
             result = libsipy.base.kurtosisNormalityTest(data_values)
+            retR = "Z-score = %f; p-value = %f" % (result[0], result[1])
+        elif operand[0].lower() in ["jb" , "jarquebera" , "jarqueBera"]:
+            result = libsipy.base.jarqueBera(data_values)
             if type(result[0]) is numpy.ndarray:
                 retR = "Z-score, p-value \n"
                 temp = [[str(result[0][i]), str(result[1][i])]

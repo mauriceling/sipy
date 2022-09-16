@@ -117,6 +117,20 @@ def variance(values=(1,2,3,4,5)):
     result = stats.describe(values)
     return result.variance
 
+def jarqueBera(values=(1,2,3,4,5)):
+    """!
+    Normality test - Jarque Bera Test; where the null hypothesis = the values are normally distributed.
+
+    Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/Jarque-Bera-test
+    
+    Reference: Jarque CM, Bera, AK. 1980. Efficient tests for normality, homoscedasticity and serial independence of regression residuals. Econometric Letters 6(3), 255-259.
+
+    @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
+    @return: (Z-score, p-value).
+    """
+    result = stats.jarque_bera(values)
+    return (result[0], result[1])
+
 def kurtosisNormalityTest(values=(1,2,3,4,5)):
     """!
     Normality test - Kurtosis Test; where the null hypothesis = the values are normally distributed.
