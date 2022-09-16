@@ -57,6 +57,18 @@ def harmonicMean(values=(1,2,3,4,5)):
     result = stats.hmean(values)
     return result
 
+def skew(values=(1,2,3,4,5)):
+    """!
+    Calculating skew of the values.
+
+    Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/Skew
+
+    @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
+    @return: Skew.
+    """
+    result = stats.describe(values)
+    return result.skewness
+
 def standardDeviation(values=(1,2,3,4,5)):
     """!
     Calculating standard deviation of the values.
