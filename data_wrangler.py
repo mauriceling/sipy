@@ -19,20 +19,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
-import subprocess
+import os
 import sys
 
 import pandas
 
-try: 
-    import fire
-except ImportError:
-    subprocess.check_call([sys.executable, '-m', 'pip', 
-                           'install', 'fire',
-                           '--trusted-host', 'pypi.org', 
-                           '--trusted-host', 'files.pythonhosted.org'])
-    import fire
-
-if __name__ == '__main__':
-    exposed_functions = {}
-    fire.Fire(exposed_functions)
