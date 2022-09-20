@@ -122,6 +122,20 @@ class SiPy_Shell(object):
         """
         print("%s: %s" % (str(code), str(msg)))
 
+    def do_anova(self, operand):
+        data_type = operand[1].lower()
+        if operand[0].lower() in ["1way"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+                result = libsipy.base.anova1way(data_values)
+                retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
+            elif data_type in ["dataframe", "df", "frame", "table"]:
+                pass
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+    
     def do_describe(self, operand):
         """!
         Calculating various descriptions(standard deviation, variance, standarad error) of the values.
@@ -393,6 +407,7 @@ class SiPy_Shell(object):
         elif operator == "regress": return self.do_regression(operand)
         elif operator == "show": return self.do_show(operand)
         elif operator == "ttest": return self.do_ttest(operand)
+        elif operator == "anova": return self.do_anova(operand)
         else: print("Unknown command / operation: %s" % operator)
 
     def interpret(self, statement):

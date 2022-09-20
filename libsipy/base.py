@@ -230,3 +230,14 @@ def tTest2SamplePaired(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
     result = pingouin.ttest(x, y, paired = True, alternative = "two-sided" , correction = "auto" , r = 0.707, confidence = 0.95)
     return result
+
+def anova1way(values = (1,2,3,4,5)):
+    """!
+    ANOVA - 1-way, where the null hypothesis: all population means are equal
+    
+    Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/ANOVA---One-way
+    
+    Note: One-way ANOVA assumes variances of all samples to be equal. If variances cannot be assumed to be equal, Alexander Govern test can be used.
+    """
+    result = stats.f_oneway(*values)
+    return result
