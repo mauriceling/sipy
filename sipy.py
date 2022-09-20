@@ -122,6 +122,20 @@ class SiPy_Shell(object):
         """
         print("%s: %s" % (str(code), str(msg)))
 
+    def do_anova(self, operand):
+        data_type = operand[1].lower()
+        if operand[0].lower() in ["1way"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+                result = libsipy.base.anova1way(data_values)
+                retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
+            elif data_type in ["dataframe", "df", "frame", "table"]:
+                pass
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+    
     def do_describe(self, operand):
         """!
         Calculating various descriptions(standard deviation, variance, standarad error) of the values.
@@ -345,12 +359,34 @@ class SiPy_Shell(object):
         Performs Student's t-test(s) on values.
 
         Commands:
-            ttest 1s <variable name> <population mean>
+            ttest 1s {list|series|tuple|vector} <variable name> <population mean>
+            ttest 2se {list|series|tuple|vector} <variable name A> <variable name B>
+            ttest 2su {list|series|tuple|vector} <variable name A> <variable name B>
+            ttest paired {list|series|tuple|vector} <variable name A> <variable name B>
         """
+        data_type = operand[1].lower()
         if operand[0].lower() in ["1s", "1sample"]:
-            data_values = self.data[operand[1]]
-            mu = float(operand[2])
-            retR = libsipy.base.tTest1Sample(data_values, mu)
+            data_values = self.data[operand[2]]
+            mu = float(operand[3])
+            if data_type in ["list", "series", "tuple", "vector"]:
+                retR = libsipy.base.tTest1Sample(data_values, mu)
+            elif data_type in ["dataframe", "df", "frame", "table"]:
+                pass
+        elif operand[0].lower() in ["2se", "2sample_equal"]:
+            data_valuesA = self.data[operand[2]]
+            data_valuesB = self.data[operand[3]]
+            if data_type in ["list", "series", "tuple", "vector"]:
+                retR = libsipy.base.tTest2SampleEqual(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["2su", "2sample_unequal"]:
+            data_valuesA = self.data[operand[2]]
+            data_valuesB = self.data[operand[3]]
+            if data_type in ["list", "series", "tuple", "vector"]:
+                retR = libsipy.base.tTest2SampleUnequal(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["paired", "dependent"]:
+            data_valuesA = self.data[operand[2]]
+            data_valuesB = self.data[operand[3]]
+            if data_type in ["list", "series", "tuple", "vector"]:
+                retR = libsipy.base.tTest2SamplePaired(data_valuesA, data_valuesB )
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
@@ -371,6 +407,7 @@ class SiPy_Shell(object):
         elif operator == "regress": return self.do_regression(operand)
         elif operator == "show": return self.do_show(operand)
         elif operator == "ttest": return self.do_ttest(operand)
+        elif operator == "anova": return self.do_anova(operand)
         else: print("Unknown command / operation: %s" % operator)
 
     def interpret(self, statement):
