@@ -25,6 +25,7 @@ import subprocess
 import sys
 import traceback
 import warnings
+
 warnings.filterwarnings("ignore")
 
 import numpy
@@ -121,6 +122,38 @@ class SiPy_Shell(object):
         """
         print("%s: %s" % (str(code), str(msg)))
 
+    def do_describe(self, operand):
+        """!
+        Calculating various descriptions(standard deviation, variance, standarad error) of the values.
+
+        Commands: 
+            describe {} <variable_name>
+
+        Reference: 
+            - 
+        """
+        variable_name = operand[1]
+        data_values = self.data[variable_name]
+        if operand[0].lower() in ["kurtosis" , "kurt"]:
+            result = libsipy.base.kurtosis(data_values)
+            retR = "Kurtosis = %s" % result
+        elif operand[0].lower() in ["skew" , "sk"]:
+            result = libsipy.base.skew(data_values)
+            retR = "Skew = %s" % result
+        elif operand[0].lower() in ["stdev", "stdev.s", "s", "sd"]:
+            result = libsipy.base.standardDeviation(data_values)
+            retR = "Standard deviation = %s" % result
+        elif operand[0].lower() in ["se"]:
+            result = libsipy.base.standardError(data_values)
+            retR = "Standard error = %s" % result
+        elif operand[0].lower() in ["var", "var.s"]:
+            result = libsipy.base.variance(data_values)
+            retR = "Variance = %s" % result
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+
     def do_let(self, operand):
         """!
         Assign a value or list of values to a variable.
@@ -160,7 +193,7 @@ class SiPy_Shell(object):
         Calculating various means (arithmetic mean, geometric mean, harmonic mean) of the values.
 
         Commands: 
-            mean {arithmetic} <variable_name>
+            mean {arithmetic|geometric|harmonic} <variable_name>
 
         Reference: 
             - https://github.com/mauriceling/mauriceling.github.io/wiki/Arithmetic-mean
@@ -170,6 +203,12 @@ class SiPy_Shell(object):
         if operand[0].lower() in ["arithmetic", "amean", "average", "avg", "mean"]:
             result = libsipy.base.arithmeticMean(data_values)
             retR = "Arimethic mean = %s" % result
+        elif operand[0].lower() in ["geometric", "gmean", "geo"]:
+            result = libsipy.base.geometricMean(data_values)
+            retR = "Geometric mean = %s" % result
+        elif operand[0].lower() in ["harmonic", "hmean", "harm"]:
+            result = libsipy.base.harmonicMean(data_values)
+            retR = "Harmonic mean = %s" % result
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
@@ -181,15 +220,20 @@ class SiPy_Shell(object):
 
         Commands: 
             normality {kurtosis} <variable_name>
-
-        References: 
-            - Kurtosis test: Anscombe FJ, Glynn WJ. 1983. Distribution of the kurtosis statistic b2 for normal samples. Biometrika 70, 227-234. (https://github.com/mauriceling/mauriceling.github.io/wiki/Kurtosis-test)
-
         """
         variable_name = operand[1]
         data_values = self.data[variable_name]
         if operand[0].lower() == "kurtosis":
             result = libsipy.base.kurtosisNormalityTest(data_values)
+            retR = "Z-score = %f; p-value = %f" % (result[0], result[1])
+        elif operand[0].lower() in ["jb" , "jarquebera" , "jarqueBera"]:
+            result = libsipy.base.jarqueBeraNormalityTest(data_values)
+            retR = "Z-score = %f; p-value = %f" % (result[0], result[1])
+        elif operand[0].lower() in ["shapirowilk" , "sw" , "shapiroWilk"]:
+            result = libsipy.base.shapiroWilkNormalityTest(data_values)
+            retR = "Z-score = %f; p-value = %f" % (result[0], result[1])
+        elif operand[0].lower() in ["skewtest" , "sk"]:
+            result = libsipy.base.skewNormalityTest(data_values)
             if type(result[0]) is numpy.ndarray:
                 retR = "Z-score, p-value \n"
                 temp = [[str(result[0][i]), str(result[1][i])]
@@ -319,7 +363,8 @@ class SiPy_Shell(object):
         @param operator String: bytecode operator
         @param operand list: bytecode operand(s), if any
         """
-        if operator == "let": return self.do_let(operand)
+        if operator == "describe": return self.do_describe(operand)
+        elif operator == "let": return self.do_let(operand)
         elif operator == "mean": return self.do_mean(operand)
         elif operator == "normality": return self.do_normality(operand)
         elif operator == "read": return self.do_read(operand)
