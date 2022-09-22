@@ -241,3 +241,14 @@ def anova1way(values = (1,2,3,4,5)):
     """
     result = stats.f_oneway(*values)
     return result
+
+def BartlettTest(values = (1,2,3,4,5)):
+    """!
+    Barlett's Test - Equal Variance, where the Null hypothesis: Variances of all samples are equal
+    
+    Web references: https://github.com/mauriceling/mauriceling.github.io/wiki/Bartlett%27s-test
+    
+    Reference: Bartlett MS. 1937. Properties of Sufficiency and Statistical Tests. Proceedings of the Royal Society of London. Series A, Mathematical and Physical Sciences 160(901), 268-282.
+    """
+    result = stats.bartlett(*values)
+    return result
