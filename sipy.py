@@ -129,6 +129,11 @@ class SiPy_Shell(object):
                 data_values = [self.data[operand[i]] for i in range(2, len(operand))]
                 result = libsipy.base.BartlettTest(data_values)
                 retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
+        elif operand[0].lower() in ["fligner"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+                result = libsipy.base.FlignerTest(data_values)
+                retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
             elif data_type in ["dataframe", "df", "frame", "table"]:
                 pass
         else: 

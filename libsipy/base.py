@@ -252,3 +252,14 @@ def BartlettTest(values = (1,2,3,4,5)):
     """
     result = stats.bartlett(*values)
     return result
+
+def FlignerTest(values = (1,2,3,4,5)):
+    """!
+    Fligner-Killeen Test - Equal Variance, where the null hypothesis: Variance of all samples are equal
+    
+    Web references: https://github.com/mauriceling/mauriceling.github.io/wiki/Fligner-Killeen-test
+    
+    Reference: Fligner MA, Killeen TJ. 1976. Distribution-free two-sample tests for scale. Journal of the American Statistical Association 71(353), 210-213.
+    """
+    result = stats.fligner(*values)
+    return result   
