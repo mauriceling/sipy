@@ -260,6 +260,23 @@ def FlignerTest(values = (1,2,3,4,5)):
     Web references: https://github.com/mauriceling/mauriceling.github.io/wiki/Fligner-Killeen-test
     
     Reference: Fligner MA, Killeen TJ. 1976. Distribution-free two-sample tests for scale. Journal of the American Statistical Association 71(353), 210-213.
+    
+    Note: Fligner-Killeen's test caters to non-normal samples.
     """
     result = stats.fligner(*values)
+    return result   
+
+def LeveneTest(values = (1,2,3,4,5)):
+    """!
+    Levene's Test - Equal Variance, where the null hypothesis: Variance of all samples are equal
+    
+    Web references: https://github.com/mauriceling/mauriceling.github.io/wiki/Levene%27s-test
+    
+    Reference: Levene H. 1960. Robust tests for equality of variances. In Olkin I, Hotelling H, et al. (eds.). Contributions to Probability and Statistics: Essays in Honor of Harold Hotelling. Stanford University Press. pp. 278–292.
+               Brown MB, Forsythe AB. 1974. Robust tests for the equality of variances. Journal of the American Statistical Association 69, 364–367.
+    
+    Note: Levene's test caters to non-normal samples.
+          If the parameter center is changed to median or trimmed (for trimmed mean), Levene's test becomes Brown-Forsythe test.
+    """
+    result = stats.levene(*values, center = "mean")
     return result   
