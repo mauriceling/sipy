@@ -174,16 +174,10 @@ def skewNormalityTest(values=(1,2,3,4,5)):
     return (result[0], result[1])
 
 def regressionLinear(X, y, add_intercept=True):
-    """!
-    Performs simple / multiple linear regression as y = b1X1 + ... + bnXn + c
-    """
     result = pingouin.linear_regression(X, y, add_intercept=add_intercept)
     return result
 
 def regressionLogistic(X, y):
-    """!
-    Performs logistic regression
-    """
     result = pingouin.logistic_regression(X, y)
     return result
 
