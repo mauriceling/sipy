@@ -147,6 +147,12 @@ class SiPy_Shell(object):
         return retR
 
     def do_anova(self, operand):
+        """!
+        Performs comparison of means for 2 or more samples.
+
+        Commands: 
+            anova 1way {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+        """
         data_type = operand[1].lower()
         if operand[0].lower() in ["1way"]:
             if data_type in ["list", "series", "tuple", "vector"]:
@@ -162,13 +168,14 @@ class SiPy_Shell(object):
     
     def do_describe(self, operand):
         """!
-        Calculating various descriptions(standard deviation, variance, standarad error) of the values.
+        Calculating various descriptions (standard deviation, variance, standarad error) of the values.
 
         Commands: 
-            describe {} <variable_name>
-
-        Reference: 
-            - 
+            describe {kurtosis|kurt} <variable_name>
+            describe {skew|sk} <variable_name>
+            describe {stdev|stdev.s|s|sd} <variable_name>
+            describe se <variable_name>
+            describe {var|var.s} <variable_name>
         """
         variable_name = operand[1]
         data_values = self.data[variable_name]
@@ -231,7 +238,9 @@ class SiPy_Shell(object):
         Calculating various means (arithmetic mean, geometric mean, harmonic mean) of the values.
 
         Commands: 
-            mean {arithmetic|geometric|harmonic} <variable_name>
+            mean {arithmetic|amean|average|avg|mean} <variable_name>
+            mean {geometric|gmean|geo} <variable_name>
+            mean {harmonic|hmean|harm} <variable_name>
 
         Reference: 
             - https://github.com/mauriceling/mauriceling.github.io/wiki/Arithmetic-mean
@@ -257,7 +266,10 @@ class SiPy_Shell(object):
         Perform normality test(s) on the values.
 
         Commands: 
-            normality {kurtosis} <variable_name>
+            normality kurtosis <variable_name>
+            normality {jarquebera|jb} <variable_name>
+            normality {shapirowilk|sw} <variable_name>
+            normality {skewtest|sk} <variable_name>
         """
         variable_name = operand[1]
         data_values = self.data[variable_name]
@@ -423,7 +435,8 @@ class SiPy_Shell(object):
         @param operator String: bytecode operator
         @param operand list: bytecode operand(s), if any
         """
-        if operator == "describe": return self.do_describe(operand)
+        if operator == "anova": return self.do_anova(operand)
+        elif operator == "describe": return self.do_describe(operand)
         elif operator == "let": return self.do_let(operand)
         elif operator == "mean": return self.do_mean(operand)
         elif operator == "normality": return self.do_normality(operand)
@@ -431,7 +444,6 @@ class SiPy_Shell(object):
         elif operator == "regress": return self.do_regression(operand)
         elif operator == "show": return self.do_show(operand)
         elif operator == "ttest": return self.do_ttest(operand)
-        elif operator == "anova": return self.do_anova(operand)
         elif operator == "variance": return self.do_variance(operand)
         else: print("Unknown command / operation: %s" % operator)
 
