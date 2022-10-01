@@ -174,16 +174,10 @@ def skewNormalityTest(values=(1,2,3,4,5)):
     return (result[0], result[1])
 
 def regressionLinear(X, y, add_intercept=True):
-    """!
-    Performs simple / multiple linear regression as y = b1X1 + ... + bnXn + c
-    """
     result = pingouin.linear_regression(X, y, add_intercept=add_intercept)
     return result
 
 def regressionLogistic(X, y):
-    """!
-    Performs logistic regression
-    """
     result = pingouin.logistic_regression(X, y)
     return result
 
@@ -247,3 +241,42 @@ def anova1way(values = (1,2,3,4,5)):
     """
     result = stats.f_oneway(*values)
     return result
+
+def BartlettTest(values = (1,2,3,4,5)):
+    """!
+    Barlett's Test - Equal Variance, where the Null hypothesis: Variances of all samples are equal
+    
+    Web references: https://github.com/mauriceling/mauriceling.github.io/wiki/Bartlett%27s-test
+    
+    Reference: Bartlett MS. 1937. Properties of Sufficiency and Statistical Tests. Proceedings of the Royal Society of London. Series A, Mathematical and Physical Sciences 160(901), 268-282.
+    """
+    result = stats.bartlett(*values)
+    return result
+
+def FlignerTest(values = (1,2,3,4,5)):
+    """!
+    Fligner-Killeen Test - Equal Variance, where the null hypothesis: Variance of all samples are equal
+    
+    Web references: https://github.com/mauriceling/mauriceling.github.io/wiki/Fligner-Killeen-test
+    
+    Reference: Fligner MA, Killeen TJ. 1976. Distribution-free two-sample tests for scale. Journal of the American Statistical Association 71(353), 210-213.
+    
+    Note: Fligner-Killeen's test caters to non-normal samples.
+    """
+    result = stats.fligner(*values)
+    return result   
+
+def LeveneTest(values = (1,2,3,4,5)):
+    """!
+    Levene's Test - Equal Variance, where the null hypothesis: Variance of all samples are equal
+    
+    Web references: https://github.com/mauriceling/mauriceling.github.io/wiki/Levene%27s-test
+    
+    Reference: Levene H. 1960. Robust tests for equality of variances. In Olkin I, Hotelling H, et al. (eds.). Contributions to Probability and Statistics: Essays in Honor of Harold Hotelling. Stanford University Press. pp. 278–292.
+               Brown MB, Forsythe AB. 1974. Robust tests for the equality of variances. Journal of the American Statistical Association 69, 364–367.
+    
+    Note: Levene's test caters to non-normal samples.
+          If the parameter center is changed to median or trimmed (for trimmed mean), Levene's test becomes Brown-Forsythe test.
+    """
+    result = stats.levene(*values, center = "mean")
+    return result   
