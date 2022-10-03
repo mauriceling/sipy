@@ -531,6 +531,29 @@ class SiPy_Shell(object):
             self.interpret(statement)
         return self.session
 
+    def do_template(self, operand):
+        """!
+        Performs xxx
+
+        Commands: 
+            operator operand[0] operand[1] operand[2] operand[3] ... operand[N]
+
+        @return: String containing results of command execution
+        """
+        option = operand[0].lower()
+        data_type = operand[1].lower()
+        if option.lower() in ["option"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+                result = libsipy.base.anova1way(data_values)
+                retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
+            elif data_type in ["dataframe", "df", "frame", "table"]:
+                pass
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+
 
 if __name__ == "__main__":
     shell = SiPy_Shell()
