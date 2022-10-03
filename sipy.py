@@ -121,38 +121,6 @@ class SiPy_Shell(object):
         @param msg String: error/warning message to display
         """
         print("%s: %s" % (str(code), str(msg)))
-        
-    def do_variance(self, operand):
-        """!
-        Performs test for equality of variances of samples.
-
-        Commands:
-            variance bartlett {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
-            variance fligner {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
-            variance levene {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
-        """
-        data_type = operand[1].lower()
-        if operand[0].lower() in ["bartlett"]:
-            if data_type in ["list", "series", "tuple", "vector"]:
-                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
-                result = libsipy.base.BartlettTest(data_values)
-                retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
-        elif operand[0].lower() in ["fligner"]:
-            if data_type in ["list", "series", "tuple", "vector"]:
-                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
-                result = libsipy.base.FlignerTest(data_values)
-                retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
-        elif operand[0].lower() in ["levene"]:
-            if data_type in ["list", "series", "tuple", "vector"]:
-                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
-                result = libsipy.base.LeveneTest(data_values)
-                retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
-            elif data_type in ["dataframe", "df", "frame", "table"]:
-                pass
-        else: 
-            retR = "Unknown sub-operation: %s" % operand[0].lower()
-        print(retR)
-        return retR
 
     def do_anova(self, operand):
         """!
@@ -436,6 +404,38 @@ class SiPy_Shell(object):
         print(retR)
         return retR
 
+    def do_variance(self, operand):
+        """!
+        Performs test for equality of variances of samples.
+
+        Commands:
+            variance bartlett {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+            variance fligner {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+            variance levene {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+        """
+        data_type = operand[1].lower()
+        if operand[0].lower() in ["bartlett"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+                result = libsipy.base.BartlettTest(data_values)
+                retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
+        elif operand[0].lower() in ["fligner"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+                result = libsipy.base.FlignerTest(data_values)
+                retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
+        elif operand[0].lower() in ["levene"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+                result = libsipy.base.LeveneTest(data_values)
+                retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
+            elif data_type in ["dataframe", "df", "frame", "table"]:
+                pass
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+        
     def command_processor(self, operator, operand):
         """
         Method to channel bytecodes operand(s), if any, into the respective bytecode processors.
