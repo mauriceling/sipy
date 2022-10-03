@@ -123,6 +123,14 @@ class SiPy_Shell(object):
         print("%s: %s" % (str(code), str(msg)))
         
     def do_variance(self, operand):
+        """!
+        Performs test for equality of variances of samples.
+
+        Commands:
+            variance bartlett {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+            variance fligner {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+            variance levene {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+        """
         data_type = operand[1].lower()
         if operand[0].lower() in ["bartlett"]:
             if data_type in ["list", "series", "tuple", "vector"]:
