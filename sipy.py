@@ -128,6 +128,8 @@ class SiPy_Shell(object):
 
         Commands: 
             anova 1way {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+
+        @return: String containing results of command execution
         """
         data_type = operand[1].lower()
         if operand[0].lower() in ["1way"]:
@@ -152,6 +154,8 @@ class SiPy_Shell(object):
             describe {stdev|stdev.s|s|sd} <variable_name>
             describe se <variable_name>
             describe {var|var.s} <variable_name>
+
+        @return: String containing results of command execution
         """
         variable_name = operand[1]
         data_values = self.data[variable_name]
@@ -183,6 +187,8 @@ class SiPy_Shell(object):
             let <variable_name> be number <value>
             let <variable_name> be list <comma-separated values>
             let <variable_name> be frame <data descriptor>
+
+        @return: String containing results of command execution
         """
         variable_name = operand[0]
         if operand[1].lower() == "be":
@@ -218,8 +224,7 @@ class SiPy_Shell(object):
             mean {geometric|gmean|geo} <variable_name>
             mean {harmonic|hmean|harm} <variable_name>
 
-        Reference: 
-            - https://github.com/mauriceling/mauriceling.github.io/wiki/Arithmetic-mean
+        @return: String containing results of command execution
         """
         variable_name = operand[1]
         data_values = self.data[variable_name]
@@ -246,6 +251,8 @@ class SiPy_Shell(object):
             normality {jarquebera|jb} <variable_name>
             normality {shapirowilk|sw} <variable_name>
             normality {skewtest|sk} <variable_name>
+
+        @return: String containing results of command execution
         """
         variable_name = operand[1]
         data_values = self.data[variable_name]
@@ -279,6 +286,8 @@ class SiPy_Shell(object):
 
         Commands: 
             read excel <variable_name> from <file_name> <sheet_name>
+
+        @return: String containing results of command execution
         """
         variable_name = operand[1]
         if operand[0].lower() == "excel":
@@ -297,6 +306,8 @@ class SiPy_Shell(object):
         Commands:
             regress linear <dependent variable name> <independent variable name> [False for intercept=0]
             regress logistic <dependent variable name> <independent variable name>
+
+        @return: String containing results of command execution
         """
         if operand[0].lower() in ["linear", "lin"]:
             try: 
@@ -327,6 +338,8 @@ class SiPy_Shell(object):
             show data [variable name]
             show {history|environment|modules}
             show item <history number>
+
+        @return: String containing results of command execution
         """
         if operand[0].lower() in ["data", "d"]:
             if len(operand) == 1: 
@@ -375,6 +388,8 @@ class SiPy_Shell(object):
             ttest 2se {list|series|tuple|vector} <variable name A> <variable name B>
             ttest 2su {list|series|tuple|vector} <variable name A> <variable name B>
             ttest paired {list|series|tuple|vector} <variable name A> <variable name B>
+
+        @return: String containing results of command execution
         """
         data_type = operand[1].lower()
         if operand[0].lower() in ["1s", "1sample"]:
@@ -412,6 +427,8 @@ class SiPy_Shell(object):
             variance bartlett {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
             variance fligner {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
             variance levene {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+
+        @return: String containing results of command execution
         """
         data_type = operand[1].lower()
         if operand[0].lower() in ["bartlett"]:
@@ -435,13 +452,14 @@ class SiPy_Shell(object):
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
         return retR
-        
+
     def command_processor(self, operator, operand):
         """
         Method to channel bytecodes operand(s), if any, into the respective bytecode processors.
         
         @param operator String: bytecode operator
         @param operand list: bytecode operand(s), if any
+        @return: String containing results of command execution
         """
         if operator == "anova": return self.do_anova(operand)
         elif operator == "describe": return self.do_describe(operand)
@@ -460,6 +478,7 @@ class SiPy_Shell(object):
         Method to process an input statement by either sending it to SiPy_Shell.intercept_processor() or SiPy_Shell.command_processor().
         
         @param statement String: command-line statement
+        @return: String containing results of command execution
         """
         try:
             self.history[str(self.count)] = statement
@@ -481,6 +500,7 @@ class SiPy_Shell(object):
                 if (type(line) == list):
                     for l in line: 
                         print(l)
+        return retR
 
     def cmdLoop(self):
         """!
