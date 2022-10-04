@@ -24,13 +24,13 @@ import sys
 
 def help():
     print('''
-"python installer.py build <environment name>" to build new environment from generated conda and pip environment files.
-"python installer.py create_env <environment name>" to build new environment from essential packages.
-"python installer.py freeze" to generate conda and pip environment files.
-"python installer.py help" to print this help text. 
-"python installer.py pyinstaller onedir" to generate a one-directory executable.
-"python installer.py pyinstaller onefile" to generate a one-directory executable.
-"python installer.py remove <environment name>" to remove environment.
+"python installation.py build <environment name>" to build new environment from generated conda and pip environment files.
+"python installation.py create_env <environment name>" to build new environment from essential packages.
+"python installation.py freeze" to generate conda and pip environment files.
+"python installation.py help" to print this help text. 
+"python installation.py pyinstaller onedir" to generate a one-directory executable.
+"python installation.py pyinstaller onefile" to generate a one-directory executable.
+"python installation.py remove <environment name>" to remove environment.
         ''')
 
 def build(environment):
