@@ -262,10 +262,10 @@ class SiPy_Shell(object):
             retR = "Z-score = %f; p-value = %f" % (result[0], result[1])
         elif operand[0].lower() in ["jb" , "jarquebera" , "jarqueBera"]:
             result = libsipy.base.jarqueBeraNormalityTest(data_values)
-            retR = "Z-score = %f; p-value = %f" % (result[0], result[1])
+            retR = "Statistic = %f; p-value = %f" % (result[0], result[1])
         elif operand[0].lower() in ["shapirowilk" , "sw" , "shapiroWilk"]:
             result = libsipy.base.shapiroWilkNormalityTest(data_values)
-            retR = "Z-score = %f; p-value = %f" % (result[0], result[1])
+            retR = "Statistic = %f; p-value = %f" % (result[0], result[1])
         elif operand[0].lower() in ["skewtest" , "sk"]:
             result = libsipy.base.skewNormalityTest(data_values)
             if type(result[0]) is numpy.ndarray:
@@ -328,7 +328,7 @@ class SiPy_Shell(object):
             retR = libsipy.base.regressionLogistic(X, y)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
-        print(retR)
+        print(retR.to_string())
         return retR
 
     def do_show(self, operand):
@@ -417,7 +417,7 @@ class SiPy_Shell(object):
                 retR = libsipy.base.tTest2SamplePaired(data_valuesA, data_valuesB )
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
-        print(retR)
+        print(retR.to_string())
         return retR
 
     def do_variance(self, operand):
