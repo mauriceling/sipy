@@ -19,8 +19,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
-release_number = "0.1.0"
-release_code_name = "Giant Turtle"
+release_number = "0.2.0"
+release_code_name = "Chicken Rice"
 release_date = "10 October 2022"
 
 header = """
