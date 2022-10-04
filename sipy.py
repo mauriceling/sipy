@@ -30,6 +30,7 @@ warnings.filterwarnings("ignore")
 
 import numpy
 import pandas as pd
+import PySimpleGUI as sg
 
 import data_wrangler as dw
 import libsipy
@@ -494,13 +495,13 @@ class SiPy_Shell(object):
                 retR = self.command_processor(operator, operand)
             self.result[str(self.count)] = retR
             self.count = self.count + 1
+            return retR
         except:
             error_message = list(self.formatExceptionInfo())
             for line in error_message:
                 if (type(line) == list):
                     for l in line: 
                         print(l)
-        return retR
 
     def cmdLoop(self):
         """!
@@ -554,13 +555,55 @@ class SiPy_Shell(object):
         print(retR)
         return retR
 
+    def basic_gui(self):
+        """!
+        Basic GUI for SiPy using PySimpleGUI.
+        """
+        sg.theme("DarkGreen3")
+        layout = [[sg.Text("Output Window", size=(40, 1))],
+                  [sg.Multiline(size=(100, 20), 
+                                font=("Courier 10"), 
+                                default_text=sipy_info.header, 
+                                autoscroll=True, 
+                                reroute_stdout=True)],
+                  [sg.Text("Enter Command:"), sg.Multiline(size=(70, 3), 
+                                                        font=("Courier 10"), 
+                                                        enter_submits=True, 
+                                                        key="statement", 
+                                                        do_not_clear=False),
+                   sg.Button("SEND", button_color=(sg.YELLOWS[0], sg.BLUES[0]), bind_return_key=True),
+                   sg.Button('EXIT', button_color=(sg.YELLOWS[0], sg.GREENS[0]))]]
+        window_header = "SiPy: Statistics in Python [Release %s (%s)]" % (sipy_info.release_number, sipy_info.release_code_name)
+        window = sg.Window(window_header, layout, 
+                           font=("Helvetica 12"), 
+                           icon="images/sipy_icon.ico", 
+                           default_button_element_size=(8,1), 
+                           use_default_focus=False, 
+                           resizable=True)
+        while True:
+            event, value = window.read()
+            if event in (sg.WIN_CLOSED, "EXIT"): break
+            elif event == "SEND":
+                statement = value["statement"].rstrip()
+                if statement.lower() == "exit": break
+                elif statement.startswith("#"): 
+                    print("SiPy: %s %s %s" % (str(self.count), self.environment["prompt"], statement), flush=True)
+                    print("")
+                elif not statement.startswith("#") and statement != "": 
+                    print("SiPy: %s %s %s" % (str(self.count), self.environment["prompt"], statement), flush=True)
+                    self.interpret(statement)
+                    print("")
+        window.close()
 
 if __name__ == "__main__":
     shell = SiPy_Shell()
     if len(sys.argv) == 1:
+        shell.basic_gui()
+        sys.exit()
+    if len(sys.argv) == 2 and sys.argv[1].lower() == "shell":
         shell.cmdLoop()
         sys.exit()
-    if len(sys.argv) == 2:
+    elif len(sys.argv) == 2 and sys.argv[1].lower() == "script":
         scriptfile = os.path.abspath(sys.argv[1])
         shell.cmdScript(script)
         sys.exit()

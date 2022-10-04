@@ -61,7 +61,7 @@ def freeze():
 def pyinstaller(option="onefile"):
     scriptfile = os.sep.join([os.getcwd(), "sipy.py"])
     iconfile = os.sep.join([os.getcwd(), "images", "sipy_icon.ico"])
-    cmdline = '''pyinstaller --noconfirm --%s --console --icon "%s" "%s"''' % (option, iconfile, scriptfile)
+    cmdline = '''pyinstaller --noconfirm --%s --windowed --icon "%s" "%s"''' % (option, iconfile, scriptfile)
     print(cmdline)
     os.system(cmdline)
 
