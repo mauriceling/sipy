@@ -123,7 +123,8 @@ def jarqueBeraNormalityTest(values=(1,2,3,4,5)):
 
     Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/Jarque-Bera-test
     
-    Reference: Jarque CM, Bera, AK. 1980. Efficient tests for normality, homoscedasticity and serial independence of regression residuals. Econometric Letters 6(3), 255-259.
+    Reference: 
+        - Jarque CM, Bera, AK. 1980. Efficient tests for normality, homoscedasticity and serial independence of regression residuals. Econometric Letters 6(3), 255-259.
 
     @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
     @return: (Z-score, p-value).
@@ -137,7 +138,8 @@ def kurtosisNormalityTest(values=(1,2,3,4,5)):
 
     Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/Kurtosis-test
 
-    Reference: Anscombe FJ, Glynn WJ. 1983. Distribution of the kurtosis statistic b2 for normal samples. Biometrika 70, 227-234.
+    Reference: 
+        - Anscombe FJ, Glynn WJ. 1983. Distribution of the kurtosis statistic b2 for normal samples. Biometrika 70, 227-234.
 
     @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
     @return: (Z-score, p-value).
@@ -151,7 +153,8 @@ def shapiroWilkNormalityTest(values=(1,2,3,4,5)):
 
     Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/Shapiro-Wilk-test-for-normality
 
-    Reference: Shapiro SS, Wilk MB. 1965. An analysis of variance test for normality (complete samples). Biometrika 52, 591-611.
+    Reference: 
+        - Shapiro SS, Wilk MB. 1965. An analysis of variance test for normality (complete samples). Biometrika 52, 591-611.
 
     @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
     @return: (Z-score, p-value).
@@ -165,7 +168,8 @@ def skewNormalityTest(values=(1,2,3,4,5)):
 
     Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/Skew-test
 
-    Reference: D’Agostino RB, A. J. Belanger AJ, D’Agostino Jr. RB. 1990. A suggestion for using powerful and informative tests of normality. American Statistician 44, 316-321.
+    Reference: 
+        - D’Agostino RB, A. J. Belanger AJ, D’Agostino Jr. RB. 1990. A suggestion for using powerful and informative tests of normality. American Statistician 44, 316-321.
 
     @param values tuple: A tuple of numeric values to calculate. Default = (1,2,3,4,5)
     @return: (Z-score, p-value).
@@ -195,10 +199,10 @@ def tTest2SampleEqual(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     
     Web References: https://github.com/mauriceling/mauriceling.github.io/wiki/t-test---2-samples-%28independent-samples%29-assuming-equal-variance
     
-    References: https://www.itl.nist.gov/div898/handbook/eda/section3/eda353.htm
-                Delacre, M., Lakens, D., & Leys, C. (2017). Why psychologists should by default use Welch’s t-test instead of Student’s t-test. International Review of Social Psychology, 30(1).
-                Zimmerman, D. W. (2004). A note on preliminary tests of equality of variances. British Journal of Mathematical and Statistical Psychology, 57(1), 173-181.
-                Rouder, J.N., Speckman, P.L., Sun, D., Morey, R.D., Iverson, G., 2009. Bayesian t tests for accepting and rejecting the null hypothesis. Psychon. Bull. Rev. 16, 225–237. https://doi.org/10.3758/PBR.16.2.225
+    References: 
+        - Delacre, M., Lakens, D., & Leys, C. (2017). Why psychologists should by default use Welch’s t-test instead of Student’s t-test. International Review of Social Psychology, 30(1).
+        - Zimmerman, D. W. (2004). A note on preliminary tests of equality of variances. British Journal of Mathematical and Statistical Psychology, 57(1), 173-181.
+        - Rouder, J.N., Speckman, P.L., Sun, D., Morey, R.D., Iverson, G., 2009. Bayesian t tests for accepting and rejecting the null hypothesis. Psychon. Bull. Rev. 16, 225–237. https://doi.org/10.3758/PBR.16.2.225
     """ 
     result = pingouin.ttest(x, y, paired = False, alternative = "two-sided" , correction = "auto" , r = 0.707, confidence = 0.95)
     return result
@@ -209,10 +213,10 @@ def tTest2SampleUnequal(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     
     Web References: https://github.com/mauriceling/mauriceling.github.io/wiki/t-test---2-samples-%28independent-samples%29-assuming-unequal-variance
     
-    References: https://www.itl.nist.gov/div898/handbook/eda/section3/eda353.htm
-                Delacre, M., Lakens, D., & Leys, C. (2017). Why psychologists should by default use Welch’s t-test instead of Student’s t-test. International Review of Social Psychology, 30(1).
-                Zimmerman, D. W. (2004). A note on preliminary tests of equality of variances. British Journal of Mathematical and Statistical Psychology, 57(1), 173-181.
-                Rouder, J.N., Speckman, P.L., Sun, D., Morey, R.D., Iverson, G., 2009. Bayesian t tests for accepting and rejecting the null hypothesis. Psychon. Bull. Rev. 16, 225–237. https://doi.org/10.3758/PBR.16.2.225
+    References: 
+        - Delacre, M., Lakens, D., & Leys, C. (2017). Why psychologists should by default use Welch’s t-test instead of Student’s t-test. International Review of Social Psychology, 30(1).
+        - Zimmerman, D. W. (2004). A note on preliminary tests of equality of variances. British Journal of Mathematical and Statistical Psychology, 57(1), 173-181.
+        - Rouder, J.N., Speckman, P.L., Sun, D., Morey, R.D., Iverson, G., 2009. Bayesian t tests for accepting and rejecting the null hypothesis. Psychon. Bull. Rev. 16, 225–237. https://doi.org/10.3758/PBR.16.2.225
     """
     result = pingouin.ttest(x, y, paired = False, alternative = "two-sided" , correction = "auto" , r = 0.707, confidence = 0.95)
     return result
@@ -223,10 +227,10 @@ def tTest2SamplePaired(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     
     Web References: https://github.com/mauriceling/mauriceling.github.io/wiki/t-test---paired-%28dependent-samples%29
     
-    References: https://www.itl.nist.gov/div898/handbook/eda/section3/eda353.htm
-                Delacre, M., Lakens, D., & Leys, C. (2017). Why psychologists should by default use Welch’s t-test instead of Student’s t-test. International Review of Social Psychology, 30(1).
-                Zimmerman, D. W. (2004). A note on preliminary tests of equality of variances. British Journal of Mathematical and Statistical Psychology, 57(1), 173-181.
-                Rouder, J.N., Speckman, P.L., Sun, D., Morey, R.D., Iverson, G., 2009. Bayesian t tests for accepting and rejecting the null hypothesis. Psychon. Bull. Rev. 16, 225–237. https://doi.org/10.3758/PBR.16.2.225
+    References: 
+        - Delacre, M., Lakens, D., & Leys, C. (2017). Why psychologists should by default use Welch’s t-test instead of Student’s t-test. International Review of Social Psychology, 30(1).
+        - Zimmerman, D. W. (2004). A note on preliminary tests of equality of variances. British Journal of Mathematical and Statistical Psychology, 57(1), 173-181.
+        - Rouder, J.N., Speckman, P.L., Sun, D., Morey, R.D., Iverson, G., 2009. Bayesian t tests for accepting and rejecting the null hypothesis. Psychon. Bull. Rev. 16, 225–237. https://doi.org/10.3758/PBR.16.2.225
     """
     result = pingouin.ttest(x, y, paired = True, alternative = "two-sided" , correction = "auto" , r = 0.707, confidence = 0.95)
     return result
@@ -248,7 +252,8 @@ def BartlettTest(values = (1,2,3,4,5)):
     
     Web references: https://github.com/mauriceling/mauriceling.github.io/wiki/Bartlett%27s-test
     
-    Reference: Bartlett MS. 1937. Properties of Sufficiency and Statistical Tests. Proceedings of the Royal Society of London. Series A, Mathematical and Physical Sciences 160(901), 268-282.
+    Reference: 
+        - Bartlett MS. 1937. Properties of Sufficiency and Statistical Tests. Proceedings of the Royal Society of London. Series A, Mathematical and Physical Sciences 160(901), 268-282.
     """
     result = stats.bartlett(*values)
     return result
@@ -259,7 +264,8 @@ def FlignerTest(values = (1,2,3,4,5)):
     
     Web references: https://github.com/mauriceling/mauriceling.github.io/wiki/Fligner-Killeen-test
     
-    Reference: Fligner MA, Killeen TJ. 1976. Distribution-free two-sample tests for scale. Journal of the American Statistical Association 71(353), 210-213.
+    Reference: 
+        - Fligner MA, Killeen TJ. 1976. Distribution-free two-sample tests for scale. Journal of the American Statistical Association 71(353), 210-213.
     
     Note: Fligner-Killeen's test caters to non-normal samples.
     """
@@ -272,8 +278,9 @@ def LeveneTest(values = (1,2,3,4,5)):
     
     Web references: https://github.com/mauriceling/mauriceling.github.io/wiki/Levene%27s-test
     
-    Reference: Levene H. 1960. Robust tests for equality of variances. In Olkin I, Hotelling H, et al. (eds.). Contributions to Probability and Statistics: Essays in Honor of Harold Hotelling. Stanford University Press. pp. 278–292.
-               Brown MB, Forsythe AB. 1974. Robust tests for the equality of variances. Journal of the American Statistical Association 69, 364–367.
+    Reference: 
+        - Levene H. 1960. Robust tests for equality of variances. In Olkin I, Hotelling H, et al. (eds.). Contributions to Probability and Statistics: Essays in Honor of Harold Hotelling. Stanford University Press. pp. 278–292.
+        - Brown MB, Forsythe AB. 1974. Robust tests for the equality of variances. Journal of the American Statistical Association 69, 364–367.
     
     Note: Levene's test caters to non-normal samples.
           If the parameter center is changed to median or trimmed (for trimmed mean), Levene's test becomes Brown-Forsythe test.
