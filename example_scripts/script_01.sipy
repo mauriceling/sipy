@@ -1,0 +1,7 @@
+# begin script_01
+
+show environment
+show history
+show data
+
+# end script_01

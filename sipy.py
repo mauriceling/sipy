@@ -54,7 +54,6 @@ class SiPy_Shell(object):
         self.modules = [m for m in dir(libsipy) 
                         if m not in ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']]
         self.result = {}
-        self.session = {}
     
     def formatExceptionInfo(self, maxTBlevel=10):
         """!
@@ -506,31 +505,64 @@ class SiPy_Shell(object):
     def cmdLoop(self):
         """!
         Command-line loop executor. This runs the shell like a command-line interpreter and calls SiPy_Shell.interpret() method to process the statement/command from the command-line.
-        
-        @return: session dictionary
         """
         self.header()
         while True:
             statement = input("SiPy: %s %s " % (str(self.count), self.environment["prompt"])).strip() 
             if statement == "exit": return 0
             elif statement.startswith("#"): continue
-            else: self.interpret(statement)
+            else: _ = self.interpret(statement)
             print("")
-        return self.session
 
     def cmdScript(self, script):
         """!
         Script executor. This method is used to execute a script file that is passed into SiPy and calls SiPy_Shell.interpret() method to process the ordered list of commands in script.
         
-        @param script: ordered list of commands in script to execute.
-        @return: session dictionary
+        @param script List: ordered list of commands in script to execute.
         """
         for statement in script:
             statement = statement.strip()
             print('Command #%s: %s' % (str(self.count), statement))
             if statement == 'exit': return 0
-            self.interpret(statement)
-        return self.session
+            _ = self.interpret(statement)
+
+    def runScript(self, scriptfile):
+        """!
+        Function to execute script file written in SiPy language.
+        
+        @param scriptfile String: absolute path to SiPy script file
+        """
+        dirname = os.path.dirname(scriptfile)
+        print("")
+        print("Executing script file: %s" % scriptfile)
+        print("")
+        def process_script(scriptfile):
+            print("")
+            print("Reading script file: %s" % scriptfile)
+            print("")
+            script = open(scriptfile, "r").readlines()
+            script = [x[:-1] for x in script]
+            script = [x.strip() for x in script]
+            for i in range(len(script)):
+                script[i] = script[i].strip()
+                if script[i].startswith("@include"):
+                    f = script[i].split()[1].strip()
+                    f = os.sep.join([dirname, f])
+                    script[i] = process_script(f)
+            return script
+        def flatten(container):
+            for i in container:
+                if isinstance(i, list) or isinstance(i, tuple):
+                    for j in flatten(i):
+                        yield j
+                else:
+                    yield i
+        fullscript = process_script(scriptfile)
+        fullscript = list(flatten(fullscript))
+        fullscript = [x for x in fullscript if x != ""]
+        fullscript = [x for x in fullscript 
+                      if not x.strip().startswith('#')]
+        self.cmdScript(fullscript)
 
     def do_template(self, operand):
         """!
@@ -603,7 +635,7 @@ if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1].lower() == "shell":
         shell.cmdLoop()
         sys.exit()
-    elif len(sys.argv) == 2 and sys.argv[1].lower() == "script":
-        scriptfile = os.path.abspath(sys.argv[1])
-        shell.cmdScript(script)
+    elif len(sys.argv) == 3 and sys.argv[1].lower() == "script":
+        scriptfile = os.path.abspath(sys.argv[2])
+        shell.runScript(scriptfile)
         sys.exit()

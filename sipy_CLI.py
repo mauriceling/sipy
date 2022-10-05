@@ -19,12 +19,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
-
+import os
 import sys
 
 from sipy import SiPy_Shell
 
 if __name__ == "__main__":
     shell = SiPy_Shell()
-    shell.cmdLoop()
-    sys.exit()
+    if len(sys.argv) == 1:
+        shell.cmdLoop()
+        sys.exit()
+    if len(sys.argv) == 2:
+        scriptfile = os.path.abspath(sys.argv[1])
+        shell.runScript(scriptfile)
+        sys.exit()

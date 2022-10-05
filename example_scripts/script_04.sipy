@@ -1,0 +1,8 @@
+# begin script_04
+
+@include script_02.sipy
+@include script_03.sipy
+
+regress linear y x1 x3 x5 x7 x9
+
+# end script_04
