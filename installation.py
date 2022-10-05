@@ -28,8 +28,10 @@ def help():
 "python installation.py create_env <environment name>" to build new environment from essential packages.
 "python installation.py freeze" to generate conda and pip environment files.
 "python installation.py help" to print this help text. 
-"python installation.py pyinstaller onedir" to generate a one-directory executable.
-"python installation.py pyinstaller onefile" to generate a one-directory executable.
+"python installation.py pyinstaller onedir gui" to generate a one-directory executable GUI.
+"python installation.py pyinstaller onedir cli" to generate a one-directory executable CLI/CUI.
+"python installation.py pyinstaller onefile gui" to generate a one-directory executable GUI.
+"python installation.py pyinstaller onefile cli" to generate a one-directory executable CLI/CUI.
 "python installation.py remove <environment name>" to remove environment.
         ''')
 
@@ -58,10 +60,15 @@ def freeze():
     os.system("conda list --explicit > conda_sipy_environment.txt")
     os.system("pip list --format=freeze > pip_sipy_environment.txt")
 
-def pyinstaller(option="onefile"):
+def pyinstaller(option="onefile", exe_type="gui"):
     scriptfile = os.sep.join([os.getcwd(), "sipy.py"])
     iconfile = os.sep.join([os.getcwd(), "images", "sipy_icon.ico"])
-    cmdline = '''pyinstaller --noconfirm --%s --windowed --icon "%s" "%s"''' % (option, iconfile, scriptfile)
+    if exe_type == "gui":
+        scriptfile = os.sep.join([os.getcwd(), "sipy.py"])
+        cmdline = '''pyinstaller --noconfirm --%s --windowed --icon "%s" "%s"''' % (option, iconfile, scriptfile)
+    elif exe_type == "cli":
+        scriptfile = os.sep.join([os.getcwd(), "sipy_CLI.py"])
+        cmdline = '''pyinstaller --noconfirm --%s --console --icon "%s" "%s"''' % (option, iconfile, scriptfile)
     print(cmdline)
     os.system(cmdline)
 
@@ -74,4 +81,4 @@ if __name__ == "__main__":
     elif command.lower() == "remove":
         environment = sys.argv[2]
         os.system("conda remove --name %s --all" % environment)
-    elif command.lower() == "pyinstaller": pyinstaller(sys.argv[2].lower())
+    elif command.lower() == "pyinstaller": pyinstaller(sys.argv[2].lower(), sys.argv[3].lower())

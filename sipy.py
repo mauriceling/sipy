@@ -1,5 +1,5 @@
 """!
-SiPy: Statistics in Python
+SiPy: Statistics in Python (GUI Version)
 
 Date created: 9th September 2022
 
