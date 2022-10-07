@@ -526,23 +526,28 @@ class SiPy_Shell(object):
             if statement == 'exit': return 0
             _ = self.interpret(statement)
 
-    def runScript(self, scriptfile):
+    def runScript(self, scriptfile, operation="script_execute"):
         """!
         Function to execute script file written in SiPy language.
         
         @param scriptfile String: absolute path to SiPy script file
+        @param operation String: type of operation. Allowable types are "script_execute" (execute the script), and "script_merge" (merge the scripts without execution)
         """
         dirname = os.path.dirname(scriptfile)
-        print("")
-        print("Executing script file: %s" % scriptfile)
-        print("")
+        if operation == "script_execute":
+            print("")
+            print("Executing script file: %s" % scriptfile)
+            print("")
         def process_script(scriptfile):
-            print("")
-            print("Reading script file: %s" % scriptfile)
-            print("")
+            if operation == "script_execute":
+                print("")
+                print("Reading script file: %s" % scriptfile)
+                print("")
             script = open(scriptfile, "r").readlines()
-            script = [x[:-1] for x in script]
+            for i in range(len(script)):
+                if script[i].endswith("\n"): script[i] = script[i][:-1]
             script = [x.strip() for x in script]
+            script = ["# Start script file: %s" % scriptfile] + script + ["# End script file: %s" % scriptfile]
             for i in range(len(script)):
                 script[i] = script[i].strip()
                 if script[i].startswith("@include"):
@@ -559,10 +564,13 @@ class SiPy_Shell(object):
                     yield i
         fullscript = process_script(scriptfile)
         fullscript = list(flatten(fullscript))
-        fullscript = [x for x in fullscript if x != ""]
-        fullscript = [x for x in fullscript 
-                      if not x.strip().startswith('#')]
-        self.cmdScript(fullscript)
+        if operation == "script_execute":
+            fullscript = [x for x in fullscript if x != ""]
+            fullscript = [x for x in fullscript 
+                          if not x.strip().startswith('#')]
+            self.cmdScript(fullscript)
+        elif operation == "script_merge":
+            for line in fullscript: print(line)
 
     def do_template(self, operand):
         """!
@@ -632,10 +640,14 @@ if __name__ == "__main__":
     if len(sys.argv) == 1:
         shell.basic_gui()
         sys.exit()
-    if len(sys.argv) == 2 and sys.argv[1].lower() == "shell":
+    elif len(sys.argv) == 2 and sys.argv[1].lower() == "shell":
         shell.cmdLoop()
         sys.exit()
-    elif len(sys.argv) == 3 and sys.argv[1].lower() == "script":
+    elif (len(sys.argv) == 3) and (sys.argv[1].lower() == "script_execute"):
         scriptfile = os.path.abspath(sys.argv[2])
-        shell.runScript(scriptfile)
+        shell.runScript(scriptfile, "script_execute")
+        sys.exit()
+    elif (len(sys.argv) == 3) and (sys.argv[1].lower() == "script_merge"):
+        scriptfile = os.path.abspath(sys.argv[2])
+        shell.runScript(scriptfile, "script_merge")
         sys.exit()

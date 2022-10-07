@@ -29,7 +29,11 @@ if __name__ == "__main__":
     if len(sys.argv) == 1:
         shell.cmdLoop()
         sys.exit()
-    if len(sys.argv) == 2:
-        scriptfile = os.path.abspath(sys.argv[1])
-        shell.runScript(scriptfile)
+    elif (len(sys.argv) == 3) and (sys.argv[1].lower() == "script_execute"):
+        scriptfile = os.path.abspath(sys.argv[2])
+        shell.runScript(scriptfile, "script_execute")
+        sys.exit()
+    elif (len(sys.argv) == 3) and (sys.argv[1].lower() == "script_merge"):
+        scriptfile = os.path.abspath(sys.argv[2])
+        shell.runScript(scriptfile, "script_merge")
         sys.exit()
