@@ -544,8 +544,6 @@ class SiPy_Shell(object):
                 print("Reading script file: %s" % scriptfile)
                 print("")
             script = open(scriptfile, "r").readlines()
-            for i in range(len(script)):
-                if script[i].endswith("\n"): script[i] = script[i][:-1]
             script = [x.strip() for x in script]
             script = ["# Start script file: %s" % scriptfile] + script + ["# End script file: %s" % scriptfile]
             for i in range(len(script)):
