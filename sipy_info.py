@@ -38,6 +38,8 @@ Copyright (C) 2022, Maurice HT Ling (on behalf of SiPy Team)
 credits = """
 SiPy Project Team
 Project architect: Maurice HT Ling (mauriceling@acm.org)
+Developers:
+1. Nicholas TF Tan (https://github.com/NicholasTTF)
 """
 
 citations = """"""
