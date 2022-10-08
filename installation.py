@@ -28,6 +28,7 @@ def help():
 "python installation.py create_env <environment name>" to build new environment from essential packages.
 "python installation.py freeze" to generate conda and pip environment files.
 "python installation.py help" to print this help text. 
+"python installation.py pyinstaller windows" to generate a one-directory executable GUI and CLI/CUI together based on sipy_windows.spec for Windows operating system.
 "python installation.py pyinstaller onedir gui" to generate a one-directory executable GUI.
 "python installation.py pyinstaller onedir cli" to generate a one-directory executable CLI/CUI.
 "python installation.py pyinstaller onefile gui" to generate a one-directory executable GUI.
@@ -63,7 +64,9 @@ def freeze():
 def pyinstaller(option="onefile", exe_type="gui"):
     scriptfile = os.sep.join([os.getcwd(), "sipy.py"])
     iconfile = os.sep.join([os.getcwd(), "images", "sipy_icon.ico"])
-    if exe_type == "gui":
+    if option.lower() == "windows":
+        cmdline = '''pyinstaller sipy_windows.spec'''
+    elif exe_type == "gui":
         scriptfile = os.sep.join([os.getcwd(), "sipy.py"])
         cmdline = '''pyinstaller --noconfirm --%s --windowed --icon "%s" "%s"''' % (option, iconfile, scriptfile)
     elif exe_type == "cli":
@@ -81,4 +84,8 @@ if __name__ == "__main__":
     elif command.lower() == "remove":
         environment = sys.argv[2]
         os.system("conda remove --name %s --all" % environment)
-    elif command.lower() == "pyinstaller": pyinstaller(sys.argv[2].lower(), sys.argv[3].lower())
+    elif command.lower() == "pyinstaller": 
+        try: 
+            pyinstaller(sys.argv[2].lower(), sys.argv[3].lower())
+        except IndexError: 
+            pyinstaller(sys.argv[2].lower())
