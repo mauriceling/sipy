@@ -1,5 +1,7 @@
 # Statistics in Python (SiPy): Python-Based Statistical Graphical User Interface for R/Python
 
+[![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/mauriceling/sipy/)](https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https://github.com/mauriceling/sipy/)
+
 Back in 2012 when I was teaching a graduate course of Statistical Methods in the [Department of Mathematics & Statistics](https://www.sdstate.edu/mathematics-statistics) of [South Dakota State University (USA)](https://www.sdstate.edu/), I found the world of statistical tools / applications to be a problem. I remembered having a conversation with Runan during lunch one day that if I plotted the statistical tools that I knew on the heuristic axes of cost and difficulty, I would get something like this:
 
 ![common statistical tools](https://github.com/mauriceling/sipy/blob/main/images/common_statistical_tools.jpg)
