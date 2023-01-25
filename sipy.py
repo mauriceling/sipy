@@ -128,6 +128,7 @@ class SiPy_Shell(object):
 
         Commands: 
             anova 1way {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+            anova 1way {dataframe|df|frame|table} <variable name>
 
         @return: String containing results of command execution
         """
@@ -387,6 +388,7 @@ class SiPy_Shell(object):
 
         Commands:
             ttest 1s {list|series|tuple|vector} <variable name> <population mean>
+            ttest 1s {dataframe|df|frame|table} <variable name> <series name> <population mean>
             ttest 2se {list|series|tuple|vector} <variable name A> <variable name B>
             ttest 2su {list|series|tuple|vector} <variable name A> <variable name B>
             ttest paired {list|series|tuple|vector} <variable name A> <variable name B>
@@ -395,12 +397,16 @@ class SiPy_Shell(object):
         """
         data_type = operand[1].lower()
         if operand[0].lower() in ["1s", "1sample"]:
-            data_values = self.data[operand[2]]
             if data_type in ["list", "series", "tuple", "vector"]:
+                data_values = self.data[operand[2]]
                 mu = float(operand[3])
                 retR = libsipy.base.tTest1Sample(data_values, mu)
             elif data_type in ["dataframe", "df", "frame", "table"]:
-                pass
+                df_name = operand[2]
+                data_values = self.data[df_name][operand[3]].values.tolist()
+                print(data_values)
+                mu = float(operand[4])
+                retR = libsipy.base.tTest1Sample(data_values, mu)
         elif operand[0].lower() in ["2se", "2sample_equal"]:
             if data_type in ["list", "series", "tuple", "vector"]:
                 data_valuesA = self.data[operand[2]]
