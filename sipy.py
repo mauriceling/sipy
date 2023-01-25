@@ -137,8 +137,8 @@ class SiPy_Shell(object):
                 data_values = [self.data[operand[i]] for i in range(2, len(operand))]
                 result = libsipy.base.anova1way(data_values)
                 retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
-            elif data_type in ["dataframe", "df", "frame", "table"]:
-                data_values = [self.data[operand[2]][col].values.tolist() for col in self.data[operand[2]]] 
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                data_values = [self.data[operand[3]][col].values.tolist() for col in self.data[operand[3]]] 
                 result = libsipy.base.anova1way(data_values)
                 retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         else: 
