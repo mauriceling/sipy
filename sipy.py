@@ -138,7 +138,9 @@ class SiPy_Shell(object):
                 result = libsipy.base.anova1way(data_values)
                 retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
             elif data_type in ["dataframe", "df", "frame", "table"]:
-                pass
+                data_values = [self.data[operand[2]][col].values.tolist() for col in self.data[operand[2]]] 
+                result = libsipy.base.anova1way(data_values)
+                retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
