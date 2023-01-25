@@ -128,17 +128,19 @@ class SiPy_Shell(object):
 
         Commands: 
             anova 1way {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
-            anova 1way {dataframe|df|frame|table} <variable name>
+            anova 1way {dataframe|df|frame|table} wide <variable name>
 
         @return: String containing results of command execution
         """
         data_type = operand[1].lower()
         if operand[0].lower() in ["1way"]:
             if data_type in ["list", "series", "tuple", "vector"]:
+                # anova 1way {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
                 data_values = [self.data[operand[i]] for i in range(2, len(operand))]
                 result = libsipy.base.anova1way(data_values)
                 retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # anova 1way {dataframe|df|frame|table} wide <variable name>
                 data_values = dw.df_extract(df=self.data[operand[3]], columns="all", rtype="list")
                 result = libsipy.base.anova1way(data_values)
                 retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
@@ -163,18 +165,23 @@ class SiPy_Shell(object):
         variable_name = operand[1]
         data_values = self.data[variable_name]
         if operand[0].lower() in ["kurtosis" , "kurt"]:
+            # describe {kurtosis|kurt} <variable_name>
             result = libsipy.base.kurtosis(data_values)
             retR = "Kurtosis = %s" % result
         elif operand[0].lower() in ["skew" , "sk"]:
+            # describe {skew|sk} <variable_name>
             result = libsipy.base.skew(data_values)
             retR = "Skew = %s" % result
         elif operand[0].lower() in ["stdev", "stdev.s", "s", "sd"]:
+            # describe {stdev|stdev.s|s|sd} <variable_name>
             result = libsipy.base.standardDeviation(data_values)
             retR = "Standard deviation = %s" % result
         elif operand[0].lower() in ["se"]:
+            # describe se <variable_name>
             result = libsipy.base.standardError(data_values)
             retR = "Standard error = %s" % result
         elif operand[0].lower() in ["var", "var.s"]:
+            # describe {var|var.s} <variable_name>
             result = libsipy.base.variance(data_values)
             retR = "Variance = %s" % result
         else: 
@@ -197,15 +204,18 @@ class SiPy_Shell(object):
         if operand[1].lower() == "be":
             data_type = operand[2]
             if data_type.lower() in ["numeric", "number", "num", "integer", "int", "float", "value"]:
+                # let <variable_name> be number <value>
                 data_values = operand[3]
                 self.data[variable_name] = float(data_values)
                 retR = "%s = %s" % (variable_name, str(data_values))
             elif data_type.lower() in ["list", "series", "tuple", "vector"]:
+                # let <variable_name> be list <comma-separated values>
                 data_values = "".join(operand[3:])
                 data_values = [float(x) for x in data_values.split(self.environment["separator"])]
                 self.data[variable_name] = pd.Series(data_values)
                 retR = "%s = %s" % (variable_name, str(data_values))
             elif data_type.lower() in ["dataframe", "df", "frame", "table"]:
+                # let <variable_name> be frame <data descriptor>
                 data_values = operand[3:]
                 source_descriptors = [x.split(":") for x in data_values]
                 source_data = {}
@@ -232,12 +242,15 @@ class SiPy_Shell(object):
         variable_name = operand[1]
         data_values = self.data[variable_name]
         if operand[0].lower() in ["arithmetic", "amean", "average", "avg", "mean"]:
+            # mean {arithmetic|amean|average|avg|mean} <variable_name>
             result = libsipy.base.arithmeticMean(data_values)
             retR = "Arimethic mean = %s" % result
         elif operand[0].lower() in ["geometric", "gmean", "geo"]:
+            # mean {geometric|gmean|geo} <variable_name>
             result = libsipy.base.geometricMean(data_values)
             retR = "Geometric mean = %s" % result
         elif operand[0].lower() in ["harmonic", "hmean", "harm"]:
+            # mean {harmonic|hmean|harm} <variable_name>
             result = libsipy.base.harmonicMean(data_values)
             retR = "Harmonic mean = %s" % result
         else: 
@@ -260,15 +273,19 @@ class SiPy_Shell(object):
         variable_name = operand[1]
         data_values = self.data[variable_name]
         if operand[0].lower() == "kurtosis":
+            # normality kurtosis <variable_name>
             result = libsipy.base.kurtosisNormalityTest(data_values)
             retR = "Z-score = %f; p-value = %f" % (result[0], result[1])
         elif operand[0].lower() in ["jb" , "jarquebera" , "jarqueBera"]:
+            # normality {jarquebera|jb} <variable_name>
             result = libsipy.base.jarqueBeraNormalityTest(data_values)
             retR = "Statistic = %f; p-value = %f" % (result[0], result[1])
         elif operand[0].lower() in ["shapirowilk" , "sw" , "shapiroWilk"]:
+            # normality {shapirowilk|sw} <variable_name>
             result = libsipy.base.shapiroWilkNormalityTest(data_values)
             retR = "Statistic = %f; p-value = %f" % (result[0], result[1])
         elif operand[0].lower() in ["skewtest" , "sk"]:
+            # normality {skewtest|sk} <variable_name>
             result = libsipy.base.skewNormalityTest(data_values)
             if type(result[0]) is numpy.ndarray:
                 retR = "Z-score, p-value \n"
@@ -294,6 +311,7 @@ class SiPy_Shell(object):
         """
         variable_name = operand[1]
         if operand[0].lower() == "excel":
+            # read excel <variable_name> from <file_name> <sheet_name>
             df = pd.read_excel(operand[3], sheet_name=operand[4])
             self.data[variable_name] = df
             retR = "Read Excel: %s.%s into %s" % (operand[3], operand[4], operand[1])
@@ -313,6 +331,7 @@ class SiPy_Shell(object):
         @return: String containing results of command execution
         """
         if operand[0].lower() in ["linear", "lin"]:
+            # regress linear <dependent variable name> <independent variable name> [False for intercept=0]
             try: 
                 if operand[3] in [True, "True", "TRUE", "true", "T", "t", "Yes", "YES", "Y", "y"]:
                     add_intercept = True
@@ -325,6 +344,7 @@ class SiPy_Shell(object):
             X = self.data[operand[2]]
             retR = libsipy.base.regressionLinear(X, y, add_intercept)
         elif operand[0].lower() in ["logistic", "log"]:
+            # regress logistic <dependent variable name> <independent variable name>
             y = self.data[operand[1]]
             X = self.data[operand[2]]
             retR = libsipy.base.regressionLogistic(X, y)
@@ -341,10 +361,12 @@ class SiPy_Shell(object):
             show data [variable name]
             show {history|environment|modules}
             show item <history number>
+            show result
 
         @return: String containing results of command execution
         """
         if operand[0].lower() in ["data", "d"]:
+            # show data [variable name]
             if len(operand) == 1: 
                 # show data
                 for x in self.data: 
@@ -356,14 +378,17 @@ class SiPy_Shell(object):
                 retR = {item: self.data[item]}
                 print("%s: %s" % (item, str(retR[item])))
         elif operand[0].lower() in ["history", "hist", "h"]:
+            # show history
             for x in self.history: 
                 retR = self.history
                 print("%s: %s" % (str(x), str(self.history[x])))
         elif operand[0].lower() in ["environment", "env", "e"]:
+            # # show environment
             for x in self.environment: 
                 retR = self.environment
                 print("%s: %s" % (str(x), str(self.environment[x])))
         elif operand[0].lower() in ["item", "i"]:
+            # show item <history number>
             item = str(int(operand[1]))
             retR = ["Command: %s" % (str(self.history[item])),
                     "Result: %s" % (str(self.result[item]))]
@@ -371,10 +396,12 @@ class SiPy_Shell(object):
             print(retR[1])
             retR = "\n".join(retR)
         elif operand[0].lower() in ["modules", "mod", "m"]:
+            # show modules
             print("List of Available Modules:")
             retR = self.modules
             for module in self.modules: print(module)
         elif operand[0].lower() in ["result", "r"]:
+            # show result
             retR = self.result
             for x in self.result:
                 print("%s: %s" % (str(x), str(self.result[x])))
@@ -398,15 +425,18 @@ class SiPy_Shell(object):
         data_type = operand[1].lower()
         if operand[0].lower() in ["1s", "1sample"]:
             if data_type in ["list", "series", "tuple", "vector"]:
+                # ttest 1s {list|series|tuple|vector} <variable name> <population mean>
                 data_values = self.data[operand[2]]
                 mu = float(operand[3])
                 retR = libsipy.base.tTest1Sample(data_values, mu)
             elif data_type in ["dataframe", "df", "frame", "table"]:
-                data_values = dw.df_extract(df=self.data[operand[2]], columns=operand[3])
+                # ttest 1s {dataframe|df|frame|table} <variable name> <series name> <population mean>
+                data_values = dw.df_extract(df=self.data[operand[2]], columns=operand[3], rtype="list")
                 mu = float(operand[4])
                 retR = libsipy.base.tTest1Sample(data_values, mu)
         elif operand[0].lower() in ["2se", "2sample_equal"]:
             if data_type in ["list", "series", "tuple", "vector"]:
+                # ttest 2se {list|series|tuple|vector} <variable name A> <variable name B>
                 data_valuesA = self.data[operand[2]]
                 data_valuesB = self.data[operand[3]]
                 retR = libsipy.base.tTest2SampleEqual(data_valuesA, data_valuesB)
@@ -414,6 +444,7 @@ class SiPy_Shell(object):
                 pass
         elif operand[0].lower() in ["2su", "2sample_unequal"]:
             if data_type in ["list", "series", "tuple", "vector"]:
+                # ttest 2su {list|series|tuple|vector} <variable name A> <variable name B>
                 data_valuesA = self.data[operand[2]]
                 data_valuesB = self.data[operand[3]]
                 retR = libsipy.base.tTest2SampleUnequal(data_valuesA, data_valuesB)
@@ -421,6 +452,7 @@ class SiPy_Shell(object):
                 pass
         elif operand[0].lower() in ["paired", "dependent"]:
             if data_type in ["list", "series", "tuple", "vector"]:
+                # ttest paired {list|series|tuple|vector} <variable name A> <variable name B>
                 data_valuesA = self.data[operand[2]]
                 data_valuesB = self.data[operand[3]]
                 retR = libsipy.base.tTest2SamplePaired(data_valuesA, data_valuesB)
@@ -445,16 +477,19 @@ class SiPy_Shell(object):
         data_type = operand[1].lower()
         if operand[0].lower() in ["bartlett"]:
             if data_type in ["list", "series", "tuple", "vector"]:
+                # variance bartlett {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
                 data_values = [self.data[operand[i]] for i in range(2, len(operand))]
                 result = libsipy.base.BartlettTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         elif operand[0].lower() in ["fligner"]:
             if data_type in ["list", "series", "tuple", "vector"]:
+                # variance fligner {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
                 data_values = [self.data[operand[i]] for i in range(2, len(operand))]
                 result = libsipy.base.FlignerTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         elif operand[0].lower() in ["levene"]:
             if data_type in ["list", "series", "tuple", "vector"]:
+                # variance levene {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
                 data_values = [self.data[operand[i]] for i in range(2, len(operand))]
                 result = libsipy.base.LeveneTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
