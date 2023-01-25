@@ -417,6 +417,7 @@ class SiPy_Shell(object):
             ttest 1s {list|series|tuple|vector} <variable name> <population mean>
             ttest 1s {dataframe|df|frame|table} <variable name> <series name> <population mean>
             ttest 2se {list|series|tuple|vector} <variable name A> <variable name B>
+            ttest 2se {dataframe|df|frame|table} <variable name> <series name A> <series name B>
             ttest 2su {list|series|tuple|vector} <variable name A> <variable name B>
             ttest paired {list|series|tuple|vector} <variable name A> <variable name B>
 
@@ -441,7 +442,10 @@ class SiPy_Shell(object):
                 data_valuesB = self.data[operand[3]]
                 retR = libsipy.base.tTest2SampleEqual(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"]:
-                pass
+                # ttest 2se {dataframe|df|frame|table} <variable name> <series name A> <series name B>
+                data_valuesA = dw.df_extract(df=self.data[operand[2]], columns=operand[3], rtype="list")
+                data_valuesB = dw.df_extract(df=self.data[operand[2]], columns=operand[4], rtype="list")
+                retR = libsipy.base.tTest2SampleEqual(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["2su", "2sample_unequal"]:
             if data_type in ["list", "series", "tuple", "vector"]:
                 # ttest 2su {list|series|tuple|vector} <variable name A> <variable name B>
