@@ -24,3 +24,22 @@ import sys
 
 import pandas
 
+def df_extract(df, columns="all", rtype="list"):
+    """!
+    Function to extract column(s) from dataframe into list(s) or a new dataframe.
+
+    @param df: dataframe
+    @type df: Pandas.dataframe object
+    @param columns: Column(s) to extract - delimited by "|". Default = "all" (all columns).
+    @type columns: String
+    @param: rtype: Return type of extracted column(s). Default = "list".
+    @type rtype: String
+    """
+    if columns.lower() == "all" and rtype.lower() == "list":
+        return [df[col].values.tolist() for col in df]
+    elif columns.lower != "all" and rtype.lower() == "list":
+        columns = [x.strip() for x in columns.split("|")]
+        if len(columns) == 1:
+            return df[columns[0]].values.tolist()
+        else:
+            return [df[col].values.tolist() for col in columns]

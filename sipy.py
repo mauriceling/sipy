@@ -139,7 +139,7 @@ class SiPy_Shell(object):
                 result = libsipy.base.anova1way(data_values)
                 retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                data_values = [self.data[operand[3]][col].values.tolist() for col in self.data[operand[3]]] 
+                data_values = dw.df_extract(df=self.data[operand[3]], columns="all", rtype="list")
                 result = libsipy.base.anova1way(data_values)
                 retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         else: 
@@ -402,9 +402,7 @@ class SiPy_Shell(object):
                 mu = float(operand[3])
                 retR = libsipy.base.tTest1Sample(data_values, mu)
             elif data_type in ["dataframe", "df", "frame", "table"]:
-                df_name = operand[2]
-                data_values = self.data[df_name][operand[3]].values.tolist()
-                print(data_values)
+                data_values = dw.df_extract(df=self.data[operand[2]], columns=operand[3])
                 mu = float(operand[4])
                 retR = libsipy.base.tTest1Sample(data_values, mu)
         elif operand[0].lower() in ["2se", "2sample_equal"]:
