@@ -197,6 +197,7 @@ class SiPy_Shell(object):
             let <variable_name> be {numeric|number|num|integer|int|float|value} <value>
             let <variable_name> be {list|series|tuple|vector} <comma-separated values>
             let <variable_name> be {dataframe|df|frame|table} <data descriptor>
+            let <new_variable_name> from {dataframe|df|frame|table} <existing_variable_name> <series name>
 
         @return: String containing results of command execution
         """
@@ -223,8 +224,12 @@ class SiPy_Shell(object):
                     source_data[d[0]] = self.data[d[1]]
                 self.data[variable_name] = pd.concat(source_data, axis=1)
                 retR = "%s = %s" % (variable_name, str(data_values))
-        elif operand[1].lower() == "from":
-            pass
+        elif operand[1].lower() == "from" and operand[2].lower() in ["dataframe", "df", "frame", "table"]:
+            if len(operand) == 5:
+                # let <new_variable_name> from {dataframe|df|frame|table} <existing_variable_name> <series name>
+                data_values = dw.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                self.data[variable_name] = data_values
+                retR = "%s from %s.%s; %s = %s" % (variable_name, operand[3], operand[4], variable_name, str(data_values))
         print(retR)
         return retR
 
