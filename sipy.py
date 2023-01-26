@@ -194,9 +194,9 @@ class SiPy_Shell(object):
         Assign a value or list of values to a variable.
 
         Commands: 
-            let <variable_name> be number <value>
-            let <variable_name> be list <comma-separated values>
-            let <variable_name> be frame <data descriptor>
+            let <variable_name> be {numeric|number|num|integer|int|float|value} <value>
+            let <variable_name> be {list|series|tuple|vector} <comma-separated values>
+            let <variable_name> be {dataframe|df|frame|table} <data descriptor>
 
         @return: String containing results of command execution
         """
@@ -204,18 +204,18 @@ class SiPy_Shell(object):
         if operand[1].lower() == "be":
             data_type = operand[2]
             if data_type.lower() in ["numeric", "number", "num", "integer", "int", "float", "value"]:
-                # let <variable_name> be number <value>
+                # let <variable_name> be {numeric|number|num|integer|int|float|value} <value>
                 data_values = operand[3]
                 self.data[variable_name] = float(data_values)
                 retR = "%s = %s" % (variable_name, str(data_values))
             elif data_type.lower() in ["list", "series", "tuple", "vector"]:
-                # let <variable_name> be list <comma-separated values>
+                # let <variable_name> be {list|series|tuple|vector} <comma-separated values>
                 data_values = "".join(operand[3:])
                 data_values = [float(x) for x in data_values.split(self.environment["separator"])]
                 self.data[variable_name] = pd.Series(data_values)
                 retR = "%s = %s" % (variable_name, str(data_values))
             elif data_type.lower() in ["dataframe", "df", "frame", "table"]:
-                # let <variable_name> be frame <data descriptor>
+                # let <variable_name> be {dataframe|df|frame|table} <data descriptor>
                 data_values = operand[3:]
                 source_descriptors = [x.split(":") for x in data_values]
                 source_data = {}
