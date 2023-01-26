@@ -467,7 +467,9 @@ class SiPy_Shell(object):
                 retR = libsipy.base.tTest2SamplePaired(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"]:
                 # ttest paired {dataframe|df|frame|table} <variable name> <series name A> <series name B>
-                pass
+                data_valuesA = dw.df_extract(df=self.data[operand[2]], columns=operand[3], rtype="list")
+                data_valuesB = dw.df_extract(df=self.data[operand[2]], columns=operand[4], rtype="list")
+                retR = libsipy.base.tTest2SamplePaired(data_valuesA, data_valuesB)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR.to_string())
