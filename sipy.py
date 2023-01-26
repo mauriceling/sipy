@@ -280,15 +280,15 @@ class SiPy_Shell(object):
         if operand[0].lower() == "kurtosis":
             # normality kurtosis <variable_name>
             result = libsipy.base.kurtosisNormalityTest(data_values)
-            retR = "Z-score = %f; p-value = %f" % (result[0], result[1])
+            retR = "Z-score = %s; p-value = %s" % (str(result[0]), str(result[1]))
         elif operand[0].lower() in ["jb" , "jarquebera" , "jarqueBera"]:
             # normality {jarquebera|jb} <variable_name>
             result = libsipy.base.jarqueBeraNormalityTest(data_values)
-            retR = "Statistic = %f; p-value = %f" % (result[0], result[1])
+            retR = "Statistic = %s; p-value = %s" % (str(result[0]), str(result[1]))
         elif operand[0].lower() in ["shapirowilk" , "sw" , "shapiroWilk"]:
             # normality {shapirowilk|sw} <variable_name>
             result = libsipy.base.shapiroWilkNormalityTest(data_values)
-            retR = "Statistic = %f; p-value = %f" % (result[0], result[1])
+            retR = "Statistic = %s; p-value = %s" % (str(result[0]), str(result[1]))
         elif operand[0].lower() in ["skewtest" , "sk"]:
             # normality {skewtest|sk} <variable_name>
             result = libsipy.base.skewNormalityTest(data_values)
