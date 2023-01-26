@@ -47,6 +47,7 @@ def df_extract(df, columns="all", rtype="list"):
 def df_remove(df, columns):
     """!
     Function to remove column(s) from dataframe.
+
     @param df: dataframe
     @type df: Pandas.dataframe object
     @param columns: Column(s) to extract - delimited by "|". Default = "all" (all columns).
@@ -54,4 +55,20 @@ def df_remove(df, columns):
     @rtype: Pandas.dataframe with column(s) removed.
     """
     df = df.drop(columns=[col.strip() for col in columns.split("|")], inplace=False)
+    return df
+
+def df_add(df, data, column_name):
+    """!
+    Function to add a column to dataframe.
+
+    @param df: dataframe
+    @type df: Pandas.dataframe object
+    @param data: List of data column to add.
+    @type data: List
+    @param column_name: Name of added column
+    @type column_name: String
+    @rtype: Pandas.dataframe with column added.
+    """
+    column_name = column_name.strip()
+    df[column_name] = data
     return df
