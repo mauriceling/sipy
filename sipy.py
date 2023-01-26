@@ -488,8 +488,9 @@ class SiPy_Shell(object):
 
         Commands:
             variance bartlett {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
-            # variance bartlett {dataframe|df|frame|table} wide <variable name>
+            variance bartlett {dataframe|df|frame|table} wide <variable name>
             variance fligner {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+            variance fligner {dataframe|df|frame|table} wide <variable name>
             variance levene {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
 
         @return: String containing results of command execution
@@ -510,6 +511,11 @@ class SiPy_Shell(object):
             if data_type in ["list", "series", "tuple", "vector"]:
                 # variance fligner {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
                 data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+                result = libsipy.base.FlignerTest(data_values)
+                retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # variance fligner {dataframe|df|frame|table} wide <variable name>
+                data_values = dw.df_extract(self.data[operand[3]], columns="all", rtype="list")
                 result = libsipy.base.FlignerTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         elif operand[0].lower() in ["levene"]:
