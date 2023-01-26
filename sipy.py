@@ -492,6 +492,7 @@ class SiPy_Shell(object):
             variance fligner {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
             variance fligner {dataframe|df|frame|table} wide <variable name>
             variance levene {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+            variance levene {dataframe|df|frame|table} wide <variable name>
 
         @return: String containing results of command execution
         """
@@ -524,8 +525,11 @@ class SiPy_Shell(object):
                 data_values = [self.data[operand[i]] for i in range(2, len(operand))]
                 result = libsipy.base.LeveneTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
-            elif data_type in ["dataframe", "df", "frame", "table"]:
-                pass
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # variance levene {dataframe|df|frame|table} wide <variable name>
+                data_values = dw.df_extract(self.data[operand[3]], columns="all", rtype="list")
+                result = libsipy.base.LeveneTest(data_values)
+                retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
