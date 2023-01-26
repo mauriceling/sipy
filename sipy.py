@@ -415,13 +415,13 @@ class SiPy_Shell(object):
 
         Commands:
             ttest 1s {list|series|tuple|vector} <variable name> <population mean>
-            ttest 1s {dataframe|df|frame|table} <variable name> <series name> <population mean>
+            ttest 1s {dataframe|df|frame|table} wide <variable name> <series name> <population mean>
             ttest 2se {list|series|tuple|vector} <variable name A> <variable name B>
-            ttest 2se {dataframe|df|frame|table} <variable name> <series name A> <series name B>
+            ttest 2se {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
             ttest 2su {list|series|tuple|vector} <variable name A> <variable name B>
-            ttest 2su {dataframe|df|frame|table} <variable name> <series name A> <series name B>
+            ttest 2su {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
             ttest paired {list|series|tuple|vector} <variable name A> <variable name B>
-            ttest paired {dataframe|df|frame|table} <variable name> <series name A> <series name B>
+            ttest paired {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
 
         @return: String containing results of command execution
         """
@@ -432,10 +432,10 @@ class SiPy_Shell(object):
                 data_values = self.data[operand[2]]
                 mu = float(operand[3])
                 retR = libsipy.base.tTest1Sample(data_values, mu)
-            elif data_type in ["dataframe", "df", "frame", "table"]:
-                # ttest 1s {dataframe|df|frame|table} <variable name> <series name> <population mean>
-                data_values = dw.df_extract(df=self.data[operand[2]], columns=operand[3], rtype="list")
-                mu = float(operand[4])
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # ttest 1s {dataframe|df|frame|table} wide <variable name> <series name> <population mean>
+                data_values = dw.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                mu = float(operand[5])
                 retR = libsipy.base.tTest1Sample(data_values, mu)
         elif operand[0].lower() in ["2se", "2sample_equal"]:
             if data_type in ["list", "series", "tuple", "vector"]:
@@ -443,10 +443,10 @@ class SiPy_Shell(object):
                 data_valuesA = self.data[operand[2]]
                 data_valuesB = self.data[operand[3]]
                 retR = libsipy.base.tTest2SampleEqual(data_valuesA, data_valuesB)
-            elif data_type in ["dataframe", "df", "frame", "table"]:
-                # ttest 2se {dataframe|df|frame|table} <variable name> <series name A> <series name B>
-                data_valuesA = dw.df_extract(df=self.data[operand[2]], columns=operand[3], rtype="list")
-                data_valuesB = dw.df_extract(df=self.data[operand[2]], columns=operand[4], rtype="list")
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # ttest 2se {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = dw.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = dw.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.tTest2SampleEqual(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["2su", "2sample_unequal"]:
             if data_type in ["list", "series", "tuple", "vector"]:
@@ -454,10 +454,12 @@ class SiPy_Shell(object):
                 data_valuesA = self.data[operand[2]]
                 data_valuesB = self.data[operand[3]]
                 retR = libsipy.base.tTest2SampleUnequal(data_valuesA, data_valuesB)
-            elif data_type in ["dataframe", "df", "frame", "table"]:
-                # ttest 2su {dataframe|df|frame|table} <variable name> <series name A> <series name B>
-                data_valuesA = dw.df_extract(df=self.data[operand[2]], columns=operand[3], rtype="list")
-                data_valuesB = dw.df_extract(df=self.data[operand[2]], columns=operand[4], rtype="list")
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # ttest 2su {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = dw.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = dw.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                print(data_valuesA)
+                print(data_valuesB)
                 retR = libsipy.base.tTest2SampleUnequal(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["paired", "dependent"]:
             if data_type in ["list", "series", "tuple", "vector"]:
@@ -465,10 +467,10 @@ class SiPy_Shell(object):
                 data_valuesA = self.data[operand[2]]
                 data_valuesB = self.data[operand[3]]
                 retR = libsipy.base.tTest2SamplePaired(data_valuesA, data_valuesB)
-            elif data_type in ["dataframe", "df", "frame", "table"]:
-                # ttest paired {dataframe|df|frame|table} <variable name> <series name A> <series name B>
-                data_valuesA = dw.df_extract(df=self.data[operand[2]], columns=operand[3], rtype="list")
-                data_valuesB = dw.df_extract(df=self.data[operand[2]], columns=operand[4], rtype="list")
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # ttest paired {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = dw.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = dw.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.tTest2SamplePaired(data_valuesA, data_valuesB)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
