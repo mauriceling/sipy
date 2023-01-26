@@ -24,6 +24,20 @@ import sys
 
 import pandas
 
+def flatten(nested_list):
+    """!
+    Function to flatten n-dimensional nested list into 1-dimensional list. For example, [1, 2, 3, [4, 5], [6, 7, [8, 9, [10, 11, 12, [13, 14, [15], [16, 17], 18]]]]] to [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].
+
+    @param nested_list: Nested list to flatten
+    @type nested_list: List
+    @rtype: 1-dimensional list.
+    """
+    if len(nested_list) == 0:
+        return nested_list
+    if isinstance(nested_list[0], list):
+        return flatten(nested_list[0]) + flatten(nested_list[1:])
+    return nested_list[:1] + flatten(nested_list[1:])
+
 def df_extract(df, columns="all", rtype="list"):
     """!
     Function to extract column(s) from dataframe into list(s) or a new dataframe.

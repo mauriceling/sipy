@@ -291,7 +291,15 @@ class SiPy_Shell(object):
             retR = "Statistic = %s; p-value = %s" % (str(result[0]), str(result[1]))
         elif operand[0].lower() in ["skewtest" , "sk"]:
             # normality {skewtest|sk} <variable_name>
-            result = libsipy.base.skewNormalityTest(data_values)
+            try:
+                result = libsipy.base.skewNormalityTest(data_values)
+            except ValueError:
+                # caters for data frame variable
+                data_values = dw.df_extract(data_values, columns="all", rtype="list")
+                print(data_values)
+                data_values = dw.flatten(data_values)
+                print(data_values)
+                result = libsipy.base.skewNormalityTest(data_values)
             if type(result[0]) is numpy.ndarray:
                 retR = "Z-score, p-value \n"
                 temp = [[str(result[0][i]), str(result[1][i])]
