@@ -32,7 +32,6 @@ import numpy
 import pandas as pd
 import PySimpleGUI as sg
 
-import data_wrangler as dw
 import libsipy
 import sipy_info
 
@@ -141,7 +140,7 @@ class SiPy_Shell(object):
                 retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
                 # anova 1way {dataframe|df|frame|table} wide <variable name>
-                data_values = dw.df_extract(df=self.data[operand[3]], columns="all", rtype="list")
+                data_values = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns="all", rtype="list")
                 result = libsipy.base.anova1way(data_values)
                 retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         else: 
@@ -227,7 +226,7 @@ class SiPy_Shell(object):
         elif operand[1].lower() == "from" and operand[2].lower() in ["dataframe", "df", "frame", "table"]:
             if len(operand) == 5:
                 # let <new_variable_name> from {dataframe|df|frame|table} <existing_variable_name> <series name>
-                data_values = dw.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_values = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 self.data[variable_name] = data_values
                 retR = "%s from %s.%s; %s = %s" % (variable_name, operand[3], operand[4], variable_name, str(data_values))
         print(retR)
@@ -295,10 +294,8 @@ class SiPy_Shell(object):
                 result = libsipy.base.skewNormalityTest(data_values)
             except ValueError:
                 # caters for data frame variable
-                data_values = dw.df_extract(data_values, columns="all", rtype="list")
-                print(data_values)
-                data_values = dw.flatten(data_values)
-                print(data_values)
+                data_values = libsipy.data_wrangler.df_extract(data_values, columns="all", rtype="list")
+                data_values = libsipy.data_wrangler.flatten(data_values)
                 result = libsipy.base.skewNormalityTest(data_values)
             if type(result[0]) is numpy.ndarray:
                 retR = "Z-score, p-value \n"
@@ -447,7 +444,7 @@ class SiPy_Shell(object):
                 retR = libsipy.base.tTest1Sample(data_values, mu)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
                 # ttest 1s {dataframe|df|frame|table} wide <variable name> <series name> <population mean>
-                data_values = dw.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_values = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 mu = float(operand[5])
                 retR = libsipy.base.tTest1Sample(data_values, mu)
         elif operand[0].lower() in ["2se", "2sample_equal"]:
@@ -458,8 +455,8 @@ class SiPy_Shell(object):
                 retR = libsipy.base.tTest2SampleEqual(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
                 # ttest 2se {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = dw.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = dw.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.tTest2SampleEqual(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["2su", "2sample_unequal"]:
             if data_type in ["list", "series", "tuple", "vector"]:
@@ -469,10 +466,8 @@ class SiPy_Shell(object):
                 retR = libsipy.base.tTest2SampleUnequal(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
                 # ttest 2su {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = dw.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = dw.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
-                print(data_valuesA)
-                print(data_valuesB)
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.tTest2SampleUnequal(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["paired", "dependent"]:
             if data_type in ["list", "series", "tuple", "vector"]:
@@ -482,8 +477,8 @@ class SiPy_Shell(object):
                 retR = libsipy.base.tTest2SamplePaired(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
                 # ttest paired {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = dw.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = dw.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.tTest2SamplePaired(data_valuesA, data_valuesB)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
@@ -513,7 +508,7 @@ class SiPy_Shell(object):
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
                 # variance bartlett {dataframe|df|frame|table} wide <variable name>
-                data_values = dw.df_extract(self.data[operand[3]], columns="all", rtype="list")
+                data_values = libsipy.data_wrangler.df_extract(self.data[operand[3]], columns="all", rtype="list")
                 result = libsipy.base.BartlettTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         elif operand[0].lower() in ["fligner"]:
@@ -524,7 +519,7 @@ class SiPy_Shell(object):
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
                 # variance fligner {dataframe|df|frame|table} wide <variable name>
-                data_values = dw.df_extract(self.data[operand[3]], columns="all", rtype="list")
+                data_values = libsipy.data_wrangler.df_extract(self.data[operand[3]], columns="all", rtype="list")
                 result = libsipy.base.FlignerTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         elif operand[0].lower() in ["levene"]:
@@ -535,7 +530,7 @@ class SiPy_Shell(object):
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
                 # variance levene {dataframe|df|frame|table} wide <variable name>
-                data_values = dw.df_extract(self.data[operand[3]], columns="all", rtype="list")
+                data_values = libsipy.data_wrangler.df_extract(self.data[operand[3]], columns="all", rtype="list")
                 result = libsipy.base.LeveneTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         else: 

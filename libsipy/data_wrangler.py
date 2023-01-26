@@ -1,5 +1,5 @@
 """!
-Data Wrangler for SiPy
+libsipy (Data Wrangler): Functions to Manipulate Pandas Data Frame and Other Data Structures in SiPy.
 
 Date created: 9th September 2022
 
