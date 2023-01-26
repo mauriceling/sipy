@@ -43,3 +43,15 @@ def df_extract(df, columns="all", rtype="list"):
             return df[columns[0]].values.tolist()
         else:
             return [df[col].values.tolist() for col in columns]
+
+def df_remove(df, columns):
+    """!
+    Function to remove column(s) from dataframe.
+    @param df: dataframe
+    @type df: Pandas.dataframe object
+    @param columns: Column(s) to extract - delimited by "|". Default = "all" (all columns).
+    @type columns: String
+    @rtype: Pandas.dataframe with column(s) removed.
+    """
+    df = df.drop(columns=[col.strip() for col in columns.split("|")], inplace=False)
+    return df
