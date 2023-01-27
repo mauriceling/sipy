@@ -19,9 +19,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
-release_number = "0.2.0"
-release_code_name = "Chicken Rice"
-release_date = "10 October 2022"
+release_number = "0.3.0"
+release_code_name = "Durian"
+release_date = "31 January 2023"
 
 header = """
 SiPy: Statistics in Python
@@ -31,9 +31,11 @@ Type "copyright", "credits" or "license" for more information.
 To exit this application, type "exit".
 """ % (str(release_number), release_code_name, release_date)
 
+import datetime
+today = datetime.date.today()
 copyright = """
-Copyright (C) 2022, Maurice HT Ling (on behalf of SiPy Team)
-"""
+Copyright (C) 2022-%s, Maurice HT Ling (on behalf of SiPy Team)
+""" % str(today.year)
 
 credits = """
 SiPy Project Team
