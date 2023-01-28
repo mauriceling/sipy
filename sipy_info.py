@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
 release_number = "0.3.0"
 release_code_name = "Durian"
-release_date = "31 January 2023"
+release_date = "28 January 2023"
 
 header = """
 SiPy: Statistics in Python
