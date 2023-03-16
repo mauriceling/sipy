@@ -185,6 +185,18 @@ def regressionLogistic(X, y):
     result = pingouin.logistic_regression(X, y)
     return result
 
+def mannWhitneyU(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Mann-Whitney U Test
+
+    Web reference: https://pingouin-stats.org/build/html/generated/pingouin.mwu.html
+
+    References:
+        - Mann, H. B., & Whitney, D. R. (1947). On a test of whether one of two random variables is stochastically larger than the other. The annals of mathematical statistics, 50-60.
+    """
+    result = pingouin.mwu(x, y, alternative = "two-sided")
+    return result
+    
 def tTest1Sample(values=(1,2,3,4,5), mu=0):
     """!
     T-Test - 1-Sample
