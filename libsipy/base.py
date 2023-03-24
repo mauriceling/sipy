@@ -185,6 +185,18 @@ def regressionLogistic(X, y):
     result = pingouin.logistic_regression(X, y)
     return result
 
+def wilcoxon(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Wilcoxon Signed-Rank Test
+
+    Web reference: https://pingouin-stats.org/build/html/generated/pingouin.wilcoxon.html
+
+    References:
+        - Wilcoxon, F. (1945). Individual comparisons by ranking methods. Biometrics bulletin, 1(6), 80-83.
+    """
+    result = pingouin.wilcoxon(x, y, alternative = "two-sided")
+    return result
+
 def mannWhitneyU(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
     Mann-Whitney U Test

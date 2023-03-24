@@ -493,6 +493,17 @@ class SiPy_Shell(object):
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.tTest2SamplePaired(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["wilcoxon"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # ttest mwu {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.wilcoxon(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # ttest mwu {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.wilcoxon(data_valuesA, data_valuesB)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR.to_string())
