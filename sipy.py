@@ -434,6 +434,8 @@ class SiPy_Shell(object):
             ttest mwu {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
             ttest paired {list|series|tuple|vector} <variable name A> <variable name B>
             ttest paired {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            ttest wilcoxon {list|series|tuple|vector} <variable name A> <variable name B>
+            ttest wilcoxon {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
 
         @return: String containing results of command execution
         """
