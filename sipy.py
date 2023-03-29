@@ -128,6 +128,8 @@ class SiPy_Shell(object):
         Commands: 
             anova 1way {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
             anova 1way {dataframe|df|frame|table} wide <variable name>
+            #anova kruskal {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+            #anova kruskal {dataframe|df|frame|table} wide <variable name>
 
         @return: String containing results of command execution
         """
@@ -143,9 +145,76 @@ class SiPy_Shell(object):
                 data_values = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns="all", rtype="list")
                 result = libsipy.base.anova1way(data_values)
                 retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
+        # Not working - to be done later
+        elif operand[0].lower() in ["kruskal"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # anova 1way {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+                result = libsipy.base.anovakruskal(data_values)
+                retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # anova 1way {dataframe|df|frame|table} wide <variable name>
+                data_values = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns="all", rtype="list")
+                result = libsipy.base.anovakruskal(data_values)
+                retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
+        ##### 
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
+        return retR
+    
+    def do_correlate(self, operand):
+        """!
+        Performs Student's t-test(s) on values.
+
+        Commands:
+            correlate pearson {list|series|tuple|vector} <variable name A> <variable name B>
+            correlate pearson {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            correlate spearman {list|series|tuple|vector} <variable name A> <variable name B>
+            correlate spearman {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            correlate kendall {list|series|tuple|vector} <variable name A> <variable name B>
+            correlate kendall {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+        @return: String containing results of command execution
+        """
+        data_type = operand[1].lower()
+        if operand[0].lower() in ["pearson", "r"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate pearson {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.correlatePearson(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate pearson {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.correlatePearson(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["spearman"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate spearman {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.correlateSpearman(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate spearman {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.correlateSpearman(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["kendall"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate kendall {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.correlateKendall(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate kendall {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.correlateKendall(data_valuesA, data_valuesB)
+        
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR.to_string())
         return retR
     
     def do_describe(self, operand):
@@ -573,6 +642,7 @@ class SiPy_Shell(object):
         @return: String containing results of command execution
         """
         if operator == "anova": return self.do_anova(operand)
+        elif operator == "correlate": return self.do_correlate(operand)
         elif operator == "describe": return self.do_describe(operand)
         elif operator == "let": return self.do_let(operand)
         elif operator == "mean": return self.do_mean(operand)

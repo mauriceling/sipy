@@ -208,7 +208,49 @@ def mannWhitneyU(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
     result = pingouin.mwu(x, y, alternative = "two-sided")
     return result
+
+def correlatePearson(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    T-test - 2-Sample, Independent-Samples, Equal-Variance; where the null hypothesis: Mean of Population A = Mean of Population B
     
+    Web References: https://github.com/mauriceling/mauriceling.github.io/wiki/t-test---2-samples-%28independent-samples%29-assuming-equal-variance
+    
+    References: 
+        - Delacre, M., Lakens, D., & Leys, C. (2017). Why psychologists should by default use Welch’s t-test instead of Student’s t-test. International Review of Social Psychology, 30(1).
+        - Zimmerman, D. W. (2004). A note on preliminary tests of equality of variances. British Journal of Mathematical and Statistical Psychology, 57(1), 173-181.
+        - Rouder, J.N., Speckman, P.L., Sun, D., Morey, R.D., Iverson, G., 2009. Bayesian t tests for accepting and rejecting the null hypothesis. Psychon. Bull. Rev. 16, 225–237. https://doi.org/10.3758/PBR.16.2.225
+    """ 
+    result = pingouin.corr(x, y, alternative='two-sided', method='pearson')
+    return result    
+
+def correlateSpearman(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    T-test - 2-Sample, Independent-Samples, Equal-Variance; where the null hypothesis: Mean of Population A = Mean of Population B
+    
+    Web References: https://github.com/mauriceling/mauriceling.github.io/wiki/t-test---2-samples-%28independent-samples%29-assuming-equal-variance
+    
+    References: 
+        - Delacre, M., Lakens, D., & Leys, C. (2017). Why psychologists should by default use Welch’s t-test instead of Student’s t-test. International Review of Social Psychology, 30(1).
+        - Zimmerman, D. W. (2004). A note on preliminary tests of equality of variances. British Journal of Mathematical and Statistical Psychology, 57(1), 173-181.
+        - Rouder, J.N., Speckman, P.L., Sun, D., Morey, R.D., Iverson, G., 2009. Bayesian t tests for accepting and rejecting the null hypothesis. Psychon. Bull. Rev. 16, 225–237. https://doi.org/10.3758/PBR.16.2.225
+    """ 
+    result = pingouin.corr(x, y, alternative='two-sided', method='spearman')
+    return result    
+
+def correlateKendall(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    T-test - 2-Sample, Independent-Samples, Equal-Variance; where the null hypothesis: Mean of Population A = Mean of Population B
+    
+    Web References: https://github.com/mauriceling/mauriceling.github.io/wiki/t-test---2-samples-%28independent-samples%29-assuming-equal-variance
+    
+    References: 
+        - Delacre, M., Lakens, D., & Leys, C. (2017). Why psychologists should by default use Welch’s t-test instead of Student’s t-test. International Review of Social Psychology, 30(1).
+        - Zimmerman, D. W. (2004). A note on preliminary tests of equality of variances. British Journal of Mathematical and Statistical Psychology, 57(1), 173-181.
+        - Rouder, J.N., Speckman, P.L., Sun, D., Morey, R.D., Iverson, G., 2009. Bayesian t tests for accepting and rejecting the null hypothesis. Psychon. Bull. Rev. 16, 225–237. https://doi.org/10.3758/PBR.16.2.225
+    """ 
+    result = pingouin.corr(x, y, alternative='two-sided', method='kendall')
+    return result    
+
 def tTest1Sample(values=(1,2,3,4,5), mu=0):
     """!
     T-Test - 1-Sample
@@ -268,6 +310,17 @@ def anova1way(values = (1,2,3,4,5)):
     Note: One-way ANOVA assumes variances of all samples to be equal. If variances cannot be assumed to be equal, Alexander Govern test can be used.
     """
     result = stats.f_oneway(*values)
+    return result
+
+def anovakruskal(values = (1,2,3,4,5)):
+    """!
+    ANOVA - 1-way, where the null hypothesis: all population means are equal
+    
+    Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/ANOVA---One-way
+    
+    Note: One-way ANOVA assumes variances of all samples to be equal. If variances cannot be assumed to be equal, Alexander Govern test can be used.
+    """
+    result = pingouin.kruskal(data=None, dv=None, between=None, detailed=False)
     return result
 
 def BartlettTest(values = (1,2,3,4,5)):
