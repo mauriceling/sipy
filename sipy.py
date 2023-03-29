@@ -174,6 +174,17 @@ class SiPy_Shell(object):
             correlate spearman {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
             correlate kendall {list|series|tuple|vector} <variable name A> <variable name B>
             correlate kendall {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            
+            ####### not working ##### correlate bicor {list|series|tuple|vector} <variable name A> <variable name B>
+            
+            correlate bicor {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            correlate percbend {list|series|tuple|vector} <variable name A> <variable name B>
+            correlate percbend {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+           
+            ####### warning ####### correlate skipped {list|series|tuple|vector} <variable name A> <variable name B>
+            ####### warning ####### correlate skipped {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            
+            ##### shepherd not working #####
 
         @return: String containing results of command execution
         """
@@ -211,7 +222,52 @@ class SiPy_Shell(object):
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.correlateKendall(data_valuesA, data_valuesB)
-        
+        elif operand[0].lower() in ["bicor"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate bicor {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.correlateBicor(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate bicor {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.correlateBicor(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["percbend"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate percbend {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.correlatePercbend(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate percbend {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.correlatePercbend(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["skipped"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate skipped {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.correlateSkipped(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate skipped {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.correlateSkipped(data_valuesA, data_valuesB)
+        #######elif operand[0].lower() in ["shepherd"]:
+            ##if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate skipped {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.correlateShepherd(data_valuesA, data_valuesB)
+            ##elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate skipped {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.correlateShepherd(data_valuesA, data_valuesB)####
+
+### Shepherd is not working ####
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR.to_string())

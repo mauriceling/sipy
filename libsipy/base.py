@@ -211,45 +211,109 @@ def mannWhitneyU(x=(1,2,3,4,5), y=(1,2,3,4,5)):
 
 def correlatePearson(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
-    T-test - 2-Sample, Independent-Samples, Equal-Variance; where the null hypothesis: Mean of Population A = Mean of Population B
+    Pearson product-moment correlation
     
-    Web References: https://github.com/mauriceling/mauriceling.github.io/wiki/t-test---2-samples-%28independent-samples%29-assuming-equal-variance
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
     
     References: 
-        - Delacre, M., Lakens, D., & Leys, C. (2017). Why psychologists should by default use Welch’s t-test instead of Student’s t-test. International Review of Social Psychology, 30(1).
-        - Zimmerman, D. W. (2004). A note on preliminary tests of equality of variances. British Journal of Mathematical and Statistical Psychology, 57(1), 173-181.
-        - Rouder, J.N., Speckman, P.L., Sun, D., Morey, R.D., Iverson, G., 2009. Bayesian t tests for accepting and rejecting the null hypothesis. Psychon. Bull. Rev. 16, 225–237. https://doi.org/10.3758/PBR.16.2.225
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
     """ 
     result = pingouin.corr(x, y, alternative='two-sided', method='pearson')
     return result    
 
 def correlateSpearman(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
-    T-test - 2-Sample, Independent-Samples, Equal-Variance; where the null hypothesis: Mean of Population A = Mean of Population B
+    Spearman rank-order correlation
     
-    Web References: https://github.com/mauriceling/mauriceling.github.io/wiki/t-test---2-samples-%28independent-samples%29-assuming-equal-variance
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
     
     References: 
-        - Delacre, M., Lakens, D., & Leys, C. (2017). Why psychologists should by default use Welch’s t-test instead of Student’s t-test. International Review of Social Psychology, 30(1).
-        - Zimmerman, D. W. (2004). A note on preliminary tests of equality of variances. British Journal of Mathematical and Statistical Psychology, 57(1), 173-181.
-        - Rouder, J.N., Speckman, P.L., Sun, D., Morey, R.D., Iverson, G., 2009. Bayesian t tests for accepting and rejecting the null hypothesis. Psychon. Bull. Rev. 16, 225–237. https://doi.org/10.3758/PBR.16.2.225
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
     """ 
     result = pingouin.corr(x, y, alternative='two-sided', method='spearman')
     return result    
 
 def correlateKendall(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
-    T-test - 2-Sample, Independent-Samples, Equal-Variance; where the null hypothesis: Mean of Population A = Mean of Population B
+    Kendall’s correlation (for ordinal data)
     
-    Web References: https://github.com/mauriceling/mauriceling.github.io/wiki/t-test---2-samples-%28independent-samples%29-assuming-equal-variance
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
     
     References: 
-        - Delacre, M., Lakens, D., & Leys, C. (2017). Why psychologists should by default use Welch’s t-test instead of Student’s t-test. International Review of Social Psychology, 30(1).
-        - Zimmerman, D. W. (2004). A note on preliminary tests of equality of variances. British Journal of Mathematical and Statistical Psychology, 57(1), 173-181.
-        - Rouder, J.N., Speckman, P.L., Sun, D., Morey, R.D., Iverson, G., 2009. Bayesian t tests for accepting and rejecting the null hypothesis. Psychon. Bull. Rev. 16, 225–237. https://doi.org/10.3758/PBR.16.2.225
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
     """ 
     result = pingouin.corr(x, y, alternative='two-sided', method='kendall')
     return result    
+
+def correlateBicor(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Biweight midcorrelation (robust)
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
+    
+    References: 
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
+    """ 
+    result = pingouin.corr(x, y, alternative='two-sided', method='bicor')
+    return result    
+
+def correlatePercbend (x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Percentage bend correlation (robust)
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
+    
+    References: 
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
+    """ 
+    result = pingouin.corr(x, y, alternative='two-sided', method='percbend')
+    return result    
+
+def correlateShepherd (x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Shepherd's pi correlation (robust)
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
+    
+    References: 
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
+    """ 
+    result = pingouin.corr(x, y, alternative='two-sided', method='shepherd')
+    return result    
+
+def correlateSkipped (x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Skipped correlation (robust)
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
+    
+    References: 
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
+    """ 
+    result = pingouin.corr(x, y, alternative='two-sided', method='skipped')
+    return result    
+
 
 def tTest1Sample(values=(1,2,3,4,5), mu=0):
     """!
