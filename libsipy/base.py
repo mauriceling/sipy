@@ -209,6 +209,137 @@ def mannWhitneyU(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     result = pingouin.mwu(x, y, alternative = "two-sided")
     return result
 
+def compute_effsize_none(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='none')
+    return result    
+
+def compute_effsize_cohen(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='cohen')
+    return result    
+
+
+def compute_effsize_hedges(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='hedges')
+    return result    
+
+def compute_effsize_r(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='r')
+    return result    
+
+def compute_effsize_r(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='r')
+    return result    
+
+def compute_effsize_pointbiserialr(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='pointbiserialr')
+    return result    
+
+def compute_effsize_etasquare(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='eta-square')
+    return result    
+
+def compute_effsize_oddsratio(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='odds-ratio')
+    return result    
+
+def compute_effsize_AUC(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='AUC')
+    return result    
+
+def compute_effsize_CLES(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='CLES')
+    return result    
+
 def correlatePearson(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
     Pearson product-moment correlation
