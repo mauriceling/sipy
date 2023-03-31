@@ -129,6 +129,8 @@ class SiPy_Shell(object):
         Commands: 
             anova 1way {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
             anova 1way {dataframe|df|frame|table} wide <variable name>
+            #anova kruskal {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+            #anova kruskal {dataframe|df|frame|table} wide <variable name>
 
         @return: String containing results of command execution
         """
@@ -144,9 +146,248 @@ class SiPy_Shell(object):
                 data_values = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns="all", rtype="list")
                 result = libsipy.base.anova1way(data_values)
                 retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
+        # Not working - to be done later
+        elif operand[0].lower() in ["kruskal"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # anova 1way {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+                result = libsipy.base.anovakruskal(data_values)
+                retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # anova 1way {dataframe|df|frame|table} wide <variable name>
+                data_values = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns="all", rtype="list")
+                result = libsipy.base.anovakruskal(data_values)
+                retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
+        ##### 
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
+        return retR
+    
+    def do_compute_effsize(self, operand):
+        """!
+        Performs Student's t-test(s) on values.
+
+        Commands:
+            compute_effsize none {list|series|tuple|vector} <variable name A> <variable name B>
+            compute_effsize none  {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+        @return: String containing results of command execution
+        """
+        data_type = operand[1].lower()
+        if operand[0].lower() in ["none"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate pearson {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.compute_effsize_none(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate pearson {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.compute_effsize_none(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["cohen"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate spearman {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.compute_effsize_cohen(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate spearman {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.compute_effsize_cohen(data_valuesA, data_valuesB)  
+        elif operand[0].lower() in ["hedges"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate spearman {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.compute_effsize_hedges(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate spearman {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.compute_effsize_hedges(data_valuesA, data_valuesB)              
+        elif operand[0].lower() in ["r"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate spearman {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.compute_effsize_r(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate spearman {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.compute_effsize_r(data_valuesA, data_valuesB)  
+        elif operand[0].lower() in ["pointbiserialr"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate spearman {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.compute_effsize_pointbiserialr(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate spearman {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.compute_effsize_pointbiserialr(data_valuesA, data_valuesB)              
+        elif operand[0].lower() in ["eta-square"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate spearman {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.compute_effsize_etasquare(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate spearman {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.compute_effsize_etasquare(data_valuesA, data_valuesB)              
+        elif operand[0].lower() in ["odds-ratio"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate spearman {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.compute_effsize_oddsratio(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate spearman {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.compute_effsize_oddsratio(data_valuesA, data_valuesB)              
+        elif operand[0].lower() in ["AUC", "auc"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate spearman {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.compute_effsize_AUC(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate spearman {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.compute_effsize_AUC(data_valuesA, data_valuesB)              
+        elif operand[0].lower() in ["CLES", "cles"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate spearman {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.compute_effsize_CLES(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate spearman {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.compute_effsize_CLES(data_valuesA, data_valuesB)                                 
+
+
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+    def do_correlate(self, operand):
+        """!
+        Performs Student's t-test(s) on values.
+
+        Commands:
+            correlate pearson {list|series|tuple|vector} <variable name A> <variable name B>
+            correlate pearson {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            correlate spearman {list|series|tuple|vector} <variable name A> <variable name B>
+            correlate spearman {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            correlate kendall {list|series|tuple|vector} <variable name A> <variable name B>
+            correlate kendall {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            
+            ####### not working ##### correlate bicor {list|series|tuple|vector} <variable name A> <variable name B>
+            
+            correlate bicor {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            correlate percbend {list|series|tuple|vector} <variable name A> <variable name B>
+            correlate percbend {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+           
+            ####### warning ####### correlate skipped {list|series|tuple|vector} <variable name A> <variable name B>
+            ####### warning ####### correlate skipped {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            
+            ##### shepherd not working #####
+
+        @return: String containing results of command execution
+        """
+        data_type = operand[1].lower()
+        if operand[0].lower() in ["pearson", "r"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate pearson {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.correlatePearson(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate pearson {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.correlatePearson(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["spearman"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate spearman {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.correlateSpearman(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate spearman {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.correlateSpearman(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["kendall"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate kendall {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.correlateKendall(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate kendall {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.correlateKendall(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["bicor"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate bicor {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.correlateBicor(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate bicor {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.correlateBicor(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["percbend"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate percbend {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.correlatePercbend(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate percbend {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.correlatePercbend(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["skipped"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate skipped {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.correlateSkipped(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate skipped {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.correlateSkipped(data_valuesA, data_valuesB)
+        #######elif operand[0].lower() in ["shepherd"]:
+            ##if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate skipped {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.correlateShepherd(data_valuesA, data_valuesB)
+            ##elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate skipped {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.correlateShepherd(data_valuesA, data_valuesB)####
+
+### Shepherd is not working ####
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR.to_string())
         return retR
     
     def do_describe(self, operand):
@@ -431,8 +672,12 @@ class SiPy_Shell(object):
             ttest 2se {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
             ttest 2su {list|series|tuple|vector} <variable name A> <variable name B>
             ttest 2su {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            ttest mwu {list|series|tuple|vector} <variable name A> <variable name B>
+            ttest mwu {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
             ttest paired {list|series|tuple|vector} <variable name A> <variable name B>
             ttest paired {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            ttest wilcoxon {list|series|tuple|vector} <variable name A> <variable name B>
+            ttest wilcoxon {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
 
         @return: String containing results of command execution
         """
@@ -470,6 +715,17 @@ class SiPy_Shell(object):
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.tTest2SampleUnequal(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["mwu", "mannwhitney"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # ttest mwu {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.mannWhitneyU(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # ttest mwu {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.mannWhitneyU(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["paired", "dependent"]:
             if data_type in ["list", "series", "tuple", "vector"]:
                 # ttest paired {list|series|tuple|vector} <variable name A> <variable name B>
@@ -481,6 +737,17 @@ class SiPy_Shell(object):
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.tTest2SamplePaired(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["wilcoxon"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # ttest mwu {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.wilcoxon(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # ttest mwu {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.wilcoxon(data_valuesA, data_valuesB)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR.to_string())
@@ -548,6 +815,8 @@ class SiPy_Shell(object):
         @return: String containing results of command execution
         """
         if operator == "anova": return self.do_anova(operand)
+        elif operator == "compute_effsize": return self.do_compute_effsize(operand)
+        elif operator == "correlate": return self.do_correlate(operand)
         elif operator == "describe": return self.do_describe(operand)
         elif operator == "let": return self.do_let(operand)
         elif operator == "mean": return self.do_mean(operand)

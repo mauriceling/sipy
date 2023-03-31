@@ -185,6 +185,267 @@ def regressionLogistic(X, y):
     result = pingouin.logistic_regression(X, y)
     return result
 
+def wilcoxon(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Wilcoxon Signed-Rank Test
+
+    Web reference: https://pingouin-stats.org/build/html/generated/pingouin.wilcoxon.html
+
+    References:
+        - Wilcoxon, F. (1945). Individual comparisons by ranking methods. Biometrics bulletin, 1(6), 80-83.
+    """
+    result = pingouin.wilcoxon(x, y, alternative = "two-sided")
+    return result
+
+def mannWhitneyU(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Mann-Whitney U Test
+
+    Web reference: https://pingouin-stats.org/build/html/generated/pingouin.mwu.html
+
+    References:
+        - Mann, H. B., & Whitney, D. R. (1947). On a test of whether one of two random variables is stochastically larger than the other. The annals of mathematical statistics, 50-60.
+    """
+    result = pingouin.mwu(x, y, alternative = "two-sided")
+    return result
+
+def compute_effsize_none(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='none')
+    return result    
+
+def compute_effsize_cohen(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='cohen')
+    return result    
+
+
+def compute_effsize_hedges(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='hedges')
+    return result    
+
+def compute_effsize_r(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='r')
+    return result    
+
+def compute_effsize_r(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='r')
+    return result    
+
+def compute_effsize_pointbiserialr(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='pointbiserialr')
+    return result    
+
+def compute_effsize_etasquare(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='eta-square')
+    return result    
+
+def compute_effsize_oddsratio(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='odds-ratio')
+    return result    
+
+def compute_effsize_AUC(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='AUC')
+    return result    
+
+def compute_effsize_CLES(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
+    
+    References: 
+        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
+        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
+    """ 
+    result = pingouin.compute_effsize(x, y, paired=False, eftype='CLES')
+    return result    
+
+def correlatePearson(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Pearson product-moment correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
+    
+    References: 
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
+    """ 
+    result = pingouin.corr(x, y, alternative='two-sided', method='pearson')
+    return result    
+
+def correlateSpearman(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Spearman rank-order correlation
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
+    
+    References: 
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
+    """ 
+    result = pingouin.corr(x, y, alternative='two-sided', method='spearman')
+    return result    
+
+def correlateKendall(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Kendall’s correlation (for ordinal data)
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
+    
+    References: 
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
+    """ 
+    result = pingouin.corr(x, y, alternative='two-sided', method='kendall')
+    return result    
+
+def correlateBicor(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Biweight midcorrelation (robust)
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
+    
+    References: 
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
+    """ 
+    result = pingouin.corr(x, y, alternative='two-sided', method='bicor')
+    return result    
+
+def correlatePercbend (x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Percentage bend correlation (robust)
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
+    
+    References: 
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
+    """ 
+    result = pingouin.corr(x, y, alternative='two-sided', method='percbend')
+    return result    
+
+def correlateShepherd (x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Shepherd's pi correlation (robust)
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
+    
+    References: 
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
+    """ 
+    result = pingouin.corr(x, y, alternative='two-sided', method='shepherd')
+    return result    
+
+def correlateSkipped (x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Skipped correlation (robust)
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
+    
+    References: 
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
+    """ 
+    result = pingouin.corr(x, y, alternative='two-sided', method='skipped')
+    return result    
+
+
 def tTest1Sample(values=(1,2,3,4,5), mu=0):
     """!
     T-Test - 1-Sample
@@ -244,6 +505,17 @@ def anova1way(values = (1,2,3,4,5)):
     Note: One-way ANOVA assumes variances of all samples to be equal. If variances cannot be assumed to be equal, Alexander Govern test can be used.
     """
     result = stats.f_oneway(*values)
+    return result
+
+def anovakruskal(values = (1,2,3,4,5)):
+    """!
+    ANOVA - 1-way, where the null hypothesis: all population means are equal
+    
+    Web reference: https://github.com/mauriceling/mauriceling.github.io/wiki/ANOVA---One-way
+    
+    Note: One-way ANOVA assumes variances of all samples to be equal. If variances cannot be assumed to be equal, Alexander Govern test can be used.
+    """
+    result = pingouin.kruskal(data=None, dv=None, between=None, detailed=False)
     return result
 
 def BartlettTest(values = (1,2,3,4,5)):
