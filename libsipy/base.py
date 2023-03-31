@@ -445,6 +445,50 @@ def correlateSkipped (x=(1,2,3,4,5), y=(1,2,3,4,5)):
     result = pingouin.corr(x, y, alternative='two-sided', method='skipped')
     return result    
 
+def correlateDistance (x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Skipped correlation (robust)
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
+    
+    References: 
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
+    """ 
+    result = pingouin.corr(x, y, alternative='greater', n_boot=1000, seed=None)
+    return result    
+
+def correlate2cv (x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Skipped correlation (robust)
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
+    
+    References: 
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
+    """ 
+    result = pingouin.circ_corrcc(x, y, correction_uniform=False)
+    return result    
+
+def correlate1cv (x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Skipped correlation (robust)
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
+    
+    References: 
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
+    """ 
+    result = pingouin.circ_corrcl(x, y)
+    return result    
 
 def tTest1Sample(values=(1,2,3,4,5), mu=0):
     """!
@@ -495,6 +539,23 @@ def tTest2SamplePaired(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
     result = pingouin.ttest(x, y, paired = True, alternative = "two-sided" , correction = "auto" , r = 0.707, confidence = 0.95)
     return result
+
+
+def TOST(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    T-test - 2-Sample, Paired-Samples; where the null hypothesis: Mean of difference between Population A & Population B is 0
+    
+    Web References: https://github.com/mauriceling/mauriceling.github.io/wiki/t-test---paired-%28dependent-samples%29
+    
+    References: 
+        - Delacre, M., Lakens, D., & Leys, C. (2017). Why psychologists should by default use Welch’s t-test instead of Student’s t-test. International Review of Social Psychology, 30(1).
+        - Zimmerman, D. W. (2004). A note on preliminary tests of equality of variances. British Journal of Mathematical and Statistical Psychology, 57(1), 173-181.
+        - Rouder, J.N., Speckman, P.L., Sun, D., Morey, R.D., Iverson, G., 2009. Bayesian t tests for accepting and rejecting the null hypothesis. Psychon. Bull. Rev. 16, 225–237. https://doi.org/10.3758/PBR.16.2.225
+    """
+    result = pingouin.tost(x, y, bound=1, paired = False, correction =False)
+    return result
+
+
 
 def anova1way(values = (1,2,3,4,5)):
     """!

@@ -302,6 +302,11 @@ class SiPy_Shell(object):
             
             ##### shepherd not working #####
 
+            correlate d {list|series|tuple|vector} <variable name A> <variable name B>
+            correlate kendall {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+
+
         @return: String containing results of command execution
         """
         data_type = operand[1].lower()
@@ -382,6 +387,40 @@ class SiPy_Shell(object):
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.correlateShepherd(data_valuesA, data_valuesB)####
+        elif operand[0].lower() in ["distance"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate skipped {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.correlateDistance(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate skipped {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.correlateDistance(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["2cv"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate skipped {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.correlate2cv(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate skipped {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.correlate2cv(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["1cv"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # correlate skipped {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.correlate1cv(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # correlate skipped {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.correlate1cv(data_valuesA, data_valuesB)
+        
 
 ### Shepherd is not working ####
         else: 
@@ -747,6 +786,31 @@ class SiPy_Shell(object):
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.wilcoxon(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["tost"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # ttest mwu {list|series|tuple|vector} <variable name A> <variable name B>
+                data_valuesA = self.data[operand[2]]
+                data_valuesB = self.data[operand[3]]
+                retR = libsipy.base.TOST(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # ttest mwu {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                retR = libsipy.base.TOST(data_valuesA, data_valuesB)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR.to_string())
