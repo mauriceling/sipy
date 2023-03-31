@@ -48,7 +48,8 @@ class SiPy_Shell(object):
         self.data = {}
         self.environment = {"cwd": os.getcwd(),
                             "prompt": ">>>",
-                            "separator": ","}
+                            "separator": ",",
+                            "verbosity": 0}
         self.history = {}
         self.modules = [m for m in dir(libsipy) 
                         if m not in ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']]
@@ -538,7 +539,7 @@ class SiPy_Shell(object):
         print(retR)
         return retR
 
-    def command_processor(self, operator, operand):
+    def command_processor(self, operator, operand, kwargs):
         """
         Method to channel bytecodes operand(s), if any, into the respective bytecode processors.
         
@@ -565,6 +566,16 @@ class SiPy_Shell(object):
         @param statement String: command-line statement
         @return: String containing results of command execution
         """
+        def dictionize(operand):
+            op_list = []
+            op_dict = {}
+            for op in operand:
+                op = op.strip()
+                if "=" not in op: op_list.append(op)
+                else:
+                    op = [x.strip() for x in op.split("=")]
+                    op_dict[op[0]] = op[1]
+            return (op_list, op_dict)
         try:
             self.history[str(self.count)] = statement
             if statement.lower() in ["copyright", "copyright;", "credits", "credits;", "exit", "exit;",
@@ -575,8 +586,8 @@ class SiPy_Shell(object):
                 statement = statement.strip()
                 statement = [x.strip() for x in statement.split()]
                 operator = statement[0].lower()
-                operand = statement[1:]
-                retR = self.command_processor(operator, operand)
+                (operand, kwargs) = dictionize(statement[1:])
+                retR = self.command_processor(operator, operand, kwargs)
             self.result[str(self.count)] = retR
             self.count = self.count + 1
             return retR
