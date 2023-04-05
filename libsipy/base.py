@@ -211,7 +211,7 @@ def mannWhitneyU(x=(1,2,3,4,5), y=(1,2,3,4,5)):
 
 def compute_effsize_none(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
-    Pearson product-moment correlation
+     no effect size
     
     Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
     
@@ -224,7 +224,7 @@ def compute_effsize_none(x=(1,2,3,4,5), y=(1,2,3,4,5)):
 
 def compute_effsize_cohen(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
-    Pearson product-moment correlation
+    Unbiased Cohen d
     
     Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
     
@@ -238,7 +238,7 @@ def compute_effsize_cohen(x=(1,2,3,4,5), y=(1,2,3,4,5)):
 
 def compute_effsize_hedges(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
-    Pearson product-moment correlation
+    Hedges g
     
     Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
     
@@ -251,7 +251,7 @@ def compute_effsize_hedges(x=(1,2,3,4,5), y=(1,2,3,4,5)):
 
 def compute_effsize_r(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
-    Pearson product-moment correlation
+    Pearson correlation coefficient
     
     Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
     
@@ -261,23 +261,11 @@ def compute_effsize_r(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """ 
     result = pingouin.compute_effsize(x, y, paired=False, eftype='r')
     return result    
-
-def compute_effsize_r(x=(1,2,3,4,5), y=(1,2,3,4,5)):
-    """
-    Pearson product-moment correlation
-    
-    Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
-    
-    References: 
-        - Lakens, D., 2013. Calculating and reporting effect sizes to facilitate cumulative science: a practical primer for t-tests and ANOVAs. Front. Psychol. 4, 863. https://doi.org/10.3389/fpsyg.2013.00863
-        - Cumming, Geoff. Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis. Routledge, 2013.
-    """ 
-    result = pingouin.compute_effsize(x, y, paired=False, eftype='r')
-    return result    
+  
 
 def compute_effsize_pointbiserialr(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
-    Pearson product-moment correlation
+    Point-biserial correlation
     
     Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
     
@@ -290,7 +278,7 @@ def compute_effsize_pointbiserialr(x=(1,2,3,4,5), y=(1,2,3,4,5)):
 
 def compute_effsize_etasquare(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
-    Pearson product-moment correlation
+    Eta-square
     
     Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
     
@@ -303,7 +291,7 @@ def compute_effsize_etasquare(x=(1,2,3,4,5), y=(1,2,3,4,5)):
 
 def compute_effsize_oddsratio(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
-    Pearson product-moment correlation
+    Odds ratio
     
     Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
     
@@ -316,7 +304,7 @@ def compute_effsize_oddsratio(x=(1,2,3,4,5), y=(1,2,3,4,5)):
 
 def compute_effsize_AUC(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
-    Pearson product-moment correlation
+    Area under the curve 
     
     Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
     
@@ -329,7 +317,7 @@ def compute_effsize_AUC(x=(1,2,3,4,5), y=(1,2,3,4,5)):
 
 def compute_effsize_CLES(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
-    Pearson product-moment correlation
+    Common Language Effect Size 
     
     Web References: https://pingouin-stats.org/build/html/generated/pingouin.compute_effsize.html
     
@@ -445,6 +433,51 @@ def correlateSkipped (x=(1,2,3,4,5), y=(1,2,3,4,5)):
     result = pingouin.corr(x, y, alternative='two-sided', method='skipped')
     return result    
 
+def correlateDistance (x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Distance correlation between two arrays 
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.distance_corr.html
+    
+    References: 
+        - Székely, G. J., Rizzo, M. L., & Bakirov, N. K. (2007). Measuring and testing dependence by correlation of distances. The annals of statistics, 35(6), 2769-2794.
+        - https://gist.github.com/satra/aa3d19a12b74e9ab7941
+        - https://gist.github.com/wladston/c931b1495184fbb99bec
+        - https://en.wikipedia.org/wiki/Distance_correlation
+
+    """ 
+    result = pingouin.corr(x, y, alternative='greater', n_boot=1000, seed=None)
+    return result    
+
+def correlate2cv (x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Skipped correlation (robust)
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
+    
+    References: 
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
+    """ 
+    result = pingouin.circ_corrcc(x, y, correction_uniform=False)
+    return result    
+
+def correlate1cv (x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    Skipped correlation (robust)
+    
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.corr.html
+    
+    References: 
+        - Wilcox, R.R., 1994. The percentage bend correlation coefficient. Psychometrika 59, 601–616. https://doi.org/10.1007/BF02294395
+        - Schwarzkopf, D.S., De Haas, B., Rees, G., 2012. Better ways to improve standards in brain-behavior correlation analysis. Front. Hum. Neurosci. 6, 200. https://doi.org/10.3389/fnhum.2012.00200
+        - Rousselet, G.A., Pernet, C.R., 2012. Improving standards in brain-behavior correlation analyses. Front. Hum. Neurosci. 6, 119. https://doi.org/10.3389/fnhum.2012.00119
+        - Pernet, C.R., Wilcox, R., Rousselet, G.A., 2012. Robust correlation analyses: false positive and power validation using a new open source matlab toolbox. Front. Psychol. 3, 606. https://doi.org/10.3389/fpsyg.2012.00606
+    """ 
+    result = pingouin.circ_corrcl(x, y)
+    return result    
 
 def tTest1Sample(values=(1,2,3,4,5), mu=0):
     """!
@@ -495,6 +528,21 @@ def tTest2SamplePaired(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     """
     result = pingouin.ttest(x, y, paired = True, alternative = "two-sided" , correction = "auto" , r = 0.707, confidence = 0.95)
     return result
+
+
+def TOST(x=(1,2,3,4,5), y=(1,2,3,4,5)):
+    """
+    two One-Sided Test (TOST) for equivalence
+
+    Web References: https://pingouin-stats.org/build/html/generated/pingouin.tost.html
+    
+    References: 
+       - Schuirmann, D.L. 1981. On hypothesis testing to determine if the mean of a normal distribution is contained in a known interval. Biometrics 37 617.
+    """
+    result = pingouin.tost(x, y, bound=1, paired = False, correction =False)
+    return result
+
+
 
 def anova1way(values = (1,2,3,4,5)):
     """!
