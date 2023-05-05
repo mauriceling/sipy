@@ -34,6 +34,8 @@ def help():
 "python installation.py pyinstaller onefile gui" to generate a one-directory executable GUI.
 "python installation.py pyinstaller onefile cli" to generate a one-directory executable CLI/CUI.
 "python installation.py remove <environment name>" to remove environment.
+
+Important: Turn off Dropbox / OneDrive synchronizations before generating executables or it will give you errors.
         ''')
 
 def build(environment):
