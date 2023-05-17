@@ -915,6 +915,10 @@ class SiPy_Shell(object):
         elif operator == "show": return self.do_show(operand)
         elif operator == "ttest": return self.do_ttest(operand)
         elif operator == "variance": return self.do_variance(operand)
+        elif operator == "try": 
+            print("Operator = %s" % str(operand[0]))
+            print("Operand(s) = %s" % str(operand[1:]))
+            print("Keyword Argument(s) = %s" % str(kwargs))
         else: print("Unknown command / operation: %s" % operator)
 
     def interpret(self, statement):
