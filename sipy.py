@@ -170,15 +170,15 @@ class SiPy_Shell(object):
 
         Commands:
             compute_effsize none {list|series|tuple|vector} <variable name A> <variable name B>
-            compute_effsize none  {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            compute_effsize none {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
             compute_effsize cohen {list|series|tuple|vector} <variable name A> <variable name B>
-            compute_effsize cohen  {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            compute_effsize cohen {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
             compute_effsize hedges {list|series|tuple|vector} <variable name A> <variable name B>
-            compute_effsize hedges  {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            compute_effsize hedges {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
             compute_effsize r {list|series|tuple|vector} <variable name A> <variable name B>
-            compute_effsize r  {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-            ####not working  compute_effsize pointbiserialr {list|series|tuple|vector} <variable name A> <variable name B>
-            compute_effsize pointbiserialr  {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>####
+            compute_effsize r {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            ####not working compute_effsize pointbiserialr {list|series|tuple|vector} <variable name A> <variable name B>
+            compute_effsize pointbiserialr {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>####
             compute_effsize eta-square {list|series|tuple|vector} <variable name A> <variable name B>
             compute_effsize etasquare {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
             compute_effsize odds-ratio {list|series|tuple|vector} <variable name A> <variable name B>
@@ -193,100 +193,100 @@ class SiPy_Shell(object):
         data_type = operand[1].lower()
         if operand[0].lower() in ["none"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate none {list|series|tuple|vector} <variable name A> <variable name B>
+                # compute_effsize none {list|series|tuple|vector} <variable name A> <variable name B>
                 data_valuesA = self.data[operand[2]]
                 data_valuesB = self.data[operand[3]]
                 retR = libsipy.base.compute_effsize_none(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate none {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                # compute_effsize none {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.compute_effsize_none(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["cohen"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate cohen {list|series|tuple|vector} <variable name A> <variable name B>
+                # compute_effsize cohen {list|series|tuple|vector} <variable name A> <variable name B>
                 data_valuesA = self.data[operand[2]]
                 data_valuesB = self.data[operand[3]]
                 retR = libsipy.base.compute_effsize_cohen(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate cohen {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                # compute_effsize cohen {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.compute_effsize_cohen(data_valuesA, data_valuesB)  
         elif operand[0].lower() in ["hedges"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate hedges {list|series|tuple|vector} <variable name A> <variable name B>
+                # compute_effsize hedges {list|series|tuple|vector} <variable name A> <variable name B>
                 data_valuesA = self.data[operand[2]]
                 data_valuesB = self.data[operand[3]]
                 retR = libsipy.base.compute_effsize_hedges(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate hedges {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                # compute_effsize hedges {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.compute_effsize_hedges(data_valuesA, data_valuesB)              
         elif operand[0].lower() in ["r"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate r {list|series|tuple|vector} <variable name A> <variable name B>
+                # compute_effsize r {list|series|tuple|vector} <variable name A> <variable name B>
                 data_valuesA = self.data[operand[2]]
                 data_valuesB = self.data[operand[3]]
                 retR = libsipy.base.compute_effsize_r(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate r {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                # compute_effsize r {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.compute_effsize_r(data_valuesA, data_valuesB)  
         elif operand[0].lower() in ["pointbiserialr"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate pointbiserialr {list|series|tuple|vector} <variable name A> <variable name B>
+                # compute_effsize pointbiserialr {list|series|tuple|vector} <variable name A> <variable name B>
                 data_valuesA = self.data[operand[2]]
                 data_valuesB = self.data[operand[3]]
                 retR = libsipy.base.compute_effsize_pointbiserialr(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate pointbiserialr {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                # compute_effsize pointbiserialr {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.compute_effsize_pointbiserialr(data_valuesA, data_valuesB)              
         elif operand[0].lower() in ["eta-square"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate eta-square {list|series|tuple|vector} <variable name A> <variable name B>
+                # compute_effsize eta-square {list|series|tuple|vector} <variable name A> <variable name B>
                 data_valuesA = self.data[operand[2]]
                 data_valuesB = self.data[operand[3]]
                 retR = libsipy.base.compute_effsize_etasquare(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate eta-square {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                # compute_effsize eta-square {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.compute_effsize_etasquare(data_valuesA, data_valuesB)              
         elif operand[0].lower() in ["odds-ratio"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate odds-ratio {list|series|tuple|vector} <variable name A> <variable name B>
+                # compute_effsize odds-ratio {list|series|tuple|vector} <variable name A> <variable name B>
                 data_valuesA = self.data[operand[2]]
                 data_valuesB = self.data[operand[3]]
                 retR = libsipy.base.compute_effsize_oddsratio(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate odds-ratio {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                # compute_effsize odds-ratio {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.compute_effsize_oddsratio(data_valuesA, data_valuesB)              
         elif operand[0].lower() in ["AUC", "auc"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate AUC {list|series|tuple|vector} <variable name A> <variable name B>
+                # compute_effsize AUC {list|series|tuple|vector} <variable name A> <variable name B>
                 data_valuesA = self.data[operand[2]]
                 data_valuesB = self.data[operand[3]]
                 retR = libsipy.base.compute_effsize_AUC(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate AUC {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                # compute_effsize AUC {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.compute_effsize_AUC(data_valuesA, data_valuesB)              
         elif operand[0].lower() in ["CLES", "cles"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate CLES {list|series|tuple|vector} <variable name A> <variable name B>
+                # compute_effsize CLES {list|series|tuple|vector} <variable name A> <variable name B>
                 data_valuesA = self.data[operand[2]]
                 data_valuesB = self.data[operand[3]]
                 retR = libsipy.base.compute_effsize_CLES(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate CLES {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                # compute_effsize CLES {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.compute_effsize_CLES(data_valuesA, data_valuesB)                                 
