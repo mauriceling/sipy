@@ -166,7 +166,7 @@ class SiPy_Shell(object):
     
     def do_compute_effsize(self, operand):
         """!
-        Performs Student's t-test(s) on values.
+        Calculates effect size between 2 sets of observations.
 
         Commands:
             compute_effsize none {list|series|tuple|vector} <variable name A> <variable name B>
@@ -177,7 +177,7 @@ class SiPy_Shell(object):
             compute_effsize hedges  {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
             compute_effsize r {list|series|tuple|vector} <variable name A> <variable name B>
             compute_effsize r  {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-           ####not working  compute_effsize pointbiserialr {list|series|tuple|vector} <variable name A> <variable name B>
+            ####not working  compute_effsize pointbiserialr {list|series|tuple|vector} <variable name A> <variable name B>
             compute_effsize pointbiserialr  {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>####
             compute_effsize eta-square {list|series|tuple|vector} <variable name A> <variable name B>
             compute_effsize etasquare {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
@@ -290,15 +290,14 @@ class SiPy_Shell(object):
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.compute_effsize_CLES(data_valuesA, data_valuesB)                                 
-
-
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
         return retR
+
     def do_correlate(self, operand):
         """!
-        Performs Student's t-test(s) on values.
+        Performs correlation on values.
 
         Commands:
             correlate pearson {list|series|tuple|vector} <variable name A> <variable name B>
@@ -328,10 +327,6 @@ class SiPy_Shell(object):
             correlate cv1 {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
             correlate cv2 {list|series|tuple|vector} <variable name A> <variable name B>
             correlate cv2 {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>####
-
-
-
-
 
         @return: String containing results of command execution
         """
@@ -446,8 +441,6 @@ class SiPy_Shell(object):
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.correlate1cv(data_valuesA, data_valuesB)
-        
-
 ### Shepherd is not working ####
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
@@ -823,20 +816,6 @@ class SiPy_Shell(object):
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.TOST(data_valuesA, data_valuesB)
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR.to_string())
