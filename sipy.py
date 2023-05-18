@@ -202,7 +202,7 @@ class SiPy_Shell(object):
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.compute_effsize_none(data_valuesA, data_valuesB)
-        elif operand[0].lower() in ["cohen"]:
+        elif operand[0].lower() in ["cohen", "d"]:
             if data_type in ["list", "series", "tuple", "vector"]:
                 # compute_effsize cohen {list|series|tuple|vector} <variable name A> <variable name B>
                 data_valuesA = self.data[operand[2]]
@@ -213,7 +213,7 @@ class SiPy_Shell(object):
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.compute_effsize_cohen(data_valuesA, data_valuesB)  
-        elif operand[0].lower() in ["hedges"]:
+        elif operand[0].lower() in ["hedges", "g"]:
             if data_type in ["list", "series", "tuple", "vector"]:
                 # compute_effsize hedges {list|series|tuple|vector} <variable name A> <variable name B>
                 data_valuesA = self.data[operand[2]]
@@ -224,7 +224,7 @@ class SiPy_Shell(object):
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.compute_effsize_hedges(data_valuesA, data_valuesB)              
-        elif operand[0].lower() in ["r"]:
+        elif operand[0].lower() in ["pearson", "r"]:
             if data_type in ["list", "series", "tuple", "vector"]:
                 # compute_effsize r {list|series|tuple|vector} <variable name A> <variable name B>
                 data_valuesA = self.data[operand[2]]
@@ -235,17 +235,17 @@ class SiPy_Shell(object):
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.compute_effsize_r(data_valuesA, data_valuesB)  
-        elif operand[0].lower() in ["pointbiserialr"]:
-            if data_type in ["list", "series", "tuple", "vector"]:
-                # compute_effsize pointbiserialr {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
-                retR = libsipy.base.compute_effsize_pointbiserialr(data_valuesA, data_valuesB)
-            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # compute_effsize pointbiserialr {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
-                retR = libsipy.base.compute_effsize_pointbiserialr(data_valuesA, data_valuesB)              
+        # elif operand[0].lower() in ["pointbiserialr"]:
+        #     if data_type in ["list", "series", "tuple", "vector"]:
+        #         # compute_effsize pointbiserialr {list|series|tuple|vector} <variable name A> <variable name B>
+        #         data_valuesA = self.data[operand[2]]
+        #         data_valuesB = self.data[operand[3]]
+        #         retR = libsipy.base.compute_effsize_pointbiserialr(data_valuesA, data_valuesB)
+        #     elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+        #         # compute_effsize pointbiserialr {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+        #         data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+        #         data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+        #         retR = libsipy.base.compute_effsize_pointbiserialr(data_valuesA, data_valuesB)              
         elif operand[0].lower() in ["eta-square"]:
             if data_type in ["list", "series", "tuple", "vector"]:
                 # compute_effsize eta-square {list|series|tuple|vector} <variable name A> <variable name B>
@@ -257,7 +257,7 @@ class SiPy_Shell(object):
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.compute_effsize_etasquare(data_valuesA, data_valuesB)              
-        elif operand[0].lower() in ["odds-ratio"]:
+        elif operand[0].lower() in ["odds-ratio", "or"]:
             if data_type in ["list", "series", "tuple", "vector"]:
                 # compute_effsize odds-ratio {list|series|tuple|vector} <variable name A> <variable name B>
                 data_valuesA = self.data[operand[2]]
@@ -397,19 +397,17 @@ class SiPy_Shell(object):
                 data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 retR = libsipy.base.correlateSkipped(data_valuesA, data_valuesB)
-        """
-        elif operand[0].lower() in ["shepherd"]:
-            if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate skipped {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
-                retR = libsipy.base.correlateShepherd(data_valuesA, data_valuesB)
-            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate skipped {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
-                retR = libsipy.base.correlateShepherd(data_valuesA, data_valuesB)
-        """
+        # elif operand[0].lower() in ["shepherd"]:
+        #     if data_type in ["list", "series", "tuple", "vector"]:
+        #         # correlate skipped {list|series|tuple|vector} <variable name A> <variable name B>
+        #         data_valuesA = self.data[operand[2]]
+        #         data_valuesB = self.data[operand[3]]
+        #         retR = libsipy.base.correlateShepherd(data_valuesA, data_valuesB)
+        #     elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+        #         # correlate skipped {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+        #         data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+        #         data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+        #         retR = libsipy.base.correlateShepherd(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["distance"]:
             if data_type in ["list", "series", "tuple", "vector"]:
                 # correlate distance {list|series|tuple|vector} <variable name A> <variable name B>
