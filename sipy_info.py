@@ -19,9 +19,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
-release_number = "0.3.0"
-release_code_name = "Durian"
-release_date = "28 January 2023"
+release_number = "0.4.0"
+release_code_name = "Bubble Tea"
+release_date = "01 July 2023"
 
 header = """
 SiPy: Statistics in Python
@@ -41,7 +41,8 @@ credits = """
 SiPy Project Team
 Project architect: Maurice HT Ling (mauriceling@acm.org)
 Developers:
-1. Nicholas TF Tan (https://github.com/NicholasTTF)
+1. Mathialagan Mugundhan (https://github.com/Mugu17777777)
+2. Nicholas TF Tan (https://github.com/NicholasTTF)
 """
 
 citations = """"""
