@@ -146,19 +146,22 @@ class SiPy_Shell(object):
                 data_values = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns="all", rtype="list")
                 result = libsipy.base.anova1way(data_values)
                 retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
-        # Not working - to be done later
-        elif operand[0].lower() in ["kruskal"]:
-            if data_type in ["list", "series", "tuple", "vector"]:
-                # anova 1way {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
-                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
-                result = libsipy.base.anovakruskal(data_values)
-                retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
-            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # anova 1way {dataframe|df|frame|table} wide <variable name>
-                data_values = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns="all", rtype="list")
-                result = libsipy.base.anovakruskal(data_values)
-                retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
-        ##### 
+        # elif operand[0].lower() in ["kruskal"]:
+        #     if data_type in ["list", "series", "tuple", "vector"]:
+        #         # anova 1way {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+        #         data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+        #         result = libsipy.base.anovakruskal(data_values)
+        #         retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
+        #     elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+        #         # anova 1way {dataframe|df|frame|table} wide <variable name>
+        #         data_values = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns="all", rtype="list")
+        #         result = libsipy.base.anovakruskal(data_values)
+        #         retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
+        if operand[0].lower() in ["rm", "repeated-measure"]:
+            if data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                # anova rm {dataframe|df|frame|table} wide <variable name>
+                data_values = self.data[operand[3]]
+                retR = libsipy.base.anovaRM_wide(data_values)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)

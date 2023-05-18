@@ -542,8 +542,6 @@ def TOST(x=(1,2,3,4,5), y=(1,2,3,4,5)):
     result = pingouin.tost(x, y, bound=1, paired = False, correction =False)
     return result
 
-
-
 def anova1way(values = (1,2,3,4,5)):
     """!
     ANOVA - 1-way, where the null hypothesis: all population means are equal
@@ -555,6 +553,10 @@ def anova1way(values = (1,2,3,4,5)):
     result = stats.f_oneway(*values)
     return result
 
+def anovaRM_wide(data):
+    result = pingouin.rm_anova(data)
+    return result
+    
 def anovakruskal(values = (1,2,3,4,5)):
     """!
     ANOVA - 1-way, where the null hypothesis: all population means are equal
