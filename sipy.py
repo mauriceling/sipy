@@ -1042,6 +1042,7 @@ class SiPy_Shell(object):
                                 font=("Courier 10"), 
                                 default_text=sipy_info.header + "\n", 
                                 autoscroll=True, 
+                                disabled=True,
                                 reroute_stdout=True)],
                   [sg.Text("Enter Command:"), sg.Multiline(size=(70, 3), 
                                                         font=("Courier 10"), 
