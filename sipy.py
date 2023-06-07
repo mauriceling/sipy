@@ -122,7 +122,7 @@ class SiPy_Shell(object):
         """
         print("%s: %s" % (str(code), str(msg)))
 
-    def do_anova(self, operand):
+    def do_anova(self, operand, kwargs):
         """!
         Performs comparison of means for 2 or more samples.
 
@@ -167,7 +167,7 @@ class SiPy_Shell(object):
         print(retR)
         return retR
     
-    def do_compute_effsize(self, operand):
+    def do_compute_effsize(self, operand, kwargs):
         """!
         Calculates effect size between 2 sets of observations.
 
@@ -298,7 +298,7 @@ class SiPy_Shell(object):
         print(retR)
         return retR
 
-    def do_correlate(self, operand):
+    def do_correlate(self, operand, kwargs):
         """!
         Performs correlation on values.
 
@@ -449,7 +449,7 @@ class SiPy_Shell(object):
         print(retR.to_string())
         return retR
     
-    def do_describe(self, operand):
+    def do_describe(self, operand, kwargs):
         """!
         Calculating various descriptions (standard deviation, variance, standarad error) of the values.
 
@@ -489,7 +489,7 @@ class SiPy_Shell(object):
         print(retR)
         return retR
 
-    def do_let(self, operand):
+    def do_let(self, operand, kwargs):
         """!
         Assign a value or list of values to a variable.
 
@@ -533,7 +533,7 @@ class SiPy_Shell(object):
         print(retR)
         return retR
 
-    def do_mean(self, operand):
+    def do_mean(self, operand, kwargs):
         """!
         Calculating various means (arithmetic mean, geometric mean, harmonic mean) of the values.
 
@@ -563,7 +563,7 @@ class SiPy_Shell(object):
         print(retR)
         return retR
 
-    def do_normality(self, operand):
+    def do_normality(self, operand, kwargs):
         """!
         Perform normality test(s) on the values.
 
@@ -611,7 +611,7 @@ class SiPy_Shell(object):
         print(retR)
         return retR
 
-    def do_read(self, operand):
+    def do_read(self, operand, kwargs):
         """!
         Read external data files into SiPy.
 
@@ -631,7 +631,7 @@ class SiPy_Shell(object):
         print(retR)
         return retR
 
-    def do_regression(self, operand):
+    def do_regression(self, operand, kwargs):
         """!
         Performs regression(s).
 
@@ -664,7 +664,7 @@ class SiPy_Shell(object):
         print(retR.to_string())
         return retR
 
-    def do_show(self, operand):
+    def do_show(self, operand, kwargs):
         """!
         Show various status of the SiPy.
 
@@ -720,13 +720,15 @@ class SiPy_Shell(object):
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         return retR
 
-    def do_ttest(self, operand):
+    def do_ttest(self, operand, kwargs):
         """!
         Performs Student's t-test(s) on values.
 
         Commands:
             ttest 1s {list|series|tuple|vector} <variable name> <population mean>
+            ttest 1s {list|series|tuple|vector} data=<variable name> mu=<population mean>
             ttest 1s {dataframe|df|frame|table} wide <variable name> <series name> <population mean>
+            ttest 1s {dataframe|df|frame|table} wide data=<variable name>.<series name> mu=<population mean>
             ttest 2se {list|series|tuple|vector} <variable name A> <variable name B>
             ttest 2se {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
             ttest 2su {list|series|tuple|vector} <variable name A> <variable name B>
@@ -743,14 +745,25 @@ class SiPy_Shell(object):
         data_type = operand[1].lower()
         if operand[0].lower() in ["1s", "1sample"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # ttest 1s {list|series|tuple|vector} <variable name> <population mean>
-                data_values = self.data[operand[2]]
-                mu = float(operand[3])
+                if len(kwargs) == 0:
+                    # ttest 1s {list|series|tuple|vector} <variable name> <population mean>
+                    data_values = self.data[operand[2]]
+                    mu = float(operand[3])
+                else: 
+                    # ttest 1s {list|series|tuple|vector} data=<variable name> mu=<population mean>
+                    data_values = self.data[kwargs["data"]]
+                    mu = kwargs["mu"]
                 retR = libsipy.base.tTest1Sample(data_values, mu)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # ttest 1s {dataframe|df|frame|table} wide <variable name> <series name> <population mean>
-                data_values = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                mu = float(operand[5])
+                if len(kwargs) == 0:
+                    # ttest 1s {dataframe|df|frame|table} wide <variable name> <series name> <population mean>
+                    data_values = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                    mu = float(operand[5])
+                else:
+                    # ttest 1s {dataframe|df|frame|table} wide data=<variable name>.<series name> mu=<population mean>
+                    d = [x.strip() for x in kwargs["data"].split(".")]
+                    data_values = libsipy.data_wrangler.df_extract(df=self.data[d[0]], columns=d[1], rtype="list")
+                    mu = kwargs["mu"]
                 retR = libsipy.base.tTest1Sample(data_values, mu)
         elif operand[0].lower() in ["2se", "2sample_equal"]:
             if data_type in ["list", "series", "tuple", "vector"]:
@@ -823,7 +836,7 @@ class SiPy_Shell(object):
         print(retR.to_string())
         return retR
 
-    def do_variance(self, operand):
+    def do_variance(self, operand, kwargs):
         """!
         Performs test for equality of variances of samples.
 
@@ -878,24 +891,25 @@ class SiPy_Shell(object):
 
     def command_processor(self, operator, operand, kwargs):
         """
-        Method to channel bytecodes operand(s), if any, into the respective bytecode processors.
+        Method to channel bytecodes operand(s) and keyward arguments, if any, into the respective bytecode processors.
         
         @param operator String: bytecode operator
         @param operand list: bytecode operand(s), if any
+        @param kwargs Dictionary: bytecode operand(s) as keyword arguments, if any
         @return: String containing results of command execution
         """
-        if operator == "anova": return self.do_anova(operand)
-        elif operator == "compute_effsize": return self.do_compute_effsize(operand)
-        elif operator == "correlate": return self.do_correlate(operand)
-        elif operator == "describe": return self.do_describe(operand)
-        elif operator == "let": return self.do_let(operand)
-        elif operator == "mean": return self.do_mean(operand)
-        elif operator == "normality": return self.do_normality(operand)
-        elif operator == "read": return self.do_read(operand)
-        elif operator == "regress": return self.do_regression(operand)
-        elif operator == "show": return self.do_show(operand)
-        elif operator == "ttest": return self.do_ttest(operand)
-        elif operator == "variance": return self.do_variance(operand)
+        if operator == "anova": return self.do_anova(operand, kwargs)
+        elif operator == "compute_effsize": return self.do_compute_effsize(operand, kwargs)
+        elif operator == "correlate": return self.do_correlate(operand, kwargs)
+        elif operator == "describe": return self.do_describe(operand, kwargs)
+        elif operator == "let": return self.do_let(operand, kwargs)
+        elif operator == "mean": return self.do_mean(operand, kwargs)
+        elif operator == "normality": return self.do_normality(operand, kwargs)
+        elif operator == "read": return self.do_read(operand, kwargs)
+        elif operator == "regress": return self.do_regression(operand, kwargs)
+        elif operator == "show": return self.do_show(operand, kwargs)
+        elif operator == "ttest": return self.do_ttest(operand, kwargs)
+        elif operator == "variance": return self.do_variance(operand, kwargs)
         elif operator == "try": 
             print("Operator = %s" % str(operand[0]))
             print("Operand(s) = %s" % str(operand[1:]))
