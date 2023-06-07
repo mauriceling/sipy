@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
 release_number = "0.4.0"
 release_code_name = "Bubble Tea"
-release_date = "01 July 2023"
+release_date = "10 June 2023"
 
 header = """
 SiPy: Statistics in Python
