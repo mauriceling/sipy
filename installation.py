@@ -34,45 +34,58 @@ def help():
 "python installation.py pyinstaller onefile gui" to generate a one-directory executable GUI.
 "python installation.py pyinstaller onefile cli" to generate a one-directory executable CLI/CUI.
 "python installation.py remove <environment name>" to remove environment.
+"python installation.py update" to update environment.
 
 Important: Turn off Dropbox / OneDrive synchronizations before generating executables or it will give you errors.
         ''')
 
+data = {"conda_env": "conda_sipy_environment.txt",
+        "pip_env": "pip_sipy_environment.txt",
+        "conda_packageList": "openpyxl pandas scipy pingouin pyinstaller scikit-learn statsmodels",
+        "pip_packageList": "fire",
+        "CLI_scriptfile": "sipy_CLI.py",
+        "GUI_scriptfile": "sipy.py",
+        "folder_spec": "sipy_windows.spec"}
+
 def build(environment):
-    os.system("conda create --name %s --file conda_sipy_environment.txt" % environment)
+    os.system("conda create --name %s --file %s" % (environment, data["conda_env"]))
     try:
         os.system("activate %s" % environment)
     except:
         os.system("source activate %s" % environment)
-    pip_packages = open("pip_sipy_environment.txt").readlines()
+    pip_packages = open(data["pip_env"]).readlines()
     pip_packages = [x[:-1] for x in pip_packages]
     for package in pip_packages:
         trusted_hosts = "--trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org"
         os.system("pip install %s %s" % (trusted_hosts, package))
 
 def create_env(environment):
-    packageList = "openpyxl pandas scipy pingouin pyinstaller scikit-learn statsmodels"
-    os.system("conda create --name %s -c conda-forge %s" % (environment, packageList))
+    os.system("conda create --name %s -c conda-forge %s" % (environment, data["conda_packageList"]))
     try:
         os.system("activate %s" % environment)
     except:
         os.system("source activate %s" % environment)
-    os.system("pip install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org fire")
+    os.system("pip install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org %s" % data["pip_packageList"])
 
 def freeze():
-    os.system("conda list --explicit > conda_sipy_environment.txt")
-    os.system("pip list --format=freeze > pip_sipy_environment.txt")
+    os.system("conda list --explicit > %s" % data["conda_env"])
+    os.system("pip list --format=freeze > %s" % data["pip_env"])
+
+def update():
+    os.system("conda update -n base -c defaults conda")
+    os.system("python -m pip install --upgrade pip")
+    os.system("conda update -n sipy --update-all")
 
 def pyinstaller(option="onefile", exe_type="gui"):
-    scriptfile = os.sep.join([os.getcwd(), "sipy.py"])
+    
     iconfile = os.sep.join([os.getcwd(), "images", "sipy_icon.ico"])
     if option.lower() == "windows":
-        cmdline = '''pyinstaller sipy_windows.spec'''
+        cmdline = '''pyinstaller %s''' % data["folder_spec"]
     elif exe_type == "gui":
-        scriptfile = os.sep.join([os.getcwd(), "sipy.py"])
+        scriptfile = os.sep.join([os.getcwd(), data["GUI_scriptfile"]])
         cmdline = '''pyinstaller --noconfirm --%s --windowed --icon "%s" "%s"''' % (option, iconfile, scriptfile)
     elif exe_type == "cli":
-        scriptfile = os.sep.join([os.getcwd(), "sipy_CLI.py"])
+        scriptfile = os.sep.join([os.getcwd(), data["CLI_scriptfile"]])
         cmdline = '''pyinstaller --noconfirm --%s --console --icon "%s" "%s"''' % (option, iconfile, scriptfile)
     print(cmdline)
     os.system(cmdline)
@@ -91,3 +104,4 @@ if __name__ == "__main__":
             pyinstaller(sys.argv[2].lower(), sys.argv[3].lower())
         except IndexError: 
             pyinstaller(sys.argv[2].lower())
+    elif command.lower() == "update": update()
