@@ -750,13 +750,15 @@ class SiPy_Shell(object):
             ttest paired {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
             ttest paired {dataframe|df|frame|table} wide data=<variable name>.<series name A>;<variable name>.<series name B>
 
+            ttest tost {list|series|tuple|vector} <variable name A> <variable name B>
+            ttest tost {list|series|tuple|vector} data=<variable name A>;<variable name B>
+            ttest tost {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            ttest tost {dataframe|df|frame|table} wide data=<variable name>.<series name A>;<variable name>.<series name B>
+            
             ttest wilcoxon {list|series|tuple|vector} <variable name A> <variable name B>
             ttest wilcoxon {list|series|tuple|vector} data=<variable name A>;<variable name B>
             ttest wilcoxon {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
             ttest wilcoxon {dataframe|df|frame|table} wide data=<variable name>.<series name A>;<variable name>.<series name B>
-
-            ttest tost {list|series|tuple|vector} <variable name A> <variable name B>
-            ttest tost {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
 
         @return: String containing results of command execution
         """
@@ -883,6 +885,31 @@ class SiPy_Shell(object):
                     data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
                     data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
                 retR = libsipy.base.tTest2SamplePaired(data_valuesA, data_valuesB)
+        elif operand[0].lower() in ["tost"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                if len(kwargs) == 0:
+                    # ttest tost {list|series|tuple|vector} <variable name A> <variable name B>
+                    data_valuesA = self.data[operand[2]]
+                    data_valuesB = self.data[operand[3]]
+                else:
+                    # ttest tost {list|series|tuple|vector} data=<variable name A>;<variable name B>
+                    datavar = [x.strip() for x in kwargs["data"].split(";")]
+                    data_valuesA = self.data[datavar[0]]
+                    data_valuesB = self.data[datavar[1]]
+                retR = libsipy.base.TOST(data_valuesA, data_valuesB)
+            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+                if len(kwargs) == 0:
+                    # ttest tost {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                else:
+                    # ttest tost {dataframe|df|frame|table} wide data=<variable name>.<series name A>;<variable name>.<series name B>
+                    datavar = [x.strip() for x in kwargs["data"].split(";")]
+                    dA = [x.strip() for x in datavar[0].split(".")]
+                    dB = [x.strip() for x in datavar[1].split(".")]
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
+                retR = libsipy.base.TOST(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["wilcoxon"]:
             if data_type in ["list", "series", "tuple", "vector"]:
                 if len(kwargs) == 0:
@@ -908,18 +935,6 @@ class SiPy_Shell(object):
                     data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
                     data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
                 retR = libsipy.base.wilcoxon(data_valuesA, data_valuesB)
-        elif operand[0].lower() in ["tost"]:
-            if data_type in ["list", "series", "tuple", "vector"]:
-
-                # ttest tost {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
-                retR = libsipy.base.TOST(data_valuesA, data_valuesB)
-            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # ttest tost {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
-                retR = libsipy.base.TOST(data_valuesA, data_valuesB)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR.to_string())
