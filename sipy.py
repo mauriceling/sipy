@@ -754,7 +754,7 @@ class SiPy_Shell(object):
             ttest tost {list|series|tuple|vector} data=<variable name A>;<variable name B>
             ttest tost {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
             ttest tost {dataframe|df|frame|table} wide data=<variable name>.<series name A>;<variable name>.<series name B>
-            
+
             ttest wilcoxon {list|series|tuple|vector} <variable name A> <variable name B>
             ttest wilcoxon {list|series|tuple|vector} data=<variable name A>;<variable name B>
             ttest wilcoxon {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
@@ -946,7 +946,10 @@ class SiPy_Shell(object):
 
         Commands:
             variance bartlett {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+            variance bartlett {list|series|tuple|vector} data=<variable name 1>;<variable name 2>; ... ;<variable name N>
             variance bartlett {dataframe|df|frame|table} wide <variable name>
+            variance bartlett {dataframe|df|frame|table} wide data=<variable name>
+            
             variance fligner {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
             variance fligner {dataframe|df|frame|table} wide <variable name>
             variance levene {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
@@ -957,13 +960,22 @@ class SiPy_Shell(object):
         data_type = operand[1].lower()
         if operand[0].lower() in ["bartlett"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # variance bartlett {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
-                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+                if len(kwargs) == 0:
+                    # variance bartlett {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+                    data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+                else:
+                    # variance bartlett {list|series|tuple|vector} data=<variable name 1>;<variable name 2>; ... ;<variable name N>
+                    varNs = [x.strip() for x in kwargs["data"].split(";")]
+                    data_values = [self.data[var] for var in varNs]
                 result = libsipy.base.BartlettTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # variance bartlett {dataframe|df|frame|table} wide <variable name>
-                data_values = libsipy.data_wrangler.df_extract(self.data[operand[3]], columns="all", rtype="list")
+                if len(kwargs) == 0:
+                    # variance bartlett {dataframe|df|frame|table} wide <variable name>
+                    data_values = libsipy.data_wrangler.df_extract(self.data[operand[3]], columns="all", rtype="list")
+                else:
+                    # variance bartlett {dataframe|df|frame|table} wide data=<variable name>
+                    data_values = libsipy.data_wrangler.df_extract(self.data[kwargs["data"]], columns="all", rtype="list")
                 result = libsipy.base.BartlettTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         elif operand[0].lower() in ["fligner"]:
