@@ -951,7 +951,10 @@ class SiPy_Shell(object):
             variance bartlett {dataframe|df|frame|table} wide data=<variable name>
             
             variance fligner {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+            variance fligner {list|series|tuple|vector} data=<variable name 1>;<variable name 2>; ... ;<variable name N>
             variance fligner {dataframe|df|frame|table} wide <variable name>
+            variance fligner {dataframe|df|frame|table} wide data=<variable name>
+
             variance levene {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
             variance levene {dataframe|df|frame|table} wide <variable name>
 
@@ -980,13 +983,22 @@ class SiPy_Shell(object):
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         elif operand[0].lower() in ["fligner"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # variance fligner {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
-                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+                if len(kwargs) == 0:
+                    # variance fligner {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+                    data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+                else:
+                    # variance fligner {list|series|tuple|vector} data=<variable name 1>;<variable name 2>; ... ;<variable name N>
+                    varNs = [x.strip() for x in kwargs["data"].split(";")]
+                    data_values = [self.data[var] for var in varNs]
                 result = libsipy.base.FlignerTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # variance fligner {dataframe|df|frame|table} wide <variable name>
-                data_values = libsipy.data_wrangler.df_extract(self.data[operand[3]], columns="all", rtype="list")
+                if len(kwargs) == 0:
+                    # variance fligner {dataframe|df|frame|table} wide <variable name>
+                    data_values = libsipy.data_wrangler.df_extract(self.data[operand[3]], columns="all", rtype="list")
+                else:
+                    # variance fligner {dataframe|df|frame|table} wide data=<variable name>
+                    data_values = libsipy.data_wrangler.df_extract(self.data[kwargs["data"]], columns="all", rtype="list")
                 result = libsipy.base.FlignerTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         elif operand[0].lower() in ["levene"]:
