@@ -637,27 +637,43 @@ class SiPy_Shell(object):
 
         Commands:
             regress linear <dependent variable name> <independent variable name> [False for intercept=0]
+            regress linear y=<dependent variable name> x=<independent variable name> intercept=<intercept flag>
             regress logistic <dependent variable name> <independent variable name>
+            regress logistic y=<dependent variable name> x=<independent variable name>
 
         @return: String containing results of command execution
         """
         if operand[0].lower() in ["linear", "lin"]:
-            # regress linear <dependent variable name> <independent variable name> [False for intercept=0]
-            try: 
-                if operand[3] in [True, "True", "TRUE", "true", "T", "t", "Yes", "YES", "Y", "y"]:
+            if len(kwargs) == 0:
+                # regress linear <dependent variable name> <independent variable name> [False for intercept=0]
+                try: 
+                    if operand[3] in [True, "True", "TRUE", "true", "T", "t", "Yes", "YES", "Y", "y"]:
+                        add_intercept = True
+                    elif operand[3] in [False, "False", "FALSE", "false", "F", "f", "No", "NO", "N", "n"]:
+                        add_intercept = False
+                    else:
+                        add_intercept = True
+                except IndexError: add_intercept = True
+                y = self.data[operand[1]]
+                X = self.data[operand[2]]
+            else:
+                # regress linear y=<dependent variable name> x=<independent variable name> intercept=<intercept flag>
+                y = self.data[kwargs["y"]]
+                X = self.data[kwargs["x"]]
+                if ("intercept" in kwargs):
                     add_intercept = True
-                elif operand[3] in [False, "False", "FALSE", "false", "F", "f", "No", "NO", "N", "n"]:
-                    add_intercept = False
                 else:
-                    add_intercept = True
-            except IndexError: add_intercept = True
-            y = self.data[operand[1]]
-            X = self.data[operand[2]]
+                    add_intercept = False
             retR = libsipy.base.regressionLinear(X, y, add_intercept)
         elif operand[0].lower() in ["logistic", "log"]:
-            # regress logistic <dependent variable name> <independent variable name>
-            y = self.data[operand[1]]
-            X = self.data[operand[2]]
+            if len(kwargs) == 0:
+                # regress logistic <dependent variable name> <independent variable name>
+                y = self.data[operand[1]]
+                X = self.data[operand[2]]
+            else:
+                # regress logistic y=<dependent variable name> x=<independent variable name>
+                y = self.data[kwargs["y"]]
+                X = self.data[kwargs["x"]]
             retR = libsipy.base.regressionLogistic(X, y)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
