@@ -22,7 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 import os
 import sys
 
-import pandas
+import pandas as pd
 
 def flatten(nested_list):
     """!
@@ -86,3 +86,20 @@ def df_add(df, data, column_name):
     column_name = column_name.strip()
     df[column_name] = data
     return df
+
+def df_melt(df, id_vars, var_name, value_name):
+    """!
+    Function to convert from wide dataframe to long dataframe.
+
+    @param df: wide dataframe to be converted
+    @type df: Pandas.dataframe object
+    @param id_vars: Specifies the columns that should remain unchanged.
+    @type id_vars: List
+    @param var_name: Specifies the name for the new column that will contain the variable names.
+    @type var_name: String
+    @param value_name: Specifies the name for the new column that will contain the values.
+    @type value_name: String
+    @rtype: Pandas.dataframe with data in long dataframe format.
+    """
+    melted_df = pd.melt(df, id_vars=id_vars, var_name=var_name, value_name=value_name)
+    return melted_df

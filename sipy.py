@@ -498,6 +498,7 @@ class SiPy_Shell(object):
             let <variable_name> be {list|series|tuple|vector} <comma-separated values>
             let <variable_name> be {dataframe|df|frame|table} <data descriptor>
             let <new_variable_name> from {dataframe|df|frame|table} <existing_variable_name> <series name>
+            let <new_variable_name> melt <existing_variable_name> factor_name=<name of new factor> value_name=<name of value>
 
         @return: String containing results of command execution
         """
@@ -530,6 +531,16 @@ class SiPy_Shell(object):
                 data_values = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                 self.data[variable_name] = data_values
                 retR = "%s from %s.%s; %s = %s" % (variable_name, operand[3], operand[4], variable_name, str(data_values))
+        elif operand[1].lower() == "melt":
+            # let <new_variable_name> melt <existing_variable_name> factor_name=<name of new factor> value_name=<name of value>
+            if "retained_factors" in kwargs:
+                id_vars = [str(f.strip()) for f in kwargs["retained_factors"].split(self.environment["separator"])]
+                id_vars = ["ID"]
+            else:
+                id_vars = []
+            data_values = libsipy.data_wrangler.df_melt(df=self.data[operand[2]], id_vars=id_vars, var_name=kwargs["factor_name"], value_name=kwargs["value_name"])
+            self.data[variable_name] = data_values
+            retR = "%s melted into %s" % (operand[2], variable_name)
         print(retR)
         return retR
 
