@@ -50,18 +50,18 @@ citations = """"""
 
 """To cite SiPy in publications, use
 
-    Nicholas TF Tan, Mugundhan Mathialagan, Jensen ZR Tan, and Maurice HT Ling. 2024. SiPy - Statistics in Python. Acta Scientific Computer Sciences 4(1): 59–63. 
+    Nicholas TF Tan, Mugundhan Mathialagan, Jensen ZR Tan, and Maurice HT Ling. Year. SiPy - Statistics in Python. Journal Volume(Issue): StartPage–EndPage. 
 
 A BibTeX entry for LaTeX users is
 
     @article{SiPy, 
         title={SiPy - Statistics in Python}, 
-        volume={4}, 
-        number={1}, 
-        journal={Acta Scientific Computer Sciences}, 
+        volume={Volume}, 
+        number={Issue}, 
+        journal={Journal}, 
         author={Tan, Nicholas TF and Mathialagan, Mugundhan and Tan, Jensen ZR and Ling, Maurice HT}, 
-        year={2024}, 
-        pages={59–63}
+        year={Year}, 
+        pages={StartPage–EndPage}
     } 
 
 We have invested a lot of time and effort in creating SiPy,please cite it when using it.
