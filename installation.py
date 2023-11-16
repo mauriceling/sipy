@@ -31,8 +31,8 @@ def help():
 "python installation.py pyinstaller windows" to generate a one-directory executable GUI and CLI/CUI together based on sipy_windows.spec for Windows operating system.
 "python installation.py pyinstaller onedir gui" to generate a one-directory executable GUI.
 "python installation.py pyinstaller onedir cli" to generate a one-directory executable CLI/CUI.
-"python installation.py pyinstaller onefile gui" to generate a one-directory executable GUI.
-"python installation.py pyinstaller onefile cli" to generate a one-directory executable CLI/CUI.
+"python installation.py pyinstaller onefile gui" to generate a one-file executable GUI.
+"python installation.py pyinstaller onefile cli" to generate a one-file executable CLI/CUI.
 "python installation.py remove <environment name>" to remove environment.
 "python installation.py update" to update environment.
 
