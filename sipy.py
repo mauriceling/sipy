@@ -44,19 +44,20 @@ class SiPy_Shell(object):
         """!
         Initialization method.
         """
-        self.available_plugins = [p[:-3] for p in os.listdir(os.sep.join([os.getcwd(), "sipy_plugins"]))
-                                  if p.endswith(".py")]
-        self.available_plugins = [p for p in self.available_plugins
-                                  if p not in ["base_plugin", "sample_plugin"]]
         self.count = 1
         self.data = {}
         self.environment = {"cwd": os.getcwd(),
+                            "plugin_directory": "sipy_plugins",
                             "prompt": ">>>",
                             "separator": ",",
                             "verbosity": 0}
         self.history = {}
         self.modules = [m for m in dir(libsipy) 
                         if m not in ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']]
+        self.available_plugins = [p[:-3] for p in os.listdir(os.sep.join([os.getcwd(), self.environment["plugin_directory"]]))
+                                  if p.endswith(".py")]
+        self.available_plugins = [p for p in self.available_plugins
+                                  if p not in ["base_plugin", "sample_plugin"]]
         self.result = {}
     
     def formatExceptionInfo(self, maxTBlevel=10):
