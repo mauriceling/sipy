@@ -19,9 +19,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
-release_number = "0.4.0"
-release_code_name = "Bubble Tea"
-release_date = "10 June 2023"
+release_number = "0.5.0"
+release_code_name = "Watermelon"
+release_date = "17 November 2023"
 
 header = """
 SiPy: Statistics in Python
