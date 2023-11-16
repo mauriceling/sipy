@@ -44,6 +44,10 @@ class SiPy_Shell(object):
         """!
         Initialization method.
         """
+        self.available_plugins = [p[:-3] for p in os.listdir(os.sep.join([os.getcwd(), "sipy_plugins"]))
+                                  if p.endswith(".py")]
+        self.available_plugins = [p for p in self.available_plugins
+                                  if p not in ["base_plugin", "sample_plugin"]]
         self.count = 1
         self.data = {}
         self.environment = {"cwd": os.getcwd(),
@@ -697,13 +701,18 @@ class SiPy_Shell(object):
 
         Commands: 
             show data [variable name]
-            show {history|environment|modules}
+            show {available_plugins|environment|history|modules}
             show item <history number>
             show result
 
         @return: String containing results of command execution
         """
-        if operand[0].lower() in ["data", "d"]:
+        if operand[0].lower() in ["available_plugins", "aplug", "a"]:
+            # show available_plugins
+            print("List of Available Plugins:")
+            retR = self.available_plugins
+            for plugin in self.available_plugins: print(plugin)
+        elif operand[0].lower() in ["data", "d"]:
             # show data [variable name]
             if len(operand) == 1: 
                 # show data
