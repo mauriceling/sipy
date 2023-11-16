@@ -34,6 +34,7 @@ import PySimpleGUI as sg
 
 import libsipy
 import sipy_info
+import sipy_plugins
 
 
 class SiPy_Shell(object):
@@ -48,6 +49,7 @@ class SiPy_Shell(object):
         self.data = {}
         self.environment = {"cwd": os.getcwd(),
                             "plugin_directory": "sipy_plugins",
+                            "plugin_system": True,
                             "prompt": ">>>",
                             "separator": ",",
                             "sipy_directory": os.getcwd(),
@@ -55,11 +57,16 @@ class SiPy_Shell(object):
         self.history = {}
         self.modules = [m for m in dir(libsipy) 
                         if m not in ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']]
-        self.available_plugins = [p[:-3] for p in os.listdir(os.sep.join([self.environment["sipy_directory"], self.environment["plugin_directory"]]))
-                                  if p.endswith(".py")]
-        self.available_plugins = [p for p in self.available_plugins
-                                  if p not in ["base_plugin", "sample_plugin"]]
         self.result = {}
+        try:
+            self.available_plugins = [p[:-3] for p in os.listdir(os.sep.join([self.environment["sipy_directory"], self.environment["plugin_directory"]]))
+                                      if p.endswith(".py")]
+            self.available_plugins = [p for p in self.available_plugins
+                                      if p not in ["__init__", "base_plugin", "sample_plugin"]]
+        except:
+            self.available_plugins = None
+            self.environment["plugin_directory"] = ""
+            self.environment["plugin_system"] = False
     
     def formatExceptionInfo(self, maxTBlevel=10):
         """!
