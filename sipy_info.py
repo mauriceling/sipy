@@ -34,16 +34,16 @@ Type "citation" for information on how to cite SiPy or SiPy packages in publicat
 To exit this application, type "exit".
 """ % (str(release_number), release_code_name, release_date)
 
-#import datetime
-#today = datetime.date.today()
 copyright = """Copyright (C) 2022-%s, Maurice HT Ling (on behalf of SiPy Team)
 """ % str(release_year)
 
-credits = """SiPy Project Core Team
-Project architect: Maurice HT Ling (mauriceling@acm.org)
-Developers:
-1. Mathialagan Mugundhan (https://github.com/Mugu17777777)
-2. Nicholas TF Tan (https://github.com/NicholasTTF)
+credits = """SiPy Project Team
+Project architect: Maurice HT Ling (https://mauriceling.github.io; mauriceling@acm.org)
+Core Developers:
+    1. Mathialagan Mugundhan (https://github.com/Mugu17777777)
+    2. Nicholas TF Tan (https://github.com/NicholasTTF)
+Contributors:
+    1. Tan Zhi Hui Jensen (https://github.com/Jensen19142)
 """
 
 citations = """"""
