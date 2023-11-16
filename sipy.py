@@ -50,11 +50,12 @@ class SiPy_Shell(object):
                             "plugin_directory": "sipy_plugins",
                             "prompt": ">>>",
                             "separator": ",",
+                            "sipy_directory": os.getcwd(),
                             "verbosity": 0}
         self.history = {}
         self.modules = [m for m in dir(libsipy) 
                         if m not in ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']]
-        self.available_plugins = [p[:-3] for p in os.listdir(os.sep.join([os.getcwd(), self.environment["plugin_directory"]]))
+        self.available_plugins = [p[:-3] for p in os.listdir(os.sep.join([self.environment["sipy_directory"], self.environment["plugin_directory"]]))
                                   if p.endswith(".py")]
         self.available_plugins = [p for p in self.available_plugins
                                   if p not in ["base_plugin", "sample_plugin"]]
@@ -696,6 +697,37 @@ class SiPy_Shell(object):
         print(retR.to_string())
         return retR
 
+    def do_set(self, operand, kwargs):
+        """!
+        Set / change various status of the SiPy.
+
+        Commands: 
+            set current_directory <new current directory>
+            set prompt <new prompt>
+            set separator <new separator>
+
+        @return: String containing results of command execution
+        """
+        if operand[0].lower() in ["current_directory", "cwd"]:
+            # set current_directory <new current directory>
+            old = self.environment["cwd"]
+            self.environment["cwd"] = operand[1]
+            retR = "set cwd from %s to %s" % (old, operand[1])
+        elif operand[0].lower() in ["prompt"]:
+            # set prompt <new prompt>
+            old = self.environment["prompt"]
+            self.environment["prompt"] = operand[1]
+            retR = "set prompt from %s to %s" % (old, operand[1])
+        elif operand[0].lower() in ["separator", "sep"]:
+            # set seperator <new separator>
+            old = self.environment["separator"]
+            self.environment["separator"] = operand[1]
+            retR = "set separator from %s to %s" % (old, operand[1])
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+
     def do_show(self, operand, kwargs):
         """!
         Show various status of the SiPy.
@@ -1083,6 +1115,7 @@ class SiPy_Shell(object):
         elif operator == "normality": return self.do_normality(operand, kwargs)
         elif operator == "read": return self.do_read(operand, kwargs)
         elif operator == "regress": return self.do_regression(operand, kwargs)
+        elif operator == "set": return self.do_set(operand, kwargs)
         elif operator == "show": return self.do_show(operand, kwargs)
         elif operator == "ttest": return self.do_ttest(operand, kwargs)
         elif operator == "variance": return self.do_variance(operand, kwargs)
