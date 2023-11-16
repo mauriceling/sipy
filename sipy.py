@@ -80,7 +80,14 @@ class SiPy_Shell(object):
         """
         print(sipy_info.header)
         return None
-        
+    
+    def do_citation(self):
+        """!
+        Prints citation information.
+        """
+        print(sipy_info.citations)
+        return sipy_info.citations
+
     def do_copyright(self):
         """!
         Prints copyright statement.
@@ -93,8 +100,7 @@ class SiPy_Shell(object):
         Prints list of credits for SiPy development.
         """
         print(sipy_info.credits)
-        print(sipy_info.citations)
-        return sipy_info.credits + sipy_info.citations
+        return sipy_info.credits
         
     def do_license(self):
         """!
@@ -113,6 +119,7 @@ class SiPy_Shell(object):
         
         @param statement String: command-line statement
         """
+        if statement == "citation": return self.do_citation()
         if statement == "copyright": return self.do_copyright()
         if statement == "credits": return self.do_credits()
         if statement == "exit": return "exit"
@@ -1144,8 +1151,7 @@ class SiPy_Shell(object):
             return (op_list, op_dict)
         try:
             self.history[str(self.count)] = statement
-            if statement.lower() in ["copyright", "copyright;", "credits", "credits;", "exit", "exit;",
-                                     "license", "license;", "quit", "quit;"]:
+            if statement.lower() in ["citation", "citation;", "copyright", "copyright;", "credits", "credits;", "exit", "exit;", "license", "license;", "quit", "quit;"]:
                  retR = self.intercept_processor(statement)
                  if retR == "exit": return "exit"
             else:
