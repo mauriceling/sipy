@@ -35,6 +35,7 @@ import PySimpleGUI as sg
 import libsipy
 import sipy_info
 import sipy_plugins
+from sipy_pm import PluginManager
 
 
 class SiPy_Shell(object):
@@ -58,6 +59,8 @@ class SiPy_Shell(object):
         self.modules = [m for m in dir(libsipy) 
                         if m not in ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']]
         self.result = {}
+        # Plugin Manager Initialization
+        self.sipy_pm = PluginManager()
         try:
             self.available_plugins = [p[:-3] for p in os.listdir(os.sep.join([self.environment["sipy_directory"], self.environment["plugin_directory"]]))
                                       if p.endswith(".py")]
@@ -803,6 +806,26 @@ class SiPy_Shell(object):
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         return retR
 
+    def do_systest(self, operand, kwargs):
+        """!
+        Test SiPy system.
+
+        Commands: 
+            systest plugin_system
+
+        @return: String containing results of command execution
+        """
+        if operand[0].lower() in ["plugin_system"]:
+            # systest plugin_system
+            self.sipy_pm.load_plugin(self.environment["plugin_directory"], "sample_plugin")
+            self.sipy_pm.execute_plugin("sample_plugin", 1, 2, 3, operation="print", name="Alice", age=30)
+            self.sipy_pm.unload_plugin("sample_plugin")  # Unload the plugin
+            retR = "Plugin system tested"
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+
     def do_ttest(self, operand, kwargs):
         """!
         Performs Student's t-test(s) on values.
@@ -1131,6 +1154,7 @@ class SiPy_Shell(object):
         elif operator == "regress": return self.do_regression(operand, kwargs)
         elif operator == "set": return self.do_set(operand, kwargs)
         elif operator == "show": return self.do_show(operand, kwargs)
+        elif operator == "systest": return self.do_systest(operand, kwargs)
         elif operator == "ttest": return self.do_ttest(operand, kwargs)
         elif operator == "variance": return self.do_variance(operand, kwargs)
         elif operator == "try": 
