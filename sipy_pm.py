@@ -34,7 +34,6 @@ class PluginManager:
         if plugin_name in self.plugins:
             print(f"Plugin '{plugin_name}' is already loaded.")
             return
-
         try:
             plugin_module = importlib.import_module(f'{plugin_dir}.{plugin_name}')
             plugin_class = self.find_plugin_class(plugin_module)
@@ -60,9 +59,6 @@ class PluginManager:
             print(f"Plugin '{plugin_name}' not found.")
 
     def execute_plugin(self, plugin_name, *args, **kwargs):
-        if plugin_name not in self.plugins:
-            self.load_plugin('sipy_plugins', plugin_name)
-
         plugin = self.plugins.get(plugin_name)
         if plugin:
             self.execute_safely(plugin_name, plugin, *args, **kwargs)
@@ -79,8 +75,6 @@ class PluginManager:
         if not os.path.isdir(plugin_dir):
             print(f"Error: '{plugin_dir}' is not a valid directory.")
             return
-
         plugin_files = [file[:-3] for file in os.listdir(plugin_dir) if file.endswith('.py') and file != '__init__.py']
-
         for plugin_name in plugin_files:
             self.load_plugin(plugin_dir, plugin_name)
