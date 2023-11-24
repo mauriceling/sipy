@@ -78,7 +78,7 @@ def update():
 
 def pyinstaller(option="onefile", exe_type="gui"):
     
-    iconfile = os.sep.join([os.getcwd(), "images", "sipy_icon.ico"])
+    iconfile = os.sep.join([os.getcwd(), "manuscript", "sipy_icon.ico"])
     if option.lower() == "windows":
         cmdline = '''pyinstaller %s''' % data["folder_spec"]
     elif exe_type == "gui":
