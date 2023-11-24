@@ -6,9 +6,9 @@
 <!-- SiPy -->
 <g id="node1" class="node">
 <title>SiPy</title>
-<polygon fill="#00ff00" stroke="#000000" points="165.5721,-262.6019 .1425,-262.6019 .1425,-221.3981 165.5721,-221.3981 165.5721,-262.6019"/>
-<text text-anchor="middle" x="82.8573" y="-246.2" font-family="Times,serif" font-size="14.00" fill="#000000">SiPy 0.6.0</text>
-<text text-anchor="middle" x="82.8573" y="-229.4" font-family="Times,serif" font-size="14.00" fill="#000000">Otoro-Chutoro Continuum</text>
+<polygon fill="#00ff00" stroke="#000000" points="165.5721,-239.6019 .1425,-239.6019 .1425,-198.3981 165.5721,-198.3981 165.5721,-239.6019"/>
+<text text-anchor="middle" x="82.8573" y="-223.2" font-family="Times,serif" font-size="14.00" fill="#000000">SiPy 0.6.0</text>
+<text text-anchor="middle" x="82.8573" y="-206.4" font-family="Times,serif" font-size="14.00" fill="#000000">Otoro-Chutoro Continuum</text>
 </g>
 <!-- fitter -->
 <g id="node2" class="node">
@@ -19,8 +19,8 @@
 <!-- SiPy&#45;&gt;fitter -->
 <g id="edge1" class="edge">
 <title>SiPy-&gt;fitter</title>
-<path fill="none" stroke="#000000" d="M88.2814,-262.6646C100.7504,-306.1158 135.5884,-407.4243 201.7146,-462 262.7052,-512.3371 353.3258,-533.3168 413.3416,-541.9913"/>
-<polygon fill="#000000" stroke="#000000" points="413.0557,-545.4848 423.4387,-543.3766 414.0072,-538.5497 413.0557,-545.4848"/>
+<path fill="none" stroke="#000000" d="M87.1272,-239.6549C97.8497,-286.3225 130.3183,-400.6071 201.7146,-462 261.4969,-513.4061 352.0032,-534.1216 412.3567,-542.4456"/>
+<polygon fill="#000000" stroke="#000000" points="412.1483,-545.948 422.5167,-543.7694 413.0528,-539.0067 412.1483,-545.948"/>
 </g>
 <!-- pandas -->
 <g id="node5" class="node">
@@ -31,8 +31,8 @@
 <!-- SiPy&#45;&gt;pandas -->
 <g id="edge2" class="edge">
 <title>SiPy-&gt;pandas</title>
-<path fill="none" stroke="#000000" d="M94.8589,-262.6488C113.5682,-292.8213 152.6813,-348.3639 201.7146,-376 329.7719,-448.1756 509.7724,-439.1373 603.7512,-427.752"/>
-<polygon fill="#000000" stroke="#000000" points="604.4668,-431.1896 613.9503,-426.4659 603.5909,-424.2446 604.4668,-431.1896"/>
+<path fill="none" stroke="#000000" d="M92.2433,-239.7618C108.9512,-274.1547 147.2812,-342.4743 201.7146,-376 327.8352,-453.6781 510.8654,-441.8232 605.1807,-428.7028"/>
+<polygon fill="#000000" stroke="#000000" points="605.7321,-432.1596 615.1301,-427.2678 604.7328,-425.2313 605.7321,-432.1596"/>
 </g>
 <!-- pingouin -->
 <g id="node6" class="node">
@@ -43,8 +43,8 @@
 <!-- SiPy&#45;&gt;pingouin -->
 <g id="edge3" class="edge">
 <title>SiPy-&gt;pingouin</title>
-<path fill="none" stroke="#000000" d="M120.7138,-262.6307C154.0614,-280.8041 202.5689,-307.2393 237.1223,-326.0699"/>
-<polygon fill="#000000" stroke="#000000" points="235.5749,-329.2125 246.0305,-330.9246 238.9246,-323.066 235.5749,-329.2125"/>
+<path fill="none" stroke="#000000" d="M114.4029,-239.8867C149.6275,-263.2095 206.5202,-300.8789 243.3884,-325.2898"/>
+<polygon fill="#000000" stroke="#000000" points="241.5776,-328.2885 251.8479,-330.8909 245.4421,-322.4519 241.5776,-328.2885"/>
 </g>
 <!-- scipy -->
 <g id="node8" class="node">
@@ -55,44 +55,56 @@
 <!-- SiPy&#45;&gt;scipy -->
 <g id="edge4" class="edge">
 <title>SiPy-&gt;scipy</title>
-<path fill="none" stroke="#000000" d="M165.853,-247.6885C283.07,-255.7226 494.6877,-270.227 601.3121,-277.535"/>
-<polygon fill="#000000" stroke="#000000" points="601.0802,-281.0273 611.2962,-278.2193 601.559,-274.0436 601.0802,-281.0273"/>
+<path fill="none" stroke="#000000" d="M165.853,-227.9595C284.17,-240.7319 498.6679,-263.8871 604.2861,-275.2887"/>
+<polygon fill="#000000" stroke="#000000" points="604.1496,-278.7942 614.4675,-276.3878 604.9009,-271.8347 604.1496,-278.7942"/>
 </g>
 <!-- libsipy -->
 <g id="node11" class="node">
 <title>libsipy</title>
-<polygon fill="#ffb6c1" stroke="#000000" points="306.3148,-187 252.0817,-187 252.0817,-151 306.3148,-151 306.3148,-187"/>
-<text text-anchor="middle" x="279.1982" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">libsipy</text>
+<polygon fill="#ffb6c1" stroke="#000000" points="306.3148,-214 252.0817,-214 252.0817,-178 306.3148,-178 306.3148,-214"/>
+<text text-anchor="middle" x="279.1982" y="-191.8" font-family="Times,serif" font-size="14.00" fill="#000000">libsipy</text>
 </g>
 <!-- SiPy&#45;&gt;libsipy -->
 <g id="edge27" class="edge">
 <title>SiPy-&gt;libsipy</title>
-<path fill="none" stroke="#ff0000" d="M138.3335,-221.3738C171.7507,-208.9492 213.365,-193.4769 242.6704,-182.5811"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="243.9539,-185.8381 252.1072,-179.0725 241.5144,-179.2769 243.9539,-185.8381"/>
+<path fill="none" stroke="#ff0000" d="M165.8389,-209.2793C192.2819,-206.1817 220.2317,-202.9075 241.7619,-200.3854"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="242.256,-203.8516 251.7808,-199.2118 241.4415,-196.8991 242.256,-203.8516"/>
 </g>
 <!-- SPM -->
 <g id="node14" class="node">
 <title>SPM</title>
-<polygon fill="#add8e6" stroke="#000000" points="346.967,-133 211.4294,-133 211.4294,-97 346.967,-97 346.967,-133"/>
-<text text-anchor="middle" x="279.1982" y="-110.8" font-family="Times,serif" font-size="14.00" fill="#000000">SiPy Plugin Manager</text>
+<polygon fill="#add8e6" stroke="#000000" points="346.967,-160 211.4294,-160 211.4294,-124 346.967,-124 346.967,-160"/>
+<text text-anchor="middle" x="279.1982" y="-137.8" font-family="Times,serif" font-size="14.00" fill="#000000">SiPy Plugin Manager</text>
 </g>
 <!-- SiPy&#45;&gt;SPM -->
 <g id="edge30" class="edge">
 <title>SiPy-&gt;SPM</title>
-<path fill="none" stroke="#ff0000" d="M102.983,-221.0127C125.3087,-198.762 163.2772,-163.874 201.7146,-142 204.5622,-140.3795 207.5236,-138.8322 210.5553,-137.3581"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="212.1578,-140.4745 219.818,-133.1552 209.2653,-134.1 212.1578,-140.4745"/>
+<path fill="none" stroke="#ff0000" d="M130.0073,-198.3617C151.7158,-189.0674 177.8912,-178.1513 201.7146,-169 206.4956,-167.1635 211.462,-165.3102 216.4674,-163.4812"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="217.8843,-166.6909 226.1027,-160.0045 215.5084,-160.1064 217.8843,-166.6909"/>
 </g>
 <!-- script_engine -->
 <g id="node16" class="node">
 <title>script_engine</title>
-<polygon fill="#ffd700" stroke="#000000" points="335.2508,-79 223.1456,-79 223.1456,-43 335.2508,-43 335.2508,-79"/>
-<text text-anchor="middle" x="279.1982" y="-56.8" font-family="Times,serif" font-size="14.00" fill="#000000">Scripting System</text>
+<polygon fill="#ffd700" stroke="#000000" points="335.2508,-106 223.1456,-106 223.1456,-70 335.2508,-70 335.2508,-106"/>
+<text text-anchor="middle" x="279.1982" y="-83.8" font-family="Times,serif" font-size="14.00" fill="#000000">Scripting System</text>
 </g>
 <!-- SiPy&#45;&gt;script_engine -->
 <g id="edge32" class="edge">
 <title>SiPy-&gt;script_engine</title>
-<path fill="none" stroke="#ff0000" d="M93.6625,-221.1961C111.7393,-188.3378 151.1604,-124.4276 201.7146,-88 205.5575,-85.231 209.7092,-82.7258 214.0247,-80.4625"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="215.5474,-83.6141 223.0665,-76.1499 212.5339,-77.2959 215.5474,-83.6141"/>
+<path fill="none" stroke="#ff0000" d="M101.6158,-198.3816C123.6172,-175.2721 162.1391,-138.0323 201.7146,-115 205.5583,-112.7631 209.6168,-110.6702 213.7805,-108.7195"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="215.2635,-111.891 223.0214,-104.6754 212.457,-105.4782 215.2635,-111.891"/>
+</g>
+<!-- cmd -->
+<g id="node17" class="node">
+<title>cmd</title>
+<polygon fill="#dda0dd" stroke="#000000" points="348.5763,-52 209.8202,-52 209.8202,-16 348.5763,-16 348.5763,-52"/>
+<text text-anchor="middle" x="279.1982" y="-29.8" font-family="Times,serif" font-size="14.00" fill="#000000">Command Line Tools</text>
+</g>
+<!-- SiPy&#45;&gt;cmd -->
+<g id="edge33" class="edge">
+<title>SiPy-&gt;cmd</title>
+<path fill="none" stroke="#ff0000" d="M93.2339,-198.1934C110.9817,-164.6371 150.2861,-98.5427 201.7146,-61 203.5843,-59.6351 205.5288,-58.3347 207.5312,-57.0962"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="209.579,-59.9628 216.6279,-52.053 206.1849,-53.8407 209.579,-59.9628"/>
 </g>
 <!-- matplotlib -->
 <g id="node3" class="node">
@@ -265,8 +277,8 @@
 <!-- libsipy&#45;&gt;base -->
 <g id="edge28" class="edge">
 <title>libsipy-&gt;base</title>
-<path fill="none" stroke="#000000" d="M306.4702,-165.2458C340.5301,-160.5571 398.9853,-152.5102 437.397,-147.2225"/>
-<polygon fill="#000000" stroke="#000000" points="438.2333,-150.6405 447.6626,-145.8094 437.2787,-143.7059 438.2333,-150.6405"/>
+<path fill="none" stroke="#000000" d="M306.4702,-188.4915C341.1587,-178.9412 401.1516,-162.4241 439.5032,-151.8652"/>
+<polygon fill="#000000" stroke="#000000" points="440.5206,-155.2154 449.2328,-149.1865 438.6624,-148.4665 440.5206,-155.2154"/>
 </g>
 <!-- lib_N -->
 <g id="node13" class="node">
@@ -278,8 +290,8 @@
 <!-- libsipy&#45;&gt;lib_N -->
 <g id="edge29" class="edge">
 <title>libsipy-&gt;lib_N</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M306.5922,-161.7113C321.8219,-157.1104 340.8397,-150.4378 356.6819,-142 374.3342,-132.598 375.1414,-124.6089 392.6819,-115 403.924,-108.8414 416.643,-103.398 428.6738,-98.8598"/>
-<polygon fill="#000000" stroke="#000000" points="429.9328,-102.1263 438.1333,-95.4179 427.5393,-95.5481 429.9328,-102.1263"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M306.3921,-191.0579C322.289,-187.1257 342.0413,-180.3403 356.6819,-169 379.4856,-151.3367 370.0875,-132.9303 392.6819,-115 402.4358,-107.2595 414.3241,-101.3098 426.0094,-96.7937"/>
+<polygon fill="#000000" stroke="#000000" points="427.4821,-99.9846 435.726,-93.3297 425.1314,-93.3911 427.4821,-99.9846"/>
 </g>
 <!-- plugin_M -->
 <g id="node15" class="node">
@@ -291,8 +303,8 @@
 <!-- SPM&#45;&gt;plugin_M -->
 <g id="edge31" class="edge">
 <title>SPM-&gt;plugin_M</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M339.6305,-96.8953C345.5606,-94.253 351.3492,-91.2938 356.6819,-88 375.6676,-76.2732 373.8354,-64.9493 392.6819,-53 400.7512,-47.8838 409.7922,-43.4209 418.853,-39.5967"/>
-<polygon fill="#000000" stroke="#000000" points="420.272,-42.7989 428.2627,-35.842 417.6776,-36.2974 420.272,-42.7989"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M343.3694,-123.8951C348.1083,-121.3044 352.6169,-118.3551 356.6819,-115 381.2565,-94.717 368.3475,-73.5706 392.6819,-53 399.3999,-47.3211 407.2604,-42.6303 415.4135,-38.7701"/>
+<polygon fill="#000000" stroke="#000000" points="416.9076,-41.9373 424.6975,-34.7563 414.1297,-35.5121 416.9076,-41.9373"/>
 </g>
 </g>
 </svg>

@@ -41,7 +41,14 @@ digraph {
         SPM -> plugin_M [style=dashed]
         }
         
+        subgraph scripting {
         script_engine [shape="rectangle" label="Scripting System" fillcolor=gold style=filled]
         SiPy -> script_engine [color=red]
+        }
+        
+        subgraph cmdtools {
+        cmd [shape="rectangle" label="Command Line Tools" fillcolor=plum style=filled]
+        SiPy -> cmd [color=red]
+        }
     
 }
