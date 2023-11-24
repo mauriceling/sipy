@@ -1,0 +1,23 @@
+digraph {
+        SiPy [shape="rectangle"]
+        
+        fitter [label="fitter\n1.6.0"]
+        matplotlib [label="matplotlib\n3.8.2"]
+        numpy [label="numpy\n1.23.2"]
+        pandas [label="pandas\n2.1.3"]
+        pingouin [label="pingouin\n0.5.2"]
+        seaborn [label="seaborn\n0.12.0"]
+        scipy [label="scipy\n1.9.1"]
+        "scikit-learn" [label="scikit-learn\n1.1.2"]
+        statsmodels [label="statsmodels\n0.13.2"]
+        
+        SiPy -> {fitter pandas pingouin scipy}
+        fitter -> {matplotlib numpy pandas scipy}
+        matplotlib -> numpy
+        pandas -> numpy
+        pingouin -> {"scikit-learn" matplotlib numpy pandas scipy seaborn statsmodels}
+        seaborn -> {matplotlib numpy pandas}
+        scipy -> numpy
+        "scikit-learn" -> {numpy scipy}
+        statsmodels -> {numpy pandas scipy}
+}
