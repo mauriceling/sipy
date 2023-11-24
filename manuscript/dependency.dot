@@ -1,15 +1,18 @@
 digraph {
-        SiPy [shape="rectangle" label="SiPy 0.6.0\nOtoro-Chutoro Continuum"]
+        rankdir = LR
         
-        fitter [label="fitter\n1.6.0"]
-        matplotlib [label="matplotlib\n3.8.2"]
-        numpy [label="numpy\n1.23.2"]
-        pandas [label="pandas\n2.1.3"]
-        pingouin [label="pingouin\n0.5.2"]
-        seaborn [label="seaborn\n0.12.0"]
-        scipy [label="scipy\n1.9.1"]
-        "scikit-learn" [label="scikit-learn\n1.1.2"]
-        statsmodels [label="statsmodels\n0.13.2"]
+        SiPy [shape="rectangle" label="SiPy 0.6.0\nOtoro-Chutoro Continuum" fillcolor=green style=filled]
+        
+        subgraph packages {
+        fitter [label="fitter 1.6.0" fillcolor=yellow style=filled shape=hexagon]
+        matplotlib [label="matplotlib 3.8.2" fillcolor=seashell style=filled]
+        numpy [label="numpy 1.23.2" fillcolor=seashell style=filled]
+        pandas [label="pandas 2.1.3" fillcolor=yellow style=filled shape=hexagon]
+        pingouin [label="pingouin 0.5.2" fillcolor=yellow style=filled shape=hexagon]
+        seaborn [label="seaborn 0.12.0" fillcolor=seashell style=filled]
+        scipy [label="scipy 1.9.1" fillcolor=yellow style=filled shape=hexagon]
+        "scikit-learn" [label="scikit-learn 1.1.2" fillcolor=seashell style=filled]
+        statsmodels [label="statsmodels 0.13.2" fillcolor=seashell style=filled]
         
         SiPy -> {fitter pandas pingouin scipy}
         fitter -> {matplotlib numpy pandas scipy}
@@ -20,4 +23,25 @@ digraph {
         scipy -> numpy
         "scikit-learn" -> {numpy scipy}
         statsmodels -> {numpy pandas scipy}
+        }
+        
+        subgraph library {
+        libsipy [shape="rectangle" label="libsipy" fillcolor=lightpink style=filled]
+        base [fillcolor=lightpink style=filled]
+        lib_N [fillcolor=lightpink style=filled shape=doubleoctagon]
+        SiPy -> libsipy [color=red]
+        libsipy -> base 
+        libsipy -> lib_N [style=dashed]
+        }
+        
+        subgraph plugin {
+        SPM [shape="rectangle" label="SiPy Plugin Manager" fillcolor=lightblue style=filled]
+        SiPy -> SPM [color=red]
+        plugin_M [fillcolor=lightblue style=filled shape=doubleoctagon]
+        SPM -> plugin_M [style=dashed]
+        }
+        
+        script_engine [shape="rectangle" label="Scripting System" fillcolor=gold style=filled]
+        SiPy -> script_engine [color=red]
+    
 }
