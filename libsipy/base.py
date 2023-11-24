@@ -19,6 +19,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 '''
+import fitter
 import pingouin
 from scipy import stats
 
@@ -33,6 +34,7 @@ def arithmeticMean(values=(1,2,3,4,5)):
     """
     result = stats.describe(values)
     return result.mean
+
 def geometricMean(values=(1,2,3,4,5)):
     """!
     Calculating geometric mean of the values.
@@ -608,4 +610,15 @@ def LeveneTest(values = (1,2,3,4,5)):
           If the parameter center is changed to median or trimmed (for trimmed mean), Levene's test becomes Brown-Forsythe test.
     """
     result = stats.levene(*values, center = "mean")
-    return result   
+    return result
+
+def DistributionFit(values=(1,2,3,4,5), distributions="all"):
+    """!
+    Use fitter (https://github.com/cokelaer/fitter) to fit values to various distributions.
+    """
+    if distributions="all":
+        f = fitter.Fitter(values)
+    else:
+        f = fitter.Fitter(values, distributions=distributions)
+    f.fit()
+    return f
