@@ -1,5 +1,5 @@
 digraph {
-        SiPy [shape="rectangle"]
+        SiPy [shape="rectangle" label="SiPy 0.6.0\nOtoro-Chutoro Continuum"]
         
         fitter [label="fitter\n1.6.0"]
         matplotlib [label="matplotlib\n3.8.2"]
