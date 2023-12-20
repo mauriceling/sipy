@@ -616,7 +616,7 @@ def DistributionFit(values=(1,2,3,4,5), distributions="all"):
     """!
     Use fitter (https://github.com/cokelaer/fitter) to fit values to various distributions.
     """
-    if distributions="all":
+    if distributions == "all":
         f = fitter.Fitter(values)
     else:
         f = fitter.Fitter(values, distributions=distributions)
