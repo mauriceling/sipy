@@ -1271,6 +1271,14 @@ class SiPy_Shell(object):
             fullscript = process_script(scriptfile)
             fullscript = list(flatten(fullscript))
             for line in fullscript: print(line)
+        elif operation == "script_read":
+            dirname = os.path.dirname(scriptfile)
+            print("")
+            print("Reading script file: %s" % scriptfile)
+            print("")
+            script = open(scriptfile, "r").readlines()
+            script = [x.strip() for x in script]
+            for line in script: print(line)
 
     def do_template(self, operand, kwargs):
         """!
@@ -1351,4 +1359,8 @@ if __name__ == "__main__":
     elif (len(sys.argv) == 3) and (sys.argv[1].lower() == "script_merge"):
         scriptfile = os.path.abspath(sys.argv[2])
         shell.runScript(scriptfile, "script_merge")
+        sys.exit()
+    elif (len(sys.argv) == 3) and (sys.argv[1].lower() == "script_read"):
+        scriptfile = os.path.abspath(sys.argv[2])
+        shell.runScript(scriptfile, "script_read")
         sys.exit()
