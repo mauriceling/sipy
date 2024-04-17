@@ -1152,6 +1152,7 @@ class SiPy_Shell(object):
         elif operator == "normality": return self.do_normality(operand, kwargs)
         elif operator == "read": return self.do_read(operand, kwargs)
         elif operator == "regress": return self.do_regression(operand, kwargs)
+        elif operator == "script": return self.do_script(operand, kwargs)
         elif operator == "set": return self.do_set(operand, kwargs)
         elif operator == "show": return self.do_show(operand, kwargs)
         elif operator == "systest": return self.do_systest(operand, kwargs)
@@ -1232,11 +1233,6 @@ class SiPy_Shell(object):
         @param scriptfile String: absolute path to SiPy script file
         @param operation String: type of operation. Allowable types are "script_execute" (execute the script), and "script_merge" (merge the scripts without execution)
         """
-        dirname = os.path.dirname(scriptfile)
-        if operation == "script_execute":
-            print("")
-            print("Executing script file: %s" % scriptfile)
-            print("")
         def process_script(scriptfile):
             if operation == "script_execute":
                 print("")
@@ -1259,17 +1255,24 @@ class SiPy_Shell(object):
                         yield j
                 else:
                     yield i
-        fullscript = process_script(scriptfile)
-        fullscript = list(flatten(fullscript))
         if operation == "script_execute":
+            dirname = os.path.dirname(scriptfile)
+            print("")
+            print("Executing script file: %s" % scriptfile)
+            print("")
+            fullscript = process_script(scriptfile)
+            fullscript = list(flatten(fullscript))
             fullscript = [x for x in fullscript if x != ""]
             fullscript = [x for x in fullscript 
                           if not x.strip().startswith('#')]
             self.cmdScript(fullscript)
         elif operation == "script_merge":
+            dirname = os.path.dirname(scriptfile)
+            fullscript = process_script(scriptfile)
+            fullscript = list(flatten(fullscript))
             for line in fullscript: print(line)
 
-    def do_template(self, operand):
+    def do_template(self, operand, kwargs):
         """!
         Performs xxx
 
