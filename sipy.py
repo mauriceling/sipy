@@ -714,6 +714,52 @@ class SiPy_Shell(object):
         print(retR.to_string())
         return retR
 
+    def do_script(self, operand, kwargs):
+        """!
+        Performs scripting platform operations
+
+        Commands: 
+            script execute <file path to script>
+            script execute file=<file path to script>
+            script merge <file path to script>
+            script merge file=<file path to script>
+            script read <file path to script>
+            script read file=<file path to script>
+
+        @return: String containing results of command execution
+        """
+        option = operand[0].lower()
+        if option.lower() in ["execute"]:
+            if len(kwargs) == 0:
+                scriptfile = operand[1].strip()
+            else:
+                scriptfile = kwargs["file"]
+            print(scriptfile)
+            retR = self.runScript(scriptfile, "script_execute")
+        elif option.lower() in ["merge"]:
+            if len(kwargs) == 0:
+                scriptfile = operand[1].strip()
+                outputfile = operand[2].strip()
+            else:
+                scriptfile = kwargs["file"]
+                outputfile = kwargs["output"]
+            print(scriptfile)
+            retR = self.runScript(scriptfile, "script_merge")
+            f = open(outputfile, "w")
+            for line in retR: f.write(line + "\n")
+            f.close()
+        elif option.lower() in ["read"]:
+            if len(kwargs) == 0:
+                scriptfile = operand[1].strip()
+            else:
+                scriptfile = kwargs["file"]
+            print(scriptfile)
+            retR = self.runScript(scriptfile, "script_read")
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        # print(retR)
+        return retR
+
     def do_set(self, operand, kwargs):
         """!
         Set / change various status of the SiPy.
@@ -1266,11 +1312,13 @@ class SiPy_Shell(object):
             fullscript = [x for x in fullscript 
                           if not x.strip().startswith('#')]
             self.cmdScript(fullscript)
+            return fullscript
         elif operation == "script_merge":
             dirname = os.path.dirname(scriptfile)
             fullscript = process_script(scriptfile)
             fullscript = list(flatten(fullscript))
             for line in fullscript: print(line)
+            return fullscript
         elif operation == "script_read":
             dirname = os.path.dirname(scriptfile)
             print("")
@@ -1279,6 +1327,7 @@ class SiPy_Shell(object):
             script = open(scriptfile, "r").readlines()
             script = [x.strip() for x in script]
             for line in script: print(line)
+            return script
 
     def do_template(self, operand, kwargs):
         """!
