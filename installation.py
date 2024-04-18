@@ -34,7 +34,8 @@ def help():
 "python installation.py pyinstaller onefile gui" to generate a one-file executable GUI.
 "python installation.py pyinstaller onefile cli" to generate a one-file executable CLI/CUI.
 "python installation.py remove <environment name>" to remove environment.
-"python installation.py update" to update environment.
+"python installation.py update" to update environment from generated conda and pip environment files.
+"python installation.py update_all" to update entire environment.
 
 Important: Turn off Dropbox / OneDrive synchronizations before generating executables or it will give you errors.
         ''')
@@ -71,10 +72,18 @@ def freeze():
     os.system("conda list --explicit > %s" % data["conda_env"])
     os.system("pip list --format=freeze > %s" % data["pip_env"])
 
-def update():
+def update(): 
+    os.system("conda update -n sipy --file %s" % data["conda_env"])
+    os.system("pip install --upgrade --force-reinstall -r %s" % data["pip_env"])
+
+def update_all():
     os.system("conda update -n base -c defaults conda")
     os.system("python -m pip install --upgrade pip")
     os.system("conda update -n sipy --update-all")
+
+def update_core():
+    os.system("conda update -n sipy  %s" % data["conda_packageList"])
+    os.system("pip install --upgrade --force-reinstall %s" % data["conda_packageList"])
 
 def pyinstaller(option="onefile", exe_type="gui"):
     
@@ -105,3 +114,5 @@ if __name__ == "__main__":
         except IndexError: 
             pyinstaller(sys.argv[2].lower())
     elif command.lower() == "update": update()
+    elif command.lower() == "update_all": update_all()
+    elif command.lower() == "update_core": update_core()
