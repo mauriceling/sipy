@@ -35,6 +35,7 @@ def help():
 "python installation.py pyinstaller onefile cli" to generate a one-file executable CLI/CUI.
 "python installation.py remove <environment name>" to remove environment.
 "python installation.py update" to update environment from generated conda and pip environment files.
+"python installation.py update_core" to update essential and its dependent packages in the environment.
 "python installation.py update_all" to update entire environment.
 
 Important: Turn off Dropbox / OneDrive synchronizations before generating executables or it will give you errors.
