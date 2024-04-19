@@ -721,8 +721,8 @@ class SiPy_Shell(object):
         Commands: 
             script execute <file path to script>
             script execute file=<file path to script>
-            script merge <file path to script>
-            script merge file=<file path to script>
+            script merge <file path to script> <merged output file name>
+            script merge file=<file path to script> output=<merged output file name>
             script read <file path to script>
             script read file=<file path to script>
 
