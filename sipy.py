@@ -30,7 +30,7 @@ warnings.filterwarnings("ignore")
 
 import numpy
 import pandas as pd
-import PySimpleGUI as sg
+import FreeSimpleGUI as sg
 
 import libsipy
 import sipy_info
