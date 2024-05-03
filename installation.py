@@ -37,6 +37,8 @@ def help():
 "python installation.py update" to update environment from generated conda and pip environment files.
 "python installation.py update_core" to update essential and its dependent packages in the environment.
 "python installation.py update_all" to update entire environment.
+"python installation.py update_core" to update essential packages (corresponding to create_env).
+"python installation.py update_conda_pip" to update conda and pip.
 
 Important: Turn off Dropbox / OneDrive synchronizations before generating executables or it will give you errors.
         ''')
@@ -86,8 +88,11 @@ def update_core():
     os.system("conda update -n sipy  %s" % data["conda_packageList"])
     os.system("pip install --upgrade --force-reinstall %s" % data["conda_packageList"])
 
+def update_conda_pip():
+    os.system("conda update -n base conda")
+    os.system("python -m pip install --upgrade pip")
+
 def pyinstaller(option="onefile", exe_type="gui"):
-    
     iconfile = os.sep.join([os.getcwd(), "manuscript", "sipy_icon.ico"])
     if option.lower() == "windows":
         cmdline = '''pyinstaller %s''' % data["folder_spec"]
@@ -117,3 +122,4 @@ if __name__ == "__main__":
     elif command.lower() == "update": update()
     elif command.lower() == "update_all": update_all()
     elif command.lower() == "update_core": update_core()
+    elif command.lower() == "update_conda_pip": update_conda_pip()
