@@ -11,10 +11,11 @@ cycler==0.12.1
 et-xmlfile==1.1.0
 fitter==1.7.0
 fonttools==4.51.0
+FreeSimpleGUI==5.0.0
 future==1.0.0
 graphviz==0.20.3
 idna==3.7
-joblib==1.4.0
+joblib==1.4.2
 kiwisolver==1.4.5
 littleutils==0.2.2
 loguru==0.7.2
@@ -42,10 +43,9 @@ pycparser==2.22
 pycryptodome==3.20.0
 Pygments==2.17.2
 pyinstaller==6.6.0
-pyinstaller-hooks-contrib==2024.4
+pyinstaller-hooks-contrib==2024.5
 pyOpenSSL==24.1.0
 pyparsing==3.1.2
-PySimpleGUI==5.0.4
 PySocks==1.7.1
 python-dateutil==2.9.0.post0
 pytz==2024.1
@@ -62,7 +62,7 @@ setuptools==69.5.1
 six==1.16.0
 statsmodels==0.14.2
 tabulate==0.9.0
-threadpoolctl==3.4.0
+threadpoolctl==3.5.0
 tqdm==4.66.2
 typing_extensions==4.11.0
 tzdata==2024.1
