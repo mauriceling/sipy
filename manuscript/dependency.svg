@@ -14,7 +14,7 @@
 <g id="node2" class="node">
 <title>fitter</title>
 <polygon fill="#ffff00" stroke="#000000" points="534.8432,-548 505.0892,-566 445.5813,-566 415.8273,-548 445.5813,-530 505.0892,-530 534.8432,-548"/>
-<text text-anchor="middle" x="475.3352" y="-543.8" font-family="Times,serif" font-size="14.00" fill="#000000">fitter 1.6.0</text>
+<text text-anchor="middle" x="475.3352" y="-543.8" font-family="Times,serif" font-size="14.00" fill="#000000">fitter 1.7.0</text>
 </g>
 <!-- SiPy&#45;&gt;fitter -->
 <g id="edge1" class="edge">
@@ -26,7 +26,7 @@
 <g id="node5" class="node">
 <title>pandas</title>
 <polygon fill="#ffff00" stroke="#000000" points="735.0484,-418 700.7521,-436 632.1596,-436 597.8633,-418 632.1596,-400 700.7521,-400 735.0484,-418"/>
-<text text-anchor="middle" x="666.4559" y="-413.8" font-family="Times,serif" font-size="14.00" fill="#000000">pandas 2.1.3</text>
+<text text-anchor="middle" x="666.4559" y="-413.8" font-family="Times,serif" font-size="14.00" fill="#000000">pandas 2.2.2</text>
 </g>
 <!-- SiPy&#45;&gt;pandas -->
 <g id="edge2" class="edge">
@@ -38,7 +38,7 @@
 <g id="node6" class="node">
 <title>pingouin</title>
 <polygon fill="#ffff00" stroke="#000000" points="356.6655,-349 317.9319,-367 240.4646,-367 201.731,-349 240.4646,-331 317.9319,-331 356.6655,-349"/>
-<text text-anchor="middle" x="279.1982" y="-344.8" font-family="Times,serif" font-size="14.00" fill="#000000">pingouin 0.5.2</text>
+<text text-anchor="middle" x="279.1982" y="-344.8" font-family="Times,serif" font-size="14.00" fill="#000000">pingouin 0.5.4</text>
 </g>
 <!-- SiPy&#45;&gt;pingouin -->
 <g id="edge3" class="edge">
@@ -49,14 +49,14 @@
 <!-- scipy -->
 <g id="node8" class="node">
 <title>scipy</title>
-<polygon fill="#ffff00" stroke="#000000" points="727.6951,-282 697.0755,-300 635.8362,-300 605.2166,-282 635.8362,-264 697.0755,-264 727.6951,-282"/>
-<text text-anchor="middle" x="666.4559" y="-277.8" font-family="Times,serif" font-size="14.00" fill="#000000">scipy 1.9.1</text>
+<polygon fill="#ffff00" stroke="#000000" points="733.3458,-282 699.9008,-300 633.0109,-300 599.5659,-282 633.0109,-264 699.9008,-264 733.3458,-282"/>
+<text text-anchor="middle" x="666.4559" y="-277.8" font-family="Times,serif" font-size="14.00" fill="#000000">scipy 1.13.0</text>
 </g>
 <!-- SiPy&#45;&gt;scipy -->
 <g id="edge4" class="edge">
 <title>SiPy-&gt;scipy</title>
-<path fill="none" stroke="#000000" d="M165.853,-227.9595C284.17,-240.7319 498.6679,-263.8871 604.2861,-275.2887"/>
-<polygon fill="#000000" stroke="#000000" points="604.1496,-278.7942 614.4675,-276.3878 604.9009,-271.8347 604.1496,-278.7942"/>
+<path fill="none" stroke="#000000" d="M165.853,-227.9595C282.7652,-240.5802 493.5876,-263.3387 600.4781,-274.8776"/>
+<polygon fill="#000000" stroke="#000000" points="600.1733,-278.365 610.4912,-275.9586 600.9247,-271.4054 600.1733,-278.365"/>
 </g>
 <!-- libsipy -->
 <g id="node11" class="node">
@@ -110,7 +110,7 @@
 <g id="node3" class="node">
 <title>matplotlib</title>
 <ellipse fill="#fff5ee" stroke="#000000" cx="666.4559" cy="-510" rx="72.4345" ry="18"/>
-<text text-anchor="middle" x="666.4559" y="-505.8" font-family="Times,serif" font-size="14.00" fill="#000000">matplotlib 3.8.2</text>
+<text text-anchor="middle" x="666.4559" y="-505.8" font-family="Times,serif" font-size="14.00" fill="#000000">matplotlib 3.8.4</text>
 </g>
 <!-- fitter&#45;&gt;matplotlib -->
 <g id="edge5" class="edge">
@@ -122,7 +122,7 @@
 <g id="node4" class="node">
 <title>numpy</title>
 <ellipse fill="#fff5ee" stroke="#000000" cx="839.3422" cy="-395" rx="64.3384" ry="18"/>
-<text text-anchor="middle" x="839.3422" y="-390.8" font-family="Times,serif" font-size="14.00" fill="#000000">numpy 1.23.2</text>
+<text text-anchor="middle" x="839.3422" y="-390.8" font-family="Times,serif" font-size="14.00" fill="#000000">numpy 1.26.4</text>
 </g>
 <!-- fitter&#45;&gt;numpy -->
 <g id="edge6" class="edge">
@@ -176,7 +176,7 @@
 <g id="node7" class="node">
 <title>seaborn</title>
 <ellipse fill="#fff5ee" stroke="#000000" cx="475.3352" cy="-494" rx="67.7449" ry="18"/>
-<text text-anchor="middle" x="475.3352" y="-489.8" font-family="Times,serif" font-size="14.00" fill="#000000">seaborn 0.12.0</text>
+<text text-anchor="middle" x="475.3352" y="-489.8" font-family="Times,serif" font-size="14.00" fill="#000000">seaborn 0.13.2</text>
 </g>
 <!-- pingouin&#45;&gt;seaborn -->
 <g id="edge14" class="edge">
@@ -187,14 +187,14 @@
 <!-- pingouin&#45;&gt;scipy -->
 <g id="edge15" class="edge">
 <title>pingouin-&gt;scipy</title>
-<path fill="none" stroke="#000000" d="M311.8729,-330.9006C333.9807,-319.5965 364.2306,-305.9176 392.6819,-299 461.5103,-282.2653 542.7799,-279.2381 598.7977,-279.6391"/>
-<polygon fill="#000000" stroke="#000000" points="598.9168,-283.1405 608.9548,-279.7513 598.9942,-276.1409 598.9168,-283.1405"/>
+<path fill="none" stroke="#000000" d="M311.8729,-330.9006C333.9807,-319.5965 364.2306,-305.9176 392.6819,-299 459.4411,-282.7684 537.9047,-279.4325 593.678,-279.6125"/>
+<polygon fill="#000000" stroke="#000000" points="593.7954,-283.1133 603.8201,-279.6847 593.8453,-276.1135 593.7954,-283.1133"/>
 </g>
 <!-- scikit&#45;learn -->
 <g id="node9" class="node">
 <title>scikit-learn</title>
 <ellipse fill="#fff5ee" stroke="#000000" cx="475.3352" cy="-196" rx="76.4037" ry="18"/>
-<text text-anchor="middle" x="475.3352" y="-191.8" font-family="Times,serif" font-size="14.00" fill="#000000">scikit-learn 1.1.2</text>
+<text text-anchor="middle" x="475.3352" y="-191.8" font-family="Times,serif" font-size="14.00" fill="#000000">scikit-learn 1.4.2</text>
 </g>
 <!-- pingouin&#45;&gt;scikit&#45;learn -->
 <g id="edge16" class="edge">
@@ -206,7 +206,7 @@
 <g id="node10" class="node">
 <title>statsmodels</title>
 <ellipse fill="#fff5ee" stroke="#000000" cx="475.3352" cy="-326" rx="82.807" ry="18"/>
-<text text-anchor="middle" x="475.3352" y="-321.8" font-family="Times,serif" font-size="14.00" fill="#000000">statsmodels 0.13.2</text>
+<text text-anchor="middle" x="475.3352" y="-321.8" font-family="Times,serif" font-size="14.00" fill="#000000">statsmodels 0.14.2</text>
 </g>
 <!-- pingouin&#45;&gt;statsmodels -->
 <g id="edge17" class="edge">
@@ -235,7 +235,7 @@
 <!-- scipy&#45;&gt;numpy -->
 <g id="edge21" class="edge">
 <title>scipy-&gt;numpy</title>
-<path fill="none" stroke="#000000" d="M701.4772,-297.7087C713.611,-303.5895 727.1222,-310.6407 738.9231,-318 764.6947,-334.0719 791.9174,-355.2413 811.5078,-371.3153"/>
+<path fill="none" stroke="#000000" d="M702.9545,-298.4272C714.7001,-304.1598 727.599,-310.938 738.9231,-318 764.6947,-334.0719 791.9174,-355.2413 811.5078,-371.3153"/>
 <polygon fill="#000000" stroke="#000000" points="809.4766,-374.1776 819.41,-377.8625 813.9426,-368.7873 809.4766,-374.1776"/>
 </g>
 <!-- scikit&#45;learn&#45;&gt;numpy -->
@@ -247,8 +247,8 @@
 <!-- scikit&#45;learn&#45;&gt;scipy -->
 <g id="edge23" class="edge">
 <title>scikit-learn-&gt;scipy</title>
-<path fill="none" stroke="#000000" d="M516.8437,-211.2086C530.0972,-216.2937 544.756,-222.1595 557.9886,-228 580.4168,-237.8992 604.904,-249.9767 624.9273,-260.1975"/>
-<polygon fill="#000000" stroke="#000000" points="623.5845,-263.4425 634.0789,-264.8979 626.7826,-257.2157 623.5845,-263.4425"/>
+<path fill="none" stroke="#000000" d="M516.8437,-211.2086C530.0972,-216.2937 544.756,-222.1595 557.9886,-228 579.9184,-237.6792 603.8167,-249.441 623.5859,-259.5134"/>
+<polygon fill="#000000" stroke="#000000" points="622.1481,-262.7094 632.6436,-264.1569 625.3415,-256.4803 622.1481,-262.7094"/>
 </g>
 <!-- statsmodels&#45;&gt;numpy -->
 <g id="edge24" class="edge">
@@ -265,8 +265,8 @@
 <!-- statsmodels&#45;&gt;scipy -->
 <g id="edge26" class="edge">
 <title>statsmodels-&gt;scipy</title>
-<path fill="none" stroke="#000000" d="M532.1603,-312.9177C557.4981,-307.0844 587.2094,-300.2442 612.2349,-294.4828"/>
-<polygon fill="#000000" stroke="#000000" points="613.3284,-297.8227 622.2882,-292.1683 611.7579,-291.0011 613.3284,-297.8227"/>
+<path fill="none" stroke="#000000" d="M532.1603,-312.9177C556.6277,-307.2848 585.1733,-300.713 609.6397,-295.0803"/>
+<polygon fill="#000000" stroke="#000000" points="610.539,-298.4649 619.4989,-292.8105 608.9685,-291.6433 610.539,-298.4649"/>
 </g>
 <!-- base -->
 <g id="node12" class="node">

@@ -4,15 +4,15 @@ digraph {
         SiPy [shape="rectangle" label="SiPy 0.6.0\nOtoro-Chutoro Continuum" fillcolor=green style=filled]
         
         subgraph packages {
-        fitter [label="fitter 1.6.0" fillcolor=yellow style=filled shape=hexagon]
-        matplotlib [label="matplotlib 3.8.2" fillcolor=seashell style=filled]
-        numpy [label="numpy 1.23.2" fillcolor=seashell style=filled]
-        pandas [label="pandas 2.1.3" fillcolor=yellow style=filled shape=hexagon]
-        pingouin [label="pingouin 0.5.2" fillcolor=yellow style=filled shape=hexagon]
-        seaborn [label="seaborn 0.12.0" fillcolor=seashell style=filled]
-        scipy [label="scipy 1.9.1" fillcolor=yellow style=filled shape=hexagon]
-        "scikit-learn" [label="scikit-learn 1.1.2" fillcolor=seashell style=filled]
-        statsmodels [label="statsmodels 0.13.2" fillcolor=seashell style=filled]
+        fitter [label="fitter 1.7.0" fillcolor=yellow style=filled shape=hexagon]
+        matplotlib [label="matplotlib 3.8.4" fillcolor=seashell style=filled]
+        numpy [label="numpy 1.26.4" fillcolor=seashell style=filled]
+        pandas [label="pandas 2.2.2" fillcolor=yellow style=filled shape=hexagon]
+        pingouin [label="pingouin 0.5.4" fillcolor=yellow style=filled shape=hexagon]
+        seaborn [label="seaborn 0.13.2" fillcolor=seashell style=filled]
+        scipy [label="scipy 1.13.0" fillcolor=yellow style=filled shape=hexagon]
+        "scikit-learn" [label="scikit-learn 1.4.2" fillcolor=seashell style=filled]
+        statsmodels [label="statsmodels 0.14.2" fillcolor=seashell style=filled]
         
         SiPy -> {fitter pandas pingouin scipy}
         fitter -> {matplotlib numpy pandas scipy}
