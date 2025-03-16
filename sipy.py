@@ -955,34 +955,34 @@ class SiPy_Shell(object):
             ttest 1s {dataframe|df|frame|table} wide data=<variable name>.<series name> mu=<population mean>
             
             ttest 2se {list|series|tuple|vector} <variable name A> <variable name B>
-            ttest 2se {list|series|tuple|vector} data=<variable name A>;<variable name B>
+            ttest 2se {list|series|tuple|vector} data=<variable name A>,<variable name B>
             ttest 2se {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-            ttest 2se {dataframe|df|frame|table} wide data=<variable name>.<series name A>;<variable name>.<series name B>
+            ttest 2se {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
             
             ttest 2su {list|series|tuple|vector} <variable name A> <variable name B>
-            ttest 2su {list|series|tuple|vector} data=<variable name A>;<variable name B>
+            ttest 2su {list|series|tuple|vector} data=<variable name A>,<variable name B>
             ttest 2su {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-            ttest 2su {dataframe|df|frame|table} wide data=<variable name>.<series name A>;<variable name>.<series name B>
+            ttest 2su {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
             
             ttest mwu {list|series|tuple|vector} <variable name A> <variable name B>
-            ttest mwu {list|series|tuple|vector} data=<variable name A>;<variable name B>
+            ttest mwu {list|series|tuple|vector} data=<variable name A>,<variable name B>
             ttest mwu {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-            ttest mwu {dataframe|df|frame|table} wide data=<variable name>.<series name A>;<variable name>.<series name B>
+            ttest mwu {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
             
             ttest paired {list|series|tuple|vector} <variable name A> <variable name B>
-            ttest paired {list|series|tuple|vector} data=<variable name A>;<variable name B>
+            ttest paired {list|series|tuple|vector} data=<variable name A>,<variable name B>
             ttest paired {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-            ttest paired {dataframe|df|frame|table} wide data=<variable name>.<series name A>;<variable name>.<series name B>
+            ttest paired {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
 
             ttest tost {list|series|tuple|vector} <variable name A> <variable name B>
-            ttest tost {list|series|tuple|vector} data=<variable name A>;<variable name B>
+            ttest tost {list|series|tuple|vector} data=<variable name A>,<variable name B>
             ttest tost {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-            ttest tost {dataframe|df|frame|table} wide data=<variable name>.<series name A>;<variable name>.<series name B>
+            ttest tost {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
 
             ttest wilcoxon {list|series|tuple|vector} <variable name A> <variable name B>
-            ttest wilcoxon {list|series|tuple|vector} data=<variable name A>;<variable name B>
+            ttest wilcoxon {list|series|tuple|vector} data=<variable name A>,<variable name B>
             ttest wilcoxon {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-            ttest wilcoxon {dataframe|df|frame|table} wide data=<variable name>.<series name A>;<variable name>.<series name B>
+            ttest wilcoxon {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
 
         @return: String containing results of command execution
         """
@@ -990,21 +990,49 @@ class SiPy_Shell(object):
         if operand[0].lower() in ["1s", "1sample"]:
             if data_type in ["list", "series", "tuple", "vector"]:
                 if len(kwargs) == 0:
-                    # ttest 1s {list|series|tuple|vector} <variable name> <population mean>
+                    """
+                    ttest 1s {list|series|tuple|vector} <variable name> <population mean>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    ttest 1s list x 4
+                    """
                     data_values = self.data[operand[2]]
                     mu = float(operand[3])
                 else: 
-                    # ttest 1s {list|series|tuple|vector} data=<variable name> mu=<population mean>
+                    """
+                    ttest 1s {list|series|tuple|vector} data=<variable name> mu=<population mean>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    ttest 1s list data=x mu=4
+                    """
                     data_values = self.data[kwargs["data"]]
                     mu = kwargs["mu"]
                 retR = libsipy.base.tTest1Sample(data_values, mu)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
                 if len(kwargs) == 0:
-                    # ttest 1s {dataframe|df|frame|table} wide <variable name> <series name> <population mean>
+                    """
+                    ttest 1s {dataframe|df|frame|table} wide <variable name> <series name> <population mean>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    ttest 1s dataframe wide z x 5
+                    """
                     data_values = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                     mu = float(operand[5])
                 else:
-                    # ttest 1s {dataframe|df|frame|table} wide data=<variable name>.<series name> mu=<population mean>
+                    """
+                    ttest 1s {dataframe|df|frame|table} wide data=<variable name>.<series name> mu=<population mean>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    ttest 1s dataframe wide data=z.x mu=5
+                    """
                     d = [x.strip() for x in kwargs["data"].split(".")]
                     data_values = libsipy.data_wrangler.df_extract(df=self.data[d[0]], columns=d[1], rtype="list")
                     mu = kwargs["mu"]
@@ -1012,23 +1040,53 @@ class SiPy_Shell(object):
         elif operand[0].lower() in ["2se", "2sample_equal"]:
             if data_type in ["list", "series", "tuple", "vector"]:
                 if len(kwargs) == 0:
-                    # ttest 2se {list|series|tuple|vector} <variable name A> <variable name B>
+                    """
+                    ttest 2se {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    ttest 2se list x y
+                    """
                     data_valuesA = self.data[operand[2]]
                     data_valuesB = self.data[operand[3]]
                 else:
-                    # ttest 2se {list|series|tuple|vector} data=<variable name A>;<variable name B>
-                    datavar = [x.strip() for x in kwargs["data"].split(";")]
+                    """
+                    ttest 2se {list|series|tuple|vector} data=<variable name A><variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    ttest 2se list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
                     data_valuesA = self.data[datavar[0]]
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.tTest2SampleEqual(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
                 if len(kwargs) == 0:
-                    # ttest 2se {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                    """
+                    ttest 2se {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    ttest 2se dataframe wide z x y
+                    """
                     data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                     data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 else:
-                    # ttest 2se {dataframe|df|frame|table} wide data=<variable name>.<series name A>;<variable name>.<series name B>
-                    datavar = [x.strip() for x in kwargs["data"].split(";")]
+                    """
+                    ttest 2se {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    ttest 2se dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
                     dA = [x.strip() for x in datavar[0].split(".")]
                     dB = [x.strip() for x in datavar[1].split(".")]
                     data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
@@ -1037,23 +1095,54 @@ class SiPy_Shell(object):
         elif operand[0].lower() in ["2su", "2sample_unequal"]:
             if data_type in ["list", "series", "tuple", "vector"]:
                 if len(kwargs) == 0:
-                    # ttest 2su {list|series|tuple|vector} <variable name A> <variable name B>
+                    """
+                    ttest 2su {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    ttest 2su list x y
+                    """
                     data_valuesA = self.data[operand[2]]
                     data_valuesB = self.data[operand[3]]
                 else:
-                    # ttest 2su {list|series|tuple|vector} data=<variable name A>;<variable name B>
-                    datavar = [x.strip() for x in kwargs["data"].split(";")]
+                    """
+                    ttest 2su {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    ttest 2su list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
                     data_valuesA = self.data[datavar[0]]
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.tTest2SampleUnequal(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
                 if len(kwargs) == 0:
-                    # ttest 2su {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                    """
+                    ttest 2su {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    ttest 2su dataframe wide z x y
+                    """
                     data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                     data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 else:
-                    # ttest 2su {dataframe|df|frame|table} wide data=<variable name>.<series name A>;<variable name>.<series name B>
-                    datavar = [x.strip() for x in kwargs["data"].split(";")]
+                    """
+                    ttest 2su {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    ttest 2su dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
                     dA = [x.strip() for x in datavar[0].split(".")]
                     dB = [x.strip() for x in datavar[1].split(".")]
                     data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
@@ -1062,23 +1151,53 @@ class SiPy_Shell(object):
         elif operand[0].lower() in ["mwu", "mannwhitney"]:
             if data_type in ["list", "series", "tuple", "vector"]:
                 if len(kwargs) == 0:
-                    # ttest mwu {list|series|tuple|vector} <variable name A> <variable name B>
+                    """
+                    ttest mwu {list|series|tuple|vector} <variable name A> <variable name B>
+                    
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    ttest mwu list x y
+                    """
                     data_valuesA = self.data[operand[2]]
                     data_valuesB = self.data[operand[3]]
                 else:
-                    # ttest mwu {list|series|tuple|vector} data=<variable name A>;<variable name B>
-                    datavar = [x.strip() for x in kwargs["data"].split(";")]
+                    """
+                    ttest mwu {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    ttest mwu list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
                     data_valuesA = self.data[datavar[0]]
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.mannWhitneyU(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
                 if len(kwargs) == 0:
-                    # ttest mwu {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                    """
+                    ttest mwu {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    ttest mwu dataframe wide z x y
+                    """
                     data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                     data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 else:
-                    # ttest mwu {dataframe|df|frame|table} wide data=<variable name>.<series name A>;<variable name>.<series name B>
-                    datavar = [x.strip() for x in kwargs["data"].split(";")]
+                    """
+                    ttest mwu {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    ttest mwu dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
                     dA = [x.strip() for x in datavar[0].split(".")]
                     dB = [x.strip() for x in datavar[1].split(".")]
                     data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
@@ -1087,23 +1206,53 @@ class SiPy_Shell(object):
         elif operand[0].lower() in ["paired", "dependent"]:
             if data_type in ["list", "series", "tuple", "vector"]:
                 if len(kwargs) == 0:
-                    # ttest paired {list|series|tuple|vector} <variable name A> <variable name B>
+                    """
+                    ttest paired {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    ttest paired list x y
+                    """
                     data_valuesA = self.data[operand[2]]
                     data_valuesB = self.data[operand[3]]
                 else:
-                    # ttest paired {list|series|tuple|vector} data=<variable name A>;<variable name B>
-                    datavar = [x.strip() for x in kwargs["data"].split(";")]
+                    """
+                    ttest paired {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    ttest paired list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
                     data_valuesA = self.data[datavar[0]]
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.tTest2SamplePaired(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
                 if len(kwargs) == 0:
-                    # ttest paired {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                    """
+                    ttest paired {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    ttest paired dataframe wide z x y
+                    """
                     data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                     data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 else:
-                    # ttest paired {dataframe|df|frame|table} wide data=<variable name>.<series name A>;<variable name>.<series name B>
-                    datavar = [x.strip() for x in kwargs["data"].split(";")]
+                    """
+                    ttest paired {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    ttest paired dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
                     dA = [x.strip() for x in datavar[0].split(".")]
                     dB = [x.strip() for x in datavar[1].split(".")]
                     data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
@@ -1112,23 +1261,53 @@ class SiPy_Shell(object):
         elif operand[0].lower() in ["tost"]:
             if data_type in ["list", "series", "tuple", "vector"]:
                 if len(kwargs) == 0:
-                    # ttest tost {list|series|tuple|vector} <variable name A> <variable name B>
+                    """
+                    ttest tost {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    ttest tost list x y
+                    """
                     data_valuesA = self.data[operand[2]]
                     data_valuesB = self.data[operand[3]]
                 else:
-                    # ttest tost {list|series|tuple|vector} data=<variable name A>;<variable name B>
-                    datavar = [x.strip() for x in kwargs["data"].split(";")]
+                    """
+                    ttest tost {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    ttest tost list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
                     data_valuesA = self.data[datavar[0]]
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.TOST(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
                 if len(kwargs) == 0:
-                    # ttest tost {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                    """
+                    ttest tost {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    ttest tost dataframe wide z x y
+                    """
                     data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                     data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 else:
-                    # ttest tost {dataframe|df|frame|table} wide data=<variable name>.<series name A>;<variable name>.<series name B>
-                    datavar = [x.strip() for x in kwargs["data"].split(";")]
+                    """
+                    ttest tost {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    ttest tost dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
                     dA = [x.strip() for x in datavar[0].split(".")]
                     dB = [x.strip() for x in datavar[1].split(".")]
                     data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
@@ -1137,23 +1316,53 @@ class SiPy_Shell(object):
         elif operand[0].lower() in ["wilcoxon"]:
             if data_type in ["list", "series", "tuple", "vector"]:
                 if len(kwargs) == 0:
-                    # ttest wilcoxon {list|series|tuple|vector} <variable name A> <variable name B>
+                    """
+                    ttest wilcoxon {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    ttest wilcoxon list x y
+                    """
                     data_valuesA = self.data[operand[2]]
                     data_valuesB = self.data[operand[3]]
                 else:
-                    # ttest wilcoxon {list|series|tuple|vector} data=<variable name A>;<variable name B>
-                    datavar = [x.strip() for x in kwargs["data"].split(";")]
+                    """
+                    ttest wilcoxon {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    ttest wilcoxon list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
                     data_valuesA = self.data[datavar[0]]
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.wilcoxon(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
                 if len(kwargs) == 0:
-                    # ttest wilcoxon {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+                    """
+                    ttest wilcoxon {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    ttest wilcoxon dataframe wide z x y
+                    """
                     data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
                     data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
                 else:
-                    # ttest wilcoxon {dataframe|df|frame|table} wide data=<variable name>.<series name A>;<variable name>.<series name B>
-                    datavar = [x.strip() for x in kwargs["data"].split(";")]
+                    """
+                    ttest wilcoxon {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    ttest wilcoxon dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
                     dA = [x.strip() for x in datavar[0].split(".")]
                     dB = [x.strip() for x in datavar[1].split(".")]
                     data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
