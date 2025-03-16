@@ -155,7 +155,14 @@ class SiPy_Shell(object):
 
         Commands: 
             anova 1way {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+            anova 1way {list|series|tuple|vector} data=<variable name 1>,<variable name 2>, ... ,<variable name N>
+
             anova 1way {dataframe|df|frame|table} wide <variable name>
+            anova 1way {dataframe|df|frame|table} wide data=<variable name>
+
+            anova rm {dataframe|df|frame|table} wide <variable name>
+            anova rm {dataframe|df|frame|table} wide data=<variable name>
+
             #anova kruskal {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
             #anova kruskal {dataframe|df|frame|table} wide <variable name>
 
@@ -164,13 +171,54 @@ class SiPy_Shell(object):
         data_type = operand[1].lower()
         if operand[0].lower() == "1way":
             if data_type in ["list", "series", "tuple", "vector"]:
-                # anova 1way {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
-                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+                if len(kwargs) == 0:
+                    """
+                    anova 1way {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
+                    
+                    Example:
+                    let X1 be list 1,2,3,4,5,6
+                    let X2 be list 2,3,4,5,6,7
+                    let X3 be list 3,4,5,6,7,8
+                    anova 1way list X1 X2 X3
+                    """
+                    data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+                else:
+                    """
+                    anova 1way {list|series|tuple|vector} data=<variable name 1>,<variable name 2>, ... ,<variable name N>
+                    
+                    Example:
+                    let X1 be list 1,2,3,4,5,6
+                    let X2 be list 2,3,4,5,6,7
+                    let X3 be list 3,4,5,6,7,8
+                    anova 1way list data=X1,X2,X3
+                    """
+                    data_list = kwargs["data"].split(self.environment["separator"])
+                    data_values = [self.data[x.strip()] for x in data_list]
                 result = libsipy.base.anova1way(data_values)
                 retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # anova 1way {dataframe|df|frame|table} wide <variable name>
-                data_values = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns="all", rtype="list")
+                if len(kwargs) == 0:
+                    """
+                    anova 1way {dataframe|df|frame|table} wide <variable name>
+
+                    Example:
+                    let X1 be list 1,2,3,4,5,6
+                    let X2 be list 2,3,4,5,6,7
+                    let z be dataframe X1:X1 X2:X2
+                    anova 1way dataframe wide z
+                    """
+                    data_values = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns="all", rtype="list")
+                else:
+                    """
+                    anova 1way {dataframe|df|frame|table} wide data=<variable name>
+
+                    Example:
+                    let X1 be list 1,2,3,4,5,6
+                    let X2 be list 2,3,4,5,6,7
+                    let z be dataframe X1:X1 X2:X2
+                    anova 1way dataframe wide data=z
+                    """
+                    data_values = libsipy.data_wrangler.df_extract(df=self.data[kwargs["data"]], columns="all", rtype="list")
                 result = libsipy.base.anova1way(data_values)
                 retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         # elif operand[0].lower() in ["kruskal"]:
@@ -186,8 +234,28 @@ class SiPy_Shell(object):
         #         retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         elif operand[0].lower() in ["rm", "repeated-measure"]:
             if data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # anova rm {dataframe|df|frame|table} wide <variable name>
-                data_values = self.data[operand[3]]
+                if len(kwargs) == 0:
+                    """
+                    anova rm {dataframe|df|frame|table} wide <variable name>
+
+                    Example:
+                    let X1 be list 1,2,3,4,5,6
+                    let X2 be list 2,3,4,5,6,7
+                    let z be dataframe X1:X1 X2:X2
+                    anova rm dataframe wide z
+                    """
+                    data_values = self.data[operand[3]]
+                else:
+                    """
+                    anova rm {dataframe|df|frame|table} wide data=<variable name>
+
+                    Example:
+                    let X1 be list 1,2,3,4,5,6
+                    let X2 be list 2,3,4,5,6,7
+                    let z be dataframe X1:X1 X2:X2
+                    anova rm dataframe wide data=z
+                    """
+                    data_values = self.data[kwargs["data"]]
                 retR = libsipy.base.anovaRM_wide(data_values)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
