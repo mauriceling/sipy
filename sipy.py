@@ -605,10 +605,22 @@ class SiPy_Shell(object):
                 data_values = operand[3]
                 self.data[variable_name] = float(data_values)
                 retR = "%s = %s" % (variable_name, str(data_values))
-            elif data_type.lower() in ["list", "series", "tuple", "vector"]:
-                # let <variable_name> be {list|series|tuple|vector} <comma-separated values>
+            elif data_type.lower() in ["list", "clist", "series", "tuple", "vector"]:
+                # let <variable_name> be {list|clist|series|tuple|vector} <comma-separated values>
                 data_values = "".join(operand[3:])
                 data_values = [float(x) for x in data_values.split(self.environment["separator"])]
+                self.data[variable_name] = pd.Series(data_values)
+                retR = "%s = %s" % (variable_name, str(data_values))
+            elif data_type.lower() in ["dlist"]:
+                # let <variable_name> be dlist <comma-separated values>
+                data_values = "".join(operand[3:])
+                data_values = [int(x) for x in data_values.split(self.environment["separator"])]
+                self.data[variable_name] = pd.Series(data_values)
+                retR = "%s = %s" % (variable_name, str(data_values))
+            elif data_type.lower() in ["slist"]:
+                # let <variable_name> be slist <comma-separated values>
+                data_values = "".join(operand[3:])
+                data_values = [str(x) for x in data_values.split(self.environment["separator"])]
                 self.data[variable_name] = pd.Series(data_values)
                 retR = "%s = %s" % (variable_name, str(data_values))
             elif data_type.lower() in ["dataframe", "df", "frame", "table"]:
@@ -815,13 +827,14 @@ class SiPy_Shell(object):
             rregress decision_tree data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
-            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
-            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
-            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
-            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
-            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
-            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
-            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let yC be slist A, B, C, A, B, C, A, B, C, A
+            let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
             let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress decision_tree data=df y=yN x=x1,x2,x3,x4,x5
             """
