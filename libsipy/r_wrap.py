@@ -126,6 +126,9 @@ def regression(df, response, predictors=None, model_type="lm", family=None, rscr
             X <- model.matrix({formula}, data)[,-1]
             Y <- data${response}
             model <- glmnet::cv.glmnet(X, Y, alpha=0.5)
+        """,
+        "probit_regression": f"""
+            model <- glm({formula}, data=data, family=binomial(link="probit"))
         """
     }
 
