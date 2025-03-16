@@ -803,28 +803,28 @@ class SiPy_Shell(object):
         Performs R-based regression(s).
 
         Commands: 
-            rregress decision_tree data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
-            rregress elasticnet data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
-            rregress gradient_boosting data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress {decision_tree|dt} data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress {elasticnet|elastic|enet} data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress {gradient_boosting|gb} data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
             rregress hurdle data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
             rregress lasso data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
-            rregress lm data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
-            rregress negbinom data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress {lm|linear|lin} data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress {negbinom|negbi|nb data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
             rregress poisson data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
             rregress probit data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
-            rregress randomforest data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress {randomforest|rf} data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
             rregress svm data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
             rregress svr data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
-            rregress zerofl data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress zeroinfl data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
         @return: String containing results of command execution
         """
         df = self.data[kwargs["data"]]
         dependent_variable = kwargs["y"]
         independent_variables = [x.strip() for x in kwargs["x"].split(self.environment["separator"])]
-        if operand[0].lower() in ["decision_tree"]:
+        if operand[0].lower() in ["decision_tree", "dt"]:
             """
-            rregress decision_tree data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress {decision_tree|dt} data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
             let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
@@ -840,9 +840,9 @@ class SiPy_Shell(object):
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "decision_tree", None)
             retR = "\n".join(retR)
-        elif operand[0].lower() in ["elasticnet"]:
+        elif operand[0].lower() in ["elasticnet", "elastic", "enet"]:
             """
-            rregress elasticnet data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress {elasticnet|elastic|enet} data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
             let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
@@ -858,9 +858,9 @@ class SiPy_Shell(object):
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "elasticnet", None)
             retR = "\n".join(retR)
-        elif operand[0].lower() in ["gradient_boosting"]:
+        elif operand[0].lower() in ["gradient_boosting", "gb"]:
             """
-            rregress gradient_boosting data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress {gradient_boosting|gb} data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
             let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
@@ -914,7 +914,7 @@ class SiPy_Shell(object):
             retR = "\n".join(retR)
         elif operand[0].lower() in ["lm", "linear", "lin"]:
             """
-            rregress lm data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress {lm|linear|lin} data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
             let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
@@ -930,9 +930,9 @@ class SiPy_Shell(object):
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "lm", None)
             retR = "\n".join(retR)
-        elif operand[0].lower() in ["negbinom"]:
+        elif operand[0].lower() in ["negbinom", "negbi", "nb"]:
             """
-            rregress negbinom data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress {negbinom|negbi|nb} data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
             let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
@@ -984,9 +984,9 @@ class SiPy_Shell(object):
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "probit_regression", None)
             retR = "\n".join(retR)
-        elif operand[0].lower() in ["randomforest"]:
+        elif operand[0].lower() in ["randomforest", "rf"]:
             """
-            rregress randomforest data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress {randomforest|rf} data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
             let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
