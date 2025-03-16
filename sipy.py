@@ -48,10 +48,14 @@ class SiPy_Shell(object):
         """
         self.count = 1
         self.data = {}
+        if os.path.exists(os.path.abspath("portable_R\\bin\\Rscript.exe")):
+            rscript_exe = os.path.abspath("portable_R\\bin\\Rscript.exe")
+        else: rscript_exe = None
         self.environment = {"cwd": os.getcwd(),
                             "plugin_directory": "sipy_plugins",
                             "plugin_system": True,
                             "prompt": ">>>",
+                            "rscript_exe": rscript_exe,
                             "separator": ",",
                             "sipy_directory": os.getcwd(),
                             "verbosity": 0}
@@ -158,7 +162,7 @@ class SiPy_Shell(object):
         @return: String containing results of command execution
         """
         data_type = operand[1].lower()
-        if operand[0].lower() in ["1way"]:
+        if operand[0].lower() == "1way":
             if data_type in ["list", "series", "tuple", "vector"]:
                 # anova 1way {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
                 data_values = [self.data[operand[i]] for i in range(2, len(operand))]
@@ -180,7 +184,7 @@ class SiPy_Shell(object):
         #         data_values = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns="all", rtype="list")
         #         result = libsipy.base.anovakruskal(data_values)
         #         retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
-        if operand[0].lower() in ["rm", "repeated-measure"]:
+        elif operand[0].lower() in ["rm", "repeated-measure"]:
             if data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
                 # anova rm {dataframe|df|frame|table} wide <variable name>
                 data_values = self.data[operand[3]]
@@ -1198,6 +1202,7 @@ class SiPy_Shell(object):
         elif operator == "normality": return self.do_normality(operand, kwargs)
         elif operator == "read": return self.do_read(operand, kwargs)
         elif operator == "regress": return self.do_regression(operand, kwargs)
+        elif operator == "rregress": return self.do_R_regression(operand, kwargs)
         elif operator == "script": return self.do_script(operand, kwargs)
         elif operator == "set": return self.do_set(operand, kwargs)
         elif operator == "show": return self.do_show(operand, kwargs)
