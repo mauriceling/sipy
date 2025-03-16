@@ -845,14 +845,15 @@ class SiPy_Shell(object):
             rregress elasticnet data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
-            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
-            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
-            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
-            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
-            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
-            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
-            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
-            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let yC be slist A, B, C, A, B, C, A, B, C, A
+            let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress elasticnet data=df y=yN x=x1,x2,x3,x4,x5
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "elasticnet", None)
@@ -862,14 +863,15 @@ class SiPy_Shell(object):
             rregress gradient_boosting data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
-            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
-            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
-            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
-            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
-            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
-            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
-            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
-            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let yC be slist A, B, C, A, B, C, A, B, C, A
+            let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress gradient_boosting data=df y=yN x=x1,x2,x3,x4,x5
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "gradient_boosting", None)
@@ -879,14 +881,15 @@ class SiPy_Shell(object):
             rregress hurdle data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
-            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
-            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
-            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
-            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
-            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
-            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
-            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
-            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let yC be slist A, B, C, A, B, C, A, B, C, A
+            let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress hurdle data=df y=yB x=x1,x2,x3,x4,x5
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "hurdle", None)
@@ -896,14 +899,15 @@ class SiPy_Shell(object):
             rregress lasso data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
-            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
-            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
-            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
-            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
-            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
-            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
-            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
-            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let yC be slist A, B, C, A, B, C, A, B, C, A
+            let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress lasso data=df y=yN x=x1,x2,x3,x4,x5
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "lasso", None)
@@ -913,14 +917,15 @@ class SiPy_Shell(object):
             rregress lm data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
-            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
-            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
-            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
-            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
-            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
-            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
-            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
-            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let yC be slist A, B, C, A, B, C, A, B, C, A
+            let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress lm data=df y=yN x=x1,x2,x3,x4,x5
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "lm", None)
@@ -930,14 +935,15 @@ class SiPy_Shell(object):
             rregress negbinom data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
-            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
-            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
-            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
-            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
-            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
-            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
-            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
-            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let yC be slist A, B, C, A, B, C, A, B, C, A
+            let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress negbinom data=df y=yB x=x1,x2,x3,x4,x5
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "negbinom", None)
@@ -947,14 +953,15 @@ class SiPy_Shell(object):
             rregress poisson data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
-            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
-            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
-            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
-            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
-            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
-            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
-            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
-            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let yC be slist A, B, C, A, B, C, A, B, C, A
+            let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress poisson data=df y=yB x=x1,x2,x3,x4,x5
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "poisson", None)
@@ -964,14 +971,15 @@ class SiPy_Shell(object):
             rregress probit data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
-            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
-            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
-            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
-            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
-            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
-            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
-            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
-            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let yC be slist A, B, C, A, B, C, A, B, C, A
+            let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress probit data=df y=yB x=x1,x2,x3,x4,x5
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "probit_regression", None)
@@ -981,14 +989,15 @@ class SiPy_Shell(object):
             rregress randomforest data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
-            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
-            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
-            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
-            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
-            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
-            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
-            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
-            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let yC be slist A, B, C, A, B, C, A, B, C, A
+            let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress randomforest data=df y=yN x=x1,x2,x3,x4,x5
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "randomforest", None)
@@ -998,14 +1007,15 @@ class SiPy_Shell(object):
             rregress svm data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
-            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
-            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
-            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
-            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
-            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
-            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
-            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
-            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let yC be slist A, B, C, A, B, C, A, B, C, A
+            let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress svm data=df y=yN x=x1,x2,x3,x4,x5
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "svm", None)
@@ -1015,14 +1025,15 @@ class SiPy_Shell(object):
             rregress svr data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
-            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
-            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
-            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
-            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
-            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
-            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
-            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
-            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let yC be slist A, B, C, A, B, C, A, B, C, A
+            let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress svr data=df y=yN x=x1,x2,x3,x4,x5
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "svr", None)
@@ -1032,14 +1043,15 @@ class SiPy_Shell(object):
             rregress zeroinfl data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
 
             Example: 
-            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
-            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
-            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
-            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
-            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
-            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
-            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
-            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let yC be slist A, B, C, A, B, C, A, B, C, A
+            let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress zeroinfl data=df y=yB x=x1,x2,x3,x4,x5
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "zeroinfl", None)
