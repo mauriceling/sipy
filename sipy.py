@@ -786,6 +786,238 @@ class SiPy_Shell(object):
         print(retR.to_string())
         return retR
 
+    def do_R_regression(self, operand, kwargs):
+        """!
+        Performs R-based regression(s).
+
+        Commands: 
+            rregress decision_tree data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress elasticnet data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress gradient_boosting data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress hurdle data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress lasso data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress lm data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress negbinom data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress poisson data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress randomforest data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress svm data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress svr data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+            rregress zerofl data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+
+        @return: String containing results of command execution
+        """
+        df = self.data[kwargs["data"]]
+        dependent_variable = kwargs["y"]
+        independent_variables = [x.strip() for x in kwargs["x"].split(self.environment["separator"])]
+        if operand[0].lower() in ["decision_tree"]:
+            """
+            rregress decision_tree data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+
+            Example: 
+            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            rregress decision_tree data=df y=yN x=x1,x2,x3,x4,x5
+            """
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "decision_tree", None)
+            retR = "\n".join(retR)
+        elif operand[0].lower() in ["elasticnet"]:
+            """
+            rregress elasticnet data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+
+            Example: 
+            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            rregress elasticnet data=df y=yN x=x1,x2,x3,x4,x5
+            """
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "elasticnet", None)
+            retR = "\n".join(retR)
+        elif operand[0].lower() in ["gradient_boosting"]:
+            """
+            rregress gradient_boosting data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+
+            Example: 
+            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            rregress gradient_boosting data=df y=yN x=x1,x2,x3,x4,x5
+            """
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "gradient_boosting", None)
+            retR = "\n".join(retR)
+        elif operand[0].lower() in ["hurdle"]:
+            """
+            rregress hurdle data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+
+            Example: 
+            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            rregress hurdle data=df y=yB x=x1,x2,x3,x4,x5
+            """
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "hurdle", None)
+            retR = "\n".join(retR)
+        elif operand[0].lower() in ["lasso"]:
+            """
+            rregress lasso data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+
+            Example: 
+            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            rregress lasso data=df y=yN x=x1,x2,x3,x4,x5
+            """
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "lasso", None)
+            retR = "\n".join(retR)
+        elif operand[0].lower() in ["lm", "linear", "lin"]:
+            """
+            rregress lm data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+
+            Example: 
+            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            rregress lm data=df y=yN x=x1,x2,x3,x4,x5
+            """
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "lm", None)
+            retR = "\n".join(retR)
+        elif operand[0].lower() in ["negbinom"]:
+            """
+            rregress negbinom data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+
+            Example: 
+            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            rregress negbinom data=df y=yB x=x1,x2,x3,x4,x5
+            """
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "negbinom", None)
+            retR = "\n".join(retR)
+        elif operand[0].lower() in ["poisson"]:
+            """
+            rregress poisson data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+
+            Example: 
+            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            rregress poisson data=df y=yB x=x1,x2,x3,x4,x5
+            """
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "poisson", None)
+            retR = "\n".join(retR)
+        elif operand[0].lower() in ["randomforest"]:
+            """
+            rregress randomforest data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+
+            Example: 
+            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            rregress randomforest data=df y=yN x=x1,x2,x3,x4,x5
+            """
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "randomforest", None)
+            retR = "\n".join(retR)
+        elif operand[0].lower() in ["svm"]:
+            """
+            rregress svm data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+
+            Example: 
+            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            rregress svm data=df y=yN x=x1,x2,x3,x4,x5
+            """
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "svm", None)
+            retR = "\n".join(retR)
+        elif operand[0].lower() in ["svr"]:
+            """
+            rregress svr data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+
+            Example: 
+            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            rregress svr data=df y=yN x=x1,x2,x3,x4,x5
+            """
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "svr", None)
+            retR = "\n".join(retR)
+        elif operand[0].lower() in ["zeroinfl"]:
+            """
+            rregress zeroinfl data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+
+            Example: 
+            let yN be list 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be list 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let x1 be list 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be list 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be list 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be list 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be list 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            rregress zeroinfl data=df y=yB x=x1,x2,x3,x4,x5
+            """
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "zeroinfl", None)
+            retR = "\n".join(retR)
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+
     def do_script(self, operand, kwargs):
         """!
         Performs scripting platform operations
@@ -1637,7 +1869,7 @@ class SiPy_Shell(object):
 
     def basic_gui(self):
         """!
-        Basic GUI for SiPy using PySimpleGUI.
+        Basic GUI for SiPy using FreeSimpleGUI.
         """
         sg.theme("DarkGreen3")
         layout = [[sg.Text("Output Window", size=(40, 1))],
