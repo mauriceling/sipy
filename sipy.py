@@ -1537,7 +1537,8 @@ class SiPy_Shell(object):
         self.header()
         while True:
             statement = input("SiPy: %s %s " % (str(self.count), self.environment["prompt"])).strip() 
-            if statement == "exit": return 0
+            if len(statement) == 0: pass
+            elif statement == "exit": return 0
             elif statement.startswith("#"): continue
             else: _ = self.interpret(statement)
             print("")
