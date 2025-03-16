@@ -46,7 +46,7 @@ Important: Turn off Dropbox / OneDrive synchronizations before generating execut
 data = {"conda_env": "conda_sipy_environment.txt",
         "pip_env": "pip_sipy_environment.txt",
         "conda_packageList": "openpyxl pandas scipy pingouin pyinstaller scikit-learn statsmodels",
-        "pip_packageList": "fire fitter",
+        "pip_packageList": "fire fitter FreeSimpleGUI",
         "CLI_scriptfile": "sipy_CLI.py",
         "GUI_scriptfile": "sipy.py",
         "folder_spec": "sipy_windows.spec"}
