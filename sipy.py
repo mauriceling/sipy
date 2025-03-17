@@ -1067,24 +1067,96 @@ class SiPy_Shell(object):
             normality {shapirowilk|sw} <variable_name>
             normality {skewtest|sk} <variable_name>
 
+            normality kurtosis data=<variable_name>
+            normality {jarquebera|jb} data=<variable_name>
+            normality {shapirowilk|sw} data=<variable_name>
+            normality {skewtest|sk} data=<variable_name>
+
         @return: String containing results of command execution
         """
-        variable_name = operand[1]
-        data_values = self.data[variable_name]
+        if "data" in kwargs:
+            data_values = self.data[kwargs["data"]]
+        else:
+            variable_name = operand[1]
+            data_values = self.data[variable_name]
         if operand[0].lower() == "kurtosis":
-            # normality kurtosis <variable_name>
+            """
+            normality kurtosis <variable_name>
+            normality kurtosis data=<variable_name>
+
+            Example (list):
+            let x be list 2,3,4,5,6,7,8,9
+            normality kurtosis x
+            normality kurtosis data=x
+
+            Example (dataframe):
+            let X1 be list 1,2,3,4,5,6
+            let X2 be list 2,3,4,5,6,7
+            let X3 be list 3,4,5,6,7,8
+            let z be dataframe X1:X1 X2:X2 X3:X3
+            normality kurtosis z
+            normality kurtosis data=z
+            """
             result = libsipy.base.kurtosisNormalityTest(data_values)
             retR = "Z-score = %s; p-value = %s" % (str(result[0]), str(result[1]))
         elif operand[0].lower() in ["jb" , "jarquebera" , "jarqueBera"]:
-            # normality {jarquebera|jb} <variable_name>
+            """
+            normality {jarquebera|jb} <variable_name>
+            normality {jarquebera|jb} data=<variable_name>
+
+            Example (list):
+            let x be list 2,3,4,5,6,7,8,9
+            normality jarquebera x
+            normality jarquebera data=x
+
+            Example (dataframe):
+            let X1 be list 1,2,3,4,5,6
+            let X2 be list 2,3,4,5,6,7
+            let X3 be list 3,4,5,6,7,8
+            let z be dataframe X1:X1 X2:X2 X3:X3
+            normality jarquebera z
+            normality jarquebera data=z
+            """
             result = libsipy.base.jarqueBeraNormalityTest(data_values)
             retR = "Statistic = %s; p-value = %s" % (str(result[0]), str(result[1]))
         elif operand[0].lower() in ["shapirowilk" , "sw" , "shapiroWilk"]:
-            # normality {shapirowilk|sw} <variable_name>
+            """
+            normality {shapirowilk|sw} <variable_name>
+            normality {shapirowilk|sw} data=<variable_name>
+
+            Example (list):
+            let x be list 2,3,4,5,6,7,8,9
+            normality shapirowilk x
+            normality shapirowilk data=x
+
+            Example (dataframe):
+            let X1 be list 1,2,3,4,5,6
+            let X2 be list 2,3,4,5,6,7
+            let X3 be list 3,4,5,6,7,8
+            let z be dataframe X1:X1 X2:X2 X3:X3
+            normality shapirowilk z
+            normality shapirowilk data=z
+            """
             result = libsipy.base.shapiroWilkNormalityTest(data_values)
             retR = "Statistic = %s; p-value = %s" % (str(result[0]), str(result[1]))
         elif operand[0].lower() in ["skewtest" , "sk"]:
-            # normality {skewtest|sk} <variable_name>
+            """
+            normality {skewtest|sk} <variable_name>
+            normality {skewtest|sk} data=<variable_name>
+
+            Example (list):
+            let x be list 2,3,4,5,6,7,8,9
+            normality skewtest x
+            normality skewtest data=x
+
+            Example (dataframe):
+            let X1 be list 1,2,3,4,5,6
+            let X2 be list 2,3,4,5,6,7
+            let X3 be list 3,4,5,6,7,8
+            let z be dataframe X1:X1 X2:X2 X3:X3
+            normality skewtest z
+            normality skewtest data=z
+            """
             try:
                 result = libsipy.base.skewNormalityTest(data_values)
             except ValueError:
