@@ -171,7 +171,7 @@ class SiPy_Shell(object):
         data_type = operand[1].lower()
         if operand[0].lower() == "1way":
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     anova 1way {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
                     
@@ -197,7 +197,7 @@ class SiPy_Shell(object):
                 result = libsipy.base.anova1way(data_values)
                 retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     anova 1way {dataframe|df|frame|table} wide <variable name>
 
@@ -234,7 +234,7 @@ class SiPy_Shell(object):
         #         retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         elif operand[0].lower() in ["rm", "repeated-measure"]:
             if data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     anova rm {dataframe|df|frame|table} wide <variable name>
 
@@ -315,7 +315,7 @@ class SiPy_Shell(object):
         data_type = operand[1].lower()
         if operand[0].lower() in ["none"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     compute_effsize none {list|series|tuple|vector} <variable name A> <variable name B>
 
@@ -340,7 +340,7 @@ class SiPy_Shell(object):
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.compute_effsize_none(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     compute_effsize none {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
 
@@ -370,7 +370,7 @@ class SiPy_Shell(object):
                 retR = libsipy.base.compute_effsize_none(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["cohen", "d"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     compute_effsize cohen {list|series|tuple|vector} <variable name A> <variable name B>
 
@@ -395,7 +395,7 @@ class SiPy_Shell(object):
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.compute_effsize_cohen(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     compute_effsize cohen {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
 
@@ -425,7 +425,7 @@ class SiPy_Shell(object):
                 retR = libsipy.base.compute_effsize_cohen(data_valuesA, data_valuesB)  
         elif operand[0].lower() in ["hedges", "g"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     compute_effsize hedges {list|series|tuple|vector} <variable name A> <variable name B>
 
@@ -450,7 +450,7 @@ class SiPy_Shell(object):
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.compute_effsize_hedges(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     compute_effsize hedges {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
 
@@ -480,7 +480,7 @@ class SiPy_Shell(object):
                 retR = libsipy.base.compute_effsize_hedges(data_valuesA, data_valuesB)              
         elif operand[0].lower() in ["pearson", "r"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     compute_effsize r {list|series|tuple|vector} <variable name A> <variable name B>
 
@@ -505,7 +505,7 @@ class SiPy_Shell(object):
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.compute_effsize_r(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     compute_effsize r {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
 
@@ -546,7 +546,7 @@ class SiPy_Shell(object):
         #         retR = libsipy.base.compute_effsize_pointbiserialr(data_valuesA, data_valuesB)              
         elif operand[0].lower() in ["eta-square"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     compute_effsize eta-square {list|series|tuple|vector} <variable name A> <variable name B>
 
@@ -571,7 +571,7 @@ class SiPy_Shell(object):
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.compute_effsize_etasquare(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     compute_effsize eta-square {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
 
@@ -601,7 +601,7 @@ class SiPy_Shell(object):
                 retR = libsipy.base.compute_effsize_etasquare(data_valuesA, data_valuesB)              
         elif operand[0].lower() in ["odds-ratio", "or"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     compute_effsize odds-ratio {list|series|tuple|vector} <variable name A> <variable name B>
 
@@ -626,7 +626,7 @@ class SiPy_Shell(object):
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.compute_effsize_oddsratio(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     compute_effsize odds-ratio {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
 
@@ -656,7 +656,7 @@ class SiPy_Shell(object):
                 retR = libsipy.base.compute_effsize_oddsratio(data_valuesA, data_valuesB)              
         elif operand[0].lower() in ["AUC", "auc"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     compute_effsize AUC {list|series|tuple|vector} <variable name A> <variable name B>
 
@@ -681,7 +681,7 @@ class SiPy_Shell(object):
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.compute_effsize_AUC(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     compute_effsize AUC {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>"
 
@@ -711,7 +711,7 @@ class SiPy_Shell(object):
                 retR = libsipy.base.compute_effsize_AUC(data_valuesA, data_valuesB)              
         elif operand[0].lower() in ["CLES", "cles"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     compute_effsize CLES {list|series|tuple|vector} <variable name A> <variable name B>
 
@@ -736,7 +736,7 @@ class SiPy_Shell(object):
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.compute_effsize_CLES(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     compute_effsize CLES {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
 
@@ -1210,7 +1210,7 @@ class SiPy_Shell(object):
         @return: String containing results of command execution
         """
         if operand[0].lower() in ["linear", "lin"]:
-            if len(kwargs) == 0:
+            if "data" not in kwargs:
                 # regress linear <dependent variable name> <independent variable name> [False for intercept=0]
                 try: 
                     if operand[3] in [True, "True", "TRUE", "true", "T", "t", "Yes", "YES", "Y", "y"]:
@@ -1232,7 +1232,7 @@ class SiPy_Shell(object):
                     add_intercept = False
             retR = libsipy.base.regressionLinear(X, y, add_intercept)
         elif operand[0].lower() in ["logistic", "log"]:
-            if len(kwargs) == 0:
+            if "data" not in kwargs:
                 # regress logistic <dependent variable name> <independent variable name>
                 y = self.data[operand[1]]
                 X = self.data[operand[2]]
@@ -1525,14 +1525,14 @@ class SiPy_Shell(object):
         """
         option = operand[0].lower()
         if option.lower() in ["execute"]:
-            if len(kwargs) == 0:
+            if "data" not in kwargs:
                 scriptfile = operand[1].strip()
             else:
                 scriptfile = kwargs["file"]
             print(scriptfile)
             retR = self.runScript(scriptfile, "script_execute")
         elif option.lower() in ["merge"]:
-            if len(kwargs) == 0:
+            if "data" not in kwargs:
                 scriptfile = operand[1].strip()
                 outputfile = operand[2].strip()
             else:
@@ -1544,7 +1544,7 @@ class SiPy_Shell(object):
             for line in retR: f.write(line + "\n")
             f.close()
         elif option.lower() in ["read"]:
-            if len(kwargs) == 0:
+            if "data" not in kwargs:
                 scriptfile = operand[1].strip()
             else:
                 scriptfile = kwargs["file"]
@@ -1712,7 +1712,7 @@ class SiPy_Shell(object):
         data_type = operand[1].lower()
         if operand[0].lower() in ["1s", "1sample"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     ttest 1s {list|series|tuple|vector} <variable name> <population mean>
 
@@ -1734,7 +1734,7 @@ class SiPy_Shell(object):
                     mu = kwargs["mu"]
                 retR = libsipy.base.tTest1Sample(data_values, mu)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     ttest 1s {dataframe|df|frame|table} wide <variable name> <series name> <population mean>
 
@@ -1762,7 +1762,7 @@ class SiPy_Shell(object):
                 retR = libsipy.base.tTest1Sample(data_values, mu)
         elif operand[0].lower() in ["2se", "2sample_equal"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     ttest 2se {list|series|tuple|vector} <variable name A> <variable name B>
 
@@ -1787,7 +1787,7 @@ class SiPy_Shell(object):
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.tTest2SampleEqual(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     ttest 2se {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
 
@@ -1817,7 +1817,7 @@ class SiPy_Shell(object):
                 retR = libsipy.base.tTest2SampleEqual(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["2su", "2sample_unequal"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     ttest 2su {list|series|tuple|vector} <variable name A> <variable name B>
 
@@ -1842,7 +1842,7 @@ class SiPy_Shell(object):
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.tTest2SampleUnequal(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     ttest 2su {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
 
@@ -1873,7 +1873,7 @@ class SiPy_Shell(object):
                 retR = libsipy.base.tTest2SampleUnequal(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["mwu", "mannwhitney"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     ttest mwu {list|series|tuple|vector} <variable name A> <variable name B>
                     
@@ -1898,7 +1898,7 @@ class SiPy_Shell(object):
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.mannWhitneyU(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     ttest mwu {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
 
@@ -1928,7 +1928,7 @@ class SiPy_Shell(object):
                 retR = libsipy.base.mannWhitneyU(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["paired", "dependent"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     ttest paired {list|series|tuple|vector} <variable name A> <variable name B>
 
@@ -1953,7 +1953,7 @@ class SiPy_Shell(object):
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.tTest2SamplePaired(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     ttest paired {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
 
@@ -1983,7 +1983,7 @@ class SiPy_Shell(object):
                 retR = libsipy.base.tTest2SamplePaired(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["tost"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     ttest tost {list|series|tuple|vector} <variable name A> <variable name B>
 
@@ -2008,7 +2008,7 @@ class SiPy_Shell(object):
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.TOST(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     ttest tost {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
 
@@ -2038,7 +2038,7 @@ class SiPy_Shell(object):
                 retR = libsipy.base.TOST(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["wilcoxon"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     ttest wilcoxon {list|series|tuple|vector} <variable name A> <variable name B>
 
@@ -2063,7 +2063,7 @@ class SiPy_Shell(object):
                     data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.wilcoxon(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     """
                     ttest wilcoxon {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
 
@@ -2121,7 +2121,7 @@ class SiPy_Shell(object):
         data_type = operand[1].lower()
         if operand[0].lower() in ["bartlett"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     # variance bartlett {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
                     data_values = [self.data[operand[i]] for i in range(2, len(operand))]
                 else:
@@ -2131,7 +2131,7 @@ class SiPy_Shell(object):
                 result = libsipy.base.BartlettTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     # variance bartlett {dataframe|df|frame|table} wide <variable name>
                     data_values = libsipy.data_wrangler.df_extract(self.data[operand[3]], columns="all", rtype="list")
                 else:
@@ -2141,7 +2141,7 @@ class SiPy_Shell(object):
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         elif operand[0].lower() in ["fligner"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     # variance fligner {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
                     data_values = [self.data[operand[i]] for i in range(2, len(operand))]
                 else:
@@ -2151,7 +2151,7 @@ class SiPy_Shell(object):
                 result = libsipy.base.FlignerTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     # variance fligner {dataframe|df|frame|table} wide <variable name>
                     data_values = libsipy.data_wrangler.df_extract(self.data[operand[3]], columns="all", rtype="list")
                 else:
@@ -2161,7 +2161,7 @@ class SiPy_Shell(object):
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
         elif operand[0].lower() in ["levene"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     # variance levene {list|series|tuple|vector} <variable name 1> <variable name 2> ... <variable name N>
                     data_values = [self.data[operand[i]] for i in range(2, len(operand))]
                 else:
@@ -2171,7 +2171,7 @@ class SiPy_Shell(object):
                 result = libsipy.base.LeveneTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                if len(kwargs) == 0:
+                if "data" not in kwargs:
                     # variance levene {dataframe|df|frame|table} wide <variable name>
                     data_values = libsipy.data_wrangler.df_extract(self.data[operand[3]], columns="all", rtype="list")
                 else:
