@@ -268,70 +268,270 @@ class SiPy_Shell(object):
 
         Commands:
             compute_effsize none {list|series|tuple|vector} <variable name A> <variable name B>
+            compute_effsize none {list|series|tuple|vector} data=<variable name A>,<variable name B>
             compute_effsize none {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            compute_effsize none {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
             compute_effsize cohen {list|series|tuple|vector} <variable name A> <variable name B>
+            compute_effsize cohen {list|series|tuple|vector} data=<variable name A>,<variable name B>
             compute_effsize cohen {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            compute_effsize cohen {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
             compute_effsize hedges {list|series|tuple|vector} <variable name A> <variable name B>
+            compute_effsize hedges {list|series|tuple|vector} data=<variable name A>,<variable name B>
             compute_effsize hedges {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            compute_effsize hedges {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+            
             compute_effsize r {list|series|tuple|vector} <variable name A> <variable name B>
+            compute_effsize r {list|series|tuple|vector} data=<variable name A>,<variable name B>
             compute_effsize r {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            compute_effsize r {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+            
             ####not working compute_effsize pointbiserialr {list|series|tuple|vector} <variable name A> <variable name B>
             compute_effsize pointbiserialr {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>####
+            
             compute_effsize eta-square {list|series|tuple|vector} <variable name A> <variable name B>
-            compute_effsize etasquare {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            compute_effsize eta-square {list|series|tuple|vector} data=<variable name A>,<variable name B>
+            compute_effsize eta-square {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            compute_effsize eta-square {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+            
             compute_effsize odds-ratio {list|series|tuple|vector} <variable name A> <variable name B>
+            compute_effsize odds-ratio {list|series|tuple|vector} data=<variable name A>,<variable name B>
             compute_effsize odds-ratio {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            compute_effsize odds-ratio {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+            
             compute_effsize AUC {list|series|tuple|vector} <variable name A> <variable name B>
+            compute_effsize AUC {list|series|tuple|vector} data=<variable name A>,<variable name B>
             compute_effsize AUC {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            compute_effsize AUC {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+            
             compute_effsize CLES {list|series|tuple|vector} <variable name A> <variable name B>
+            compute_effsize CLES {list|series|tuple|vector} data=<variable name A>,<variable name B>
             compute_effsize CLES {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            compute_effsize CLES {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
 
         @return: String containing results of command execution
         """
         data_type = operand[1].lower()
         if operand[0].lower() in ["none"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # compute_effsize none {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
+                if len(kwargs) == 0:
+                    """
+                    compute_effsize none {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    compute_effsize none list x y
+                    """
+                    data_valuesA = self.data[operand[2]]
+                    data_valuesB = self.data[operand[3]]
+                else:
+                    """
+                    compute_effsize none {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    compute_effsize none list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    data_valuesA = self.data[datavar[0]]
+                    data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.compute_effsize_none(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # compute_effsize none {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                if len(kwargs) == 0:
+                    """
+                    compute_effsize none {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    compute_effsize none dataframe wide z x y
+                    """
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                else:
+                    """
+                    compute_effsize none {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    compute_effsize none dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    dA = [x.strip() for x in datavar[0].split(".")]
+                    dB = [x.strip() for x in datavar[1].split(".")]
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
                 retR = libsipy.base.compute_effsize_none(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["cohen", "d"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # compute_effsize cohen {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
+                if len(kwargs) == 0:
+                    """
+                    compute_effsize cohen {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    compute_effsize cohen list x y
+                    """
+                    data_valuesA = self.data[operand[2]]
+                    data_valuesB = self.data[operand[3]]
+                else:
+                    """
+                    compute_effsize cohen {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    compute_effsize cohen list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    data_valuesA = self.data[datavar[0]]
+                    data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.compute_effsize_cohen(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # compute_effsize cohen {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                if len(kwargs) == 0:
+                    """
+                    compute_effsize cohen {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    compute_effsize cohen dataframe wide z x y
+                    """
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                else:
+                    """
+                    compute_effsize cohen {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    compute_effsize cohen dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    dA = [x.strip() for x in datavar[0].split(".")]
+                    dB = [x.strip() for x in datavar[1].split(".")]
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
                 retR = libsipy.base.compute_effsize_cohen(data_valuesA, data_valuesB)  
         elif operand[0].lower() in ["hedges", "g"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # compute_effsize hedges {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
+                if len(kwargs) == 0:
+                    """
+                    compute_effsize hedges {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    compute_effsize hedges list x y
+                    """
+                    data_valuesA = self.data[operand[2]]
+                    data_valuesB = self.data[operand[3]]
+                else:
+                    """
+                    compute_effsize hedges {list|series|tuple|vector} data=<variable name A>,<variable name B>
+                    
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    compute_effsize hedges list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    data_valuesA = self.data[datavar[0]]
+                    data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.compute_effsize_hedges(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # compute_effsize hedges {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                if len(kwargs) == 0:
+                    """
+                    compute_effsize hedges {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    compute_effsize hedges dataframe wide z x y
+                    """
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                else:
+                    """
+                    compute_effsize hedges {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    compute_effsize hedges dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    dA = [x.strip() for x in datavar[0].split(".")]
+                    dB = [x.strip() for x in datavar[1].split(".")]
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
                 retR = libsipy.base.compute_effsize_hedges(data_valuesA, data_valuesB)              
         elif operand[0].lower() in ["pearson", "r"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # compute_effsize r {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
+                if len(kwargs) == 0:
+                    """
+                    compute_effsize r {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    compute_effsize r list x y
+                    """
+                    data_valuesA = self.data[operand[2]]
+                    data_valuesB = self.data[operand[3]]
+                else:
+                    """
+                    compute_effsize r {list|series|tuple|vector} data=<variable name A>,<variable name B>
+                    
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    compute_effsize r list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    data_valuesA = self.data[datavar[0]]
+                    data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.compute_effsize_r(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # compute_effsize r {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                if len(kwargs) == 0:
+                    """
+                    compute_effsize r {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    compute_effsize r dataframe wide z x y
+                    """
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                else:
+                    """
+                    compute_effsize r {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    compute_effsize r dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    dA = [x.strip() for x in datavar[0].split(".")]
+                    dB = [x.strip() for x in datavar[1].split(".")]
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
                 retR = libsipy.base.compute_effsize_r(data_valuesA, data_valuesB)  
         # elif operand[0].lower() in ["pointbiserialr"]:
         #     if data_type in ["list", "series", "tuple", "vector"]:
@@ -346,47 +546,223 @@ class SiPy_Shell(object):
         #         retR = libsipy.base.compute_effsize_pointbiserialr(data_valuesA, data_valuesB)              
         elif operand[0].lower() in ["eta-square"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # compute_effsize eta-square {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
+                if len(kwargs) == 0:
+                    """
+                    compute_effsize eta-square {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    compute_effsize eta-square list x y
+                    """
+                    data_valuesA = self.data[operand[2]]
+                    data_valuesB = self.data[operand[3]]
+                else:
+                    """
+                    compute_effsize eta-square {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    compute_effsize eta-square list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    data_valuesA = self.data[datavar[0]]
+                    data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.compute_effsize_etasquare(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # compute_effsize eta-square {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                if len(kwargs) == 0:
+                    """
+                    compute_effsize eta-square {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    compute_effsize eta-square dataframe wide z x y
+                    """
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                else:
+                    """
+                    compute_effsize eta-square {dataframe|df|frame|table} data=wide <variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    compute_effsize eta-square dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    dA = [x.strip() for x in datavar[0].split(".")]
+                    dB = [x.strip() for x in datavar[1].split(".")]
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
                 retR = libsipy.base.compute_effsize_etasquare(data_valuesA, data_valuesB)              
         elif operand[0].lower() in ["odds-ratio", "or"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # compute_effsize odds-ratio {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
+                if len(kwargs) == 0:
+                    """
+                    compute_effsize odds-ratio {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    compute_effsize odds-ratio list x y
+                    """
+                    data_valuesA = self.data[operand[2]]
+                    data_valuesB = self.data[operand[3]]
+                else:
+                    """
+                    compute_effsize odds-ratio {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    compute_effsize odds-ratio list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    data_valuesA = self.data[datavar[0]]
+                    data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.compute_effsize_oddsratio(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # compute_effsize odds-ratio {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                if len(kwargs) == 0:
+                    """
+                    compute_effsize odds-ratio {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    compute_effsize odds-ratio dataframe wide z x y
+                    """
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                else:
+                    """
+                    compute_effsize odds-ratio {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    compute_effsize odds-ratio dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    dA = [x.strip() for x in datavar[0].split(".")]
+                    dB = [x.strip() for x in datavar[1].split(".")]
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
                 retR = libsipy.base.compute_effsize_oddsratio(data_valuesA, data_valuesB)              
         elif operand[0].lower() in ["AUC", "auc"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # compute_effsize AUC {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
+                if len(kwargs) == 0:
+                    """
+                    compute_effsize AUC {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    compute_effsize auc list x y
+                    """
+                    data_valuesA = self.data[operand[2]]
+                    data_valuesB = self.data[operand[3]]
+                else:
+                    """
+                    compute_effsize AUC {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    compute_effsize auc list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    data_valuesA = self.data[datavar[0]]
+                    data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.compute_effsize_AUC(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # compute_effsize AUC {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                if len(kwargs) == 0:
+                    """
+                    compute_effsize AUC {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>"
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    compute_effsize auc dataframe wide z x y
+                    """
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                else:
+                    """
+                    compute_effsize AUC {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    compute_effsize auc dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    dA = [x.strip() for x in datavar[0].split(".")]
+                    dB = [x.strip() for x in datavar[1].split(".")]
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
                 retR = libsipy.base.compute_effsize_AUC(data_valuesA, data_valuesB)              
         elif operand[0].lower() in ["CLES", "cles"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # compute_effsize CLES {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
+                if len(kwargs) == 0:
+                    """
+                    compute_effsize CLES {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    compute_effsize cles list x y
+                    """
+                    data_valuesA = self.data[operand[2]]
+                    data_valuesB = self.data[operand[3]]
+                else:
+                    """
+                    compute_effsize CLES {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 2,3,4,5,6,7,8,9
+                    let y be list 3,4,5,6,7,8,9,10
+                    compute_effsize cles list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    data_valuesA = self.data[datavar[0]]
+                    data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.compute_effsize_CLES(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # compute_effsize CLES {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                if len(kwargs) == 0:
+                    """
+                    compute_effsize CLES {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    compute_effsize cles dataframe wide z x y
+                    """
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                else:
+                    """
+                    compute_effsize CLES {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    compute_effsize cles dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    dA = [x.strip() for x in datavar[0].split(".")]
+                    dB = [x.strip() for x in datavar[1].split(".")]
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
                 retR = libsipy.base.compute_effsize_CLES(data_valuesA, data_valuesB)                                 
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
