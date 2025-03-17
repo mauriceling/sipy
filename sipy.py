@@ -776,14 +776,17 @@ class SiPy_Shell(object):
         Commands:
             correlate pearson {list|series|tuple|vector} <variable name A> <variable name B>
             correlate pearson {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            
             correlate spearman {list|series|tuple|vector} <variable name A> <variable name B>
             correlate spearman {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            
             correlate kendall {list|series|tuple|vector} <variable name A> <variable name B>
             correlate kendall {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
             
             ####### not working ##### correlate bicor {list|series|tuple|vector} <variable name A> <variable name B>
             
             correlate bicor {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            
             correlate percbend {list|series|tuple|vector} <variable name A> <variable name B>
             correlate percbend {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
            
@@ -794,11 +797,13 @@ class SiPy_Shell(object):
 
             correlate kendall {list|series|tuple|vector} <variable name A> <variable name B>
             correlate kendall {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            
             correlate distance {list|series|tuple|vector} <variable name A> <variable name B>
             correlate distance {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
              
             ##### not working correlate cv1 {list|series|tuple|vector} <variable name A> <variable name B>
             correlate cv1 {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+            
             correlate cv2 {list|series|tuple|vector} <variable name A> <variable name B>
             correlate cv2 {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>####
 
@@ -807,69 +812,332 @@ class SiPy_Shell(object):
         data_type = operand[1].lower()
         if operand[0].lower() in ["pearson", "r"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate pearson {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
+                if "data" not in kwargs:
+                    """
+                    correlate pearson {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    correlate pearson list x y"""
+                    data_valuesA = self.data[operand[2]]
+                    data_valuesB = self.data[operand[3]]
+                else:
+                    """
+                    correlate pearson {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    correlate pearson list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    data_valuesA = self.data[datavar[0]]
+                    data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.correlatePearson(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate pearson {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                if "data" not in kwargs:
+                    """
+                    correlate pearson {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    correlate pearson dataframe wide z x y
+                    """
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                else:
+                    """
+                    correlate pearson {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    correlate pearson dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    dA = [x.strip() for x in datavar[0].split(".")]
+                    dB = [x.strip() for x in datavar[1].split(".")]
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
                 retR = libsipy.base.correlatePearson(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["spearman"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate spearman {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
+                if "data" not in kwargs:
+                    """
+                    correlate spearman {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    correlate spearman list x y
+                    """
+                    data_valuesA = self.data[operand[2]]
+                    data_valuesB = self.data[operand[3]]
+                else:
+                    """
+                    correlate spearman {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    correlate spearman list x y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    data_valuesA = self.data[datavar[0]]
+                    data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.correlateSpearman(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate spearman {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                if "data" not in kwargs:
+                    """
+                    correlate spearman {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    correlate spearman dataframe wide z x y
+                    """
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                else:
+                    """
+                    correlate spearman {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example: 
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    correlate spearman dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    dA = [x.strip() for x in datavar[0].split(".")]
+                    dB = [x.strip() for x in datavar[1].split(".")]
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
                 retR = libsipy.base.correlateSpearman(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["kendall"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate kendall {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
+                if "data" not in kwargs:
+                    """
+                    correlate kendall {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    correlate kendall list x y
+                    """
+                    data_valuesA = self.data[operand[2]]
+                    data_valuesB = self.data[operand[3]]
+                else:
+                    """
+                    correlate kendall {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    correlate kendall list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    data_valuesA = self.data[datavar[0]]
+                    data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.correlateKendall(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate kendall {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                if "data" not in kwargs:
+                    """
+                    correlate kendall {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    correlate kendall dataframe wide z x y
+                    """
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                else:
+                    """
+                    correlate kendall {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    correlate kendall dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    dA = [x.strip() for x in datavar[0].split(".")]
+                    dB = [x.strip() for x in datavar[1].split(".")]
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
                 retR = libsipy.base.correlateKendall(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["bicor"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate bicor {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
+                if "data" not in kwargs:
+                    """
+                    correlate bicor {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    correlate bicor list x y
+                    """
+                    data_valuesA = self.data[operand[2]]
+                    data_valuesB = self.data[operand[3]]
+                else:
+                    """
+                    correlate bicor {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    correlate bicor list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    data_valuesA = self.data[datavar[0]]
+                    data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.correlateBicor(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate bicor {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                if "data" not in kwargs:
+                    """
+                    correlate bicor {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    correlate bicor dataframe wide z x y
+                    """
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                else:
+                    """
+                    correlate bicor {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    correlate bicor dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    dA = [x.strip() for x in datavar[0].split(".")]
+                    dB = [x.strip() for x in datavar[1].split(".")]
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
                 retR = libsipy.base.correlateBicor(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["percbend"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate percbend {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
+                if "data" not in kwargs:
+                    """
+                    correlate percbend {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    correlate percbend list x y
+                    """
+                    data_valuesA = self.data[operand[2]]
+                    data_valuesB = self.data[operand[3]]
+                else:
+                    """
+                    correlate percbend {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    correlate percbend list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    data_valuesA = self.data[datavar[0]]
+                    data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.correlatePercbend(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate percbend {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                if "data" not in kwargs:
+                    """
+                    correlate percbend {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    correlate percbend dataframe wide z x y
+                    """
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                else:
+                    """
+                    correlate percbend {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    correlate percbend dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    dA = [x.strip() for x in datavar[0].split(".")]
+                    dB = [x.strip() for x in datavar[1].split(".")]
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
                 retR = libsipy.base.correlatePercbend(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["skipped"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate skipped {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
+                if "data" not in kwargs:
+                    """
+                    correlate skipped {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    correlate skipped list x y
+                    """
+                    data_valuesA = self.data[operand[2]]
+                    data_valuesB = self.data[operand[3]]
+                else:
+                    """
+                    correlate skipped {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    correlate skipped list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    data_valuesA = self.data[datavar[0]]
+                    data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.correlateSkipped(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate skipped {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                if "data" not in kwargs:
+                    """
+                    correlate skipped {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    correlate skipped dataframe wide z x y
+                    """
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                else:
+                    """
+                    correlate skipped {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    correlate skipped dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    dA = [x.strip() for x in datavar[0].split(".")]
+                    dB = [x.strip() for x in datavar[1].split(".")]
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
                 retR = libsipy.base.correlateSkipped(data_valuesA, data_valuesB)
         # elif operand[0].lower() in ["shepherd"]:
         #     if data_type in ["list", "series", "tuple", "vector"]:
@@ -884,37 +1152,109 @@ class SiPy_Shell(object):
         #         retR = libsipy.base.correlateShepherd(data_valuesA, data_valuesB)
         elif operand[0].lower() in ["distance"]:
             if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate distance {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
+                if "data" not in kwargs:
+                    """
+                    correlate distance {list|series|tuple|vector} <variable name A> <variable name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    correlate distance list x y
+                    """
+                    data_valuesA = self.data[operand[2]]
+                    data_valuesB = self.data[operand[3]]
+                else:
+                    """
+                    correlate distance {list|series|tuple|vector} data=<variable name A>,<variable name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    correlate distance list data=x,y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    data_valuesA = self.data[datavar[0]]
+                    data_valuesB = self.data[datavar[1]]
                 retR = libsipy.base.correlateDistance(data_valuesA, data_valuesB)
             elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate distance {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                if "data" not in kwargs:
+                    """
+                    correlate distance {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    correlate distance dataframe wide z x y
+                    """
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+                else:
+                    """
+                    correlate distance {dataframe|df|frame|table} wide data=<variable name>.<series name A>,<variable name>.<series name B>
+
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let z be dataframe x:x y:y
+                    correlate distance dataframe wide data=z.x,z.y
+                    """
+                    datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+                    dA = [x.strip() for x in datavar[0].split(".")]
+                    dB = [x.strip() for x in datavar[1].split(".")]
+                    data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+                    data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
                 retR = libsipy.base.correlateDistance(data_valuesA, data_valuesB)
-        elif operand[0].lower() in ["2cv"]:
-            if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate skipped {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
-                retR = libsipy.base.correlate2cv(data_valuesA, data_valuesB)
-            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate skipped {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
-                retR = libsipy.base.correlate2cv(data_valuesA, data_valuesB)
-        elif operand[0].lower() in ["1cv"]:
-            if data_type in ["list", "series", "tuple", "vector"]:
-                # correlate skipped {list|series|tuple|vector} <variable name A> <variable name B>
-                data_valuesA = self.data[operand[2]]
-                data_valuesB = self.data[operand[3]]
-                retR = libsipy.base.correlate1cv(data_valuesA, data_valuesB)
-            elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
-                # correlate skipped {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
-                data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
-                data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
-                retR = libsipy.base.correlate1cv(data_valuesA, data_valuesB)
+        # elif operand[0].lower() in ["2cv"]:
+        #     if data_type in ["list", "series", "tuple", "vector"]:
+        #         # correlate skipped {list|series|tuple|vector} <variable name A> <variable name B>
+        #         if "data" not in kwargs:
+        #             # correlate pearson {list|series|tuple|vector} <variable name A> <variable name B>
+        #             data_valuesA = self.data[operand[2]]
+        #             data_valuesB = self.data[operand[3]]
+        #         else:
+        #             datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+        #             data_valuesA = self.data[datavar[0]]
+        #             data_valuesB = self.data[datavar[1]]
+        #         retR = libsipy.base.correlate2cv(data_valuesA, data_valuesB)
+        #     elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+        #         # correlate skipped {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+        #         if "data" not in kwargs:
+        #             # correlate pearson {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+        #             data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+        #             data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+        #         else:
+        #             datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+        #             dA = [x.strip() for x in datavar[0].split(".")]
+        #             dB = [x.strip() for x in datavar[1].split(".")]
+        #             data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+        #             data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
+        #         retR = libsipy.base.correlate2cv(data_valuesA, data_valuesB)
+        # elif operand[0].lower() in ["1cv"]:
+        #     if data_type in ["list", "series", "tuple", "vector"]:
+        #         # correlate skipped {list|series|tuple|vector} <variable name A> <variable name B>
+        #         if "data" not in kwargs:
+        #             # correlate pearson {list|series|tuple|vector} <variable name A> <variable name B>
+        #             data_valuesA = self.data[operand[2]]
+        #             data_valuesB = self.data[operand[3]]
+        #         else:
+        #             datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+        #             data_valuesA = self.data[datavar[0]]
+        #             data_valuesB = self.data[datavar[1]]
+        #         retR = libsipy.base.correlate1cv(data_valuesA, data_valuesB)
+        #     elif data_type in ["dataframe", "df", "frame", "table"] and operand[2].lower() == "wide":
+        #         # correlate skipped {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+        #         if "data" not in kwargs:
+        #             # correlate pearson {dataframe|df|frame|table} wide <variable name> <series name A> <series name B>
+        #             data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[4], rtype="list")
+        #             data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[operand[3]], columns=operand[5], rtype="list")
+        #         else:
+        #             datavar = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
+        #             dA = [x.strip() for x in datavar[0].split(".")]
+        #             dB = [x.strip() for x in datavar[1].split(".")]
+        #             data_valuesA = libsipy.data_wrangler.df_extract(df=self.data[dA[0]], columns=dA[1], rtype="list")
+        #             data_valuesB = libsipy.data_wrangler.df_extract(df=self.data[dB[0]], columns=dB[1], rtype="list")
+        #         retR = libsipy.base.correlate1cv(data_valuesA, data_valuesB)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR.to_string())
