@@ -1,18 +1,18 @@
 digraph {
         rankdir = LR
         
-        SiPy [shape="rectangle" label="SiPy 0.6.0\nOtoro-Chutoro Continuum" fillcolor=green style=filled]
+        SiPy [shape="rectangle" label="SiPy 0.6.0\nOtoro-Chutoro Continuum" fillcolor=lightgreen style=filled]
         
         subgraph packages {
-        fitter [label="fitter 1.7.0" fillcolor=yellow style=filled shape=hexagon]
-        matplotlib [label="matplotlib 3.8.4" fillcolor=seashell style=filled]
+        fitter [label="fitter 1.7.1" fillcolor=yellow style=filled shape=hexagon]
+        matplotlib [label="matplotlib 3.10.1" fillcolor=seashell style=filled]
         numpy [label="numpy 1.26.4" fillcolor=seashell style=filled]
-        pandas [label="pandas 2.2.2" fillcolor=yellow style=filled shape=hexagon]
-        pingouin [label="pingouin 0.5.4" fillcolor=yellow style=filled shape=hexagon]
+        pandas [label="pandas 2.2.3" fillcolor=yellow style=filled shape=hexagon]
+        pingouin [label="pingouin 0.5.5" fillcolor=yellow style=filled shape=hexagon]
         seaborn [label="seaborn 0.13.2" fillcolor=seashell style=filled]
-        scipy [label="scipy 1.13.0" fillcolor=yellow style=filled shape=hexagon]
-        "scikit-learn" [label="scikit-learn 1.4.2" fillcolor=seashell style=filled]
-        statsmodels [label="statsmodels 0.14.2" fillcolor=seashell style=filled]
+        scipy [label="scipy 1.15.2" fillcolor=yellow style=filled shape=hexagon]
+        "scikit-learn" [label="scikit-learn 1.6.1" fillcolor=seashell style=filled]
+        statsmodels [label="statsmodels 0.14.4" fillcolor=seashell style=filled]
         
         SiPy -> {fitter pandas pingouin scipy}
         fitter -> {matplotlib numpy pandas scipy}
@@ -28,9 +28,11 @@ digraph {
         subgraph library {
         libsipy [shape="rectangle" label="libsipy" fillcolor=lightpink style=filled]
         base [fillcolor=lightpink style=filled]
+        r_wrap [fillcolor=lightpink style=filled]
         lib_N [fillcolor=lightpink style=filled shape=doubleoctagon]
         SiPy -> libsipy [color=red]
-        libsipy -> base 
+        libsipy -> base
+        libsipy -> r_wrap
         libsipy -> lib_N [style=dashed]
         }
         
@@ -50,5 +52,8 @@ digraph {
         cmd [shape="rectangle" label="Command Line Tools" fillcolor=plum style=filled]
         SiPy -> cmd [color=red]
         }
-    
+
+        R [shape="rectangle" label="R" fillcolor=plum style=filled]
+        r_wrap -> R
+        cmd -> R [style=dashed]
 }
