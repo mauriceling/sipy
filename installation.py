@@ -29,10 +29,6 @@ def help():
 "python installation.py freeze" to generate conda and pip environment files.
 "python installation.py help" to print this help text. 
 "python installation.py pyinstaller windows" to generate a one-directory executable GUI and CLI/CUI together based on sipy_windows.spec for Windows operating system.
-"python installation.py pyinstaller onedir gui" to generate a one-directory executable GUI.
-"python installation.py pyinstaller onedir cli" to generate a one-directory executable CLI/CUI.
-"python installation.py pyinstaller onefile gui" to generate a one-file executable GUI.
-"python installation.py pyinstaller onefile cli" to generate a one-file executable CLI/CUI.
 "python installation.py remove <environment name>" to remove environment.
 "python installation.py update" to update environment from generated conda and pip environment files.
 "python installation.py update_core" to update essential and its dependent packages in the environment.
@@ -91,19 +87,6 @@ def update_conda_pip():
     os.system("conda update -n base conda")
     os.system("python -m pip install --upgrade pip")
 
-def pyinstaller(option="onefile", exe_type="gui"):
-    iconfile = os.sep.join([os.getcwd(), "manuscript", "sipy_icon.ico"])
-    if option.lower() == "windows":
-        cmdline = '''pyinstaller %s''' % data["folder_spec"]
-    elif exe_type == "gui":
-        scriptfile = os.sep.join([os.getcwd(), data["GUI_scriptfile"]])
-        cmdline = '''pyinstaller --noconfirm --%s --windowed --icon "%s" "%s"''' % (option, iconfile, scriptfile)
-    elif exe_type == "cli":
-        scriptfile = os.sep.join([os.getcwd(), data["CLI_scriptfile"]])
-        cmdline = '''pyinstaller --noconfirm --%s --console --icon "%s" "%s"''' % (option, iconfile, scriptfile)
-    print(cmdline)
-    os.system(cmdline)
-
 if __name__ == "__main__":
     command = sys.argv[1]
     if command.lower() == "help": help()
@@ -113,11 +96,6 @@ if __name__ == "__main__":
     elif command.lower() == "remove":
         environment = sys.argv[2]
         os.system("conda remove --name %s --all" % environment)
-    elif command.lower() == "pyinstaller": 
-        try: 
-            pyinstaller(sys.argv[2].lower(), sys.argv[3].lower())
-        except IndexError: 
-            pyinstaller(sys.argv[2].lower())
     elif command.lower() == "update": update()
     elif command.lower() == "update_all": update_all()
     elif command.lower() == "update_core": update_core()
