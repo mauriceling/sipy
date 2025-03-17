@@ -1036,20 +1036,51 @@ class SiPy_Shell(object):
             mean {geometric|gmean|geo} <variable_name>
             mean {harmonic|hmean|harm} <variable_name>
 
+            mean {arithmetic|amean|average|avg|mean} data=<variable_name>
+            mean {geometric|gmean|geo} data=<variable_name>
+            mean {harmonic|hmean|harm} data=<variable_name>
+
         @return: String containing results of command execution
         """
-        variable_name = operand[1]
-        data_values = self.data[variable_name]
+        if "data" in kwargs:
+            data_values = self.data[kwargs["data"]]
+        else:
+            variable_name = operand[1]
+            data_values = self.data[variable_name]
         if operand[0].lower() in ["arithmetic", "amean", "average", "avg", "mean"]:
-            # mean {arithmetic|amean|average|avg|mean} <variable_name>
+            """
+            mean {arithmetic|amean|average|avg|mean} <variable_name>
+            mean {arithmetic|amean|average|avg|mean} data=<variable_name>
+
+            Example:
+            let x be list 2,3,4,5,6,7,8,9
+            mean arithmetic x
+            mean arithmetic data=x
+            """
             result = libsipy.base.arithmeticMean(data_values)
             retR = "Arimethic mean = %s" % result
         elif operand[0].lower() in ["geometric", "gmean", "geo"]:
-            # mean {geometric|gmean|geo} <variable_name>
+            """
+            mean {geometric|gmean|geo} <variable_name>
+            mean {geometric|gmean|geo} data=<variable_name>
+
+            Example:
+            let x be list 2,3,4,5,6,7,8,9
+            mean geometric x
+            mean geometric data=x
+            """
             result = libsipy.base.geometricMean(data_values)
             retR = "Geometric mean = %s" % result
         elif operand[0].lower() in ["harmonic", "hmean", "harm"]:
-            # mean {harmonic|hmean|harm} <variable_name>
+            """
+            mean {harmonic|hmean|harm} <variable_name>
+            mean {harmonic|hmean|harm} data=<variable_name>
+
+            Example:
+            let x be list 2,3,4,5,6,7,8,9
+            mean harmonic x
+            mean harmonic data=x
+            """
             result = libsipy.base.harmonicMean(data_values)
             retR = "Harmonic mean = %s" % result
         else: 
