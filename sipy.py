@@ -931,28 +931,77 @@ class SiPy_Shell(object):
             describe se <variable_name>
             describe {var|var.s} <variable_name>
 
+            describe {kurtosis|kurt} data=<variable_name>
+            describe {skew|sk} data=<variable_name>
+            describe {stdev|stdev.s|s|sd} data=<variable_name>
+            describe se data=<variable_name>
+            describe {var|var.s} data=<variable_name>
+
         @return: String containing results of command execution
         """
-        variable_name = operand[1]
-        data_values = self.data[variable_name]
+        if "data" in kwargs:
+            data_values = self.data[kwargs["data"]]
+        else:
+            variable_name = operand[1]
+            data_values = self.data[variable_name]
         if operand[0].lower() in ["kurtosis" , "kurt"]:
-            # describe {kurtosis|kurt} <variable_name>
+            """
+            describe {kurtosis|kurt} <variable name>
+            describe {kurtosis|kurt} data=<variable name>
+
+            Example:
+            let x be list 2,3,4,5,6,7,8,9
+            describe kurtosis x
+            describe kurtosis data=x
+            """
             result = libsipy.base.kurtosis(data_values)
             retR = "Kurtosis = %s" % result
         elif operand[0].lower() in ["skew" , "sk"]:
-            # describe {skew|sk} <variable_name>
+            """
+            describe {skew|sk} <variable_name>
+            describe {skew|sk} data=<variable_name>
+
+            Example: 
+            let x be list 2,3,4,5,6,7,8,9
+            describe skew x
+            describe skew data=x
+            """
             result = libsipy.base.skew(data_values)
             retR = "Skew = %s" % result
         elif operand[0].lower() in ["stdev", "stdev.s", "s", "sd"]:
-            # describe {stdev|stdev.s|s|sd} <variable_name>
+            """
+            describe {stdev|stdev.s|s|sd} <variable_name>
+            describe {stdev|stdev.s|s|sd} data=<variable_name>
+
+            Example:
+            let x be list 2,3,4,5,6,7,8,9
+            describe stdev x
+            describe stdev data=x
+            """
             result = libsipy.base.standardDeviation(data_values)
             retR = "Standard deviation = %s" % result
         elif operand[0].lower() in ["se"]:
-            # describe se <variable_name>
+            """
+            describe se <variable_name>
+            describe se data=<variable_name>
+
+            Example:
+            let x be list 2,3,4,5,6,7,8,9
+            describe se x
+            describe se data=x
+            """
             result = libsipy.base.standardError(data_values)
             retR = "Standard error = %s" % result
         elif operand[0].lower() in ["var", "var.s"]:
-            # describe {var|var.s} <variable_name>
+            """
+            describe {var|var.s} <variable_name>
+            describe {var|var.s} data=<variable_name>
+
+            Example:
+            let x be list 2,3,4,5,6,7,8,9
+            describe var x
+            describe var data=x
+            """
             result = libsipy.base.variance(data_values)
             retR = "Variance = %s" % result
         else: 
