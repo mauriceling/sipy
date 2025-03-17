@@ -60,8 +60,7 @@ def build(environment):
     pip_packages = open(data["pip_env"]).readlines()
     pip_packages = [x[:-1] for x in pip_packages]
     for package in pip_packages:
-        trusted_hosts = "--trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org"
-        os.system("pip install %s %s" % (trusted_hosts, package))
+        os.system("pip install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org %s" % (package))
 
 def create_env(environment):
     os.system("conda create --name %s -c conda-forge %s" % (environment, data["conda_packageList"]))
