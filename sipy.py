@@ -1945,14 +1945,14 @@ class SiPy_Shell(object):
         """
         option = operand[0].lower()
         if option.lower() in ["execute"]:
-            if "data" not in kwargs:
+            if "file" not in kwargs:
                 scriptfile = operand[1].strip()
             else:
                 scriptfile = kwargs["file"]
             print(scriptfile)
             retR = self.runScript(scriptfile, "script_execute")
         elif option.lower() in ["merge"]:
-            if "data" not in kwargs:
+            if "file" not in kwargs:
                 scriptfile = operand[1].strip()
                 outputfile = operand[2].strip()
             else:
@@ -1964,7 +1964,7 @@ class SiPy_Shell(object):
             for line in retR: f.write(line + "\n")
             f.close()
         elif option.lower() in ["read"]:
-            if "data" not in kwargs:
+            if "file" not in kwargs:
                 scriptfile = operand[1].strip()
             else:
                 scriptfile = kwargs["file"]
@@ -2681,7 +2681,7 @@ class SiPy_Shell(object):
         while True:
             statement = input("SiPy: %s %s " % (str(self.count), self.environment["prompt"])).strip() 
             if len(statement) == 0: pass
-            elif statement == "exit": return 0
+            elif statement.lower() in ["exit", "exit()"]: return 0
             elif statement.startswith("#"): continue
             else: _ = self.interpret(statement)
             print("")
