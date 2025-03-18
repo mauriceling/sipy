@@ -1689,7 +1689,10 @@ class SiPy_Shell(object):
         """
         df = self.data[kwargs["data"]]
         dependent_variable = kwargs["y"]
-        independent_variables = [x.strip() for x in kwargs["x"].split(self.environment["separator"])]
+        if ("x" not in kwargs) or (kwargs["x"].lower() in ["none", "ll"]):
+             independent_variables = None
+        else:
+            independent_variables = [x.strip() for x in kwargs["x"].split(self.environment["separator"])]
         if operand[0].lower() in ["cloglog", "cll"]:
             """
             rregress {cloglog|cll} data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
