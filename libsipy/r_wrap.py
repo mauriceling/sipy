@@ -25,7 +25,7 @@ import subprocess
 import os
 import uuid
 
-def regression(df, response, predictors=None, model_type="lm", family=None, rscript_exe_path="portable_R\\bin\\Rscript.exe"):
+def regression(df, response, predictors=None, model_type="lm", rscript_exe_path="portable_R\\bin\\Rscript.exe"):
     """"
     Runs a regression in R using subprocess with a specific R executable.
     Supports lm, glm, poisson, negbinom, multinom, polr, hurdle, zeroinfl, 
@@ -36,14 +36,13 @@ def regression(df, response, predictors=None, model_type="lm", family=None, rscr
     response (str): The response variable.
     predictors (list, optional): List of predictor variables. If None, uses all other columns.
     model_type (str, optional): The regression model type. Default is "lm".
-    family (str, optional): The family argument for glm(). Required for glm().
     rscript_exe_path (str, optional): Path to Rscript.exe (Windows) or Rscript (Linux/Mac). Defaults to "..\\portable_R\\bin\\Rscript.exe".
 
     Returns:
     list: Output from R as a list of strings.
     """
 
-    rscript_exe_path = os.path.abspath("portable_R\\bin\\Rscript.exe")
+    rscript_exe_path = os.path.abspath(rscript_exe_path)
 
     if not os.path.exists(rscript_exe_path):
         raise FileNotFoundError(f"Rscript.exe not found at {rscript_exe_path}")
@@ -79,7 +78,6 @@ def regression(df, response, predictors=None, model_type="lm", family=None, rscr
 
     model_calls = {
         "lm": f"model <- lm({formula}, data=data)",
-        "glm": f"model <- glm({formula}, data=data, family={family})",
         "poisson": f"model <- glm({formula}, data=data, family=poisson())",
         "negbinom": f"{ensure_r_package('MASS')} model <- MASS::glm.nb({formula}, data=data)",
         "multinom": f"{ensure_r_package('nnet')} model <- nnet::multinom({formula}, data=data)",
@@ -129,7 +127,12 @@ def regression(df, response, predictors=None, model_type="lm", family=None, rscr
         """,
         "probit_regression": f"""
             model <- glm({formula}, data=data, family=binomial(link="probit"))
-        """
+        """,
+        "cloglog_regression": f"model <- glm({formula}, data=data, family=binomial(link='cloglog'))",
+        "gamma_regression": f"model <- glm({formula}, data=data, family=Gamma(link='log'))",
+        "inverse_gaussian": f"model <- glm({formula}, data=data, family=inverse.gaussian(link='log'))",
+        "quasi_poisson": f"model <- glm({formula}, data=data, family=quasipoisson())",
+        "quasi_binomial": f"model <- glm({formula}, data=data, family=quasibinomial())",
     }
 
     if model_type not in model_calls:

@@ -1706,7 +1706,7 @@ class SiPy_Shell(object):
             let df be dataframe yN:yN yB:yB x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress decision_tree data=df y=yN x=x1,x2,x3,x4,x5
             """
-            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "decision_tree", None)
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "decision_tree", self.environment["rscript_exe"])
             retR = "\n".join(retR)
         elif operand[0].lower() in ["elasticnet", "elastic", "enet"]:
             """
@@ -1724,7 +1724,7 @@ class SiPy_Shell(object):
             let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress elasticnet data=df y=yN x=x1,x2,x3,x4,x5
             """
-            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "elasticnet", None)
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "elasticnet", self.environment["rscript_exe"])
             retR = "\n".join(retR)
         elif operand[0].lower() in ["gradient_boosting", "gb"]:
             """
@@ -1742,7 +1742,7 @@ class SiPy_Shell(object):
             let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress gradient_boosting data=df y=yN x=x1,x2,x3,x4,x5
             """
-            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "gradient_boosting", None)
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "gradient_boosting", self.environment["rscript_exe"])
             retR = "\n".join(retR)
         elif operand[0].lower() in ["hurdle"]:
             """
@@ -1760,7 +1760,7 @@ class SiPy_Shell(object):
             let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress hurdle data=df y=yB x=x1,x2,x3,x4,x5
             """
-            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "hurdle", None)
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "hurdle", self.environment["rscript_exe"])
             retR = "\n".join(retR)
         elif operand[0].lower() in ["lasso"]:
             """
@@ -1778,7 +1778,7 @@ class SiPy_Shell(object):
             let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress lasso data=df y=yN x=x1,x2,x3,x4,x5
             """
-            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "lasso", None)
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "lasso", self.environment["rscript_exe"])
             retR = "\n".join(retR)
         elif operand[0].lower() in ["lm", "linear", "lin"]:
             """
@@ -1796,7 +1796,7 @@ class SiPy_Shell(object):
             let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress lm data=df y=yN x=x1,x2,x3,x4,x5
             """
-            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "lm", None)
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "lm", self.environment["rscript_exe"])
             retR = "\n".join(retR)
         elif operand[0].lower() in ["negbinom", "negbi", "nb"]:
             """
@@ -1814,7 +1814,7 @@ class SiPy_Shell(object):
             let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress negbinom data=df y=yB x=x1,x2,x3,x4,x5
             """
-            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "negbinom", None)
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "negbinom", self.environment["rscript_exe"])
             retR = "\n".join(retR)
         elif operand[0].lower() in ["poisson"]:
             """
@@ -1832,7 +1832,7 @@ class SiPy_Shell(object):
             let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress poisson data=df y=yB x=x1,x2,x3,x4,x5
             """
-            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "poisson", None)
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "poisson", self.environment["rscript_exe"])
             retR = "\n".join(retR)
         elif operand[0].lower() in ["probit"]:
             """
@@ -1850,7 +1850,7 @@ class SiPy_Shell(object):
             let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress probit data=df y=yB x=x1,x2,x3,x4,x5
             """
-            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "probit_regression", None)
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "probit_regression", self.environment["rscript_exe"])
             retR = "\n".join(retR)
         elif operand[0].lower() in ["randomforest", "rf"]:
             """
@@ -1868,7 +1868,7 @@ class SiPy_Shell(object):
             let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress randomforest data=df y=yN x=x1,x2,x3,x4,x5
             """
-            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "randomforest", None)
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "randomforest", self.environment["rscript_exe"])
             retR = "\n".join(retR)
         elif operand[0].lower() in ["svm"]:
             """
@@ -1886,7 +1886,7 @@ class SiPy_Shell(object):
             let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress svm data=df y=yN x=x1,x2,x3,x4,x5
             """
-            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "svm", None)
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "svm", self.environment["rscript_exe"])
             retR = "\n".join(retR)
         elif operand[0].lower() in ["svr"]:
             """
@@ -1904,7 +1904,7 @@ class SiPy_Shell(object):
             let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress svr data=df y=yN x=x1,x2,x3,x4,x5
             """
-            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "svr", None)
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "svr", self.environment["rscript_exe"])
             retR = "\n".join(retR)
         elif operand[0].lower() in ["zeroinfl"]:
             """
@@ -1922,8 +1922,31 @@ class SiPy_Shell(object):
             let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
             rregress zeroinfl data=df y=yB x=x1,x2,x3,x4,x5
             """
-            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "zeroinfl", None)
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "zeroinfl", self.environment["rscript_exe"])
             retR = "\n".join(retR)
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+
+    def do_plugin(self, operand, kwargs):
+        """!
+        Performs xxx
+
+        Commands: 
+            operator operand[0] operand[1] operand[2] operand[3] ... operand[N]
+
+        @return: String containing results of command execution
+        """
+        option = operand[0].lower()
+        data_type = operand[1].lower()
+        if option.lower() in ["option"]:
+            if data_type in ["list", "series", "tuple", "vector"]:
+                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
+                result = libsipy.base.anova1way(data_values)
+                retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
+            elif data_type in ["dataframe", "df", "frame", "table"]:
+                pass
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
@@ -2623,6 +2646,7 @@ class SiPy_Shell(object):
         elif operator == "read": return self.do_read(operand, kwargs)
         elif operator == "regress": return self.do_regression(operand, kwargs)
         elif operator == "rregress": return self.do_R_regression(operand, kwargs)
+        elif operator == "pg": return self.do_plugin(operand, kwargs)
         elif operator == "script": return self.do_script(operand, kwargs)
         elif operator == "set": return self.do_set(operand, kwargs)
         elif operator == "show": return self.do_show(operand, kwargs)
