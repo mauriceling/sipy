@@ -53,7 +53,7 @@ digraph {
         SiPy -> cmd [color=red]
         }
 
-        R [shape="rectangle" label="R" fillcolor=plum style=filled]
+        R [shape="rectangle" label="R 4.4.1" fillcolor=plum style=filled]
         r_wrap -> R
         cmd -> R [style=dashed]
 }

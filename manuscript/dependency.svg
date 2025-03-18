@@ -306,14 +306,14 @@
 <!-- R -->
 <g id="node19" class="node">
 <title>R</title>
-<polygon fill="plum" stroke="black" points="698.29,-179 644.29,-179 644.29,-143 698.29,-143 698.29,-179"/>
-<text text-anchor="middle" x="671.29" y="-156.8" font-family="Times,serif" font-size="14.00">R</text>
+<polygon fill="plum" stroke="black" points="699.71,-179 642.87,-179 642.87,-143 699.71,-143 699.71,-179"/>
+<text text-anchor="middle" x="671.29" y="-156.8" font-family="Times,serif" font-size="14.00">R 4.4.1</text>
 </g>
 <!-- r_wrap&#45;&gt;R -->
 <g id="edge35" class="edge">
 <title>r_wrap-&gt;R</title>
-<path fill="none" stroke="black" d="M508.49,-89.57C523.67,-94.36 541.94,-100.51 558,-107 583.86,-117.44 612.14,-131.06 633.86,-142.01"/>
-<polygon fill="black" stroke="black" points="632.1,-145.04 642.6,-146.46 635.28,-138.8 632.1,-145.04"/>
+<path fill="none" stroke="black" d="M508.49,-89.57C523.67,-94.36 541.94,-100.51 558,-107 583.34,-117.23 611.01,-130.52 632.55,-141.35"/>
+<polygon fill="black" stroke="black" points="630.74,-144.35 641.24,-145.76 633.91,-138.11 630.74,-144.35"/>
 </g>
 <!-- plugin_M -->
 <g id="node16" class="node">
