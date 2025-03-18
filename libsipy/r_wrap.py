@@ -133,6 +133,11 @@ def regression(df, response, predictors=None, model_type="lm", rscript_exe_path=
         "inverse_gaussian": f"model <- glm({formula}, data=data, family=inverse.gaussian(link='log'))",
         "quasi_poisson": f"model <- glm({formula}, data=data, family=quasipoisson())",
         "quasi_binomial": f"model <- glm({formula}, data=data, family=quasibinomial())",
+        "tweedie_regression": f"""
+            {ensure_r_package('statmod')}
+            library(statmod)
+            model <- glm({formula}, data=data, family=statmod::tweedie(var.power=1.5, link.power=0))
+        """,
     }
 
     if model_type not in model_calls:
