@@ -1798,6 +1798,24 @@ class SiPy_Shell(object):
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "hurdle", self.environment["rscript_exe"])
             retR = "\n".join(retR)
+        elif operand[0].lower() in ["inversegaussian", "igaussian"]:
+            """
+            rregress {inversegaussian|igaussian} data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+
+            Example: 
+            let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let yC be slist A, B, C, A, B, C, A, B, C, A
+            let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            rregress inversegaussian data=df y=yN x=x1,x2,x3,x4,x5
+            """
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "inverse_gaussian", self.environment["rscript_exe"])
+            retR = "\n".join(retR)
         elif operand[0].lower() in ["lasso"]:
             """
             rregress lasso data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
@@ -1887,6 +1905,24 @@ class SiPy_Shell(object):
             rregress probit data=df y=yB x=x1,x2,x3,x4,x5
             """
             retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "probit_regression", self.environment["rscript_exe"])
+            retR = "\n".join(retR)
+        elif operand[0].lower() in ["quasibinom", "qbinom", "qb"]:
+            """
+            rregress {quasibinom|qbinom|qb} data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n>
+
+            Example: 
+            let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let yC be slist A, B, C, A, B, C, A, B, C, A
+            let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            rregress quasibinom data=df y=yN x=x1,x2,x3,x4,x5
+            """
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "quasi_binomial", self.environment["rscript_exe"])
             retR = "\n".join(retR)
         elif operand[0].lower() in ["randomforest", "rf"]:
             """
