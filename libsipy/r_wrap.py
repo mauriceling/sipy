@@ -25,6 +25,13 @@ import subprocess
 import os
 import uuid
 
+def ensure_r_package(package_name):
+    return f"""
+    if (!requireNamespace("{package_name}", quietly = TRUE)) {{
+        install.packages("{package_name}", repos="https://cloud.r-project.org")
+    }}
+    """
+        
 def regression(df, response, predictors=None, model_type="lm", rscript_exe_path="portable_R\\bin\\Rscript.exe"):
     """"
     Runs a regression in R using subprocess with a specific R executable.
@@ -57,13 +64,6 @@ def regression(df, response, predictors=None, model_type="lm", rscript_exe_path=
 
     formula = f"{response} ~ {' + '.join(predictors)}"
     df.to_csv(csv_path, index=False)
-
-    def ensure_r_package(package_name):
-        return f"""
-        if (!requireNamespace("{package_name}", quietly = TRUE)) {{
-            install.packages("{package_name}", repos="https://cloud.r-project.org")
-        }}
-        """
 
     # Handling small datasets for GBM
     gbm_adjustment = """
