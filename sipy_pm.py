@@ -58,16 +58,21 @@ class PluginManager:
         else:
             print(f"Plugin '{plugin_name}' not found.")
 
-    def execute_plugin(self, plugin_name, *args, **kwargs):
+    def execute_plugin(self, plugin_name, kwargs):
         plugin = self.plugins.get(plugin_name)
         if plugin:
-            self.execute_safely(plugin_name, plugin, *args, **kwargs)
+            plugin.initialize()
+            plugin.pre_execute()
+            retR = self.execute_safely(plugin_name, plugin, kwargs)
+            plugin.post_execute()
+            plugin.finalize()
         else:
             print(f"Plugin '{plugin_name}' failed to load or does not exist.")
+        return retR
 
-    def execute_safely(self, plugin_name, plugin, *args, **kwargs):
+    def execute_safely(self, plugin_name, plugin, kwargs):
         try:
-            return plugin.execute(*args, **kwargs)
+            return plugin.execute(kwargs)
         except Exception as e:
             print(f"Error executing plugin '{plugin_name}': {e}")
 
@@ -78,3 +83,11 @@ class PluginManager:
         plugin_files = [file[:-3] for file in os.listdir(plugin_dir) if file.endswith('.py') and file != '__init__.py']
         for plugin_name in plugin_files:
             self.load_plugin(plugin_dir, plugin_name)
+
+    def get_purpose(self, plugin_name):
+        plugin = self.plugins.get(plugin_name)
+        return plugin.purpose()
+
+    def get_usage(self, plugin_name):
+        plugin = self.plugins.get(plugin_name)
+        return plugin.usage()

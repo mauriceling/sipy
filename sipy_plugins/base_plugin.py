@@ -38,16 +38,6 @@ class BasePlugin:
         self.author = author
         self.is_initialized = False
 
-    def execute(self, *args, **kwargs):
-        """
-        Execute the plugin logic.
-
-        Args:
-            *args: Variable length argument list.
-            **kwargs: Arbitrary keyword arguments.
-        """
-        raise NotImplementedError("Plugin execute method not implemented")
-
     def initialize(self):
         """
         Initialize the plugin.
@@ -56,23 +46,9 @@ class BasePlugin:
             self.setup()
             self.is_initialized = True
 
-    def finalize(self):
-        """
-        Finalize the plugin.
-        """
-        if self.is_initialized:
-            self.cleanup()
-            self.is_initialized = False
-
     def setup(self):
         """
         Perform setup tasks for the plugin.
-        """
-        pass
-
-    def cleanup(self):
-        """
-        Perform cleanup tasks for the plugin.
         """
         pass
 
@@ -82,8 +58,39 @@ class BasePlugin:
         """
         pass
 
+    def execute(self, kwargs):
+        """
+        Execute the plugin logic.
+
+        Args:
+            kwargs: Arbitrary keyword arguments.
+        """
+        return "Plugin execute method not implemented"
+
     def post_execute(self):
         """
         Tasks to be done after executing the plugin.
         """
         pass
+
+    def finalize(self):
+        """
+        Finalize the plugin.
+        """
+        if self.is_initialized:
+            self.cleanup()
+            self.is_initialized = False
+
+    def cleanup(self):
+        """
+        Perform cleanup tasks for the plugin.
+        """
+        pass
+
+    def purpose(self):
+        return """
+        """
+        
+    def usage(self):
+        return """
+        """

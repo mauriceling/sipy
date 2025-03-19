@@ -1597,6 +1597,40 @@ class SiPy_Shell(object):
         print(retR)
         return retR
 
+    def do_plugin(self, operand, kwargs):
+        """!
+        Executes analysis using plugin.
+
+        Commands: 
+            pg <plugin name> [keyword argument for the specfic plugin]
+            pg <plugin name> purpose
+            pg <plugin name> usage
+
+        @return: String containing results of command execution
+        """
+        plugin_name = operand[0] 
+        if len(operand) == 1:
+            # pg <plugin name> [keyword argument for the specfic plugin]
+            self.sipy_pm.load_plugin(self.environment["plugin_directory"], plugin_name)
+            retR = self.sipy_pm.execute_plugin(plugin_name, kwargs)
+            self.sipy_pm.unload_plugin(plugin_name)
+        elif len(operand) == 2:
+            if operand[1].lower() == "purpose":
+                self.sipy_pm.load_plugin(self.environment["plugin_directory"], plugin_name)
+                retR = self.sipy_pm.get_purpose(plugin_name)
+                self.sipy_pm.unload_plugin(plugin_name)
+            elif operand[1].lower() == "usage":
+                self.sipy_pm.load_plugin(self.environment["plugin_directory"], plugin_name)
+                retR = self.sipy_pm.get_usage(plugin_name)
+                self.sipy_pm.unload_plugin(plugin_name) 
+        if isinstance(retR, list):
+            for x in retR: print(x)
+        elif isinstance(retR, dict):
+            for key in retR: print("%s = %s" % (key, str(retR[key])))
+        else:
+            print(retR)
+        return retR
+
     def do_read(self, operand, kwargs):
         """!
         Read external data files into SiPy.
@@ -2076,29 +2110,6 @@ class SiPy_Shell(object):
         print(retR)
         return retR
 
-    def do_plugin(self, operand, kwargs):
-        """!
-        Performs xxx
-
-        Commands: 
-            operator operand[0] operand[1] operand[2] operand[3] ... operand[N]
-
-        @return: String containing results of command execution
-        """
-        option = operand[0].lower()
-        data_type = operand[1].lower()
-        if option.lower() in ["option"]:
-            if data_type in ["list", "series", "tuple", "vector"]:
-                data_values = [self.data[operand[i]] for i in range(2, len(operand))]
-                result = libsipy.base.anova1way(data_values)
-                retR = "F = %.3f; p-value = %s" % (result.statistic, result.pvalue)
-            elif data_type in ["dataframe", "df", "frame", "table"]:
-                pass
-        else: 
-            retR = "Unknown sub-operation: %s" % operand[0].lower()
-        print(retR)
-        return retR
-
     def do_script(self, operand, kwargs):
         """!
         Performs scripting platform operations
@@ -2248,8 +2259,11 @@ class SiPy_Shell(object):
         """
         if operand[0].lower() in ["plugin_system"]:
             # systest plugin_system
+            kwargs["operation"] = "print"
+            kwargs["name"] = "Alice"
+            kwargs["age"] = 30
             self.sipy_pm.load_plugin(self.environment["plugin_directory"], "sample_plugin")
-            self.sipy_pm.execute_plugin("sample_plugin", 1, 2, 3, operation="print", name="Alice", age=30)
+            self.sipy_pm.execute_plugin("sample_plugin", kwargs)
             self.sipy_pm.unload_plugin("sample_plugin")  # Unload the plugin
             retR = "Plugin system tested"
         else: 
