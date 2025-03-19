@@ -1,7 +1,7 @@
 '''!
 SiPy Plugin: Plugin for Pingouin (https://pingouin-stats.org) Functions
 
-Date created: 15th November 2023
+Date created: 19th March 2025
 
 License: GNU General Public License version 3 for academic or 
 not-for-profit use only
