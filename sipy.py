@@ -2131,6 +2131,7 @@ class SiPy_Shell(object):
                 scriptfile = operand[1].strip()
             else:
                 scriptfile = kwargs["file"]
+            scriptfile = os.path.abspath(scriptfile)
             print(scriptfile)
             retR = self.runScript(scriptfile, "script_execute")
         elif option.lower() in ["merge"]:
@@ -2140,9 +2141,10 @@ class SiPy_Shell(object):
             else:
                 scriptfile = kwargs["file"]
                 outputfile = kwargs["output"]
+            scriptfile = os.path.abspath(scriptfile)
             print(scriptfile)
             retR = self.runScript(scriptfile, "script_merge")
-            f = open(outputfile, "w")
+            f = open(os.path.abspath(outputfile), "w")
             for line in retR: f.write(line + "\n")
             f.close()
         elif option.lower() in ["read"]:
@@ -2150,6 +2152,7 @@ class SiPy_Shell(object):
                 scriptfile = operand[1].strip()
             else:
                 scriptfile = kwargs["file"]
+            scriptfile = os.path.abspath(scriptfile)
             print(scriptfile)
             retR = self.runScript(scriptfile, "script_read")
         else: 
