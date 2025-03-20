@@ -1,0 +1,10 @@
+@include data_values.sipy
+
+mean arithmetic x1
+mean arithmetic data=x1
+
+mean geometric x1
+mean geometric data=x1
+
+mean harmonic x1
+mean harmonic data=x1
