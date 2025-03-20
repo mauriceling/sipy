@@ -1,0 +1,16 @@
+@include data_values.sipy
+
+describe kurtosis x1
+describe kurtosis data=x1
+
+describe se x1
+describe se data=x1
+
+describe skew x1
+describe skew data=x1
+
+describe stdev x1
+describe stdev data=x1
+
+describe var x1
+describe var data=x1
