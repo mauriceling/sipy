@@ -1,0 +1,31 @@
+@include data_values.sipy
+
+ttest 1s list x1 4
+ttest 1s list data=x1 mu=4
+ttest 1s dataframe wide df_B x1 5
+ttest 1s dataframe wide data=df_B.x1 mu=5
+
+ttest 2se list x1 x2
+ttest 2se list data=x1,x2
+ttest 2se dataframe wide df_B x1 x2
+ttest 2se dataframe wide data=df_B.x1,df_B.x2
+
+ttest 2su list x1 x2
+ttest 2su list data=x1,x2
+ttest 2su dataframe wide df_B x1 x2
+ttest 2su dataframe wide data=df_B.x1,df_B.x2
+
+ttest mwu list x1 x2
+ttest mwu list data=x1,x2
+ttest mwu dataframe wide df_B x1 x2
+ttest mwu dataframe wide data=df_B.x1,df_B.x2
+
+ttest paired list x1 x2
+ttest paired list data=x1,x2
+ttest paired dataframe wide df_B x1 x2
+ttest paired dataframe wide data=df_B.x1,df_B.x2
+
+ttest tost list x1 x2
+ttest tost list data=x1,x2
+ttest tost dataframe wide df_B x1 x2
+ttest tost dataframe wide data=df_B.x1,df_B.x2
