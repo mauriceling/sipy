@@ -2738,7 +2738,7 @@ class SiPy_Shell(object):
                     data_values = [self.data[operand[i]] for i in range(2, len(operand))]
                 else:
                     # variance bartlett {list|series|tuple|vector} data=<variable name 1>;<variable name 2>; ... ;<variable name N>
-                    varNs = [x.strip() for x in kwargs["data"].split(";")]
+                    varNs = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
                     data_values = [self.data[var] for var in varNs]
                 result = libsipy.base.BartlettTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
@@ -2758,7 +2758,7 @@ class SiPy_Shell(object):
                     data_values = [self.data[operand[i]] for i in range(2, len(operand))]
                 else:
                     # variance fligner {list|series|tuple|vector} data=<variable name 1>;<variable name 2>; ... ;<variable name N>
-                    varNs = [x.strip() for x in kwargs["data"].split(";")]
+                    varNs = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
                     data_values = [self.data[var] for var in varNs]
                 result = libsipy.base.FlignerTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
@@ -2778,7 +2778,7 @@ class SiPy_Shell(object):
                     data_values = [self.data[operand[i]] for i in range(2, len(operand))]
                 else:
                     # variance levene {list|series|tuple|vector} data=<variable name 1>;<variable name 2>; ... ;<variable name N>
-                    varNs = [x.strip() for x in kwargs["data"].split(";")]
+                    varNs = [x.strip() for x in kwargs["data"].split(self.environment["separator"])]
                     data_values = [self.data[var] for var in varNs]
                 result = libsipy.base.LeveneTest(data_values)
                 retR = "Statistic = %.3f; p-value = %s" % (result.statistic, result.pvalue)
