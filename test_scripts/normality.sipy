@@ -1,0 +1,21 @@
+@include data_values.sipy
+
+normality kurtosis x1
+normality kurtosis data=x1
+normality kurtosis df_A
+normality kurtosis data=df_A
+
+normality jarquebera x1
+normality jarquebera data=x1
+normality jarquebera df_A
+normality jarquebera data=df_A
+
+normality shapirowilk x1
+normality shapirowilk data=x1
+normality shapirowilk df_A
+normality shapirowilk data=df_A
+
+normality skewtest x1
+normality skewtest data=x1
+normality skewtest df_A
+normality skewtest data=df_A
