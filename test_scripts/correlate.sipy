@@ -1,0 +1,36 @@
+@include data_values.sipy
+
+correlate bicor list x1 x2
+correlate bicor list data=x1,x2
+correlate bicor dataframe wide df_B x1 x2
+correlate bicor dataframe wide data=df_B.x1,df_B.x2
+
+correlate distance list x1 x2
+correlate distance list data=x1,x2
+correlate distance dataframe wide df_B x1 x2
+correlate distance dataframe wide data=df_B.x1,df_B.x2
+
+correlate kendall list x1 x2
+correlate kendall list data=x1,x2
+correlate kendall dataframe wide df_B x1 x2
+correlate kendall dataframe wide data=df_B.x1,df_B.x2
+
+correlate pearson list x1 x2
+correlate pearson list data=x1,x2
+correlate pearson dataframe wide df_B x1 x2
+correlate pearson dataframe wide data=df_B.x1,df_B.x2
+
+correlate percbend list x1 x2
+correlate percbend list data=x1,x2
+correlate percbend dataframe wide df_B x1 x2
+correlate percbend dataframe wide data=df_B.x1,df_B.x2
+
+correlate skipped list x1 x2
+correlate skipped list data=x1,x2
+correlate skipped dataframe wide df_B x1 x2
+correlate skipped dataframe wide data=df_B.x1,df_B.x2
+
+correlate spearman list x1 x2
+correlate spearman list data=x1,x2
+correlate spearman dataframe wide df_B x1 x2
+correlate spearman dataframe wide data=df_B.x1,df_B.x2
