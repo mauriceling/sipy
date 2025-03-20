@@ -27,19 +27,20 @@ import os
 from sipy_plugins.base_plugin import BasePlugin
 
 class PluginManager:
-    def __init__(self):
+    def __init__(self, suppress):
         self.plugins = {}
+        self.suppress = suppress
 
     def load_plugin(self, plugin_dir, plugin_name):
         if plugin_name in self.plugins:
-            print(f"Plugin '{plugin_name}' is already loaded.")
+            if not self.suppress: print(f"Plugin '{plugin_name}' is already loaded.")
             return
         try:
             plugin_module = importlib.import_module(f'{plugin_dir}.{plugin_name}')
             plugin_class = self.find_plugin_class(plugin_module)
             if plugin_class:
                 self.plugins[plugin_name] = plugin_class()
-                print(f"Plugin '{plugin_name}' loaded.")
+                if not self.suppress: print(f"Plugin '{plugin_name}' loaded.")
             else:
                 print(f"No valid plugin class found in '{plugin_name}'.")
         except (ImportError, Exception) as e:
@@ -54,7 +55,7 @@ class PluginManager:
     def unload_plugin(self, plugin_name):
         if plugin_name in self.plugins:
             del self.plugins[plugin_name]
-            print(f"Plugin '{plugin_name}' unloaded.")
+            if not self.suppress: print(f"Plugin '{plugin_name}' unloaded.")
         else:
             print(f"Plugin '{plugin_name}' not found.")
 

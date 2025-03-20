@@ -54,6 +54,7 @@ class SiPy_Shell(object):
         self.environment = {"cwd": os.getcwd(),
                             "plugin_directory": "sipy_plugins",
                             "plugin_system": True,
+                            "plugin_suppress": True,
                             "prompt": ">>>",
                             "rscript_exe": rscript_exe,
                             "separator": ",",
@@ -64,7 +65,7 @@ class SiPy_Shell(object):
                         if m not in ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']]
         self.result = {}
         # Plugin Manager Initialization
-        self.sipy_pm = PluginManager()
+        self.sipy_pm = PluginManager(self.environment["plugin_suppress"])
         try:
             self.available_plugins = [p[:-3] for p in os.listdir(os.sep.join([self.environment["sipy_directory"], self.environment["plugin_directory"]]))
                                       if p.endswith(".py")]
@@ -2162,6 +2163,7 @@ class SiPy_Shell(object):
 
         Commands: 
             set current_directory <new current directory>
+            set plugin_suppress {True|False}
             set prompt <new prompt>
             set separator <new separator>
 
@@ -2172,6 +2174,12 @@ class SiPy_Shell(object):
             old = self.environment["cwd"]
             self.environment["cwd"] = operand[1]
             retR = "set cwd from %s to %s" % (old, operand[1])
+        elif operand[0].lower() in ["plugin_suppress"]:
+            if operand[1].lower() in ["false", "f", "no", "n"]: suppress = False
+            else: suppress = True
+            self.environment["plugin_suppress"] = suppress
+            self.sipy_pm.suppress = suppress
+            retR = "set plugin_suppress to %s" % suppress
         elif operand[0].lower() in ["prompt"]:
             # set prompt <new prompt>
             old = self.environment["prompt"]
