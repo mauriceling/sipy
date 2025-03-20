@@ -1,0 +1,41 @@
+@include data_values.sipy
+
+compute_effsize auc list x1 x2
+compute_effsize auc list data=x1,x2
+compute_effsize auc dataframe wide df_B x1 x2
+compute_effsize auc dataframe wide data=df_B.x1,df_B.x2
+
+compute_effsize cles list x1 x2
+compute_effsize cles list data=x1,x2
+compute_effsize cles dataframe wide df_B x1 x2
+compute_effsize cles dataframe wide data=df_B.x1,df_B.x2
+
+compute_effsize cohen list x1 x2
+compute_effsize cohen list data=x1,x2
+compute_effsize cohen dataframe wide df_B x1 x2
+compute_effsize cohen dataframe wide data=df_B.x1,df_B.x2
+
+compute_effsize eta-square list x1 x2
+compute_effsize eta-square list data=x1,x2
+compute_effsize eta-square dataframe wide df_B x1 x2
+compute_effsize eta-square dataframe wide data=df_B.x1,df_B.x2
+
+compute_effsize hedges list x1 x2
+compute_effsize hedges list data=x1,x2
+compute_effsize hedges dataframe wide df_B x1 x2
+compute_effsize hedges dataframe wide data=df_B.x1,df_B.x2
+
+compute_effsize none list x1 x2
+compute_effsize none list data=x1,x2
+compute_effsize none dataframe wide df_B x1 x2
+compute_effsize none dataframe wide data=df_B.x1,df_B.x2
+
+compute_effsize odds-ratio list x1 x2
+compute_effsize odds-ratio list data=x1,x2
+compute_effsize odds-ratio dataframe wide df_B x1 x2
+compute_effsize odds-ratio dataframe wide data=df_B.x1,df_B.x2
+
+compute_effsize r list x1 x2
+compute_effsize r list data=x1,x2
+compute_effsize r dataframe wide df_B x1 x2
+compute_effsize r dataframe wide data=df_B.x1,df_B.x2
