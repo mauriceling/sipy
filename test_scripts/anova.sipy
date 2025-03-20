@@ -1,0 +1,7 @@
+@include data_values.sipy
+
+anova 1way list x1 x2 x3 x4 x5
+anova 1way list data=x1,x2,x3,x4,x5
+anova 1way dataframe wide data=df_A
+
+anova rm dataframe wide data=df_A
