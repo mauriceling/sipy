@@ -4,7 +4,7 @@
 
 Back in 2012 when I was teaching a graduate course of Statistical Methods in the [Department of Mathematics & Statistics](https://www.sdstate.edu/mathematics-statistics) of [South Dakota State University (USA)](https://www.sdstate.edu/), I found the world of statistical tools / applications to be a problem. I remembered having a conversation with Runan during lunch one day that if I plotted the statistical tools that I knew on the heuristic axes of cost and difficulty, I would get something like this:
 
-![common statistical tools](https://github.com/mauriceling/sipy/blob/main/images/common_statistical_tools.jpg)
+![common statistical tools](https://github.com/mauriceling/sipy/blob/main/manuscript/common_statistical_tools.jpg)
 
 What students and researchers really need is something cheap (free will be the best) and easy to use but this is not available. This is expected as such a tool does not make business sense if it is to be a product. However, it makes educational sense. Hence, the only way that I can see forward is that such a tool comes from educators. This also means that such a tool cannot be "from scratch" but has to build largely on existing tools.
 
