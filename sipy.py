@@ -1665,7 +1665,7 @@ class SiPy_Shell(object):
         @return: String containing results of command execution
         """
         if operand[0].lower() in ["linear", "lin"]:
-            if "data" not in kwargs:
+            if ("x" not in kwargs) and ("y" not in kwargs):
                 # regress linear <dependent variable name> <independent variable name> [False for intercept=0]
                 try: 
                     if operand[3] in [True, "True", "TRUE", "true", "T", "t", "Yes", "YES", "Y", "y"]:
@@ -1687,7 +1687,7 @@ class SiPy_Shell(object):
                     add_intercept = False
             retR = libsipy.base.regressionLinear(X, y, add_intercept)
         elif operand[0].lower() in ["logistic", "log"]:
-            if "data" not in kwargs:
+            if ("x" not in kwargs) and ("y" not in kwargs):
                 # regress logistic <dependent variable name> <independent variable name>
                 y = self.data[operand[1]]
                 X = self.data[operand[2]]
