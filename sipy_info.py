@@ -19,10 +19,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
-release_number = "0.5.0"
-release_code_name = "Watermelon"
-release_day = "17 November"
-release_year = "2023"
+release_number = "0.6.0"
+release_code_name = "Otoro-Chutoro Continuum"
+release_day = "03 May"
+release_year = "2025"
 release_date = " ".join([release_day, release_year])
 
 header = """
@@ -39,11 +39,12 @@ copyright = """Copyright (C) 2022-%s, Maurice HT Ling (on behalf of SiPy Team)
 
 credits = """SiPy Project Team
 Project architect: Maurice HT Ling (https://mauriceling.github.io; mauriceling@acm.org)
-Core Developers:
-    1. Mathialagan Mugundhan (https://github.com/Mugu17777777)
-    2. Nicholas TF Tan (https://github.com/NicholasTTF)
-Contributors:
-    1. Tan Zhi Hui Jensen (https://github.com/Jensen19142)
+Current and Past Developers:
+    2. Mathialagan Mugundhan (https://github.com/Mugu17777777)
+    1. Nicholas TF Tan (https://github.com/NicholasTTF)
+Current and Past Contributors:
+    2. Rick YH Tan
+    1. Jensen ZH Tan (https://github.com/Jensen19142)
 """
 
 citations = """"""
