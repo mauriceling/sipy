@@ -1,0 +1,91 @@
+AustralianElectionPolling
+                        Political opinion polls in Australia, 2004-07
+AustralianElections     elections to Australian House of
+                        Representatives, 1949-2016
+EfronMorris             Batting Averages for 18 major league baseball
+                        players, 1970
+RockTheVote             Voter turnout experiment, using Rock The Vote
+                        ads
+UKHouseOfCommons        1992 United Kingdom electoral returns
+absentee                Absentee and Machine Ballots in Pennsylvania
+                        State Senate Races
+admit                   Applications to a Political Science PhD Program
+betaHPD                 compute and optionally plot beta HDRs
+bioChemists             article production by graduate students in
+                        biochemistry Ph.D. programs
+ca2006                  California Congressional Districts in 2006
+computeMargins          add information about voting outcomes to a
+                        rollcall object
+constrain.items         constrain item parameters in analysis of roll
+                        call data
+constrain.legis         constrain legislators' ideal points in analysis
+                        of roll call data
+convertCodes            convert entries in a rollcall matrix to binary
+                        form
+dropRollCall            drop user-specified elements from a rollcall
+                        object
+dropUnanimous           drop unanimous votes from rollcall objects and
+                        matrices
+extractRollCallObject   return the roll call object used in fitting an
+                        ideal model
+hitmiss                 Table of Actual Outcomes against Predicted
+                        Outcomes for discrete data models
+hurdle                  Hurdle Models for Count Data Regression
+hurdle.control          Control Parameters for Hurdle Count Data
+                        Regression
+hurdletest              Testing for the Presence of a Zero Hurdle
+ideal                   analysis of educational testing data and roll
+                        call data with IRT models, via Markov chain
+                        Monte Carlo methods
+idealToMCMC             convert an object of class ideal to a coda MCMC
+                        object
+igamma                  inverse-Gamma distribution
+iraqVote                U.S. Senate vote on the use of force against
+                        Iraq, 2002.
+nj07                    rollcall object, National Journal key votes of
+                        2007
+ntable                  nicely formatted tables
+odTest                  likelihood ratio test for over-dispersion in
+                        count data
+pR2                     compute various pseudo-R2 measures
+partycodes              political parties appearing in the U.S.
+                        Congress
+plot.ideal              plots an ideal object
+plot.predict.ideal      plot methods for predictions from ideal objects
+plot.seatsVotes         plot seats-votes curves
+politicalInformation    Interviewer ratings of respondent levels of
+                        political information
+postProcess             remap MCMC output via affine transformations
+predict.hurdle          Methods for hurdle Objects
+predict.ideal           predicted probabilities from an ideal object
+predict.zeroinfl        Methods for zeroinfl Objects
+predprob                compute predicted probabilities from fitted
+                        models
+predprob.glm            Predicted Probabilities for GLM Fits
+predprob.ideal          predicted probabilities from fitting ideal to
+                        rollcall data
+presidentialElections   elections for U.S. President, 1932-2016, by
+                        state
+prussian                Prussian army horse kick data
+readKH                  read roll call data in Poole-Rosenthal KH
+                        format
+rollcall                create an object of class rollcall
+s109                    rollcall object, 109th U.S. Senate (2005-06).
+sc9497                  votes from the United States Supreme Court,
+                        from 1994-1997
+seatsVotes              A class for creating seats-votes curves
+simpi                   Monte Carlo estimate of pi (3.14159265...)
+state.info              information about the American states needed
+                        for U.S. Congress
+summary.ideal           summary of an ideal object
+summary.rollcall        summarize a rollcall object
+tracex                  trace plot of MCMC iterates, posterior density
+                        of legislators' ideal points
+unionDensity            cross national rates of trade union density
+vectorRepresentation    convert roll call matrix to series of vectors
+vote92                  Reports of voting in the 1992 U.S. Presidential
+                        election.
+vuong                   Vuong's non-nested hypothesis test
+zeroinfl                Zero-inflated Count Data Regression
+zeroinfl.control        Control Parameters for Zero-inflated Count Data
+                        Regression
