@@ -1,6 +1,7 @@
 # This file may be used to create an environment using:
 # $ conda create --name <env> --file <this file>
 # platform: win-64
+# created-by: conda 24.11.3
 @EXPLICIT
 https://repo.anaconda.com/pkgs/main/win-64/blas-1.0-mkl.conda
 https://repo.anaconda.com/pkgs/main/win-64/ca-certificates-2024.3.11-haa95532_0.conda
