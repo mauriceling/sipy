@@ -14,7 +14,6 @@ digraph {
         "scikit-learn" [label="scikit-learn 1.6.1" fillcolor=seashell style=filled]
         statsmodels [label="statsmodels 0.14.4" fillcolor=seashell style=filled]
         
-        SiPy -> {fitter pandas pingouin scipy}
         fitter -> {matplotlib numpy pandas scipy}
         matplotlib -> numpy
         pandas -> numpy
@@ -34,6 +33,7 @@ digraph {
         libsipy -> base
         libsipy -> r_wrap
         libsipy -> lib_N [style=dashed]
+		base -> {fitter pandas pingouin scipy}
         }
         
         subgraph plugin {
@@ -47,13 +47,8 @@ digraph {
         script_engine [shape="rectangle" label="Scripting System" fillcolor=gold style=filled]
         SiPy -> script_engine [color=red]
         }
-        
-        subgraph cmdtools {
-        cmd [shape="rectangle" label="Command Line Tools" fillcolor=plum style=filled]
-        SiPy -> cmd [color=red]
-        }
 
         R [shape="rectangle" label="R 4.4.1" fillcolor=plum style=filled]
         r_wrap -> R
-        cmd -> R [style=dashed]
+
 }
