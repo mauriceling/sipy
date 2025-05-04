@@ -27,9 +27,11 @@ import os
 from sipy_plugins.base_plugin import BasePlugin
 
 class PluginManager:
-    def __init__(self, suppress):
+    def __init__(self, environment):
         self.plugins = {}
-        self.suppress = suppress
+        self.suppress = environment["plugin_suppress"]
+        self.sipy_directory = environment["sipy_directory"]
+        self.rscript_exe = environment["rscript_exe"]
 
     def load_plugin(self, plugin_dir, plugin_name):
         if plugin_name in self.plugins:
@@ -64,6 +66,8 @@ class PluginManager:
         if plugin:
             plugin.initialize()
             plugin.pre_execute()
+            kwargs["sipy_directory"] = self.sipy_directory
+            kwargs["rscript_exe"] = self.rscript_exe
             retR = self.execute_safely(plugin_name, plugin, kwargs)
             plugin.post_execute()
             plugin.finalize()

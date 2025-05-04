@@ -65,7 +65,7 @@ class SiPy_Shell(object):
                         if m not in ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']]
         self.result = {}
         # Plugin Manager Initialization
-        self.sipy_pm = PluginManager(self.environment["plugin_suppress"])
+        self.sipy_pm = PluginManager(self.environment)
         try:
             self.available_plugins = [p[:-3] for p in os.listdir(os.sep.join([self.environment["sipy_directory"], self.environment["plugin_directory"]]))
                                       if p.endswith(".py")]
@@ -2274,7 +2274,7 @@ class SiPy_Shell(object):
             kwargs["name"] = "Alice"
             kwargs["age"] = 30
             self.sipy_pm.load_plugin(self.environment["plugin_directory"], "sample_plugin")
-            self.sipy_pm.execute_plugin("sample_plugin", kwargs)
+            retR = self.sipy_pm.execute_plugin("sample_plugin", kwargs)
             self.sipy_pm.unload_plugin("sample_plugin")  # Unload the plugin
             retR = "Plugin system tested"
         else: 
