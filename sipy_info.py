@@ -43,27 +43,17 @@ Current and Past Developers:
     2. Mathialagan Mugundhan (https://github.com/Mugu17777777)
     1. Nicholas TF Tan (https://github.com/NicholasTTF)
 Current and Past Contributors:
-    2. Rick YH Tan
+    5. Alexander Y Tang
+    4. Tiantong Liu
+    3. Rick YH Tan
+    2. Bryan JH Sim
     1. Jensen ZH Tan (https://github.com/Jensen19142)
 """
 
-citations = """"""
+citations = """
+To cite SiPy in publications, use
 
-"""To cite SiPy in publications, use
-
-    Nicholas TF Tan, Mugundhan Mathialagan, Jensen ZR Tan, and Maurice HT Ling. Year. SiPy - Statistics in Python. Journal Volume(Issue): StartPage–EndPage. 
-
-A BibTeX entry for LaTeX users is
-
-    @article{SiPy, 
-        title={SiPy - Statistics in Python}, 
-        volume={Volume}, 
-        number={Issue}, 
-        journal={Journal}, 
-        author={Tan, Nicholas TF and Mathialagan, Mugundhan and Tan, Jensen ZR and Ling, Maurice HT}, 
-        year={Year}, 
-        pages={StartPage–EndPage}
-    } 
+    Tan, NTF, Mugundhan, M, Liu, T, Tan, RYH, Tang, AY, Sim, BJH, Tan, JZH, Ling, MHT. 2025. SiPy – Bringing Python and R to the End-User in a Plugin-Extensible System. Medicon Medical Sciences 8(6): 32-41. https://doi.org/10.55162/MCMS.08.295
 
 We have invested a lot of time and effort in creating SiPy,please cite it when using it.
 """
