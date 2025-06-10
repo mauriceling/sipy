@@ -18,7 +18,7 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
     response_formula = f"{response} ~ {interaction_formula}" if len(factors) > 1 else f"{response} ~ {factors_formula}"
 
     if posthoc_tests is None:
-        posthoc_tests = ["dunn", "games-howell", "pairwise", "perm", "tukey"]
+        posthoc_tests = ["dunn", "games-howell", "lsd", "mixed-posthoc", "pairwise", "perm", "scheffe", "tukey", "wilcoxon"]
 
     posthoc_code = ""
     if posthoc_tests and factors:
@@ -47,6 +47,17 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
             lsd_model <- aov({response} ~ {factors[0]}, data=data)
             print(LSD.test(lsd_model, "{factors[0]}", p.adj="none"))
             """
+        if "mixed-posthoc" in posthoc_tests and method == "mixed":
+            posthoc_code += f"""
+            if (!requireNamespace("emmeans", quietly = TRUE)) install.packages("emmeans", repos="https://cloud.r-project.org")
+            if (!requireNamespace("multcomp", quietly = TRUE)) install.packages("multcomp", repos="https://cloud.r-project.org")
+            library(emmeans)
+            library(multcomp)
+
+            print("Estimated Marginal Means and Pairwise Comparisons (Bonferroni-adjusted):")
+            emms <- emmeans(model, pairwise ~ {factors[0]}, adjust = "bonferroni")
+            print(emms)
+            """
         if "pairwise" in posthoc_tests:
             posthoc_code += f"""
             print("Pairwise t-test posthoc (Bonferroni):")
@@ -58,6 +69,14 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
             library(RVAideMemoire)
             print("Pairwise Permutation t-tests posthoc (Bonferroni):")
             print(pairwise.perm.t.test(data${response}, data${factors[0]}))
+            """
+        if "scheffe" in posthoc_tests and method in ["anova", "ancova"]:
+            posthoc_code += f"""
+            if (!requireNamespace("agricolae", quietly = TRUE)) install.packages("agricolae", repos="https://cloud.r-project.org")
+            library(agricolae)
+            print("Scheffe posthoc test:")
+            scheffe_model <- aov({response} ~ {factors[0]}, data=data)
+            print(scheffe.test(scheffe_model, "{factors[0]}"))
             """
         if "tukey" in posthoc_tests and method in ["anova", "ancova"]:
             posthoc_code += f"""
@@ -123,7 +142,8 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
 
             model <- lmer({response} ~ {factors_formula} + (1|subject), data=data)
             print(summary(model))
-        """,
+            {posthoc_code}
+            """,
         "permutation": f"""
             if (!requireNamespace("lmPerm", quietly = TRUE)) install.packages("lmPerm", repos="https://cloud.r-project.org")
             library(lmPerm)
@@ -193,7 +213,7 @@ df = pd.DataFrame({
 })
 
 methods = ["anova", "ancova", "friedman", "kruskal", "manova", "mixed", "permutation", "repeated", "welch"]
-posthocs = ["dunn", "games-howell", "lsd", "pairwise", "perm", "tukey", "wilcoxon"]
+posthocs = ["dunn", "games-howell", "lsd", "mixed-posthoc", "pairwise", "perm", "scheffe", "tukey", "wilcoxon"]
 for method in methods:
     print(f"\n🔹 {method.title()}:")
     if method == "manova":
@@ -202,3 +222,4 @@ for method in methods:
         print("\n".join(anova(df, 'response', ['factor1'], method=method, covariate='covariate',posthoc_tests=posthocs)))
     else:
         print("\n".join(anova(df, 'response', ['factor1'], method=method, posthoc_tests=posthocs)))
+
