@@ -3,14 +3,7 @@ import subprocess
 import os
 import uuid
 
-def ensure_r_package(package_name):
-    return f"""
-    if (!requireNamespace(\"{package_name}\", quietly = TRUE)) {{
-        install.packages(\"{package_name}\", repos=\"https://cloud.r-project.org\")
-    }}
-    """
-
-def anova(df, response, factors, method="anova", covariate=None, rscript_exe_path="..\\portable_R\\bin\\Rscript.exe"):
+def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=None, rscript_exe_path="..\\portable_R\\bin\\Rscript.exe"):
     rscript_exe_path = os.path.abspath(rscript_exe_path)
     if not os.path.exists(rscript_exe_path):
         raise FileNotFoundError(f"Rscript.exe not found at {rscript_exe_path}")
@@ -18,106 +11,145 @@ def anova(df, response, factors, method="anova", covariate=None, rscript_exe_pat
     unique_id = uuid.uuid4().hex[:8]
     csv_path = f"data_{unique_id}.csv"
     r_script_path = f"anova_script_{unique_id}.R"
-
     df.to_csv(csv_path, index=False)
 
     factors_formula = " + ".join(factors)
-    interaction_formula = " * ".join(factors) 
-
+    interaction_formula = " * ".join(factors)
     response_formula = f"{response} ~ {interaction_formula}" if len(factors) > 1 else f"{response} ~ {factors_formula}"
 
-    repeated_formula = f"""
-    install.packages("ez", repos="https://cloud.r-project.org")
-    library(ez)
+    if posthoc_tests is None:
+        posthoc_tests = ["dunn", "games-howell", "pairwise", "perm", "tukey"]
 
-    data <- read.csv("{csv_path}")
-    data$subject <- as.factor(data$subject)
-    {f'data${factors[0]} <- as.factor(data${factors[0]})' if len(factors) > 0 else ''}
-    {f'data${factors[1]} <- as.factor(data${factors[1]})' if len(factors) > 1 else ''}
-
-    result <- ezANOVA(
-        data = data,
-        dv = {response},
-        wid = subject,
-        within = .({", ".join(factors)}),
-        type = 3
-    )
-
-    print(result)
-    """
-
-    friedman_formula = f"""
-    if (!requireNamespace("tidyr", quietly = TRUE)) install.packages("tidyr", repos="https://cloud.r-project.org")
-    if (!requireNamespace("dplyr", quietly = TRUE)) install.packages("dplyr", repos="https://cloud.r-project.org")
-    library(tidyr)
-    library(dplyr)
-
-    data <- read.csv("{csv_path}")
-    data${factors[0]} <- as.factor(data${factors[0]})
-    data$subject <- as.factor(data$subject)
-
-    long_data <- data %>%
-        select(subject, {factors[0]}, {response}) %>%
-        pivot_wider(names_from = {factors[0]}, values_from = {response})
-
-    long_data <- na.omit(long_data)
-
-    if (nrow(long_data) == 0) {{
-        stop("No complete blocks found for Friedman test.")
-    }}
-
-    response_matrix <- as.matrix(long_data[, -1])
-    res <- friedman.test(response_matrix)
-    print(res)
-    """
-
-    mixed_formula = f"""
-    if (!requireNamespace("lme4", quietly = TRUE)) install.packages("lme4", repos="https://cloud.r-project.org")
-    library(lme4)
-
-    data <- read.csv("{csv_path}")
-    data${factors[0]} <- as.factor(data${factors[0]})
-    data$subject <- as.factor(data$subject)
-
-    model <- lmer({response} ~ {factors_formula} + (1|subject), data=data)
-    print(summary(model))
-    """
-
-    permutation_formula = f"""
-    if (!requireNamespace("lmPerm", quietly = TRUE)) install.packages("lmPerm", repos="https://cloud.r-project.org")
-    library(lmPerm)
-
-    data <- read.csv("{csv_path}")
-    data${factors[0]} <- as.factor(data${factors[0]})
-    data$subject <- as.factor(data$subject)
-
-    perm <- aovp({response} ~ {factors_formula}, data=data)
-    print(summary(perm))
-    """
-
-    posthoc = f"""
-    if (length(unique(data${factors[0]})) > 2) {{
-        posthoc_result <- pairwise.t.test(data${response}, data${factors[0]}, p.adjust.method = "bonferroni")
-        print("\nPost-hoc Pairwise T-Tests:")
-        print(posthoc_result)
-
-        tukey_model <- aov({response} ~ {factors[0]}, data = data)
-        tukey_result <- TukeyHSD(tukey_model)
-        print("\nTukey's HSD:")
-        print(tukey_result)
-    }}
-    """
+    posthoc_code = ""
+    if posthoc_tests and factors:
+        posthoc_code += f"""
+        if (length(unique(data${factors[0]})) > 2) {{
+        """
+        if "dunn" in posthoc_tests and method == "kruskal":
+            posthoc_code += f"""
+            if (!requireNamespace("dunn.test", quietly = TRUE)) install.packages("dunn.test", repos="https://cloud.r-project.org")
+            library(dunn.test)
+            print("Dunn's posthoc test:")
+            dunn.test::dunn.test(data${response}, data${factors[0]}, method = "bonferroni")
+            """
+        if "games-howell" in posthoc_tests and method == "welch":
+            posthoc_code += f"""
+            if (!requireNamespace("PMCMRplus", quietly = TRUE)) install.packages("PMCMRplus", repos="https://cloud.r-project.org")
+            library(PMCMRplus)
+            print("Games-Howell posthoc test:")
+            print(gamesHowellTest({response} ~ {factors[0]}, data=data))
+            """
+        if "lsd" in posthoc_tests and method in ["anova", "ancova"]:
+            posthoc_code += f"""
+            if (!requireNamespace("agricolae", quietly = TRUE)) install.packages("agricolae", repos="https://cloud.r-project.org")
+            library(agricolae)
+            print("LSD posthoc test:")
+            lsd_model <- aov({response} ~ {factors[0]}, data=data)
+            print(LSD.test(lsd_model, "{factors[0]}", p.adj="none"))
+            """
+        if "pairwise" in posthoc_tests:
+            posthoc_code += f"""
+            print("Pairwise t-test posthoc (Bonferroni):")
+            print(pairwise.t.test(data${response}, data${factors[0]}, p.adjust.method = "bonferroni"))
+            """
+        if "perm" in posthoc_tests and method == "permutation":
+            posthoc_code += f"""
+            if (!requireNamespace("RVAideMemoire", quietly=TRUE)) install.packages("RVAideMemoire", repos="https://cloud.r-project.org")
+            library(RVAideMemoire)
+            print("Pairwise Permutation t-tests posthoc (Bonferroni):")
+            print(pairwise.perm.t.test(data${response}, data${factors[0]}))
+            """
+        if "tukey" in posthoc_tests and method in ["anova", "ancova"]:
+            posthoc_code += f"""
+            print("Tukey HSD posthoc:")
+            tukey_model <- aov({response} ~ {factors[0]}, data=data)
+            print(TukeyHSD(tukey_model))
+            """
+        if "wilcoxon" in posthoc_tests:
+            posthoc_code += f"""
+            print("Pairwise Wilcoxon Tests (Bonferroni):")
+            print(pairwise.wilcox.test(data${response}, data${factors[0]}, p.adjust.method='bonferroni'))
+            """
+        posthoc_code += "}"
 
     models = {
-        "anova": f"aov({response_formula}, data=data)\n{posthoc}",
-        "manova": f"manova(cbind({', '.join(response)}) ~ {factors[0]}, data=data)",
-        "ancova": f"aov({response} ~ {interaction_formula} + {covariate}, data=data)\n{posthoc}",
-        "repeated": repeated_formula,
-        "welch": f"oneway.test({response} ~ {factors[0]}, data=data)\n{posthoc}",
-        "kruskal": f"kruskal.test({response} ~ {factors[0]}, data=data)",
-        "friedman": friedman_formula,
-        "permutation": permutation_formula,
-        "mixed": mixed_formula
+        "ancova": f"""
+            model <- aov({response} ~ {interaction_formula} + {covariate}, data=data)
+            print(summary(model))
+            {posthoc_code}
+        """,
+        "anova": f"""
+            model <- aov({response_formula}, data=data)
+            print(summary(model))
+            {posthoc_code}
+        """,
+        "friedman": f"""
+            if (!requireNamespace("tidyr", quietly = TRUE)) install.packages("tidyr", repos="https://cloud.r-project.org")
+            if (!requireNamespace("dplyr", quietly = TRUE)) install.packages("dplyr", repos="https://cloud.r-project.org")
+            library(tidyr)
+            library(dplyr)
+
+            data <- read.csv("{csv_path}")
+            data${factors[0]} <- as.factor(data${factors[0]})
+            data$subject <- as.factor(data$subject)
+
+            wide_data <- data %>%
+                select(subject, {factors[0]}, {response}) %>%
+                pivot_wider(names_from = {factors[0]}, values_from = {response})
+
+            wide_data <- na.omit(wide_data)
+            if (nrow(wide_data) == 0) {{
+                stop("No complete blocks found for Friedman test.")
+            }}
+
+            response_matrix <- as.matrix(wide_data[, -1])
+            print(friedman.test(response_matrix))
+        """,
+        "kruskal": f"""
+            print(kruskal.test({response} ~ {factors[0]}, data=data))
+            {posthoc_code}
+        """,
+        "manova": f"""
+            model <- manova(cbind({', '.join(response)}) ~ {factors[0]}, data=data)
+            print(summary(model))
+        """,
+        "mixed": f"""
+            if (!requireNamespace("lme4", quietly = TRUE)) install.packages("lme4", repos="https://cloud.r-project.org")
+            library(lme4)
+
+            data <- read.csv("{csv_path}")
+            data${factors[0]} <- as.factor(data${factors[0]})
+            data$subject <- as.factor(data$subject)
+
+            model <- lmer({response} ~ {factors_formula} + (1|subject), data=data)
+            print(summary(model))
+        """,
+        "permutation": f"""
+            if (!requireNamespace("lmPerm", quietly = TRUE)) install.packages("lmPerm", repos="https://cloud.r-project.org")
+            library(lmPerm)
+
+            data <- read.csv("{csv_path}")
+            data${factors[0]} <- as.factor(data${factors[0]})
+            data$subject <- as.factor(data$subject)
+
+            perm <- aovp({response} ~ {factors_formula}, data=data)
+            print(summary(perm))
+            {posthoc_code}
+        """,
+        "repeated": f"""
+            data <- read.csv("{csv_path}")
+            data$subject <- as.factor(data$subject)
+            data${factors[0]} <- as.factor(data${factors[0]})
+
+            model <- aov({response} ~ {factors[0]} + Error(subject/{factors[0]}), data=data)
+            print(summary(model))
+            {posthoc_code}
+        """,
+        "welch": f"""
+            model <- oneway.test({response} ~ {factors[0]}, data=data)
+            print(model)
+            {posthoc_code}
+        """,
     }
 
     if method not in models:
@@ -150,7 +182,7 @@ def anova(df, response, factors, method="anova", covariate=None, rscript_exe_pat
     return result.stdout.strip().split("\n")
 
 
-# Example dataset
+# Example usage
 df = pd.DataFrame({
     'response': [10, 20, 15, 25, 30, 35, 40, 50, 45, 55],
     'response2': [5, 10, 8, 12, 15, 18, 20, 25, 22, 30],
@@ -160,13 +192,13 @@ df = pd.DataFrame({
     'subject': [1, 1, 2, 2, 3, 3, 4, 4, 5, 5]
 })
 
-# Run different ANOVA analyses
-methods = ["anova", "manova", "ancova", "welch", "kruskal", "friedman", "permutation", "mixed"]
+methods = ["anova", "ancova", "friedman", "kruskal", "manova", "mixed", "permutation", "repeated", "welch"]
+posthocs = ["dunn", "games-howell", "lsd", "pairwise", "perm", "tukey", "wilcoxon"]
 for method in methods:
-    print(f"\n🔹 {method.replace('_', ' ').title()}:")
+    print(f"\n🔹 {method.title()}:")
     if method == "manova":
-        print("\n".join(anova(df, ['response', 'response2'], ['factor1', 'factor2'], method=method)))
+        print("\n".join(anova(df, ['response', 'response2'], ['factor1'], method=method)))
     elif method == "ancova":
-        print("\n".join(anova(df, 'response', ['factor1', 'factor2'], method=method, covariate='covariate')))
+        print("\n".join(anova(df, 'response', ['factor1'], method=method, covariate='covariate',posthoc_tests=posthocs)))
     else:
-        print("\n".join(anova(df, 'response', ['factor1'], method=method)))
+        print("\n".join(anova(df, 'response', ['factor1'], method=method, posthoc_tests=posthocs)))
