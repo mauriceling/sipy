@@ -1,0 +1,25 @@
+Alfalfa                 Alfalfa Data
+CC164                   Cochran and Cox, p164
+Federer276              Federer 276
+Federer276Numeric       Federer 276 Numeric
+Hald17.4                Hald Data
+NPK                     NPK Data
+Plasma                  Plasma Etching
+Quinlan                 Quinlan's data
+aovp                    Fitting and testing ANOVA using permutation
+                        tests
+composite               Test of theroplastic composite
+ghoctane                Octane blends
+lmp                     Fitting and testing linear models with
+                        permutation tests.
+manly126                Manly, p126
+manly136                Non normal Ephemeroptera counts
+multResp                Multple response creation
+permute                 Permutation Generation
+poly.formula            Makes a polynomial model
+ratGenotype             ratGenotype Data
+simDesign               A non-orthogonal design
+simDesignPartNumeric    A non-orthogonal design
+summary.lmp             Summarizing functions for linear models
+summaryC                Coefficient summary from aovp
+wool                    wool data

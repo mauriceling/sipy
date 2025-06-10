@@ -1,0 +1,8 @@
+BWStest-package	BWStest-package
+BWStest-NEWS	NEWS
+bws_cdf	bws_cdf
+bws_stat	bws_stat
+bws_test	bws_test
+murakami_cdf	murakami_cdf
+murakami_stat	murakami_stat
+murakami_stat_perms	murakami_stat

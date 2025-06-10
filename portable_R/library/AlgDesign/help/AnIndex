@@ -1,0 +1,17 @@
+actuals	AlgDesign-Internal
+CCTable11.1a	CCTable11.1a
+efficient.rounding	EffRound
+eval.blockdesign	EvalBlock
+eval.design	EvalDesign
+expand.formula	ExpFormula
+gen.factorial	genFact
+gen.mixture	genMixture
+GVTable1	GVTable1
+GVTable3	GVTable3
+model.matrix.formula	ModelMatrix
+model.matrix.terms	ModelMatrixTerms
+optBlock	blockOpt
+optFederov	Federov
+optMonteCarlo	MonteOpt
+TGTable3	TGTable3
+TGTable5	TGTable5

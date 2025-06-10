@@ -1,0 +1,11 @@
+BWStest-NEWS            News for package 'BWStest':
+BWStest-package         Baumgartner Weiss Schindler test of equal
+                        distributions.
+bws_cdf                 CDF of the Baumgartner-Weiss-Schindler test
+                        under the null.
+bws_stat                Compute the test statistic of the
+                        Baumgartner-Weiss-Schindler test.
+bws_test                Perform the Baumgartner-Weiss-Schindler
+                        hypothesis test.
+murakami_cdf            Murakami test statistic distribution.
+murakami_stat           Compute Murakami's test statistic.

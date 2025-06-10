@@ -1,0 +1,15 @@
+Package: pspearman
+Version: 0.3-1
+Date: 2022-05-02
+Title: Spearman's Rank Correlation Test
+Author: Petr Savicky <savicky@cs.cas.cz>
+Maintainer: Petr Savicky <savicky@cs.cas.cz>
+Description: Spearman's rank correlation test with precomputed exact
+        null distribution for n <= 22.
+License: GPL-3
+NeedsCompilation: yes
+Packaged: 2022-05-02 09:11:27 UTC; savicky
+Repository: CRAN
+Date/Publication: 2022-05-02 10:30:02 UTC
+Built: R 4.4.0; x86_64-w64-mingw32; 2024-04-23 00:42:33 UTC; windows
+Archs: x64

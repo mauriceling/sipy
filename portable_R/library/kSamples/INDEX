@@ -1,0 +1,24 @@
+ShorelineFireEMS        Shoreline Fire and EMS Turnout Times
+Steel.test              Steel's Multiple Comparison Wilcoxon Tests
+SteelConfInt            Simultaneous Confidence Bounds Based on Steel's
+                        Multiple Comparison Wilcoxon Tests
+ad.pval                 P-Value for the Asymptotic Anderson-Darling
+                        Test Distribution
+ad.test                 Anderson-Darling k-Sample Test
+ad.test.combined        Combined Anderson-Darling k-Sample Tests
+contingency2xt          Kruskal-Wallis Test for the 2 x t Contingency
+                        Table
+contingency2xt.comb     Combined Kruskal-Wallis Tests for the 2 x t
+                        Contingency Tables
+conv                    Convolution of Two Discrete Distributions
+djt                     Null Distribution of the Jonckheere-Terpstra
+                        k-Sample Test Statistic
+jt.test                 Jonckheere-Terpstra k-Sample Test for
+                        Increasing Alternatives
+kSamples-package        The Package kSamples Contains Several
+                        Nonparametric K-Sample Tests and their
+                        Combinations over Blocks
+pp.kSamples             Upper Tail Probability Plots for Objects of
+                        Class kSamples
+qn.test                 Rank Score k-Sample Tests
+qn.test.combined        Combined Rank Score k-Sample Tests

@@ -1,0 +1,56 @@
+.bigq2mpfr              Conversion Utilities gmp <-> Rmpfr
+Bernoulli               Bernoulli Numbers in Arbitrary Precision
+Bessel_mpfr             Bessel functions of Integer Order in multiple
+                        precisions
+Mnumber-class           Class "Mnumber" and "mNumber" of "mpfr" and
+                        regular numbers and arrays from them
+Rmpfr-package           R MPFR - Multiple Precision Floating-Point
+                        Reliable
+array_or_vector-class   Auxiliary Class "array_or_vector"
+asNumeric-methods       Methods for 'asNumeric(<mpfr>)'
+atomicVector-class      Virtual Class "atomicVector" of Atomic Vectors
+c.mpfr                  MPFR Number Utilities
+cbind                   "mpfr" '...' - Methods for Functions cbind(),
+                        rbind()
+chooseMpfr              Binomial Coefficients and Pochhammer Symbol aka
+                        Rising Factorial
+determinant.mpfrMatrix
+                        Functions for mpfrMatrix Objects
+dnorm                   Distribution Functions with MPFR Arithmetic
+factorialMpfr           Factorial 'n!'  in Arbitrary Precision
+formatHex               Flexibly Format Numbers in Binary, Hex and
+                        Decimal Format
+formatMpfr              Formatting MPFR (multiprecision) Numbers
+frexpMpfr               Base-2 Representation and Multiplication of
+                        Mpfr Numbers
+getPrec                 Rmpfr - Utilities for Precision Setting,
+                        Printing, etc
+hjkMpfr                 Hooke-Jeeves Derivative-Free Minimization R
+                        (working for MPFR)
+igamma                  Incomplete Gamma Function
+integrateR              One-Dimensional Numerical Integration - in pure
+                        R
+is.whole.mpfr           Whole ("Integer") Numbers
+log1mexp                Compute f(a) = log(1 +/- exp(-a)) Numerically
+                        Optimally
+matmult                 (MPFR) Matrix (Vector) Multiplication
+mpfr                    Create "mpfr" Numbers (Objects)
+mpfr-class              Class "mpfr" of Multiple Precision Floating
+                        Point Numbers
+mpfrArray               Construct "mpfrArray" almost as by 'array()'
+mpfrMatrix-class        Classes "mpfrMatrix" and "mpfrArray"
+num2bigq                BigQ / BigRational Approximation of Numbers
+optimizeR               High Precision One-Dimensional Optimization
+outer                   Base Functions etc, as an Rmpfr version
+pbetaI                  Accurate Incomplete Beta / Beta Probabilities
+                        For Integer Shapes
+pmax                    Parallel Maxima and Minima
+qnormI                  Gaussian / Normal Quantiles 'qnorm()' via
+                        Inversion
+roundMpfr               Rounding to Binary bits, "mpfr-internally"
+sapplyMpfr              Apply a Function over a "mpfr" Vector
+seqMpfr                 "mpfr" Sequence Generation
+str.mpfr                Compactly Show STRucture of Rmpfr Number Object
+sumBinomMpfr            (Alternating) Binomial Sums via Rmpfr
+unirootR                One Dimensional Root (Zero) Finding - in pure R
+zeta                    Special Mathematical Functions (MPFR)

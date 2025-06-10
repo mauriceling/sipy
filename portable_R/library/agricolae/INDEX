@@ -1,0 +1,152 @@
+AMMI                    AMMI Analysis
+AMMI.contour            AMMI contour
+BIB.test                Finding the Variance Analysis of the Balanced
+                        Incomplete Block Design
+CIC                     Data for late blight of potatoes
+Chz2006                 Data amendment Carhuaz 2006
+ComasOxapampa           Data AUDPC Comas - Oxapampa
+DAU.test                Finding the Variance Analysis of the Augmented
+                        block Design
+DC                      Data for the analysis of carolina genetic
+                        design
+Glycoalkaloids          Data Glycoalkaloids
+HSD.test                Multiple comparisons: Tukey
+Hco2006                 Data amendment Huanuco 2006
+LSD.test                Multiple comparisons, "Least significant
+                        difference" and Adjust P-values
+LxT                     Data Line by tester
+Median.test             Median test. Multiple comparisons
+PBIB.test               Analysis of the Partially Balanced Incomplete
+                        Block Design
+REGW.test               Ryan, Einot and Gabriel and Welsch multiple
+                        range test
+RioChillon              Data and analysis Mother and baby trials
+SNK.test                Student-Newman-Keuls (SNK)
+agricolae-package       Statistical Procedures for Agricultural
+                        Research
+audpc                   Calculating the absolute or relative value of
+                        the AUDPC
+audps                   The Area Under the Disease Progress Stairs
+bar.err                 Plotting the standard error or standard
+                        deviance of a multiple comparison of means
+bar.group               Plotting the multiple comparison of means
+carolina                North Carolina Designs I, II and III
+clay                    Data of Ralstonia population in clay soil
+consensus               consensus of clusters
+corn                    Data of corn
+correl                  Correlation Coefficient
+correlation             Correlation analysis. Methods of Pearson,
+                        Spearman, Kendall and Lin
+cotton                  Data of cotton
+cv.model                Coefficient of the experiment variation
+cv.similarity           Coefficient of the similarity matrix variation
+delete.na               Omitting the rows or columns with missing
+                        observations of a matrix (NA)
+design.ab               Design of experiments for a factorial
+design.alpha            Alpha design type (0,1)
+design.bib              Randomized Balanced Incomplete Block Designs.
+                        BIB
+design.crd              Completely Randomized Design
+design.cyclic           Cyclic designs
+design.dau              Augmented block design
+design.graeco           Graeco - latin square design
+design.lattice          Lattice designs
+design.lsd              Latin Square Design
+design.mat              Experimental design matrix
+design.rcbd             Randomized Complete Block Design
+design.split            Split Plot Design
+design.strip            Strip Plot Design
+design.youden           Incomplete Latin Square Design
+diffograph              Plotting the multiple comparison of means
+disease                 Data evaluation of the disease overtime
+duncan.test             Duncan's new multiple range test
+durbin.test             Durbin test and multiple comparison of
+                        treatments
+friedman                Friedman test and multiple comparison of
+                        treatments
+frijol                  Data of frijol
+genxenv                 Data of potato yield in a different environment
+graph.freq              Histogram
+grass                   Data for Friedman test
+greenhouse              Data in greenhouse
+growth                  Data growth of trees
+haynes                  Data of AUDPC for nonparametrical stability
+                        analysis
+hcut                    Cut tree of consensus
+heterosis               Data of potato, Heterosis
+hgroups                 groups of hclust
+huasahuasi              Data: Rainfall thresholds as support for timing
+                        fungicide applications in the control of potato
+                        late blight in Peru
+index.AMMI              AMMI index and yield stability
+index.bio               Biodiversity Index
+index.smith             Uniformity soil. Smith's Index of Soil
+                        Heterogeneity
+inter.freq              Class intervals
+join.freq               Join class for histogram
+kendall                 Correlation of Kendall
+kruskal                 Kruskal Wallis test and multiple comparison of
+                        treatments.
+kurtosis                Finding the Kurtosis coefficient
+lastC                   Setting the last character of a chain
+lateblight              LATEBLIGHT - Simulator for potato late blight
+                        Version LB2004
+lineXtester             Line x Tester Analysis
+markers                 Data of molecular markers
+melon                   Data of yield of melon in a Latin square
+                        experiment
+montecarlo              Random generation by Montecarlo
+natives                 Data of native potato
+nonadditivity           Nonadditivity model test
+normal.freq             Normal curve on the histogram
+ogive.freq              Plotting the ogive from a histogram
+order.group             Ordering the treatments according to the
+                        multiple comparison
+orderPvalue             Grouping the treatments averages in a
+                        comparison with a minimum value
+pamCIP                  Data Potato Wild
+paracsho                Data of Paracsho biodiversity
+path.analysis           Path Analysis
+plot.AMMI               PLOT AMMI
+plot.graph.freq         Histogram
+plot.group              Plotting the multiple comparison of means
+plots                   Data for an analysis in split-plot
+plrv                    Data clones from the PLRV population
+polygon.freq            The polygon of frequency on the histogram
+potato                  Data of cutting
+ralstonia               Data of assessment of the population in the
+                        soil R.solanacearum
+reg.homog               Homologation of regressions
+resampling.cv           Resampling to find the optimal number of
+                        markers
+resampling.model        Resampling for linear models
+rice                    Data of Grain yield of rice variety IR8
+scheffe.test            Multiple comparisons, scheffe
+similarity              Matrix of similarity in binary data
+simulation.model        Simulation of the linear model under normality
+sinRepAmmi              Data for AMMI without repetition
+skewness                Finding the skewness coefficient
+soil                    Data of soil analysis for 13 localities
+sp.plot                 Splip-Plot analysis
+ssp.plot                Split-split-Plot analysis
+stability.nonpar        Nonparametric stability analysis
+stability.par           Stability analysis. SHUKLA'S STABILITY VARIANCE
+                        AND KANG'S
+stat.freq               Descriptive measures of grouped data
+strip.plot              Strip-Plot analysis
+sturges.freq            Class intervals for a histogram, the rule of
+                        Sturges
+summary.graph.freq      frequency Table of a Histogram
+sweetpotato             Data of sweetpotato yield
+table.freq              frequency Table of a Histogram
+tapply.stat             Statistics of data grouped by factors
+vark                    Variance K, ties, Kendall
+waerden.test            Multiple comparisons. The van der Waerden
+                        (Normal Scores)
+waller                  Computations of Bayesian t-values for multiple
+                        comparisons
+waller.test             Multiple comparisons, Waller-Duncan
+weatherSeverity         Weather and Severity
+wilt                    Data of Bacterial Wilt (AUDPC) and soil
+yacon                   Data Yacon
+zigzag                  order plot in serpentine

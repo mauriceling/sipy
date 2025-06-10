@@ -1,0 +1,33 @@
+Package: permute
+Title: Functions for Generating Restricted Permutations of Data
+Version: 0.9-7
+Date: 2022-01-27
+Authors@R: c(person(given = "Gavin L.", family = "Simpson",
+                    email = "ucfagls@gmail.com",
+                    role = c("aut", "cph", "cre"),
+		            comment = c(ORCID = "0000-0002-9084-8413")),
+             person(given = "R Core Team", role = "cph"),
+             person(given = "Douglas M.", family = "Bates", role = "ctb"),
+             person(given = "Jari", family = "Oksanen", role = "ctb"))
+Depends: R (>= 2.14.0)
+Imports: stats
+Suggests: vegan (>= 2.0-0), testthat (>= 0.5), parallel, knitr,
+        rmarkdown, bookdown, sessioninfo
+Description: A set of restricted permutation designs for freely exchangeable, line transects (time series), and spatial grid designs plus permutation of blocks (groups of samples) is provided. 'permute' also allows split-plot designs, in which the whole-plots or split-plots or both can be freely-exchangeable or one of the restricted designs. The 'permute' package is modelled after the permutation schemes of 'Canoco 3.1' (and later) by Cajo ter Braak.
+License: GPL-2
+ByteCompile: true
+URL: https://github.com/gavinsimpson/permute
+BugReports: https://github.com/gavinsimpson/permute/issues
+Copyright: see file COPYRIGHTS
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2022-01-27 11:11:56 UTC; au690221
+Author: Gavin L. Simpson [aut, cph, cre]
+    (<https://orcid.org/0000-0002-9084-8413>),
+  R Core Team [cph],
+  Douglas M. Bates [ctb],
+  Jari Oksanen [ctb]
+Maintainer: Gavin L. Simpson <ucfagls@gmail.com>
+Repository: CRAN
+Date/Publication: 2022-01-27 11:50:02 UTC
+Built: R 4.4.3; ; 2025-06-09 00:32:31 UTC; windows

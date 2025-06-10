@@ -1,0 +1,254 @@
+useDynLib(Rmpfr, .registration=TRUE)
+
+##-- From 'gmp' (on which we 'Depend' ------------------------------------------
+
+## The user can and typically should just use  mpfr(<bigz>)  or  mpfr(<bigq>)
+export(.mpfr2bigz, .bigz2mpfr, .bigq2mpfr,
+       .mpfr2bigq, # new in Jan. 2024
+       ## e.g., for use in gmp :: Math.bigz & Math.bigq :
+       ..bigz2mpfr, ..bigq2mpfr)
+
+## Import all we need, but not more
+
+importMethodsFrom("methods" ## as we define methods for them:
+                , coerce, "coerce<-", show
+                , Arith, Compare, Logic, Math, Math2, Ops, Summary
+                  )
+importFrom("methods",
+	   as, "as<-",
+	   callGeneric, callNextMethod,
+           is, extends, new, validObject,
+	   setClass, setClassUnion, setMethod, setOldClass, setValidity,
+	   slot, "slot<-", .slotNames,
+	   getDataPart, setDataPart, getClass, getClassDef,
+	   signature, representation, prototype
+           ## needed implicitly [or "bug" ..]:
+           , loadMethod)
+
+importFrom("utils", str)
+importFrom("stats"  # import *and* rename -- we extend these :
+          , stats__pnorm  = pnorm
+          , stats__qnorm  = qnorm
+          , stats__dnorm  = dnorm
+          , stats__dpois  = dpois
+          , stats__dbinom = dbinom
+          , stats__dgamma  = dgamma
+          , stats__dnbinom = dnbinom
+          , stats__dt     = dt
+          , stats__pgamma  = pgamma
+	   )
+
+importClassesFrom("gmp", "bigz", "bigq")
+importFrom("gmp"
+           , asNumeric, as.bigz, as.bigq, .as.char.bigz, ..as.bigz
+         , apply # , apply.default # *.default: else apply() breaks in pkg SNscan
+         , crossprod, tcrossprod# <- as we write (S4) methods for those (*not* '%*%' !)
+           , matrix, numerator, denominator, frexpZ, chooseZ
+           , is.whole, formatN # because we add own S3 methods
+	   )
+if(packageVersion("gmp") >= "0.5.8")
+    importFrom("gmp", is.matrixZQ, #-> R/gmp-convert.R
+               which.min, which.max)# the generics
+if(packageVersion("gmp") >= "0.6-1")
+    importFrom("gmp", c_bigz, c_bigq)# for sapply() like usage
+##------------------------------------------------------------------------------
+
+exportClasses("mpfr1", "mpfr"
+              , "mpfrArray"
+              , "mpfrMatrix"
+              , "summaryMpfr" # mainly for printing
+
+              , "atomicVector"
+              , "array_or_vector"
+              , "Mnumber"
+
+              ## new, *not* containing "matrix" (which has -> "character"!):
+              , "numericVector"
+              , "mNumber"
+)
+
+## Standard (base, stats) functions which we made into S4 generics
+export(mean,
+       median,
+       quantile)
+
+export(.mpfr, .mpfr.
+       ## ".Arith.codes"
+       ## , ".Arith.mpfr.num"
+       ## , ".Arith.num.mpfr"
+       ## , ".Compare.codes"
+       ## , ".Compare.codesRev"
+       ## , ".Compare.mpfr.num"
+       ## , ".Compare.num.mpfr"
+       ## , ".Math.codes"
+       ## , ".Math.gen"
+       ## , ".Summary.codes"
+       ## , ".abs.mpfr"
+       ## , ".dimCheck"
+       , .getPrec
+       , .getSign
+     , .mpfr_erange, .mpfr_erange_set, .mpfr_erange_kinds, .mpfr_erange_is_int
+     , .mpfr_maxPrec, .mpfr_minPrec
+       ## , ".mA.subAssign"
+       ## , ".matmult.R"
+       ## , ".mpfr_debug"
+       , ".mpfr_negative"
+       ## , ".mpfr_negativeR"
+       ## , ".mpfr_repl"
+       , ".mpfr_sign"
+       ## , ".mpfr_subset"
+       , ".mpfr2str"
+       , .mpfr2d, .mpfr2i
+       , .mpfr_formatinfo
+       , .mpfr2exp
+       ## , ".mpfrA.subset"
+       , .mpfrVersion, .mpfr_gmp_numbbits
+       , .mpfr2list, mpfrImport, mpfrXport # <- experimental: for a possible save format
+       ## , ".packageName"
+       ## , ".print.mpfr"
+       ## , ".requireCachedGenerics"
+       , "Ai"
+       , "Bernoulli"
+       , "Const"
+       , "Ei"
+       , "Li2"
+       , "all.equal"
+       , "aperm"
+       , "apply" ## <- we make it S4 generic
+       , "atan2"
+       , "beta", "lbeta"
+       ## S3 "c.mpfr"
+       , "chooseMpfr", "chooseMpfr.all", "sumBinomMpfr"
+       , "dbinom", "dpois", "dnorm", "dgamma"
+       , "dnbinom"
+       , dt
+       , "erf", "erfc"
+       , "factorial"
+       , "factorialMpfr"
+       , "format"
+       , formatMpfr, formatBin, formatDec, formatHex
+       , frexpMpfr, ldexpMpfr
+       , "getD"
+       , "getPrec"
+       , "hypot"
+       , igamma # working iff MPFR version >= 3.2.0  >>>  R/special-fun.R  <<<
+       , "integrateR"
+     , is.mpfr
+     , "j0" , "j1" , "jn"
+     , log1mexp, log1pexp
+     , matmult
+       , "mpfr"
+       , mpfrIs0, .mpfr.is.whole # as substitutes of
+       , "mpfr.is.0", "mpfr.is.integer" # <-- now (Aug. 2015) deprecated
+       , "mpfr2array", "mpfrArray"
+       , "mpfrVersion"
+       , "mpfr_default_prec"
+     , num2bigq # our "fractions", new Jan.2024
+       , "optimizeR"
+       , outer # <- our own instead of base, so it uses tcrossprod() methods
+       , "hjkMpfr" ## <-- FIXME, rather part of an  optimR(...., method = "hjk")
+       , "pbetaI"
+     , pgamma
+       , "pmax", "pmin"
+       , "pnorm"
+     , qnormI
+       , "pochMpfr"
+       , "roundMpfr"
+       , sapplyMpfr
+       , "seqMpfr"
+       , "t"
+       , "toNum"
+       , "unique"
+       , "unirootR"
+       , "y0", "y1", "yn"
+       , "zeta"
+       )
+
+
+exportMethods(##___ "own generics" ___
+    "apply" # <- we made it into S4 generic (with "ANY" method = S3 generic from gmp!)
+  , "asNumeric"
+
+    ##___ "other generics" ___
+
+    ## Group Methods
+  , Arith, Compare, Logic, Math, Math2, Ops, Summary
+
+  , "abs", "log", "sign"
+  , "Re", "Im", "Mod", "Arg", "Conj"
+  , "all.equal", "aperm"
+  , "as.vector", "as.integer", "as.numeric"
+  , "coerce", "coerce<-"
+  , "cbind", "rbind"
+  , "diag", "diag<-"
+  , "dim", "dim<-", "dimnames", "dimnames<-"
+  , "atan2", "beta", "lbeta"
+  , "factorial"
+  , "is.finite", "is.infinite", "is.na", "is.nan"
+  , "%*%", "crossprod", "tcrossprod", "t"
+  , "format"
+  , "mean", "pmax", "pmin"
+  , "show", "unique"
+  , "colSums", "colMeans"
+  , "rowSums", "rowMeans", "norm"
+  , summary
+  , head, tail
+  , "which.min", "which.max"
+)
+
+## Our own S3 generic  mpfr():
+S3method(mpfr, default)
+S3method(mpfr, bigz)
+S3method(mpfr, bigq)
+S3method(mpfr, mpfr)
+S3method(mpfr, NULL)
+S3method(mpfr, Ncharacter)
+
+## needed because gmp "forgets" to  S3method() these:
+## (and so things only work, when gmp / Rmpfr is attached):
+## S3method(apply, default)
+## S3method(apply, bigz)
+## S3method(apply, bigq)
+
+
+S3method(c, mpfr)
+
+S3method(as.array, mpfr)
+S3method(as.matrix, mpfr)
+## Would break the working of vapply(<mpfr>, FUN)  e.g. in pbetaI():
+## S3method(as.list, mpfr1)
+## S3method(as.list, mpfr)
+
+S3method(determinant, mpfrMatrix)
+S3method(scale, mpfrMatrix)
+
+S3method(diff, mpfr)
+S3method(str,  mpfr)
+
+S3method(is.whole, mpfr)
+#S3method(is.whole, mpfrArray)
+S3method(formatN, mpfr)
+
+S3method(print, mpfr)
+S3method(print, mpfr1)
+S3method(print, mpfrArray)
+S3method(print, integrateR)
+S3method(print, Ncharacter)
+S3method(print, summaryMpfr)
+
+S3method("[", Ncharacter)
+S3method(as.data.frame, Ncharacter)
+## not easily
+## S3method("cbind", Ncharacter)
+## S3method("rbind", Ncharacter)
+
+
+S3method(matrix, mpfr)
+## useful, to have  base::outer() work automatically:
+S3method(rep, mpfr)
+S3method(t, mpfr)
+S3method(t, mpfrMatrix)
+S3method(aperm, mpfrArray)
+
+## trying to get base::factor() to work:
+S3method(unique, mpfr)

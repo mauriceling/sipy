@@ -1,0 +1,12 @@
+KruskalWallis           Kruskall-Wallis distribution
+NormScore               Normal Scores distribution
+Pearson                 The Pearson product moment correlation
+                        coefficient
+dFriedman               Friedman's chi-square
+dJohnson                The Johnson distributions
+dKendall                The distribution of Kendall's tau
+dSpearman               Spearman's rho
+dghyper                 Generalized hypergeometric distributions
+ghyper.types            Kemp and Kemp generalized hypergeometric types
+inverse Gaussian        The inverse Gaussian and Wald distributions
+maxFratio               The maximum F-ratio distribution

@@ -1,0 +1,30 @@
+Package: BWStest
+Type: Package
+Maintainer: Steven E. Pav <shabbychef@gmail.com>
+Authors@R: c(person(c("Steven", "E."), "Pav", 
+    role=c("aut","cre"),
+    email="shabbychef@gmail.com",
+		comment = c(ORCID = "0000-0002-4197-6195")))
+Version: 0.2.3
+Date: 2023-10-10
+License: LGPL-3
+Title: Baumgartner Weiss Schindler Test of Equal Distributions
+BugReports: https://github.com/shabbychef/BWStest/issues
+Description: Performs the 'Baumgartner-Weiss-Schindler' two-sample test of equal
+   probability distributions, <doi:10.2307/2533862>. Also performs
+   similar rank-based tests for equal probability distributions due to
+   Neuhauser <doi:10.1080/10485250108832874> and
+   Murakami <doi:10.1080/00949655.2010.551516>.
+Imports: memoise, Rcpp (>= 0.12.3)
+LinkingTo: Rcpp
+Suggests: testthat
+RoxygenNote: 7.2.1
+URL: https://github.com/shabbychef/BWStest
+Collate: 'BWStest.r' 'RcppExports.R' 'bws_test.r' 'zzz_murakami_dist.r'
+NeedsCompilation: yes
+Packaged: 2023-10-10 23:27:55 UTC; spav
+Author: Steven E. Pav [aut, cre] (<https://orcid.org/0000-0002-4197-6195>)
+Repository: CRAN
+Date/Publication: 2023-10-10 23:50:06 UTC
+Built: R 4.4.3; x86_64-w64-mingw32; 2025-06-09 01:41:19 UTC; windows
+Archs: x64

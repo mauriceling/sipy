@@ -1,0 +1,10 @@
+useDynLib("AlgDesign")
+export(actuals, efficient.rounding, eval.blockdesign, eval.design,
+       expand.formula, gen.factorial, gen.mixture, optBlock, optFederov,
+       optMonteCarlo)
+
+S3method(model.matrix, formula)
+S3method(model.matrix, terms)
+
+importFrom("stats", "C", "as.formula", "formula", "model.matrix",
+           "model.matrix.default", "rexp", "runif")
