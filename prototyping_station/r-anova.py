@@ -3,6 +3,11 @@ import subprocess
 import os
 import uuid
 
+def ensure_r_package(package_name):
+    return f"""
+    if (!requireNamespace("{package_name}", quietly = TRUE)) install.packages("{package_name}", repos="https://cloud.r-project.org")
+    """
+
 def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=None, rscript_exe_path="..\\portable_R\\bin\\Rscript.exe"):
     rscript_exe_path = os.path.abspath(rscript_exe_path)
     if not os.path.exists(rscript_exe_path):
@@ -19,11 +24,6 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
 
     if posthoc_tests is None:
         posthoc_tests = ["dunn", "games-howell", "lsd", "mixed-posthoc", "pairwise", "perm", "scheffe", "tukey", "wilcoxon"]
-
-    def ensure_r_package(package_name):
-        return f"""
-        if (!requireNamespace("{package_name}", quietly = TRUE)) install.packages("{package_name}", repos="https://cloud.r-project.org")
-        """
 
     posthoc_code = ""
     if posthoc_tests and factors:
