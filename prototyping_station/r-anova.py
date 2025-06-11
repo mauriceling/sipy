@@ -1,6 +1,7 @@
 import pandas as pd
 import subprocess
 import os
+import time as pytime
 import uuid
 
 def ensure_r_package(package_name):
@@ -8,11 +9,12 @@ def ensure_r_package(package_name):
     if (!requireNamespace("{package_name}", quietly = TRUE)) install.packages("{package_name}", repos="https://cloud.r-project.org")
     """
 
-def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=None, rscript_exe_path="..\\portable_R\\bin\\Rscript.exe"):
+def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=None, plots=None, rscript_exe_path="..\\portable_R\\bin\\Rscript.exe"):
     rscript_exe_path = os.path.abspath(rscript_exe_path)
     if not os.path.exists(rscript_exe_path):
         raise FileNotFoundError(f"Rscript.exe not found at {rscript_exe_path}")
 
+    epoch = str(int(pytime.time()))
     unique_id = uuid.uuid4().hex[:8]
     csv_path = f"data_{unique_id}.csv"
     r_script_path = f"anova_script_{unique_id}.R"
@@ -156,8 +158,8 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
             data${factors[0]} <- as.factor(data${factors[0]})
             data$subject <- as.factor(data$subject)
 
-            perm <- aovp({response} ~ {factors_formula}, data=data)
-            print(summary(perm))
+            model <- aovp({response} ~ {factors_formula}, data=data)
+            print(summary(model))
             {posthoc_code}
         """,
         "repeated": f"""
@@ -189,6 +191,33 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
     {models[method]}
     """
 
+    if "diagnostic" in plots and method in ["ancova", "anova", "mixed", "permutation", "repeated"]:
+        r_script = r_script + f"""
+            residuals <- residuals(model)
+            fitted <- fitted.values(model)
+
+            if (!is.null(residuals) && all(!is.na(residuals))) {{
+                pdf("e{epoch}-diagnostic_plot-{method}.pdf")
+                diagnostics_anova <- function(residuals, fitted, label) {{
+                    par(mfrow=c(1, 2))
+
+                    qqnorm(residuals, main=paste("QQ-Plot:", label))
+                    qqline(residuals, col="red")
+
+                    plot(fitted, residuals,
+                         main=paste("Residuals vs Fitted:", label),
+                         xlab="Fitted values", ylab="Residuals", pch=19, col="darkblue")
+                    abline(h=0, col="red", lty=2)
+
+                    par(mfrow=c(1,1))
+                }}
+                diagnostics_anova(residuals, fitted, "{method}")
+                dev.off()
+            }} else {{
+                cat("Residuals are missing or invalid. Skipping diagnostic plots.\\n")
+            }}
+            """
+
     with open(r_script_path, "w") as f:
         f.write(r_script)
 
@@ -200,6 +229,7 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
         print(f"Error running R script:\n{e.stderr}")
         raise
     finally:
+        pytime.sleep(0.2)
         os.remove(csv_path)
         os.remove(r_script_path)
 
@@ -218,12 +248,65 @@ df = pd.DataFrame({
 
 methods = ["anova", "ancova", "friedman", "kruskal", "manova", "mixed", "permutation", "repeated", "welch"]
 posthocs = ["dunn", "games-howell", "lsd", "mixed-posthoc", "pairwise", "perm", "scheffe", "tukey", "wilcoxon"]
+plots = ["diagnostic"]
 for method in methods:
     print(f"\n🔹 {method.title()}:")
     if method == "manova":
-        print("\n".join(anova(df, ['response', 'response2'], ['factor1'], method=method)))
+        print("\n".join(anova(df, ['response', 'response2'], ['factor1'], method=method, plots=plots)))
     elif method == "ancova":
-        print("\n".join(anova(df, 'response', ['factor1'], method=method, covariate='covariate',posthoc_tests=posthocs)))
+        print("\n".join(anova(df, 'response', ['factor1'], method=method, covariate='covariate', posthoc_tests=posthocs, plots=plots)))
     else:
-        print("\n".join(anova(df, 'response', ['factor1'], method=method, posthoc_tests=posthocs)))
+        print("\n".join(anova(df, 'response', ['factor1'], method=method, posthoc_tests=posthocs, plots=plots)))
+
+
+"""
+ANOVA Analysis Module — Comprehensiveness & Coverage Report
+
+This module provides a unified interface to run a wide array of ANOVA and related statistical tests
+via R, seamlessly integrated with Python using subprocess and temporary R script generation.
+
+Supported Methods:
+------------------
+- "anova"        : Classical one-way or multi-way ANOVA (with optional Tukey, Scheffé, LSD, etc.)
+- "ancova"       : Analysis of covariance, includes support for posthoc tests like LSD, Scheffé, etc.
+- "friedman"     : Non-parametric test for within-subject designs (requires subject column)
+- "kruskal"      : Non-parametric Kruskal-Wallis test with optional Dunn or Wilcoxon posthoc
+- "manova"       : Multivariate ANOVA (supports multiple response variables)
+- "mixed"        : Linear mixed-effects model using lme4::lmer, with posthoc via emmeans
+- "permutation"  : Permutation-based ANOVA using lmPerm::aovp
+- "repeated"     : Repeated measures ANOVA via aov(... + Error(subject/factor)), includes posthoc
+- "welch"        : Welch’s one-way ANOVA for unequal variances, includes Games-Howell posthoc
+
+Posthoc Testing Support:
+------------------------
+Automatically includes posthoc tests (where appropriate and supported):
+- Tukey HSD (TukeyHSD)
+- Scheffé and LSD (agricolae package)
+- Games-Howell (PMCMRplus)
+- Dunn (dunn.test)
+- Wilcoxon pairwise (pairwise.wilcox.test)
+- t-test pairwise (pairwise.t.test)
+- Permutation t-tests (RVAideMemoire)
+- Estimated marginal means (emmeans + multcomp, for mixed models)
+
+Diagnostic Plot Support:
+------------------------
+For models with valid residuals (ANOVA, ANCOVA, mixed, repeated, permutation):
+- QQ-Plot of residuals
+- Residuals vs Fitted Values plot
+These plots are saved to a file named `e<TIMESTAMP>-diagnostic_plot-<method>.pdf`
+
+Design Considerations:
+----------------------
+- Minimal runtime dependency on R packages; installs missing packages automatically
+- Supports multiple response variables (MANOVA)
+- Clean temporary file handling with UUID-based naming
+- Designed to handle both between- and within-subjects designs
+- Modular posthoc testing logic, specific to test assumptions
+
+Example Usage:
+--------------
+df = pd.DataFrame({...})
+result = anova(df, response="y", factors=["group"], method="anova", posthoc_tests=["tukey"], plots=["diagnostic"])
+"""
 
