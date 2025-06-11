@@ -20,6 +20,11 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
     if posthoc_tests is None:
         posthoc_tests = ["dunn", "games-howell", "lsd", "mixed-posthoc", "pairwise", "perm", "scheffe", "tukey", "wilcoxon"]
 
+    def ensure_r_package(package_name):
+        return f"""
+        if (!requireNamespace("{package_name}", quietly = TRUE)) install.packages("{package_name}", repos="https://cloud.r-project.org")
+        """
+
     posthoc_code = ""
     if posthoc_tests and factors:
         posthoc_code += f"""
@@ -27,14 +32,14 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
         """
         if "dunn" in posthoc_tests and method == "kruskal":
             posthoc_code += f"""
-            if (!requireNamespace("dunn.test", quietly = TRUE)) install.packages("dunn.test", repos="https://cloud.r-project.org")
+            {ensure_r_package('dunn.test')}
             library(dunn.test)
             print("Dunn's posthoc test:")
             dunn.test::dunn.test(data${response}, data${factors[0]}, method = "bonferroni")
             """
         if "games-howell" in posthoc_tests and method == "welch":
             posthoc_code += f"""
-            if (!requireNamespace("PMCMRplus", quietly = TRUE)) install.packages("PMCMRplus", repos="https://cloud.r-project.org")
+            {ensure_r_package('PMCMRplus')}
             library(PMCMRplus)
             print("Games-Howell posthoc test:")
             print(gamesHowellTest({response} ~ {factors[0]}, data=data))
@@ -49,8 +54,8 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
             """
         if "mixed-posthoc" in posthoc_tests and method == "mixed":
             posthoc_code += f"""
-            if (!requireNamespace("emmeans", quietly = TRUE)) install.packages("emmeans", repos="https://cloud.r-project.org")
-            if (!requireNamespace("multcomp", quietly = TRUE)) install.packages("multcomp", repos="https://cloud.r-project.org")
+            {ensure_r_package('emmeans')}
+            {ensure_r_package('multcomp')}
             library(emmeans)
             library(multcomp)
 
@@ -65,14 +70,14 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
             """
         if "perm" in posthoc_tests and method == "permutation":
             posthoc_code += f"""
-            if (!requireNamespace("RVAideMemoire", quietly=TRUE)) install.packages("RVAideMemoire", repos="https://cloud.r-project.org")
+            {ensure_r_package('RVAideMemoire')}
             library(RVAideMemoire)
             print("Pairwise Permutation t-tests posthoc (Bonferroni):")
             print(pairwise.perm.t.test(data${response}, data${factors[0]}))
             """
         if "scheffe" in posthoc_tests and method in ["anova", "ancova"]:
             posthoc_code += f"""
-            if (!requireNamespace("agricolae", quietly = TRUE)) install.packages("agricolae", repos="https://cloud.r-project.org")
+            {ensure_r_package('agricolae')}
             library(agricolae)
             print("Scheffe posthoc test:")
             scheffe_model <- aov({response} ~ {factors[0]}, data=data)
@@ -103,8 +108,8 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
             {posthoc_code}
         """,
         "friedman": f"""
-            if (!requireNamespace("tidyr", quietly = TRUE)) install.packages("tidyr", repos="https://cloud.r-project.org")
-            if (!requireNamespace("dplyr", quietly = TRUE)) install.packages("dplyr", repos="https://cloud.r-project.org")
+            {ensure_r_package('tidyr')}
+            {ensure_r_package('dplyr')}
             library(tidyr)
             library(dplyr)
 
@@ -133,9 +138,8 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
             print(summary(model))
         """,
         "mixed": f"""
-            if (!requireNamespace("lme4", quietly = TRUE)) install.packages("lme4", repos="https://cloud.r-project.org")
+            {ensure_r_package('lme4')}
             library(lme4)
-
             data <- read.csv("{csv_path}")
             data${factors[0]} <- as.factor(data${factors[0]})
             data$subject <- as.factor(data$subject)
@@ -145,7 +149,7 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
             {posthoc_code}
             """,
         "permutation": f"""
-            if (!requireNamespace("lmPerm", quietly = TRUE)) install.packages("lmPerm", repos="https://cloud.r-project.org")
+            {ensure_r_package('lmPerm')}
             library(lmPerm)
 
             data <- read.csv("{csv_path}")
