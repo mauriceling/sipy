@@ -255,6 +255,7 @@ def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=
         print(f"Error running R script:\n{e.stderr}")
         raise
     finally:
+        pytime.sleep(0.2)
         os.remove(csv_path)
         os.remove(r_script_path)
 
