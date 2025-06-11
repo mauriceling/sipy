@@ -1,0 +1,24 @@
+actg181                 Data from the Aids Clinical Trials Group
+                        protocol ACTG 181
+actg181Mod              Modified data from the Aids Clinical Trials
+                        Group protocol ACTG 181
+canon2real              Transform (intersections of) canonical
+                        rectangles back to their original coordinates
+computeMLE              Compute the MLE for bivariate censored data
+cosmesis                Breast cosmesis data
+ex                      Example data set (artificial)
+menopause               Menopause data
+menopauseMod            Modified menopause data
+plotCDF1                Create a marginal CDF (or survival function)
+                        plot of the MLE
+plotCDF2                Create a bivariate CDF (or survival function)
+                        plot of the MLE
+plotCM                  Plot a clique matrix
+plotDens1               Create a univariate density plot of the MLE
+plotDens2               Create a bivariate density plot of the MLE
+plotHM                  Plot a height map
+plotRects               Plot a set of rectangles
+real2canon              Transform a set of rectangles into canonical
+                        rectangles
+reduc                   Determine areas of possible mass support of the
+                        MLE

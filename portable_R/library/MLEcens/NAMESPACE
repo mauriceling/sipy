@@ -1,0 +1,9 @@
+useDynLib(MLEcens, .registration = TRUE)
+
+export(canon2real, computeMLE, plotCM, plotCDF1, plotCDF2, 
+       plotDens1, plotDens2, plotHM, plotRects, real2canon, reduc)
+
+importFrom("grDevices", "gray", "rainbow", "terrain.colors")
+
+importFrom("graphics", "abline", "axis", "box", "image", "lines",
+                "par", "rect", "text")

@@ -1,0 +1,39 @@
+IR_diabetes             Interval censored time from diabetes onset to
+                        diabetic nephronpathy
+bayesControls           Control parameters for ic_bayes
+cs2ic                   Convert current status data into interval
+                        censored format
+diag_baseline           Compare parametric baseline distributions with
+                        semi-parametric baseline
+diag_covar              Evaluate covariate effect for regression model
+getFitEsts              Get Survival Curve Estimates from icenReg Model
+getSCurves              Get Estimated Survival Curves from
+                        Semi-parametric Model for Interval Censored
+                        Data
+ic_bayes                Bayesian Regression Models for Interval
+                        Censored Data
+ic_np                   Non-Parametric Estimator for Interval Censored
+                        Data
+ic_par                  Parametric Regression Models for Interval
+                        Censored Data
+ic_sample               Draw samples from an icenReg model
+ic_sp                   Semi-Parametric models for Interval Censored
+                        Data
+imputeCens              Impute Interval Censored Data from icenReg
+                        Regression Model
+ir_clustBoot            Updates the covariance using cluster bootstrap
+lines.icenReg_fit       Plotting for icenReg Fits
+makeCtrls_icsp          Control Parameters for ic_sp
+miceData                Lung Tumor Interval Censored Data from Hoel and
+                        Walburg 1972
+plot.icenReg_fit        Plotting for icenReg Fits
+predict.icenReg_fit     Predictions from icenReg Regression Model
+sampleSurv              Samples fitted survival function
+simCS_weib              Simulate Current Status Data
+simDC_weib              Simulate Doubly Censored Data
+simIC_cluster           Simulates data with multiple observations per
+                        subject
+simIC_weib              Simulates interval censored data from
+                        regression model with a Weibull baseline
+survCIs                 Confidence/Credible intervals for survival
+                        curves
