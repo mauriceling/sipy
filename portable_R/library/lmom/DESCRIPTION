@@ -1,0 +1,23 @@
+Package: lmom
+Version: 3.2
+Date: 2024-09-29
+Title: L-Moments
+Author: J. R. M. Hosking [aut, cre]
+Maintainer: J. R. M. Hosking <jrmhosking@gmail.com>
+Authors@R: person(given = c("J.", "R.", "M."),
+                  family = "Hosking",
+                  role = c("aut", "cre"),
+                  email = "jrmhosking@gmail.com")
+Description: Functions related to L-moments: computation of L-moments
+  and trimmed L-moments of distributions and data samples; parameter
+  estimation; L-moment ratio diagram; plot vs. quantiles of an
+  extreme-value distribution.
+Depends: R (>= 3.0.0)
+Imports: stats, graphics
+License: Common Public License Version 1.0
+NeedsCompilation: yes
+Packaged: 2024-09-29 19:23:30 UTC; J
+Repository: CRAN
+Date/Publication: 2024-09-30 23:00:10 UTC
+Built: R 4.4.1; x86_64-w64-mingw32; 2024-10-02 23:51:14 UTC; windows
+Archs: x64
