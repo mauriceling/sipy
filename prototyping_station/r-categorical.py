@@ -32,12 +32,28 @@ def categorical_test(df, method="chisq-gof", variable=None, expected_probs=None,
             data${variable} <- as.factor(data${variable})
             observed <- table(data${variable})
             {expected_code}
+            test_result <- chisq.test(observed{', p = expected_probs' if expected_probs else ''})
             print("Chi-Square Goodness-of-Fit Test:")
-            print(chisq.test(observed{', p = expected_probs' if expected_probs else ''}))
+            print(test_result)
+            obs_prop <- test_result$observed / sum(test_result$observed)
+            exp_prop <- test_result$expected / sum(test_result$expected)
+            cohen_w <- sqrt(sum((obs_prop - exp_prop)^2 / exp_prop))
+            cat(sprintf("Cohen's W: %.4f\\n", cohen_w))
+            if (cohen_w < 0.1) {{
+                cat("Effect size (W) interpretation: Negligible\\n")
+            }} else if (cohen_w < 0.3) {{
+                cat("Effect size (W) interpretation: Small\\n")
+            }} else if (cohen_w < 0.5) {{
+                cat("Effect size (W) interpretation: Medium\\n")
+            }} else {{
+                cat("Effect size (W) interpretation: Large\\n")
+            }}
         """,
         "chisq-assoc": f"""
             {ensure_r_package("vcd")}
+            {ensure_r_package("DescTools")}
             library(vcd)
+            library(DescTools)
             data <- read.csv("{csv_path}")
             data${row_var} <- as.factor(data${row_var})
             data${col_var} <- as.factor(data${col_var})
@@ -53,6 +69,20 @@ def categorical_test(df, method="chisq-gof", variable=None, expected_probs=None,
             if (all(dim(tbl) == c(2,2))) {{
                 phi <- sqrt(chi_result$statistic / sum(tbl))
                 cat("Phi Coefficient:", phi, "\\n")
+            }}
+            g_result <- GTest(tbl)
+            cat("\\nLog-Likelihood Ratio Test (G-Test):\\n")
+            print(g_result)
+            cat("\\nStandardized Residuals:\\n")
+            print(round(chi_result$stdres, 3))
+            if (chi_result$p.value < 0.05) {{
+                cat("\\nPosthoc Pairwise Chi-Square Tests (Bonferroni corrected):\\n")
+                # Convert to flat counts per level of col_var
+                df_long <- data.frame(row = data${row_var}, col = data${col_var})
+                prop_test <- pairwise.prop.test(table(df_long$row, df_long$col), p.adjust.method = "bonferroni")
+                print(prop_test)
+            }} else {{
+                cat("\\nNo posthoc tests: overall chi-square not significant.\\n")
             }}
         """,
         "mcnemar": f"""
@@ -123,15 +153,19 @@ if __name__ == "__main__":
         'color': ['red', 'blue', 'red', 'green', 'red', 'blue', 'green', 'green', 'blue', 'blue'],
         'gender': ['M', 'F', 'F', 'M', 'M', 'F', 'M', 'F', 'F', 'M'],
     })
-
     df2 = pd.DataFrame({
         'department': ['HR', 'HR', 'HR', 'IT', 'IT', 'IT', 'Sales', 'Sales', 'Sales', 'Ops', 'Ops', 'Ops'],
         'satisfaction': ['High', 'Medium', 'Low', 'High', 'Low', 'Low', 'Medium', 'Medium', 'High', 'Low', 'High', 'Medium']
     })
-
     df3 = pd.DataFrame({
         'before': ['Yes', 'Yes', 'No', 'Yes', 'No', 'No', 'Yes', 'No'],
         'after':  ['Yes', 'No',  'No', 'No',  'No', 'Yes', 'Yes', 'No']
+    })
+    df4 = pd.DataFrame({
+        'treatment': ['A']*30 + ['B']*30 + ['C']*30,
+        'outcome': (['Success']*25 + ['Failure']*5 +
+                    ['Success']*15 + ['Failure']*15 +
+                    ['Success']*10 + ['Failure']*20)
     })
 
     print("🔹 Chi-Square Goodness of Fit (equal expected):")
@@ -143,6 +177,9 @@ if __name__ == "__main__":
     print("\n🔹 Chi-Square Test of Association:")
     print("\n".join(categorical_test(df, method="chisq-assoc", row_var="gender", col_var="color")))
     print("\n".join(categorical_test(df2, method="chisq-assoc", row_var="department", col_var="satisfaction")))
+
+    print("\n🔹 Chi-Square Test of Association (Significant Case for Posthoc):")
+    print("\n".join(categorical_test(df4, method="chisq-assoc", row_var="treatment", col_var="outcome")))
 
     print("\n🔹 McNemar's Test:")
     print("\n".join(categorical_test(df3, method="mcnemar", row_var="before", col_var="after")))
