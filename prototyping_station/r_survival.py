@@ -31,14 +31,12 @@ def survival_analysis(df, time, event, time2=None, method="kaplan-meier", group=
         - "log-rank"             : Log-rank test for group differences
         - "cox"                  : Cox proportional hazards model
         - "cox-interaction"      : Cox PH model with interaction (e.g., group * age)
-        - "stratified-cox"       : Stratified Cox model
         - "time-dependent-cox"   : Cox model with time-dependent covariates
         - "frailty-cox"          : Cox PH model with frailty term
         - "left-truncated-cox"   : Cox PH with left-truncated data
         - "aft"                  : Parametric accelerated failure time model (Weibull)
         - "exponential-aft"      : AFT with exponential distribution
         - "competing-risks"      : Fine-Gray competing risks regression
-        - "nelson-aalen"         : Nelson-Aalen cumulative hazard estimator
         - Interval-censored models (require `time1`/`time2` columns):
             * "interval-aft"     : Parametric AFT model (log-logistic dist.)
             * "interval-censored": Parametric survival model for intervals
@@ -96,18 +94,11 @@ def survival_analysis(df, time, event, time2=None, method="kaplan-meier", group=
     if covariates is None and group:
         covariates = [group]
 
-    if method in ["nelson-aalen"]:
-        factor_conversion = ""
-    else:
-        factor_conversion = "\n".join([
-                f'if (!is.numeric(data${var})) data${var} <- as.factor(data${var})'
-                for var in covariates])
-
-    formula = "1"
-    if method in ["cox-interaction"]:
-        formula = " * ".join(covariates)
-    else:
-        formula = " + ".join(covariates)
+    formula = " + ".join(covariates) if covariates else "1"
+    
+    factor_conversion = "\n".join([
+        f'if (!is.numeric(data${var})) data${var} <- as.factor(data${var})'
+        for var in covariates])
 
     models = {
         "aft": f"""
@@ -149,11 +140,15 @@ def survival_analysis(df, time, event, time2=None, method="kaplan-meier", group=
         """,
         "cox-interaction": f"""
             surv_obj <- Surv(data${time}, data${event})
-            interaction_model <- coxph(surv_obj ~ {formula}, data = data)
+            # Build formula with 2-way interactions
+            rhs <- paste("(", paste(c({', '.join([f'"{v}"' for v in covariates])}), collapse=" + "), ")", sep="")
+            formula_str <- as.formula(paste("surv_obj ~", rhs, "^2"))
+            
+            interaction_model <- coxph(formula_str, data = data)
             print(summary(interaction_model))
 
             cat("\\nTesting proportional hazards assumption:\\n")
-            print(cox.zph(interaction_model))
+            suppressWarnings(print(cox.zph(interaction_model)))
         """,
         "exponential-aft": f"""
             surv_obj <- Surv(data${time}, data${event})
@@ -165,7 +160,15 @@ def survival_analysis(df, time, event, time2=None, method="kaplan-meier", group=
         """,
         "frailty-cox": f"""
             surv_obj <- Surv(data${time}, data${event})
-            frailty_model <- coxph(surv_obj ~ frailty({formula}), data = data)
+            frailty_term <- "{covariates[0]}"
+            fixed_effects <- c({', '.join([f'"{v}"' for v in covariates[1:]])})
+            if (length(fixed_effects) > 0) {{
+                rhs <- paste(c(fixed_effects, paste0("frailty(", frailty_term, ")")), collapse = " + ")
+            }} else {{
+                rhs <- paste0("frailty(", frailty_term, ")")
+            }}
+            formula_str <- as.formula(paste("surv_obj ~", rhs))
+            frailty_model <- coxph(formula_str, data = data)
             print(summary(frailty_model))
         """,
         "interval-aft": f"""
@@ -194,18 +197,46 @@ def survival_analysis(df, time, event, time2=None, method="kaplan-meier", group=
             {ensure_r_package('icenReg')}
             library(icenReg)
 
-            # Nonparametric interval-censored model (NPMLE)
-            np_fit <- ic_np(Surv({time}, {time2}, type = "interval2") ~ {formula}, data = data)
-            all_curves <- do.call(rbind, lapply(names(np_fit$fitList), function(grp) {{
-              sc <- getSCurves(np_fit$fitList[[grp]])
+            to_df_from_sc <- function(sc) {{
               intervals <- as.data.frame(sc$Tbull_ints)
-              colnames(intervals) <- c("Start", "End")
+              if (ncol(intervals) == 1) {{
+                colnames(intervals) <- c("Start")
+                intervals$End <- intervals$Start
+              }} else {{
+                colnames(intervals) <- c("Start", "End")
+              }}
               surv_probs <- unlist(sc$S_curves)
-              df <- cbind(intervals, Survival=surv_probs)
-              df$Group <- grp
-              return(df)
-            }}))
-            print(all_curves)
+              n_intervals <- nrow(intervals)
+              surv_probs <- surv_probs[seq_len(min(length(surv_probs), n_intervals))]
+              df0 <- cbind(intervals, Survival = surv_probs)
+              return(df0)
+            }}
+
+            # Decide fit mode: use group if available, else pooled
+            if ("{group}" %in% colnames(data)) {{
+              if (!is.factor(data${group})) {{
+                data${group} <- as.factor(data${group})
+              }}
+              groups <- levels(data${group})
+              fits <- lapply(groups, function(g) {{
+                sub <- subset(data, data${group} == g)
+                ic_np(Surv({time}, {time2}, type = "interval2") ~ 0, data = sub)
+              }})
+              names(fits) <- groups
+              all_curves <- do.call(rbind, lapply(seq_along(fits), function(i) {{
+                sc <- getSCurves(fits[[i]])
+                df0 <- to_df_from_sc(sc)
+                df0$Group <- names(fits)[i]
+                return(df0)
+              }}))
+              print(all_curves)
+            }} else {{
+              np_fit <- ic_np(Surv({time}, {time2}, type = "interval2") ~ 0, data = data)
+              sc <- getSCurves(np_fit)
+              df0 <- to_df_from_sc(sc)
+              df0$Group <- "pooled"
+              print(df0)
+            }}
         """,
         "interval-par": f"""
             {ensure_r_package('icenReg')}
@@ -252,19 +283,12 @@ def survival_analysis(df, time, event, time2=None, method="kaplan-meier", group=
             logrank <- survdiff(surv_obj ~ {formula}, data = data)
             print(logrank)
         """,
-        "nelson-aalen": f"""
-            surv_obj <- Surv(data${time}, data${event})
-            fit <- survfit(surv_obj ~ 1, data = data, type = "fh")
-            print(summary(fit))
-        """,
-        "stratified-cox": f"""
-            surv_obj <- Surv(data${time}, data${event})
-            cox_model_strat <- coxph(surv_obj ~ strata({formula}), data = data)
-            print(summary(cox_model_strat))
-        """,
         "time-dependent-cox": f"""
             surv_obj <- Surv(data${time}, data${event})
-            data$group_numeric <- as.numeric(as.factor({formula}))
+            # Convert group (or whichever variable) into numeric
+            data$group_numeric <- as.numeric(as.factor(data${group}))
+            
+            # Fit time-dependent Cox model (log-time interaction with group_numeric)
             cox_td_model <- coxph(surv_obj ~ tt(group_numeric), data = data,
                                   tt = function(x, t, ...) x * log(t))
             print(summary(cox_td_model))
@@ -284,7 +308,6 @@ def survival_analysis(df, time, event, time2=None, method="kaplan-meier", group=
             legend("topright", legend = levels(data${group}),
                    col = 1:length(levels(data${group})), lty = 1)
         """,
-
         "cox": f"""
             surv_obj <- Surv(data${time}, data${event})
             cox_model <- coxph(surv_obj ~ data${group}, data = data)
@@ -293,16 +316,6 @@ def survival_analysis(df, time, event, time2=None, method="kaplan-meier", group=
                  main = "Cox Model Survival Curve",
                  xlab = "Time", ylab = "Survival Probability")
         """,
-
-        "stratified-cox": f"""
-            surv_obj <- Surv(data${time}, data${event})
-            cox_model_strat <- coxph(surv_obj ~ strata(data${group}), data = data)
-            fit <- survfit(cox_model_strat)
-            plot(fit, col = 1:length(levels(data${group})), lty = 1,
-                 main = "Stratified Cox Model Survival Curve",
-                 xlab = "Time", ylab = "Survival Probability")
-        """,
-
         "left-truncated-cox": f"""
             surv_obj <- Surv(data$entry, data${time}, data${event})
             cox_lt_model <- coxph(surv_obj ~ data${group}, data = data)
@@ -364,20 +377,56 @@ if __name__ == "__main__":
         'sex': ['M','F','M','F','F','M','M','F','M','F']
     })
 
-    """
-    Errors in "cox-interaction", "frailty-cox", "interval-np", "nelson-aalen", "stratified-cox", , "time-dependent-cox"
-    """
-    methods = ["aft", "competing-risks", "cox", "exponential-aft", "interval-aft", "interval-censored", "interval-par", "interval-sp", "kaplan-meier", "left-truncated-cox", "log-rank"]
+    methods = ["aft", "competing-risks", "cox", "cox-interaction", "exponential-aft", "frailty-cox", "interval-aft", "interval-censored", "interval-np", "interval-par", "interval-sp", "kaplan-meier", "left-truncated-cox", "log-rank", "time-dependent-cox"]
     plots = ["survival"]
     for method in methods:
         print(f"\n🔹 {method.title()}:")
-        if method == "nelson-aalen":
-            print("\n".join(survival_analysis(df, "time", "event", plots=plots, method=method)))
-        if method in ["interval-aft", "interval-censored", "interval-par", "interval-sp"]:
+        if method in ["interval-aft", "interval-censored", "interval-np", "interval-par", "interval-sp"]:
             print("\n".join(survival_analysis(df, "time1", "event", time2="time2", plots=plots, method=method, group="group", covariates=["group","age","sex"])))
         else:
             print("\n".join(survival_analysis(df, "time", "event", plots=plots, method=method, group="group", covariates=["group","age","sex"])))
+"""
+AFT (Accelerated Failure Time): How do covariates (group, age, sex) accelerate or decelerate the survival time?
+(e.g. does being in Group B, being older, or being male/female change the expected survival time by some multiplicative factor?)
 
+Competing-Risks: Given multiple possible failure causes, how do covariates (group, age, sex) affect the probability of failing from each cause versus surviving or failing from another cause?
+(e.g. are men in Group A more likely to fail from cause 1 than cause 2?)
+
+Cox (Proportional Hazards): Do covariates (group, age, sex) predict survival hazard, assuming proportional hazards over time?
+(e.g. is the hazard rate higher for Group B than Group A after adjusting for age and sex?)
+
+Cox-Interaction: Do interactions among covariates (group × age, group × sex, age × sex) affect survival hazard beyond their main effects?
+(e.g. does the effect of age on hazard differ between Group A and Group B?)
+
+Exponential-AFT: nder an exponential survival distribution, how do covariates (group, age, sex) affect time-to-event?
+(like AFT, but assumes constant hazard over time).
+
+Frailty-Cox: After accounting for random effects (frailty) at the group level, do covariates (age, sex) still predict survival hazard?
+(e.g. controlling for shared risk in Group A vs B, does sex still matter?)
+
+Interval-AFT: When event times are interval-censored (between time1 and time2), how do covariates (group, age, sex) accelerate/decelerate survival time?
+
+Interval-Censored: For interval-censored data, what is the survival curve for different groups or covariates?
+(not assuming a particular parametric form).
+
+Interval-NP (Nonparametric NPMLE): For interval-censored data, what is the nonparametric estimate of survival by group?
+(no assumptions about distribution — purely empirical).
+
+Interval-Par (Parametric): For interval-censored data, under a chosen parametric survival distribution (e.g., Weibull, lognormal), how do covariates (group, age, sex) affect survival?
+
+Interval-Sp (Semiparametric): For interval-censored data, under a semiparametric model, do covariates (group, age, sex) affect survival hazard or time?
+
+Kaplan-Meier: What are the unadjusted survival curves for group (ignoring age and sex)?
+(simple group comparison).
+
+Left-Truncated-Cox: After accounting for delayed entry (entry), do covariates (group, age, sex) predict survival hazard?
+(e.g. patients only enter study after some time has already passed).
+
+Log-Rank: Are survival curves for different groups significantly different (ignoring age and sex)?
+
+Time-Dependent-Cox: Does the effect of a covariate (e.g. group, turned into time-varying group_numeric) change over time, rather than being proportional?
+(e.g. does the hazard difference between Group A and B widen or shrink as follow-up time increases?).
+"""
 """
 -----------------------------------------------------------------------------
 Survival Analysis Module: Comprehensiveness and Coverage Report (Updated June 2025)
@@ -391,12 +440,10 @@ actuarial, and social science domains.
 
 Nonparametric:
   - Kaplan-Meier estimator (grouped)                    method='kaplan-meier'
-  - Nelson-Aalen (Fleming-Harrington) estimator         method='nelson-aalen'
   - Log-rank test for group comparison                  method='log-rank'
 
 Semi-parametric:
   - Cox Proportional Hazards model                      method='cox'
-  - Stratified Cox model                                method='stratified-cox'
   - Time-dependent Cox model                            method='time-dependent-cox'
   - Cox model with interaction terms                    method='cox-interaction'
   - Frailty Cox model (random effects)                  method='frailty-cox'
