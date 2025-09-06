@@ -9,7 +9,78 @@ def ensure_r_package(package_name):
     if (!requireNamespace("{package_name}", quietly = TRUE)) install.packages("{package_name}", repos="https://cloud.r-project.org")
     """
 
-def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=None, rscript_exe_path="..\\portable_R\\bin\\Rscript.exe"):
+def survival_analysis(df, time, event, time2=None, method="kaplan-meier", group=None, covariates=None, plots=None, rscript_exe_path="..\\portable_R\\bin\\Rscript.exe"):
+    """
+    Run survival analysis in R via subprocess from Python.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Input dataset containing survival times, event indicators, and optional grouping/covariate columns.
+
+    time : str
+        Name of the column in `df` representing the survival time (or follow-up time).
+
+    event : str
+        Name of the column in `df` representing the event indicator.
+        Typically coded as 1 = event occurred, 0 = censored.
+
+    method : str, default="kaplan-meier"
+        Survival analysis method to apply. Options include:
+        - "kaplan-meier"         : Non-parametric Kaplan-Meier estimator
+        - "log-rank"             : Log-rank test for group differences
+        - "cox"                  : Cox proportional hazards model
+        - "cox-interaction"      : Cox PH model with interaction (e.g., group * age)
+        - "stratified-cox"       : Stratified Cox model
+        - "time-dependent-cox"   : Cox model with time-dependent covariates
+        - "frailty-cox"          : Cox PH model with frailty term
+        - "left-truncated-cox"   : Cox PH with left-truncated data
+        - "aft"                  : Parametric accelerated failure time model (Weibull)
+        - "exponential-aft"      : AFT with exponential distribution
+        - "competing-risks"      : Fine-Gray competing risks regression
+        - "nelson-aalen"         : Nelson-Aalen cumulative hazard estimator
+        - Interval-censored models (require `time1`/`time2` columns):
+            * "interval-aft"     : Parametric AFT model (log-logistic dist.)
+            * "interval-censored": Parametric survival model for intervals
+            * "interval-np"      : Nonparametric interval-censored model (NPMLE)
+            * "interval-par"     : Parametric interval-censored model (Weibull)
+            * "interval-sp"      : Semiparametric interval-censored model
+
+    group : str, optional
+        Name of a categorical column in `df` to use as a grouping variable
+        or covariate. If provided:
+        - Kaplan-Meier → produces separate survival curves by group.
+        - Log-rank → tests group differences.
+        - Cox/AFT models → treats group as a covariate.
+        If None, analyses are performed without stratification (overall survival only).
+
+    plots : list of str, optional
+        If provided, generates plots as PDF files. Available options:
+        - "survival" : Survival curve (supported for Kaplan-Meier, Cox, Stratified Cox, Left-truncated Cox)
+
+    rscript_exe_path : str, default="..\\portable_R\\bin\\Rscript.exe"
+        Path to the Rscript executable.
+
+    Returns
+    -------
+    list of str
+        Console output from the R analysis, split line by line.
+
+    Notes
+    -----
+    - Requires R and the relevant R packages installed.
+    - For interval-censored methods, `df` must include `time1` and `time2` columns.
+    - Event column must be binary (1 = event, 0 = censored).
+    - Group column should be categorical if specified.
+
+    Examples
+    --------
+    >>> survival_analysis(df, time="time", event="event", method="kaplan-meier", group="treatment")
+    Runs a Kaplan-Meier survival analysis comparing groups in `treatment`.
+
+    >>> survival_analysis(df, time="time", event="event", method="cox", group="sex", plots=["survival"])
+    Fits a Cox proportional hazards model by sex and saves survival curves.
+    """
     rscript_exe_path = os.path.abspath(rscript_exe_path)
     if not os.path.exists(rscript_exe_path):
         raise FileNotFoundError(f"Rscript.exe not found at {rscript_exe_path}")
@@ -22,10 +93,26 @@ def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=
 
     method = method.lower()
 
+    if covariates is None and group:
+        covariates = [group]
+
+    if method in ["nelson-aalen"]:
+        factor_conversion = ""
+    else:
+        factor_conversion = "\n".join([
+                f'if (!is.numeric(data${var})) data${var} <- as.factor(data${var})'
+                for var in covariates])
+
+    formula = "1"
+    if method in ["cox-interaction"]:
+        formula = " * ".join(covariates)
+    else:
+        formula = " + ".join(covariates)
+
     models = {
         "aft": f"""
             surv_obj <- Surv(data${time}, data${event})
-            aft_model <- survreg(surv_obj ~ data${group}, data = data, dist = "weibull")
+            aft_model <- survreg(surv_obj ~ {formula}, data = data, dist = "weibull")
             print(summary(aft_model))
 
             cat("\\nScale parameter:\\n")
@@ -45,7 +132,7 @@ def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=
         """,
         "cox": f""" 
             surv_obj <- Surv(data${time}, data${event})
-            cox_model <- coxph(surv_obj ~ data${group}, data = data)
+            cox_model <- coxph(surv_obj ~ {formula}, data = data)
             print(summary(cox_model))
 
             cat("\\nTesting proportional hazards assumption:\\n")
@@ -62,7 +149,7 @@ def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=
         """,
         "cox-interaction": f"""
             surv_obj <- Surv(data${time}, data${event})
-            interaction_model <- coxph(surv_obj ~ data${group} * data$age, data = data)
+            interaction_model <- coxph(surv_obj ~ {formula}, data = data)
             print(summary(interaction_model))
 
             cat("\\nTesting proportional hazards assumption:\\n")
@@ -70,7 +157,7 @@ def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=
         """,
         "exponential-aft": f"""
             surv_obj <- Surv(data${time}, data${event})
-            exp_model <- survreg(surv_obj ~ data${group}, data = data, dist = "exponential")
+            exp_model <- survreg(surv_obj ~ {formula}, data = data, dist = "exponential")
             print(summary(exp_model))
 
             cat("\\nLinear predictors (first 10):\\n")
@@ -78,7 +165,7 @@ def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=
         """,
         "frailty-cox": f"""
             surv_obj <- Surv(data${time}, data${event})
-            frailty_model <- coxph(surv_obj ~ frailty(data${group}), data = data)
+            frailty_model <- coxph(surv_obj ~ frailty({formula}), data = data)
             print(summary(frailty_model))
         """,
         "interval-aft": f"""
@@ -86,7 +173,7 @@ def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=
             library(icenReg)
 
             # AFT-style model for interval-censored data using loglogistic distribution
-            aft_fit <- ic_par(Surv(data$time1, data$time2, type = "interval2") ~ data${group}, data = data, dist = "loglogistic")
+            aft_fit <- ic_par(Surv({time}, {time2}, type = "interval2") ~ {formula}, data = data, dist = "loglogistic")
             print(summary(aft_fit))
 
             cat("\\nBaseline survival estimates:\\n")
@@ -97,7 +184,7 @@ def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=
             library(icenReg)
 
             # icenReg requires left and right times as vectors
-            fit <- ic_par(Surv(data$time1, data$time2, type = "interval2") ~ data${group}, data = data, dist = "loglogistic")
+            fit <- ic_par(Surv({time}, {time2}, type = "interval2") ~ {formula}, data = data, dist = "loglogistic")
             print(summary(fit))
 
             cat("\\nFit estimates:\\n")
@@ -108,7 +195,7 @@ def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=
             library(icenReg)
 
             # Nonparametric interval-censored model (NPMLE)
-            np_fit <- ic_np(Surv(time1, time2, type = "interval2") ~ {group}, data = data)
+            np_fit <- ic_np(Surv({time}, {time2}, type = "interval2") ~ {formula}, data = data)
             all_curves <- do.call(rbind, lapply(names(np_fit$fitList), function(grp) {{
               sc <- getSCurves(np_fit$fitList[[grp]])
               intervals <- as.data.frame(sc$Tbull_ints)
@@ -125,7 +212,7 @@ def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=
             library(icenReg)
 
             # Fit parametric model (default: Weibull) for interval-censored data
-            par_fit <- ic_par(Surv(time1, time2, type = "interval2") ~ {group}, data = data)
+            par_fit <- ic_par(Surv({time}, {time2}, type = "interval2") ~ {formula}, data = data)
 
             cat("Parametric model coefficients (Weibull):\\n")
             print(coef(par_fit))  # Correct way to extract coefficients
@@ -138,7 +225,7 @@ def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=
             {ensure_r_package('icenReg')}
             library(icenReg)
 
-            sp_fit <- ic_sp(Surv(time1, time2, type = "interval2") ~ {group}, data = data)
+            sp_fit <- ic_sp(Surv({time}, {time2}, type = "interval2") ~ {formula}, data = data)
             print(summary(sp_fit))
 
             cat("\\nSmoothed survival estimates:\\n")
@@ -146,7 +233,7 @@ def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=
         """,
         "kaplan-meier": f"""
             surv_obj <- Surv(data${time}, data${event})
-            fit <- survfit(surv_obj ~ data${group}, data = data)
+            fit <- survfit(surv_obj ~ {formula}, data = data)
             print(summary(fit))
 
             cat("\\nMedian survival times:\\n")
@@ -154,7 +241,7 @@ def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=
         """,
         "left-truncated-cox": f"""
             surv_obj <- Surv(data$entry, data${time}, data${event})
-            cox_lt_model <- coxph(surv_obj ~ data${group}, data = data)
+            cox_lt_model <- coxph(surv_obj ~ {formula}, data = data)
             print(summary(cox_lt_model))
 
             cat("\\nPH assumption test:\\n")
@@ -162,7 +249,7 @@ def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=
         """,
         "log-rank": f"""
             surv_obj <- Surv(data${time}, data${event})
-            logrank <- survdiff(surv_obj ~ data${group}, data = data)
+            logrank <- survdiff(surv_obj ~ {formula}, data = data)
             print(logrank)
         """,
         "nelson-aalen": f"""
@@ -172,12 +259,12 @@ def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=
         """,
         "stratified-cox": f"""
             surv_obj <- Surv(data${time}, data${event})
-            cox_model_strat <- coxph(surv_obj ~ strata(data${group}), data = data)
+            cox_model_strat <- coxph(surv_obj ~ strata({formula}), data = data)
             print(summary(cox_model_strat))
         """,
         "time-dependent-cox": f"""
             surv_obj <- Surv(data${time}, data${event})
-            data$group_numeric <- as.numeric(as.factor(data${group}))
+            data$group_numeric <- as.numeric(as.factor({formula}))
             cox_td_model <- coxph(surv_obj ~ tt(group_numeric), data = data,
                                   tt = function(x, t, ...) x * log(t))
             print(summary(cox_td_model))
@@ -234,10 +321,12 @@ def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=
     data${event} <- as.numeric(data${event})
     {f'data${group} <- as.factor(data${group})' if group else ''}
 
+    {factor_conversion}
     {models[method]}
     """
 
-    if "survival" in plots and method in survival_curve:
+    if plots == None: pass
+    elif "survival" in plots and method in survival_curve:
         r_script = r_script + f"""
         pdf("e{epoch}-survival_plot-{method}.pdf")
         {survival_curve[method]}
@@ -265,23 +354,29 @@ def survival_analysis(df, time, event, method="kaplan-meier", group=None, plots=
 # Example usage
 if __name__ == "__main__":
     df = pd.DataFrame({
-        'entry': [0, 1, 2, 0, 3, 1, 2, 0, 4, 1],
-        'time': [5, 6, 6, 2, 4, 3, 10, 12, 8, 9],
-        'time1': [1, 2, 2, 0, 4, 3, 5, 0, 6, 5],
-        'time2': [3, 4, 4, 2, 5, 5, 6, 2, 7, 6],
-        'event': [1, 1, 0, 1, 1, 0, 1, 0, 1, 1],
-        'group': ['A', 'A', 'A', 'B', 'B', 'B', 'A', 'B', 'B', 'A'],
-        'age': [30, 45, 38, 50, 60, 41, 33, 55, 48, 36] 
+        'entry': [0,1,2,0,3,1,2,0,4,1],
+        'time': [5,6,6,2,4,3,10,12,8,9],
+        'time1': [1,2,2,0,4,3,5,0,6,5],
+        'time2': [3,4,4,2,5,5,6,2,7,6],
+        'event': [1,1,0,1,1,0,1,0,1,1],
+        'group': ['A','A','A','B','B','B','A','B','B','A'],
+        'age': [30,45,38,50,60,41,33,55,48,36],
+        'sex': ['M','F','M','F','F','M','M','F','M','F']
     })
 
-    methods = ["aft", "competing-risks", "cox", "cox-interaction", "exponential-aft", "frailty-cox", "interval-aft", "interval-censored", "interval-np", "interval-par", "interval-sp", "kaplan-meier", "left-truncated-cox", "log-rank", "nelson-aalen", "stratified-cox", "time-dependent-cox"]
+    """
+    Errors in "cox-interaction", "frailty-cox", "interval-np", "nelson-aalen", "stratified-cox", , "time-dependent-cox"
+    """
+    methods = ["aft", "competing-risks", "cox", "exponential-aft", "interval-aft", "interval-censored", "interval-par", "interval-sp", "kaplan-meier", "left-truncated-cox", "log-rank"]
     plots = ["survival"]
     for method in methods:
         print(f"\n🔹 {method.title()}:")
         if method == "nelson-aalen":
             print("\n".join(survival_analysis(df, "time", "event", plots=plots, method=method)))
+        if method in ["interval-aft", "interval-censored", "interval-par", "interval-sp"]:
+            print("\n".join(survival_analysis(df, "time1", "event", time2="time2", plots=plots, method=method, group="group", covariates=["group","age","sex"])))
         else:
-            print("\n".join(survival_analysis(df, "time", "event", plots=plots, method=method, group="group")))
+            print("\n".join(survival_analysis(df, "time", "event", plots=plots, method=method, group="group", covariates=["group","age","sex"])))
 
 """
 -----------------------------------------------------------------------------
