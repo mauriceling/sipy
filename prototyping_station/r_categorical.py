@@ -186,3 +186,115 @@ if __name__ == "__main__":
 
     print("\n🔹 Fisher's Exact Test:")
     print("\n".join(categorical_test(df3, method="fisher", row_var="before", col_var="after")))
+
+
+"""
+===============================================================================
+CATEGORICAL ANALYSIS COVERAGE REPORT – r-categorical.py
+===============================================================================
+
+✔ SUPPORTED METHODS
+-------------------
+- chisq-gof    : Chi-Square Goodness-of-Fit Test
+- chisq-assoc  : Chi-Square Test of Association (Contingency Tables)
+- mcnemar      : McNemar's Test for paired binary data
+- fisher       : Fisher’s Exact Test (2x2 and larger tables)
+
+-------------------------------------------------------------------------------
+🔹 CHI-SQUARE GOODNESS-OF-FIT (chisq-gof)
+-------------------------------------------------------------------------------
+✔ Features:
+- Supports expected probabilities via expected_probs
+- Automatic factor conversion of the target variable
+- Effect size: Cohen’s W (computed and printed)
+- Uses chisq.test from base R
+
+✖ Missing:
+- Residual diagnostics
+- Visualizations (e.g., bar plots)
+
+-------------------------------------------------------------------------------
+🔹 CHI-SQUARE TEST OF ASSOCIATION (chisq-assoc)
+-------------------------------------------------------------------------------
+✔ Features:
+- Contingency table created from row_var and col_var
+- Chi-square test via chisq.test
+- Log-likelihood ratio test (G-test) via GTest
+- Effect sizes:
+    • Cramer's V
+    • Contingency Coefficient
+    • Phi Coefficient (for 2x2)
+- Standardized residuals printed
+- Posthoc pairwise chi-square tests with Bonferroni correction (if p < 0.05)
+
+✖ Missing:
+- Residual heatmaps or mosaic visualizations
+- Degrees of freedom explicitly printed (optional)
+
+-------------------------------------------------------------------------------
+🔹 MCNEMAR’S TEST (mcnemar)
+-------------------------------------------------------------------------------
+✔ Features:
+- Restricts to 2x2 tables only
+- Uses mcnemar.test from base R
+- Effect size: Cohen’s g (computed if b + c > 0)
+
+✖ Missing:
+- No toggle for continuity correction
+- No multi-level factor support (by design)
+
+-------------------------------------------------------------------------------
+🔹 FISHER’S EXACT TEST (fisher)
+-------------------------------------------------------------------------------
+✔ Features:
+- 2x2 tables: uses fisher.test
+- Larger tables: uses simulate.p.value=TRUE
+
+✖ Missing:
+- No odds ratio or risk difference outputs
+- No effect size measures
+
+-------------------------------------------------------------------------------
+🔧 DIAGNOSTICS & OUTPUT HANDLING
+-------------------------------------------------------------------------------
+✔ Temp file creation with UUID and cleanup
+✔ R package install checks using ensure_r_package()
+✔ Standardized residuals in chisq-assoc
+✔ Posthoc logic conditional on significance
+✔ Modular structure using models dictionary
+✔ Robust error handling (missing Rscript, invalid method, etc.)
+
+-------------------------------------------------------------------------------
+🧪 TEST CASE COVERAGE (from __main__ block)
+-------------------------------------------------------------------------------
+- Chi-square goodness-of-fit with equal expected values
+- Chi-square goodness-of-fit with custom probabilities
+- Chi-square association test (non-significant case)
+- Chi-square association test with posthoc (significant case)
+- McNemar test (valid 2x2)
+- Fisher’s test (2x2 and larger)
+
+✔ All critical logic paths tested, including:
+- expected_probs conditional logic
+- posthoc triggered only when p < 0.05
+- error feedback for invalid McNemar input
+- both simulated and exact Fisher’s tests
+
+-------------------------------------------------------------------------------
+📌 OPTIONAL ENHANCEMENTS (NOT IMPLEMENTED)
+-------------------------------------------------------------------------------
+- Visualization: residual heatmaps, mosaic plots
+- Fisher’s test: print odds ratios, risk differences
+- Assumption checking: expected count < 5 warnings
+- Output caching/logging to file
+
+===============================================================================
+✅ STATUS: FULL FUNCTIONAL COVERAGE ACHIEVED
+===============================================================================
+The module robustly supports key categorical analyses with appropriate posthoc
+and effect size reporting. It is modular, extensible, and tested for all logical
+paths. Ready for production or integration with larger statistical pipelines.
+
+Next recommended modules: PCA, Clustering, or Nonparametric tests.
+===============================================================================
+"""
