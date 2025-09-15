@@ -184,7 +184,6 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
     r_script = f"""
     data <- read.csv("{csv_path}")
     data${factors[0]} <- as.factor(data${factors[0]})
-    data$subject <- as.factor(data$subject)
     {f'data${factors[1]} <- as.factor(data${factors[1]})' if len(factors) > 1 else ''}
     {f'data${covariate} <- as.numeric(data${covariate})' if covariate else ''}
 

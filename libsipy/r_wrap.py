@@ -23,6 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 import pandas as pd
 import subprocess
 import os
+import time as pytime
 import uuid
 
 def ensure_r_package(package_name):
@@ -207,7 +208,6 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
     r_script = f"""
     data <- read.csv("{csv_path}")
     data${factors[0]} <- as.factor(data${factors[0]})
-    data$subject <- as.factor(data$subject)
     {f'data${factors[1]} <- as.factor(data${factors[1]})' if len(factors) > 1 else ''}
     {f'data${covariate} <- as.numeric(data${covariate})' if covariate else ''}
 

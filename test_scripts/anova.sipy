@@ -5,3 +5,7 @@ anova 1way list data=x1,x2,x3,x4,x5
 anova 1way dataframe wide data=df_A
 
 anova rm dataframe wide data=df_A
+
+read excel surdata from data/survival_dataset.xlsx data
+ranova anova data=surdata y=age x=stage posthoc=lsd
+ranova anova data=surdata y=age x=stage,sex posthoc=lsd,tukey
