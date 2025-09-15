@@ -141,7 +141,6 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
 
             data <- read.csv("{csv_path}")
             data${factors[0]} <- as.factor(data${factors[0]})
-            data$subject <- as.factor(data$subject)
 
             wide_data <- data %>%
                 select(subject, {factors[0]}, {response}) %>%
@@ -168,7 +167,6 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
             library(lme4)
             data <- read.csv("{csv_path}")
             data${factors[0]} <- as.factor(data${factors[0]})
-            data$subject <- as.factor(data$subject)
 
             model <- lmer({response} ~ {factors_formula} + (1|subject), data=data)
             print(summary(model))
@@ -180,7 +178,6 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
 
             data <- read.csv("{csv_path}")
             data${factors[0]} <- as.factor(data${factors[0]})
-            data$subject <- as.factor(data$subject)
 
             model <- aovp({response} ~ {factors_formula}, data=data)
             print(summary(model))
@@ -188,7 +185,6 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
         """,
         "repeated": f"""
             data <- read.csv("{csv_path}")
-            data$subject <- as.factor(data$subject)
             data${factors[0]} <- as.factor(data${factors[0]})
 
             model <- aov({response} ~ {factors[0]} + Error(subject/{factors[0]}), data=data)
