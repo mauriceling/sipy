@@ -10,6 +10,7 @@ ranova anova data=df y=yN x=yC posthoc=lsd
 ranova kruskal data=df y=yN x=yC posthoc=dunn
 ranova permutation data=df y=yN x=yC posthoc=wilconox
 ranova welch data=df y=yN x=yC posthoc=pairwise
+ranova manova data=df y=yN,yB x=yC posthoc=perm
 
 read excel surdata from data/survival_dataset.xlsx data
 ranova anova data=surdata y=age x=stage posthoc=lsd
@@ -21,3 +22,6 @@ ranova permutation data=surdata y=age x=stage posthoc=wilcoxon
 ranova permutation data=surdata y=age x=stage,sex posthoc=wilcoxon,tukey
 
 ranova welch data=surdata y=age x=stage posthoc=pairwise
+
+ranova manova data=surdata y=age,biomarker_baseline x=stage posthoc=lsd
+ranova manova data=surdata y=age,biomarker_baseline x=stage,sex posthoc=lsd,tukey

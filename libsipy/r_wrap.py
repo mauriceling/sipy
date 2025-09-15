@@ -159,7 +159,7 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
             {posthoc_code}
         """,
         "manova": f"""
-            model <- manova(cbind({', '.join(response)}) ~ {factors[0]}, data=data)
+            model <- manova(cbind({', '.join(response)}) ~ {interaction_formula}, data=data)
             print(summary(model))
         """,
         "mixed": f"""
