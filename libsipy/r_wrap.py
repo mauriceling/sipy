@@ -155,7 +155,7 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
             print(friedman.test(response_matrix))
         """,
         "kruskal": f"""
-            print(kruskal.test({response} ~ {factors[0]}, data=data))
+            print(kruskal.test({response_formula}, data=data))
             {posthoc_code}
         """,
         "manova": f"""
@@ -179,7 +179,7 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
             data <- read.csv("{csv_path}")
             data${factors[0]} <- as.factor(data${factors[0]})
 
-            model <- aovp({response} ~ {factors_formula}, data=data)
+            model <- aovp({response_formula}, data=data)
             print(summary(model))
             {posthoc_code}
         """,

@@ -8,9 +8,13 @@ anova rm dataframe wide data=df_A
 
 ranova anova data=df y=yN x=yC posthoc=lsd
 ranova kruskal data=df y=yN x=yC posthoc=lsd
+ranova permutation data=df y=yN x=yC posthoc=wilconox
 
 read excel surdata from data/survival_dataset.xlsx data
 ranova anova data=surdata y=age x=stage posthoc=lsd
 ranova anova data=surdata y=age x=stage,sex posthoc=lsd,tukey
 
 ranova kruskal data=surdata y=age x=stage posthoc=lsd
+
+ranova permutation data=surdata y=age x=stage posthoc=wilcoxon
+ranova permutation data=surdata y=age x=stage,sex posthoc=wilcoxon,tukey
