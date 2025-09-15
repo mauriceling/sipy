@@ -1710,6 +1710,11 @@ class SiPy_Shell(object):
         @return: String containing results of command execution
         """
         df = self.data[kwargs["data"]]
+        dependent_variable = kwargs["y"]
+        if ("x" not in kwargs) or (kwargs["x"].lower() in ["none", "all"]):
+             independent_variables = None
+        else:
+            independent_variables = [x.strip() for x in kwargs["x"].split(self.environment["separator"])]
         if operand[0].lower() in ["cloglog", "cll"]:
             """
             
