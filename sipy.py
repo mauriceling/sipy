@@ -1701,6 +1701,29 @@ class SiPy_Shell(object):
         print(retR.to_string())
         return retR
 
+    def do_R_x(self, operand, kwargs):
+        """!
+        Perform
+
+        Commands:
+
+        @return: String containing results of command execution
+        """
+        df = self.data[kwargs["data"]]
+        if operand[0].lower() in ["cloglog", "cll"]:
+            """
+            
+
+            Example: 
+            
+            """
+            retR = libsipy.r_wrap.regression(df, dependent_variable, independent_variables, "cloglog_regression", self.environment["rscript_exe"])
+            retR = "\n".join(retR)
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+
     def do_R_regression(self, operand, kwargs):
         """!
         Performs R-based regression(s).
