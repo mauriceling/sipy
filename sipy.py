@@ -3033,6 +3033,31 @@ class SiPy_Shell(object):
         print(retR)
         return retR
 
+    def do_x(self, operand, kwargs):
+        """!
+        xxx
+
+        Commands: 
+            describe {kurtosis|kurt} data=<variable_name>
+
+        @return: String containing results of command execution
+        """
+        data_values = self.data[kwargs["data"]]
+        if operand[0].lower() in ["kurtosis" , "kurt"]:
+            """
+            describe {kurtosis|kurt} data=<variable name>
+
+            Example:
+            let x be list 2,3,4,5,6,7,8,9
+            describe kurtosis data=x
+            """
+            result = libsipy.base.kurtosis(data_values)
+            retR = "Kurtosis = %s" % result
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+
     def command_processor(self, operator, operand, kwargs):
         """
         Method to channel bytecodes operand(s) and keyward arguments, if any, into the respective bytecode processors.
@@ -3046,6 +3071,7 @@ class SiPy_Shell(object):
         elif operator == "compute_effsize": return self.do_compute_effsize(operand, kwargs)
         elif operator == "correlate": return self.do_correlate(operand, kwargs)
         elif operator == "describe": return self.do_describe(operand, kwargs)
+        elif operator == "environment": return self.do_enviroment(operand, kwargs)
         elif operator == "let": return self.do_let(operand, kwargs)
         elif operator == "mean": return self.do_mean(operand, kwargs)
         elif operator == "normality": return self.do_normality(operand, kwargs)
