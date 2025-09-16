@@ -6,6 +6,7 @@ anova 1way dataframe wide data=df_A
 
 anova rm dataframe wide data=df_A
 
+ranova ancova data=df y=yN x=yB,yC covariates=x1,x2 posthoc=lsd
 ranova anova data=df y=yN x=yC posthoc=lsd
 ranova kruskal data=df y=yN x=yC posthoc=dunn
 ranova permutation data=df y=yN x=yC posthoc=wilconox
@@ -13,6 +14,9 @@ ranova welch data=df y=yN x=yC posthoc=pairwise
 ranova manova data=df y=yN,yB x=yC posthoc=perm
 
 read excel surdata from data/survival_dataset.xlsx data
+ranova ancova data=surdata y=age x=stage covariates=biomarker_baseline posthoc=lsd
+ranova ancova data=surdata y=age x=stage covariates=biomarker_baseline,qol_baseline posthoc=lsd
+
 ranova anova data=surdata y=age x=stage posthoc=lsd
 ranova anova data=surdata y=age x=stage,sex posthoc=lsd,tukey
 

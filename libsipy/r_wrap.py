@@ -33,7 +33,7 @@ def ensure_r_package(package_name):
     }}
     """
        
-def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=None, plots=None, rscript_exe_path="..\\portable_R\\bin\\Rscript.exe"):
+def anova(df, response, factors, method="anova", covariates=None, posthoc_tests=None, plots=None, rscript_exe_path="..\\portable_R\\bin\\Rscript.exe"):
     rscript_exe_path = os.path.abspath(rscript_exe_path)
     if not os.path.exists(rscript_exe_path):
         raise FileNotFoundError(f"Rscript.exe not found at {rscript_exe_path}")
@@ -47,6 +47,7 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
     factors_formula = " + ".join(factors)
     interaction_formula = " * ".join(factors)
     response_formula = f"{response} ~ {interaction_formula}" if len(factors) > 1 else f"{response} ~ {factors_formula}"
+    covariates_formula = " + ".join(covariates)
 
     if (posthoc_tests is None) or posthoc_tests == "all":
         posthoc_tests = ["dunn", "games-howell", "lsd", "mixed-posthoc", "pairwise", "perm", "scheffe", "tukey", "wilcoxon"]
@@ -124,7 +125,7 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
 
     models = {
         "ancova": f"""
-            model <- aov({response} ~ {interaction_formula} + {covariate}, data=data)
+            model <- aov({response} ~ {interaction_formula} + {covariates_formula}, data=data)
             print(summary(model))
             {posthoc_code}
         """,
@@ -133,6 +134,7 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
             print(summary(model))
             {posthoc_code}
         """,
+        # friedman not working
         "friedman": f"""
             {ensure_r_package('tidyr')}
             {ensure_r_package('dplyr')}
@@ -162,6 +164,7 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
             model <- manova(cbind({', '.join(response)}) ~ {interaction_formula}, data=data)
             print(summary(model))
         """,
+        # mixed not working
         "mixed": f"""
             {ensure_r_package('lme4')}
             library(lme4)
@@ -183,6 +186,7 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
             print(summary(model))
             {posthoc_code}
         """,
+        # repeated not working
         "repeated": f"""
             data <- read.csv("{csv_path}")
             data${factors[0]} <- as.factor(data${factors[0]})
@@ -201,11 +205,18 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
     if method not in models:
         raise ValueError("Invalid method specified.")
 
+    conversion_code = ""
+    for f in factors:
+        conversion_code = conversion_code + """
+            data$%s <- as.factor(data$%s)""" % (f, f)
+    for c in covariates:
+        conversion_code = conversion_code + """
+            data$%s <- as.numeric(data$%s)""" % (c, c) 
+   
     r_script = f"""
     data <- read.csv("{csv_path}")
-    data${factors[0]} <- as.factor(data${factors[0]})
-    {f'data${factors[1]} <- as.factor(data${factors[1]})' if len(factors) > 1 else ''}
-    {f'data${covariate} <- as.numeric(data${covariate})' if covariate else ''}
+    
+    {conversion_code}
 
     {models[method]}
     """
@@ -237,6 +248,7 @@ def anova(df, response, factors, method="anova", covariate=None, posthoc_tests=N
             }}
             """
 
+    #print(r_script)
     with open(r_script_path, "w") as f:
         f.write(r_script)
 

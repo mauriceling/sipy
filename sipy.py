@@ -1734,6 +1734,7 @@ class SiPy_Shell(object):
         Perform R-based ANOVA.
 
         Commands:
+            ranova ancova data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n> covariates=<covariate 1>,<covariate 2>, ..., <covariate 3> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
             ranova anova data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
             ranova kruskal data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
             ranova manova data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
@@ -1747,10 +1748,17 @@ class SiPy_Shell(object):
             response = [x.strip() for x in kwargs["y"].split(self.environment["separator"])]
         else:
             response = kwargs["y"]
+        print("Response: %s" % str(response))
         if ("x" not in kwargs) or (kwargs["x"].lower() in ["none", "all"]):
              factors = None
         else:
             factors = [x.strip() for x in kwargs["x"].split(self.environment["separator"])]
+        print("Factors: %s" % (factors))
+        if "covariates" in kwargs:
+            covariates = [x.strip() for x in kwargs["covariates"].split(self.environment["separator"])]
+            print("Covariates: %s" % str(covariates))
+        else:
+            covariates = []
         if ("posthoc" not in kwargs) or (kwargs["posthoc"].lower() == "all"):
              posthoc_tests = "all"
         elif kwargs["posthoc"].lower() == "none":
@@ -1761,9 +1769,30 @@ class SiPy_Shell(object):
             plots = [x.strip() for x in kwargs["plots"].split(self.environment["separator"])]
         else:
             plots = []
-        print("Response: %s" % str(response))
-        print("Factors: %s" % (factors))
-        if operand[0].lower() == "anova":
+        if operand[0].lower() == "ancova":
+            """
+            ranova ancova data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n> covariates=<covariate 1>,<covariate 2>, ..., <covariate 3> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
+
+            Example: 
+            let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+            let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+            let yC be slist A, B, C, A, B, C, A, B, C, A
+            let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+            let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+            let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+            let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+            let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+            let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+            ranova ancova data=df y=yN x=yB,yC covariates=x1,x2 posthoc=lsd
+
+            Example: 
+            read excel surdata from data/survival_dataset.xlsx data
+            ranova ancova data=surdata y=age x=stage covariates=biomarker_baseline posthoc=lsd
+            ranova ancova data=surdata y=age x=stage covariates=biomarker_baseline,qol_baseline posthoc=lsd
+            """
+            retR = libsipy.r_wrap.anova(df, response, factors, method="ancova", covariates=covariates, posthoc_tests=posthoc_tests, plots=plots, rscript_exe_path=self.environment["rscript_exe"])
+            retR = "\n".join(retR)
+        elif operand[0].lower() == "anova":
             """
             ranova anova data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
 
@@ -1784,7 +1813,7 @@ class SiPy_Shell(object):
             ranova anova data=surdata y=age x=stage posthoc=lsd
             ranova anova data=surdata y=age x=stage,sex posthoc=lsd,tukey
             """
-            retR = libsipy.r_wrap.anova(df, response, factors, method="anova", covariate=None, posthoc_tests=posthoc_tests, plots=plots, rscript_exe_path=self.environment["rscript_exe"])
+            retR = libsipy.r_wrap.anova(df, response, factors, method="anova", covariates=covariates, posthoc_tests=posthoc_tests, plots=plots, rscript_exe_path=self.environment["rscript_exe"])
             retR = "\n".join(retR)
         elif operand[0].lower() == "kruskal":
             """
@@ -1807,7 +1836,7 @@ class SiPy_Shell(object):
             ranova kruskal data=surdata y=age x=stage posthoc=lsd
             ranova kruskal data=surdata y=age x=stage,sex posthoc=lsd,tukey
             """
-            retR = libsipy.r_wrap.anova(df, response, factors, method="kruskal", covariate=None, posthoc_tests=posthoc_tests, plots=plots, rscript_exe_path=self.environment["rscript_exe"])
+            retR = libsipy.r_wrap.anova(df, response, factors, method="kruskal", covariates=covariates, posthoc_tests=posthoc_tests, plots=plots, rscript_exe_path=self.environment["rscript_exe"])
             retR = "\n".join(retR)
         elif operand[0].lower() == "manova":
             """
@@ -1830,7 +1859,7 @@ class SiPy_Shell(object):
             ranova manova data=surdata y=age,biomarker_baseline x=stage posthoc=lsd
             ranova manova data=surdata y=age,biomarker_baseline x=stage,sex posthoc=lsd,tukey
             """
-            retR = libsipy.r_wrap.anova(df, response, factors, method="manova", covariate=None, posthoc_tests=posthoc_tests, plots=plots, rscript_exe_path=self.environment["rscript_exe"])
+            retR = libsipy.r_wrap.anova(df, response, factors, method="manova", covariates=covariates, posthoc_tests=posthoc_tests, plots=plots, rscript_exe_path=self.environment["rscript_exe"])
             retR = "\n".join(retR)
         elif operand[0].lower() == "permutation":
             """
@@ -1853,7 +1882,7 @@ class SiPy_Shell(object):
             ranova permutation data=surdata y=age x=stage posthoc=wilcoxon
             ranova permutation data=surdata y=age x=stage,sex posthoc=wilcoxon,tukey
             """
-            retR = libsipy.r_wrap.anova(df, response, factors, method="permutation", covariate=None, posthoc_tests=posthoc_tests, plots=plots, rscript_exe_path=self.environment["rscript_exe"])
+            retR = libsipy.r_wrap.anova(df, response, factors, method="permutation", covariates=covariates, posthoc_tests=posthoc_tests, plots=plots, rscript_exe_path=self.environment["rscript_exe"])
             retR = "\n".join(retR)
         elif operand[0].lower() == "welch":
             """
@@ -1875,7 +1904,7 @@ class SiPy_Shell(object):
             read excel surdata from data/survival_dataset.xlsx data
             ranova welch data=surdata y=age x=stage posthoc=pairwise
             """
-            retR = libsipy.r_wrap.anova(df, response, factors, method="welch", covariate=None, posthoc_tests=posthoc_tests, plots=plots, rscript_exe_path=self.environment["rscript_exe"])
+            retR = libsipy.r_wrap.anova(df, response, factors, method="welch", covariates=covariates, posthoc_tests=posthoc_tests, plots=plots, rscript_exe_path=self.environment["rscript_exe"])
             retR = "\n".join(retR)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
