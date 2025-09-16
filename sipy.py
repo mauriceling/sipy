@@ -1350,6 +1350,55 @@ class SiPy_Shell(object):
         print(retR)
         return retR
 
+    def do_environment(self, operand, kwargs):
+        """!
+        Functions to manage SiPy environment.
+
+        Commands: 
+            environment combine
+
+        @return: String containing results of command execution
+        """
+        
+        if operand[0].lower() == "combine":
+            """
+            environment combine
+            """
+            env = {"count": self.count, "environment": self.environment, "history": self.history, "data": self.data, "result": self.result}
+            retR = "Environmental variables = %s" % env
+        elif operand[0].lower() == "save":
+            """
+            environment save name=<name to save to> format=<format to save as>
+
+            Example:
+            let x be list 2,3,4,5,6,7,8,9
+            let X1 be list 1,2,3,4,5,6
+            let X2 be list 2,3,4,5,6,7
+            let X3 be list 3,4,5,6,7,8
+            let z be dataframe X1:X1 X2:X2 X3:X3
+            mean geometric x
+            normality kurtosis data=z
+            environment save name=wspace format=json
+            """
+            env = {"count": self.count, "environment": self.environment, "history": self.history, "data": self.data, "result": self.result}
+            if "name" in kwargs: name = kwargs["name"]
+            else: name = "workspace"
+            if "format" in kwargs: fmat = kwargs["format"]
+            else: fmat = "json"
+            if fmat == "hdf5":
+                filename = name + ".SEnvH5"
+                filename = os.path.abspath(filename)
+                result = libsipy.workspace.save_workspace_hdf5(filename, env)
+            elif fmat == "json":
+                filename = name + ".SEnvJ"
+                filename = os.path.abspath(filename)
+                result = libsipy.workspace.save_workspace_json(filename, env)
+            retR = "Environment saved as %s. Format = %s" % (filename, fmat)
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+
     def do_let(self, operand, kwargs):
         """!
         Assign a value or list of values to a variable.
@@ -3071,7 +3120,7 @@ class SiPy_Shell(object):
         elif operator == "compute_effsize": return self.do_compute_effsize(operand, kwargs)
         elif operator == "correlate": return self.do_correlate(operand, kwargs)
         elif operator == "describe": return self.do_describe(operand, kwargs)
-        elif operator == "environment": return self.do_enviroment(operand, kwargs)
+        elif operator == "environment": return self.do_environment(operand, kwargs)
         elif operator == "let": return self.do_let(operand, kwargs)
         elif operator == "mean": return self.do_mean(operand, kwargs)
         elif operator == "normality": return self.do_normality(operand, kwargs)

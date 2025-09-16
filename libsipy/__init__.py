@@ -23,3 +23,4 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 from . import base
 from . import data_wrangler
 from . import r_wrap
+from . import workspace
