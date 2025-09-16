@@ -160,9 +160,15 @@ def anova(df, response, factors, method="anova", covariates=None, posthoc_tests=
             print(kruskal.test({response_formula}, data=data))
             {posthoc_code}
         """,
+        "mancova": f"""
+            model <- manova(cbind({', '.join(response)}) ~ {interaction_formula} + {covariates_formula}, data=data)
+            print(summary(model))
+            {posthoc_code}
+        """,
         "manova": f"""
             model <- manova(cbind({', '.join(response)}) ~ {interaction_formula}, data=data)
             print(summary(model))
+            {posthoc_code}
         """,
         # mixed not working
         "mixed": f"""
@@ -248,7 +254,7 @@ def anova(df, response, factors, method="anova", covariates=None, posthoc_tests=
             }}
             """
 
-    #print(r_script)
+    print(r_script)
     with open(r_script_path, "w") as f:
         f.write(r_script)
 
