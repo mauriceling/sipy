@@ -254,7 +254,7 @@ def anova(df, response, factors, method="anova", covariates=None, posthoc_tests=
             }}
             """
 
-    print(r_script)
+    #print(r_script)
     with open(r_script_path, "w") as f:
         f.write(r_script)
 
