@@ -1356,6 +1356,8 @@ class SiPy_Shell(object):
 
         Commands: 
             environment combine
+            environment load path=<file path of saved environment> format=<format>
+            environment save name=<name to save to> format=<format to save as>
 
         @return: String containing results of command execution
         """
@@ -1366,6 +1368,25 @@ class SiPy_Shell(object):
             """
             env = {"count": self.count, "environment": self.environment, "history": self.history, "data": self.data, "result": self.result}
             retR = "Environmental variables = %s" % env
+        elif operand[0].lower() == "load":
+            """
+            environment load path=<file path of saved environment> format=<format>
+
+            Example:
+            environment load path=wspace.SEnvJ format=json
+            """
+            filepath = os.path.abspath(kwargs["path"])
+            fmat = kwargs["format"]
+            if fmat == "hdf5":
+                env = libsipy.workspace.load_workspace_hdf5(filepath)
+            elif fmat == "json":
+                env = libsipy.workspace.load_workspace_json(filepath)
+            self.count = env["count"]
+            self.environment = env["environment"]
+            self.history = env["history"]
+            self.data = env["data"]
+            self.result = env["result"]
+            retR = "Environment loaded from %s. Format = %s" % (filepath, fmat)
         elif operand[0].lower() == "save":
             """
             environment save name=<name to save to> format=<format to save as>
