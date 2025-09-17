@@ -1368,6 +1368,29 @@ class SiPy_Shell(object):
             """
             env = {"count": self.count, "environment": self.environment, "history": self.history, "data": self.data, "result": self.result}
             retR = "Environmental variables = %s" % env
+        elif operand[0].lower() == "del-all":
+            """
+            environment del-all
+
+            Example:
+            let x be list 2,3,4,5,6,7,8,9
+            let X1 be list 1,2,3,4,5,6
+            let X2 be list 2,3,4,5,6,7
+            let X3 be list 3,4,5,6,7,8
+            let z be dataframe X1:X1 X2:X2 X3:X3
+            show history
+            show data
+            show result
+            environment del-all
+            show history
+            show data
+            show result
+            """
+            self.count = 0
+            self.history = {}
+            self.data = {}
+            self.result = {}
+            retR = "Environment cleared"
         elif operand[0].lower() == "load":
             """
             environment load path=<file path of saved environment> format=<format>
