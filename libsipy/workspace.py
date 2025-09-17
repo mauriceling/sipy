@@ -24,6 +24,8 @@ import json
 import pandas as pd
 import os
 
+version = "SiPy-Workspace-1.0"
+
 # -----------------------------
 # Internal Helpers
 # -----------------------------
@@ -61,88 +63,10 @@ def _deserialize_data_json(data_dict):
 # -----------------------------
 # JSON Save / Load
 # -----------------------------
-def _save_json(filepath, workspace_dict):
-    to_store = {
-        "count": workspace_dict.get("count", 0),
-        "environment": workspace_dict.get("environment", {}),
-        "history": workspace_dict.get("history", {}),
-        "data": _serialize_data_json(workspace_dict.get("data", {})),
-        "result": workspace_dict.get("result", {})
-    }
-    with open(filepath, "w", encoding="utf-8") as f:
-        json.dump(to_store, f, indent=2)
-
-def _load_json(filepath):
-    with open(filepath, "r", encoding="utf-8") as f:
-        raw = json.load(f)
-
-    return {
-        "count": raw.get("count", 0),
-        "environment": raw.get("environment", {}),
-        "history": raw.get("history", {}),
-        "data": _deserialize_data_json(raw.get("data", {})),
-        "result": raw.get("result", {})
-    }
-
-
-# -----------------------------
-# HDF5 Save / Load
-# -----------------------------
-def _save_hdf5(filepath, workspace_dict):
-    metadata = {
-        "count": workspace_dict.get("count", 0),
-        "environment": workspace_dict.get("environment", {}),
-        "history": workspace_dict.get("history", {}),
-        "result": workspace_dict.get("result", {})
-    }
-
-    store = pd.HDFStore(filepath, mode="w")
-    try:
-        store.put("metadata", pd.Series({"json": json.dumps(metadata)}))
-
-        for name, obj in workspace_dict.get("data", {}).items():
-            if isinstance(obj, pd.DataFrame):
-                store.put(f"data/{name}", obj)
-            elif isinstance(obj, pd.Series):
-                store.put(f"data/{name}", obj.to_frame(name="value"))
-            else:
-                raise TypeError(f"Unsupported type {type(obj)} for {name}")
-    finally:
-        store.close()
-
-def _load_hdf5(filepath):
-    store = pd.HDFStore(filepath, mode="r")
-    try:
-        metadata_json = store["metadata"]["json"].iloc[0]
-        metadata = json.loads(metadata_json)
-
-        data = {}
-        for key in store.keys():
-            if key.startswith("/data/"):
-                name = key.split("/")[-1]
-                obj = store[key]
-                if isinstance(obj, pd.DataFrame) and obj.shape[1] == 1 and "value" in obj.columns:
-                    data[name] = obj["value"]  # restore Series
-                else:
-                    data[name] = obj
-
-        return {
-            "count": metadata.get("count", 0),
-            "environment": metadata.get("environment", {}),
-            "history": metadata.get("history", {}),
-            "result": metadata.get("result", {}),
-            "data": data
-        }
-    finally:
-        store.close()
-
-
-# -----------------------------
-# JSON Save / Load
-# -----------------------------
 def save_workspace_json(filepath, workspace_dict):
     """Save workspace to JSON file (human-readable, cross-version safe)."""
     to_store = {
+        "version": version,
         "count": workspace_dict.get("count", 0),
         "environment": workspace_dict.get("environment", {}),
         "history": workspace_dict.get("history", {}),
@@ -179,6 +103,7 @@ def save_workspace_hdf5(filepath, workspace_dict):
     """Save workspace to HDF5 (efficient for large datasets)."""
     # Metadata: everything except 'data'
     metadata = {
+        "version": version,
         "count": workspace_dict.get("count", 0),
         "environment": workspace_dict.get("environment", {}),
         "history": workspace_dict.get("history", {}),
@@ -274,7 +199,7 @@ def save_workspace_ini(filepath, workspace_dict):
 
     # Metadata
     config["meta"] = {
-        "version": "SiPy-Workspace-1.0",
+        "version": version,
         "count": str(workspace_dict.get("count", 0))
     }
 
