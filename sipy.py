@@ -1504,6 +1504,8 @@ class SiPy_Shell(object):
             let <variable_name> be {dataframe|df|frame|table} <data descriptor>
             let <new_variable_name> from {dataframe|df|frame|table} <existing_variable_name> <series name>
             let <new_variable_name> melt <existing_variable_name> factor_name=<name of new factor> value_name=<name of value>
+            let <new_variable_name> merge <existing_variable_name A> <existing_variable_name B> on=<column to merge on> how=<type of merge>
+            let <new_variable_name> pivot <existing_variable_name> columns=<column to pivot> values=<values column>
 
         @return: String containing results of command execution
         """
@@ -1558,6 +1560,18 @@ class SiPy_Shell(object):
             data_values = libsipy.data_wrangler.df_melt(df=self.data[operand[2]], id_vars=id_vars, var_name=kwargs["factor_name"], value_name=kwargs["value_name"])
             self.data[variable_name] = data_values
             retR = "%s melted into %s" % (operand[2], variable_name)
+        elif operand[1].lower() == "merge":
+            # let <new_variable_name> merge <existing_variable_name A> <existing_variable_name B> on=<column to merge on> how=<type of merge>
+            if "how" in kwargs: how = kwargs["how"].lower()
+            else: how = "inner"
+            if "on" in kwargs:
+                on = [str(f.strip()) for f in kwargs["on"].split(self.environment["separator"])]
+                if len(on) == 1: on = on[0]
+            else:
+                on = None
+            data_values = libsipy.data_wrangler.df_merge(dfA=self.data[operand[2]], dfB=self.data[operand[3]], on=on, how=how)
+            self.data[variable_name] = data_values
+            retR = "%s and %s merged into %s" % (operand[2], operand[3], variable_name)
         elif operand[1].lower() == "pivot":
             # let <new_variable_name> pivot <existing_variable_name> columns=<column to pivot> values=<values column>
             columns = "|".join([x for x in kwargs["columns"].split(self.environment["separator"])])

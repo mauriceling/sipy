@@ -149,4 +149,40 @@ def df_pivot(df, columns, values):
                         "3. Data is in correct format\n\n" +
                         f"DataFrame columns: {list(df.columns)}")
 
+def df_merge(dfA, dfB, on, how='inner'):
+    """!
+    Function to merge two dataframes.
 
+    @param dfA: First dataframe
+    @type dfA: Pandas.dataframe object
+    @param dfB: Second dataframe
+    @type dfB: Pandas.dataframe object
+    @param on: Column(s) to merge on - delimited by "|". For cross join, this is ignored.
+    @type on: String
+    @param how: Type of merge to perform ('inner', 'outer', 'left', 'right', 'cross')
+    @type how: String
+    @rtype: Merged Pandas.dataframe
+    """
+    try:
+        # Handle cross join separately
+        if how.lower() == 'cross':
+            # Create dummy key column for cross join
+            dfA = dfA.copy()
+            dfB = dfB.copy()
+            dfA['_cross_key'] = 1
+            dfB['_cross_key'] = 1
+            # Perform merge and drop dummy key
+            result = pd.merge(dfA, dfB, on='_cross_key', how='inner')
+            return result.drop('_cross_key', axis=1)
+        else:
+            # For other join types, process normally
+            on = [x.strip() for x in on.split("|")]
+            return pd.merge(dfA, dfB, how=how, on=on)
+    except Exception as e:
+        raise ValueError(f"Merge failed: {str(e)}\nCheck that:\n" + 
+                        "1. Column names are correct (case sensitive)\n" +
+                        "2. For non-cross joins, merge columns must exist in both dataframes\n" +
+                        "3. Data types are compatible\n" +
+                        "4. Valid merge types are: inner, outer, left, right, cross\n\n" +
+                        f"DataFrame A columns: {list(dfA.columns)}\n" +
+                        f"DataFrame B columns: {list(dfB.columns)}")
