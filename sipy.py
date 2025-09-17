@@ -1558,6 +1558,13 @@ class SiPy_Shell(object):
             data_values = libsipy.data_wrangler.df_melt(df=self.data[operand[2]], id_vars=id_vars, var_name=kwargs["factor_name"], value_name=kwargs["value_name"])
             self.data[variable_name] = data_values
             retR = "%s melted into %s" % (operand[2], variable_name)
+        elif operand[1].lower() == "pivot":
+            # let <new_variable_name> pivot <existing_variable_name> columns=<column to pivot> values=<values column>
+            columns = "|".join([x for x in kwargs["columns"].split(self.environment["separator"])])
+            values = "|".join([x for x in kwargs["values"].split(self.environment["separator"])])
+            data_values = libsipy.data_wrangler.df_pivot(df=self.data[operand[2]], columns=columns, values= values)
+            self.data[variable_name] = data_values
+            retR = "%s pivoted into %s" % (operand[2], variable_name)
         print(retR)
         return retR
 

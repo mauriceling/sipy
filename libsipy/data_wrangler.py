@@ -103,3 +103,50 @@ def df_melt(df, id_vars, var_name, value_name):
     """
     melted_df = pd.melt(df, id_vars=id_vars, var_name=var_name, value_name=value_name)
     return melted_df
+
+def df_pivot(df, columns, values):
+    """!
+    Function to convert from long dataframe to wide dataframe.
+
+    @param df: long dataframe to be converted
+    @type df: Pandas.dataframe object
+    @param columns: Column(s) to set as columns - delimited by "|"
+    @type columns: String
+    @param values: Column(s) to set as values - delimited by "|"
+    @type values: String
+    @rtype: Pandas.dataframe with data in wide dataframe format
+    """
+    # Strip whitespace and handle case sensitivity
+    columns = [x.strip() for x in columns.split("|")]
+    values = [x.strip() for x in values.split("|")]
+    
+    # Verify columns exist in dataframe
+    missing_cols = [col for col in columns + values if col not in df.columns]
+    if missing_cols:
+        raise ValueError(f"Columns not found in dataframe: {missing_cols}")
+    
+    try:
+        # Create sequential index for each unique value in columns
+        df = df.copy()
+        df['_seq'] = df.groupby(columns[0]).cumcount()
+        
+        # Pivot the data using the sequence as index
+        pivoted_df = pd.pivot(
+            data=df,
+            index='_seq',
+            columns=columns[0],
+            values=values[0]
+        )
+        
+        # Reset index to get rid of _seq
+        pivoted_df = pivoted_df.reset_index(drop=True)
+        
+        return pivoted_df
+    except Exception as e:
+        raise ValueError(f"Pivot failed: {str(e)}\nCheck that:\n" + 
+                        "1. Column names are correct (case sensitive)\n" +
+                        "2. Values are numeric\n" +
+                        "3. Data is in correct format\n\n" +
+                        f"DataFrame columns: {list(df.columns)}")
+
+
