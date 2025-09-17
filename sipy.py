@@ -1410,6 +1410,31 @@ class SiPy_Shell(object):
                 retR = "Data %s deleted" % operand[1]
             except KeyError:
                 retR = "Data %s not found" % operand[1]
+        elif operand[0].lower() == "del-item":
+            """
+            environment del-item <history number>
+
+            Example:
+            let x be list 2,3,4,5,6,7,8,9
+            let X1 be list 1,2,3,4,5,6
+            let X2 be list 2,3,4,5,6,7
+            let X3 be list 3,4,5,6,7,8
+            let z be dataframe X1:X1 X2:X2 X3:X3
+            show result
+            show history
+            show item 2
+            environment del-item 2
+            show result
+            show history
+            show item 2
+            """
+            try:
+                item = str(int(operand[1]))
+                del self.history[item]
+                del self.result[item]
+                retR = "History and result for Item %s is deleted" % item
+            except KeyError:
+                retR = "Item %s not found" % item
         elif operand[0].lower() == "load":
             """
             environment load path=<file path of saved environment> format=<format>
@@ -2593,11 +2618,14 @@ class SiPy_Shell(object):
         elif operand[0].lower() in ["item", "i"]:
             # show item <history number>
             item = str(int(operand[1]))
-            retR = ["Command: %s" % (str(self.history[item])),
-                    "Result: %s" % (str(self.result[item]))]
-            print(retR[0])
-            print(retR[1])
-            retR = "\n".join(retR)
+            try:
+                retR = ["Command: %s" % (str(self.history[item])),
+                        "Result: %s" % (str(self.result[item]))]
+                print(retR[0])
+                print(retR[1])
+                retR = "\n".join(retR)
+            except KeyError:
+                retR = "Item %s not found" % item
         elif operand[0].lower() in ["modules", "mod", "m"]:
             # show modules
             print("List of Available Modules:")
