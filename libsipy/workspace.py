@@ -208,30 +208,59 @@ def load_workspace_hdf5(filepath):
 
     store = pd.HDFStore(filepath, mode="r")
     try:
-        # Load metadata
-        metadata_json = store["metadata"]["json"].iloc[0]
-        metadata = json.loads(metadata_json)
+        # --- Load metadata safely ---
+        meta_obj = store["metadata"]
 
-        # Load data
+        if isinstance(meta_obj, pd.DataFrame):
+            if "json" in meta_obj.columns:
+                metadata_json = meta_obj["json"].iloc[0]
+                metadata = json.loads(metadata_json)
+            else:
+                metadata = meta_obj.to_dict(orient="list")
+        elif isinstance(meta_obj, pd.Series):
+            if "json" in meta_obj.index:
+                metadata_json = meta_obj.loc["json"]
+                metadata = json.loads(metadata_json)
+            else:
+                # Maybe a single row Series
+                if len(meta_obj) == 1:
+                    metadata_json = meta_obj.iloc[0]
+                    try:
+                        metadata = json.loads(metadata_json)
+                    except Exception:
+                        metadata = {meta_obj.index[0]: metadata_json}
+                else:
+                    metadata = meta_obj.to_dict()
+        else:
+            # If it’s already a Python object
+            try:
+                metadata = json.loads(meta_obj)
+            except Exception:
+                metadata = meta_obj
+
+        # --- Load data ---
         data = {}
         for key in store.keys():
             if key.startswith("/data/"):
                 name = key.split("/")[-1]
                 obj = store[key]
-                if isinstance(obj, pd.DataFrame) and obj.shape[1] == 1 and "value" in obj.columns:
+                if (
+                    isinstance(obj, pd.DataFrame)
+                    and obj.shape[1] == 1
+                    and "value" in obj.columns
+                ):
                     data[name] = obj["value"]  # restore Series
                 else:
                     data[name] = obj
 
         workspace = {
-            "count": metadata.get("count", 0),
-            "environment": metadata.get("environment", {}),
-            "history": metadata.get("history", {}),
-            "result": metadata.get("result", {}),
-            "data": data
+            "count": metadata.get("count", 0) if isinstance(metadata, dict) else 0,
+            "environment": metadata.get("environment", {}) if isinstance(metadata, dict) else {},
+            "history": metadata.get("history", {}) if isinstance(metadata, dict) else {},
+            "result": metadata.get("result", {}) if isinstance(metadata, dict) else {},
+            "data": data,
         }
 
         return workspace
     finally:
         store.close()
-
