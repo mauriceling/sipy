@@ -132,3 +132,5 @@ dmypy.json
 /pysimplegui_chat.py
 sipy.spec
 Rplots.pdf
+*.SEnvJ
+*.SEnvH5
