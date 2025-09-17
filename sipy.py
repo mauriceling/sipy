@@ -1376,7 +1376,8 @@ class SiPy_Shell(object):
             environment load path=wspace.SEnvJ format=json
             """
             filepath = os.path.abspath(kwargs["path"])
-            fmat = kwargs["format"]
+            if "format" in kwargs: fmat = kwargs["format"]
+            else: fmat = "json"
             if fmat == "hdf5":
                 env = libsipy.workspace.load_workspace_hdf5(filepath)
             elif fmat == "json":
