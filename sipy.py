@@ -1391,6 +1391,25 @@ class SiPy_Shell(object):
             self.data = {}
             self.result = {}
             retR = "Environment cleared"
+        elif operand[0].lower() == "del-data":
+            """
+            environment del-data <data name>
+
+            Example:
+            let x be list 2,3,4,5,6,7,8,9
+            let X1 be list 1,2,3,4,5,6
+            let X2 be list 2,3,4,5,6,7
+            let X3 be list 3,4,5,6,7,8
+            let z be dataframe X1:X1 X2:X2 X3:X3
+            show data
+            environment del-data x
+            show data
+            """
+            try:
+                del self.data[operand[1]]
+                retR = "Data %s deleted" % operand[1]
+            except KeyError:
+                retR = "Data %s not found" % operand[1]
         elif operand[0].lower() == "load":
             """
             environment load path=<file path of saved environment> format=<format>
