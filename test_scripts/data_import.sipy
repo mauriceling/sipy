@@ -1,0 +1,2 @@
+read csv random_5_csv from data/random_5_samples.csv
+read csv europop from https://raw.githubusercontent.com/softhints/Pandas-Exercises-Projects/refs/heads/main/data/europe_pop.csv

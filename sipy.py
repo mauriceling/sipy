@@ -1782,6 +1782,8 @@ class SiPy_Shell(object):
 
         Commands: 
             read excel <variable_name> from <file_name> <sheet_name>
+            read csv <variable_name> from <file_name>
+            read csv <variable_name> from <URL>
 
         @return: String containing results of command execution
         """
@@ -1791,6 +1793,12 @@ class SiPy_Shell(object):
             df = pd.read_excel(operand[3], sheet_name=operand[4])
             self.data[variable_name] = df
             retR = "Read Excel: %s.%s into %s" % (operand[3], operand[4], operand[1])
+        elif operand[0].lower() == "csv":
+            # read csv <variable_name> from <file_name>
+            # read csv <variable_name> from <URL>
+            df = pd.read_csv(operand[3])
+            self.data[variable_name] = df
+            retR = "Read CSV: %s into %s" % (operand[3], operand[1])
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)

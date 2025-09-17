@@ -1,6 +1,7 @@
 @include anova.sipy
 @include compute_effsize.sipy
 @include correlate.sipy
+@include data_import.sipy
 @include describe.sipy
 @include mean.sipy
 @include normality.sipy
