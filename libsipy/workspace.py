@@ -19,7 +19,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 '''
-
+import configparser
 import json
 import pandas as pd
 import os
@@ -264,3 +264,66 @@ def load_workspace_hdf5(filepath):
         return workspace
     finally:
         store.close()
+
+
+# -----------------------------
+# INI Save / Load
+# -----------------------------
+def save_workspace_ini(filepath, workspace_dict):
+    config = configparser.ConfigParser()
+
+    # Metadata
+    config["meta"] = {
+        "version": "SiPy-Workspace-1.0",
+        "count": str(workspace_dict.get("count", 0))
+    }
+
+    # Environment, history, result — all strings
+    config["environment"] = {k: str(v) for k, v in workspace_dict.get("environment", {}).items()}
+    config["history"] = {k: str(v) for k, v in workspace_dict.get("history", {}).items()}
+    config["result"] = {k: str(v) for k, v in workspace_dict.get("result", {}).items()}
+
+    # Data (Series + DataFrames → tagged JSON)
+    config["data"] = {}
+    for k, v in workspace_dict.get("data", {}).items():
+        if isinstance(v, pd.Series):
+            payload = {"__type__": "series", "data": v.to_dict()}
+        elif isinstance(v, pd.DataFrame):
+            payload = {"__type__": "dataframe", "data": v.to_dict(orient="split")}
+        else:
+            payload = {"__type__": "raw", "data": v}
+        config["data"][k] = json.dumps(payload)
+
+    # Write to disk
+    with open(filepath, "w", encoding="utf-8") as f:
+        config.write(f)
+
+
+def load_workspace_ini(filepath):
+    if not os.path.exists(filepath):
+        raise FileNotFoundError(f"Workspace file not found: {filepath}")
+
+    config = configparser.ConfigParser()
+    config.read(filepath, encoding="utf-8")
+
+    data = {}
+    for k, v in config["data"].items():
+        try:
+            payload = json.loads(v)
+            t = payload.get("__type__")
+            if t == "series":
+                data[k] = pd.Series(payload["data"])
+            elif t == "dataframe":
+                data[k] = pd.DataFrame(**payload["data"])
+            else:
+                data[k] = payload.get("data", v)
+        except Exception:
+            data[k] = v  # fallback: keep raw string
+
+    return {
+        "count": int(config["meta"].get("count", 0)),
+        "environment": dict(config["environment"]),
+        "history": dict(config["history"]),
+        "result": dict(config["result"]),
+        "data": data
+    }

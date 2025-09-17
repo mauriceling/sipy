@@ -1380,6 +1380,8 @@ class SiPy_Shell(object):
             else: fmat = "json"
             if fmat == "hdf5":
                 env = libsipy.workspace.load_workspace_hdf5(filepath)
+            elif fmat == "ini":
+                env = libsipy.workspace.load_workspace_ini(filepath)
             elif fmat == "json":
                 env = libsipy.workspace.load_workspace_json(filepath)
             self.count = env["count"]
@@ -1411,6 +1413,10 @@ class SiPy_Shell(object):
                 filename = name + ".SEnvH5"
                 filename = os.path.abspath(filename)
                 result = libsipy.workspace.save_workspace_hdf5(filename, env)
+            elif fmat == "ini":
+                filename = name + ".SEnvI"
+                filename = os.path.abspath(filename)
+                result = libsipy.workspace.save_workspace_ini(filename, env)
             elif fmat == "json":
                 filename = name + ".SEnvJ"
                 filename = os.path.abspath(filename)
