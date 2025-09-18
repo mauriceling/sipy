@@ -31,9 +31,8 @@ def help():
 "python installation.py pyinstaller windows" to generate a one-directory executable GUI and CLI/CUI together based on sipy_windows.spec for Windows operating system.
 "python installation.py remove <environment name>" to remove environment.
 "python installation.py update" to update environment from generated conda and pip environment files.
-"python installation.py update_core" to update essential and its dependent packages in the environment.
 "python installation.py update_all" to update entire environment.
-"python installation.py update_core" to update essential packages (corresponding to create_env).
+"python installation.py update_core" to update essential and its dependent packages in the environment.
 "python installation.py update_conda_pip" to update conda and pip.
 
 Important: Turn off Dropbox / OneDrive synchronizations before generating executables or it will give you errors.
@@ -81,7 +80,7 @@ def update_all():
 
 def update_core():
     os.system("conda update -n sipy  %s" % data["conda_packageList"])
-    os.system("pip install --upgrade --force-reinstall %s" % data["conda_packageList"])
+    os.system("pip install --upgrade --force-reinstall %s" % data["pip_packageList"])
 
 def update_conda_pip():
     os.system("conda update -n base conda")
