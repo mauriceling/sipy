@@ -40,6 +40,29 @@ import sipy_plugins
 from sipy_pm import PluginManager
 
 
+def find_executable(name):
+    """Helper function to find executable using system commands.
+
+    This is at module level so it's available to SiPy_Shell during
+    initialization (avoids UnboundLocalError when called before a
+    nested definition).
+    """
+    try:
+        if platform.system() == "Windows":
+            # Use 'where' on Windows
+            result = subprocess.run(['where', name], capture_output=True, text=True)
+            if result.returncode == 0:
+                return result.stdout.strip().split('\n')[0]
+        else:
+            # Use 'which' on Unix-like systems
+            result = subprocess.run(['which', name], capture_output=True, text=True)
+            if result.returncode == 0:
+                return result.stdout.strip()
+    except Exception:
+        return None
+    return None
+
+
 class SiPy_Shell(object):
     """!
     Command-line shell for SiPy.
@@ -148,26 +171,7 @@ class SiPy_Shell(object):
             self.environment["plugin_directory"] = ""
             self.environment["plugin_system"] = False
     
-        def find_executable(name):
-            """Helper function to find executable using system commands"""
-            try:
-                if system == "Windows":
-                    # Use 'where' on Windows
-                    result = subprocess.run(['where', name], 
-                                         capture_output=True, 
-                                         text=True)
-                    if result.returncode == 0:
-                        return result.stdout.strip().split('\n')[0]
-                else:
-                    # Use 'which' on Unix-like systems
-                    result = subprocess.run(['which', name], 
-                                         capture_output=True, 
-                                         text=True)
-                    if result.returncode == 0:
-                        return result.stdout.strip()
-            except:
-                return None
-            return None
+        # local find_executable removed; use module-level find_executable
         
     def formatExceptionInfo(self, maxTBlevel=10):
         """!
