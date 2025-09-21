@@ -134,7 +134,6 @@ def anova(df, response, factors, method="anova", covariates=None, posthoc_tests=
             print(summary(model))
             {posthoc_code}
         """,
-        # friedman not working
         "friedman": f"""
             {ensure_r_package('tidyr')}
             {ensure_r_package('dplyr')}
@@ -142,7 +141,17 @@ def anova(df, response, factors, method="anova", covariates=None, posthoc_tests=
             library(dplyr)
 
             data <- read.csv("{csv_path}")
+
+            # Ensure grouping factor is categorical
             data${factors[0]} <- as.factor(data${factors[0]})
+
+            # If subject column missing, create one by grouping
+            if (!("subject" %in% names(data))) {{
+                data <- data %>%
+                    group_by({factors[0]}) %>%
+                    mutate(subject = row_number()) %>%
+                    ungroup()
+            }}
 
             wide_data <- data %>%
                 select(subject, {factors[0]}, {response}) %>%
