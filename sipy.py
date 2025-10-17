@@ -359,7 +359,7 @@ class SiPy_Shell(object):
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
         return retR
-    
+     
     def do_compute_effsize(self, operand, kwargs):
         """!
         Calculates effect size between 2 sets of observations.
@@ -2006,12 +2006,11 @@ class SiPy_Shell(object):
         Commands:
             ranova ancova data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n> covariates=<covariate 1>,<covariate 2>, ..., <covariate 3> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
             ranova anova data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
-            ranova friedman data=<dataframe> y=<dependent variable> x=<independent variable> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
-            ranova kruskal data=<dataframe> y=<dependent variable> x=<independent variable> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
+            ranova kruskal data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
             ranova mancova data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n> covariates=<covariate 1>,<covariate 2>, ..., <covariate 3> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
             ranova manova data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
             ranova permutation data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
-            ranova welch data=<dataframe> y=<dependent variable> x=<independent variable> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
+            ranova welch data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
 
         @return: String containing results of command execution
         """
@@ -2087,31 +2086,9 @@ class SiPy_Shell(object):
             """
             retR = libsipy.r_wrap.anova(df, response, factors, method="anova", covariates=covariates, posthoc_tests=posthoc_tests, plots=plots, rscript_exe_path=self.environment["rscript_exe"])
             retR = "\n".join(retR)
-        elif operand[0].lower() == "friedman":
-            """
-            ranova friedman data=<dataframe> y=<dependent variable> x=<independent variable> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
-
-            Example: 
-            let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
-            let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
-            let yC be slist A, B, C, A, B, C, A, B, C, A
-            let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
-            let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
-            let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
-            let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
-            let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
-            let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
-            ranova friedman data=df y=yN x=yC posthoc=lsd
-
-            Example: 
-            read excel surdata from data/survival_dataset.xlsx data
-            ranova friedman data=surdata y=age x=stage posthoc=lsd
-            """
-            retR = libsipy.r_wrap.anova(df, response, factors, method="friedman", covariates=covariates, posthoc_tests=posthoc_tests, plots=plots, rscript_exe_path=self.environment["rscript_exe"])
-            retR = "\n".join(retR)
         elif operand[0].lower() == "kruskal":
             """
-            ranova kruskal data=<dataframe> y=<dependent variable> x=<independent variable> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
+            ranova kruskal data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
 
             Example: 
             let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
@@ -2128,6 +2105,7 @@ class SiPy_Shell(object):
             Example: 
             read excel surdata from data/survival_dataset.xlsx data
             ranova kruskal data=surdata y=age x=stage posthoc=lsd
+            ranova kruskal data=surdata y=age x=stage,sex posthoc=lsd,tukey
             """
             retR = libsipy.r_wrap.anova(df, response, factors, method="kruskal", covariates=covariates, posthoc_tests=posthoc_tests, plots=plots, rscript_exe_path=self.environment["rscript_exe"])
             retR = "\n".join(retR)
@@ -2202,7 +2180,7 @@ class SiPy_Shell(object):
             retR = "\n".join(retR)
         elif operand[0].lower() == "welch":
             """
-            ranova welch data=<dataframe> y=<dependent variable> x=<independent variable> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
+            ranova welch data=<dataframe> y=<dependent variable> x=<independent variable 1>,<independent variable 2>, ..., <independent variable n> [posthoc=<posthoc test 1>,<posthoc test 2>, ..., <posthoc test 3>] [plots=<plots 1>, <plots 2>, ..., <plots 3>]
 
             Example: 
             let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
@@ -2634,6 +2612,524 @@ class SiPy_Shell(object):
             retR = "\n".join(retR)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+
+    def do_R_survival(self, operand, kwargs):
+        """!
+        Performs R-based survival analysis.
+
+        Commands: 
+            rsurvival {km|kaplan|kaplan-meier}      data=<dataframe> time=<time> event=<event> [group=<group>]
+            rsurvival {logrank|log-rank}            data=<dataframe> time=<time> event=<event> group=<group>
+            rsurvival {cox|coxph}                   data=<dataframe> time=<time> event=<event> covariates=<cov1,cov2,...>
+            rsurvival {aft}                         data=<dataframe> time=<time> event=<event> covariates=<cov1,cov2,...>
+            rsurvival {intcens|interval-censored}   data=<dataframe> time1=<time1> time2=<time2> event=<event> [group=<group>]
+            rsurvival {ltcox|left-truncated-cox}    data=<dataframe> entry=<entry> time=<time> event=<event> covariates=<cov1,cov2,...>
+            rsurvival {expaft|exponential-aft}      data=<dataframe> time=<time> event=<event> covariates=<cov1,cov2,...>
+            rsurvival {coxint|cox-interaction}      data=<dataframe> time=<time> event=<event> covariates=<cov1:cov2,...>
+            rsurvival {frailtycox|frailty-cox}      data=<dataframe> time=<time> event=<event> group=<frailty_group> covariates=<...>
+            rsurvival {tdcox|time-dependent-cox}    data=<dataframe> time=<time> event=<event> covariates=<timevarying,...>
+            rsurvival {competing|competing-risks}   data=<dataframe> time=<time> event=<event> cause=<cause> [covariates=<...>] [group=<group>]
+            rsurvival {intnp|interval-np}           data=<dataframe> time1=<time1> time2=<time2> event=<event> group=<group>
+            rsurvival {intpar|interval-par}         data=<dataframe> time1=<time1> time2=<time2> event=<event> covariates=<...> [dist=<weibull|lognormal|...>]
+            rsurvival {intsp|interval-sp}           data=<dataframe> time1=<time1> time2=<time2> event=<event> covariates=<...>
+            rsurvival {int-aft|interval-aft}        data=<dataframe> time1=<time1> time2=<time2> event=<event> covariates=<...>
+
+        @return: String containing results of command execution
+        """
+        df = self.data[kwargs["data"]]
+
+        time = kwargs.get("time")
+        event = kwargs.get("event")
+        group = kwargs.get("group", None)
+
+        entry = kwargs.get("entry", None)      
+        time1 = kwargs.get("time1", None)       
+        time2 = kwargs.get("time2", None)       
+        cause = kwargs.get("cause", None)       
+        dist  = kwargs.get("dist", None)        
+
+        covariates = kwargs.get("covariates", None)
+        if isinstance(covariates, str):
+            covariates = [x.strip() for x in kwargs["covariates"].split(self.environment["separator"]) if x.strip()]
+
+        op = operand[0].lower()
+
+        if op in ["km", "kaplan", "kaplan-meier"]:
+            """
+            rsurvival {km|kaplan|kaplan-meier} data=<dataframe> time=<time> event=<event> [group=<group>]
+
+            Example:
+            read excel surdata from data/survival_dataset.xlsx data
+            rsurvival km data=surdata time=time_months event=status group=arm
+
+            or
+
+            let entry be clist 0,1,2,0,3,1,2,0,4,1
+            let time be clist 5,6,6,2,4,3,10,12,8,9
+            let time1 be clist 1,2,2,0,4,3,5,0,6,5
+            let time2 be clist 3,4,4,2,5,5,6,2,7,6
+            let event be dlist 1,1,0,1,1,0,1,0,1,1
+            let group be slist A,A,A,B,B,B,A,B,B,A
+            let age be clist 30,45,38,50,60,41,33,55,48,36
+            let sex be slist M,F,M,F,F,M,M,F,M,F
+            let df be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+            rsurvival km data=df time=time event=event group=group
+            """
+            retR = libsipy.r_wrap.survival_analysis(
+                df,
+                time=time,
+                event=event,
+                time2=time2,
+                method="kaplan-meier",
+                group=group,
+                covariates=covariates,
+                rscript_exe_path=self.environment["rscript_exe"]
+            )
+            retR = "\n".join(retR)
+
+        elif op in ["logrank", "log-rank"]:
+            """
+            rsurvival {logrank|log-rank} data=<dataframe> time=<time> event=<event> group=<group>
+
+            Example:
+            read excel surdata from data/survival_dataset.xlsx data
+            rsurvival logrank data=surdata time=time_months event=status group=arm
+
+            or 
+
+            let entry be clist 0,1,2,0,3,1,2,0,4,1
+            let time be clist 5,6,6,2,4,3,10,12,8,9
+            let time1 be clist 1,2,2,0,4,3,5,0,6,5
+            let time2 be clist 3,4,4,2,5,5,6,2,7,6
+            let event be dlist 1,1,0,1,1,0,1,0,1,1
+            let group be slist A,A,A,B,B,B,A,B,B,A
+            let age be clist 30,45,38,50,60,41,33,55,48,36
+            let sex be slist M,F,M,F,F,M,M,F,M,F
+            let df be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+            rsurvival logrank data=df time=time event=event group=group
+            """
+            retR = libsipy.r_wrap.survival_analysis(
+                df,
+                time=time,
+                event=event,
+                time2=time2,
+                method="log-rank",
+                group=group,
+                covariates=covariates,
+                rscript_exe_path=self.environment["rscript_exe"]
+            )
+            retR = "\n".join(retR)
+
+        elif op in ["cox", "coxph"]:
+            """
+            rsurvival {cox|coxph} data=<dataframe> time=<time> event=<event> covariates=<cov1,cov2,...>
+
+            Example:
+            read excel surdata from data/survival_dataset.xlsx data
+            rsurvival cox data=surdata time=time_months event=status covariates=age,sex,stage
+
+            or
+
+            let entry be clist 0,1,2,0,3,1,2,0,4,1
+            let time be clist 5,6,6,2,4,3,10,12,8,9
+            let time1 be clist 1,2,2,0,4,3,5,0,6,5
+            let time2 be clist 3,4,4,2,5,5,6,2,7,6
+            let event be dlist 1,1,0,1,1,0,1,0,1,1
+            let group be slist A,A,A,B,B,B,A,B,B,A
+            let age be clist 30,45,38,50,60,41,33,55,48,36
+            let sex be slist M,F,M,F,F,M,M,F,M,F
+            let df be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+            rsurvival cox data=df time=time event=event covariates=age,sex
+            """
+            retR = libsipy.r_wrap.survival_analysis(
+                df,
+                time=time,
+                event=event,
+                time2=time2,
+                method="cox",
+                group=group,  
+                covariates=covariates,
+                rscript_exe_path=self.environment["rscript_exe"]
+            )
+            retR = "\n".join(retR)
+
+        elif op in ["aft"]:
+            """
+            rsurvival aft data=<dataframe> time=<time> event=<event> covariates=<cov1,cov2,...>
+
+            Example:
+            read excel surdata from data/survival_dataset.xlsx data
+            rsurvival aft data=surdata time=time_months event=status covariates=arm,age,sex,stage,biomarker_baseline,qol_baseline dist=weibull
+            
+            or
+
+            let entry be clist 0,1,2,0,3,1,2,0,4,1
+            let time be clist 5,6,6,2,4,3,10,12,8,9
+            let time1 be clist 1,2,2,0,4,3,5,0,6,5
+            let time2 be clist 3,4,4,2,5,5,6,2,7,6
+            let event be dlist 1,1,0,1,1,0,1,0,1,1
+            let group be slist A,A,A,B,B,B,A,B,B,A
+            let age be clist 30,45,38,50,60,41,33,55,48,36
+            let sex be slist M,F,M,F,F,M,M,F,M,F
+            let df be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+            rsurvival aft data=df time=time event=event covariates=group,age,sex dist=weibull
+            """
+            retR = libsipy.r_wrap.survival_analysis(
+                df,
+                time=time,
+                event=event,
+                time2=time2,
+                method="aft",
+                group=group,
+                covariates=covariates,
+                rscript_exe_path=self.environment["rscript_exe"],
+                dist=dist
+            )
+            retR = "\n".join(retR)
+
+        elif op in ["intcens", "interval-censored"]:
+            """
+            rsurvival {intcens|interval-censored} data=<dataframe> time1=<time1> time2=<time2> event=<event> [group=<group>]
+
+            Example:
+            let entry be clist 0,1,2,0,3,1,2,0,4,1
+            let time be clist 5,6,6,2,4,3,10,12,8,9
+            let time1 be clist 1,2,2,0,4,3,5,0,6,5
+            let time2 be clist 3,4,4,2,5,5,6,2,7,6
+            let event be dlist 1,1,0,1,1,0,1,0,1,1
+            let group be slist A,A,A,B,B,B,A,B,B,A
+            let age be clist 30,45,38,50,60,41,33,55,48,36
+            let sex be slist M,F,M,F,F,M,M,F,M,F
+            let df be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+            rsurvival intcens data=df time1=time1 time2=time2 event=event group=group
+            """
+            retR = libsipy.r_wrap.survival_analysis(
+                df,
+                time=time1,     
+                event=event,
+                time2=time2,     
+                method="interval-censored",
+                group=group,
+                covariates=covariates,
+                rscript_exe_path=self.environment["rscript_exe"]
+            )
+            retR = "\n".join(retR)
+
+        elif op in ["ltcox", "left-truncated-cox"]:
+            """
+            rsurvival {ltcox|left-truncated-cox} data=<dataframe> entry=<entry> time=<time> event=<event> covariates=<cov1,cov2,...>
+
+            Example:
+            let entry be clist 0,1,2,0,3,1,2,0,4,1
+            let time be clist 5,6,6,2,4,3,10,12,8,9
+            let time1 be clist 1,2,2,0,4,3,5,0,6,5
+            let time2 be clist 3,4,4,2,5,5,6,2,7,6
+            let event be dlist 1,1,0,1,1,0,1,0,1,1
+            let group be slist A,A,A,B,B,B,A,B,B,A
+            let age be clist 30,45,38,50,60,41,33,55,48,36
+            let sex be slist M,F,M,F,F,M,M,F,M,F
+            let df be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+            rsurvival ltcox data=df entry=entry time=time event=event covariates=group,age,sex
+            """
+            
+            retR = libsipy.r_wrap.survival_analysis(
+                df,
+                time=time,
+                event=event,
+                time2=time2,
+                method="left-truncated-cox",
+                group=group,
+                covariates=covariates,
+                rscript_exe_path=self.environment["rscript_exe"]
+            )
+            retR = "\n".join(retR)
+
+        elif op in ["expaft", "exponential-aft"]:
+            """
+            rsurvival {expaft|exponential-aft} data=<dataframe> time=<time> event=<event> covariates=<cov1,cov2,...>
+
+            Example:
+            read excel surdata from data/survival_dataset.xlsx data
+            rsurvival expaft data=surdata time=time_months event=status covariates=arm,age,sex,stage
+
+            or
+
+            let entry be clist 0,1,2,0,3,1,2,0,4,1
+            let time be clist 5,6,6,2,4,3,10,12,8,9
+            let time1 be clist 1,2,2,0,4,3,5,0,6,5
+            let time2 be clist 3,4,4,2,5,5,6,2,7,6
+            let event be dlist 1,1,0,1,1,0,1,0,1,1
+            let group be slist A,A,A,B,B,B,A,B,B,A
+            let age be clist 30,45,38,50,60,41,33,55,48,36
+            let sex be slist M,F,M,F,F,M,M,F,M,F
+            let df be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+            rsurvival expaft data=df time=time event=event covariates=group,age,sex
+            """
+            retR = libsipy.r_wrap.survival_analysis(
+                df,
+                time=time,
+                event=event,
+                time2=time2,
+                method="exponential-aft",
+                group=group,
+                covariates=covariates,
+                rscript_exe_path=self.environment["rscript_exe"]
+            )
+            retR = "\n".join(retR)
+
+        elif op in ["coxint", "cox-interaction"]:
+            """
+            rsurvival {coxint|cox-interaction} data=<dataframe> time=<time> event=<event> covariates=<cov1:cov2,...>
+
+            Example:
+            read excel surdata from data/survival_dataset.xlsx data
+            rsurvival coxint data=surdata time=time_months event=status covariates=age,sex,stage, arm:age
+
+            or
+
+            let entry be clist 0,1,2,0,3,1,2,0,4,1
+            let time be clist 5,6,6,2,4,3,10,12,8,9
+            let time1 be clist 1,2,2,0,4,3,5,0,6,5
+            let time2 be clist 3,4,4,2,5,5,6,2,7,6
+            let event be dlist 1,1,0,1,1,0,1,0,1,1
+            let group be slist A,A,A,B,B,B,A,B,B,A
+            let age be clist 30,45,38,50,60,41,33,55,48,36
+            let sex be slist M,F,M,F,F,M,M,F,M,F
+            let df be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+            rsurvival coxint data=df time=time event=event covariates=age,sex, group:age,group:sex
+
+            """
+            retR = libsipy.r_wrap.survival_analysis(
+                df,
+                time=time,
+                event=event,
+                time2=time2,
+                method="cox-interaction",
+                group=group,
+                covariates=covariates,
+                rscript_exe_path=self.environment["rscript_exe"]
+            )
+            retR = "\n".join(retR)
+
+        elif op in ["frailtycox", "frailty-cox"]:
+            """
+            rsurvival {frailtycox|frailty-cox} data=<dataframe> time=<time> event=<event> group=<frailty_group> covariates=<cov1,cov2,...>
+
+            Example:
+            read excel surdata from data/survival_dataset.xlsx data
+            rsurvival frailtycox data=surdata time=time_months event=status group=center covariates=age,sex,stage
+
+            or
+
+            let entry be clist 0,1,2,0,3,1,2,0,4,1
+            let time be clist 5,6,6,2,4,3,10,12,8,9
+            let time1 be clist 1,2,2,0,4,3,5,0,6,5
+            let time2 be clist 3,4,4,2,5,5,6,2,7,6
+            let event be dlist 1,1,0,1,1,0,1,0,1,1
+            let group be slist A,A,A,B,B,B,A,B,B,A
+            let age be clist 30,45,38,50,60,41,33,55,48,36
+            let sex be slist M,F,M,F,F,M,M,F,M,F
+            let df be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+            rsurvival frailtycox data=df time=time event=event group=group covariates=age,sex
+            """
+            retR = libsipy.r_wrap.survival_analysis(
+                df,
+                time=time,
+                event=event,
+                time2=time2,
+                method="frailty-cox",
+                group=group,  
+                covariates=covariates,
+                rscript_exe_path=self.environment["rscript_exe"]
+            )
+            retR = "\n".join(retR)
+
+        elif op in ["tdcox", "time-dependent-cox"]:
+            """
+            rsurvival {tdcox|time-dependent-cox} data=<dataframe> time=<time> event=<event> covariates=<timevarying,...>
+
+            Example:
+            read excel surdata from data/survival_dataset.xlsx data
+            rsurvival tdcox data=surdata time=time_months event=status group=arm covariates=treatment_td,age,sex
+
+            or
+
+            let entry be clist 0,1,2,0,3,1,2,0,4,1
+            let time be clist 5,6,6,2,4,3,10,12,8,9
+            let time1 be clist 1,2,2,0,4,3,5,0,6,5
+            let time2 be clist 3,4,4,2,5,5,6,2,7,6
+            let event be dlist 1,1,0,1,1,0,1,0,1,1
+            let group be slist A,A,A,B,B,B,A,B,B,A
+            let age be clist 30,45,38,50,60,41,33,55,48,36
+            let sex be slist M,F,M,F,F,M,M,F,M,F
+            let df be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+            rsurvival tdcox data=df time=time event=event group=group covariates=age,sex
+            """
+            retR = libsipy.r_wrap.survival_analysis(
+                df,
+                time=time,
+                event=event,
+                time2=time2,
+                method="time-dependent-cox",
+                group=group,
+                covariates=covariates,
+                rscript_exe_path=self.environment["rscript_exe"]
+            )
+            retR = "\n".join(retR)
+
+        elif op in ["competing", "competing-risks"]:
+            """
+            rsurvival {competing|competing-risks} data=<dataframe> time=<time> event=<event> cause=<cause> [covariates=<...>] [group=<group>]
+
+            Example:
+            read excel surdata from data/survival_dataset.xlsx data
+            rsurvival competing data=surdata time=time_months event=status cause=cause group=arm covariates=age,sex
+
+            or
+
+            let entry be clist 0,1,2,0,3,1,2,0,4,1
+            let time be clist 5,6,6,2,4,3,10,12,8,9
+            let time1 be clist 1,2,2,0,4,3,5,0,6,5
+            let time2 be clist 3,4,4,2,5,5,6,2,7,6
+            let event be dlist 1,1,0,1,1,0,1,0,1,1
+            let group be slist A,A,A,B,B,B,A,B,B,A
+            let age be clist 30,45,38,50,60,41,33,55,48,36
+            let sex be slist M,F,M,F,F,M,M,F,M,F
+            let df be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+            rsurvival competing data=df time=time event=event cause=event group=group covariates=age,sex
+            """
+            
+            retR = libsipy.r_wrap.survival_analysis(
+                df,
+                time=time,
+                event=event,
+                time2=time2,
+                method="competing-risks",
+                group=group,
+                covariates=covariates,
+                rscript_exe_path=self.environment["rscript_exe"],
+                cause=cause
+            )
+            retR = "\n".join(retR)
+
+        elif op in ["intnp", "interval-np"]:
+            """
+            rsurvival {intnp|interval-np} data=<dataframe> time1=<time1> time2=<time2> event=<event> group=<group>
+
+            Example:
+            let entry be clist 0,1,2,0,3,1,2,0,4,1
+            let time be clist 5,6,6,2,4,3,10,12,8,9
+            let time1 be clist 1,2,2,0,4,3,5,0,6,5
+            let time2 be clist 3,4,4,2,5,5,6,2,7,6
+            let event be dlist 1,1,0,1,1,0,1,0,1,1
+            let group be slist A,A,A,B,B,B,A,B,B,A
+            let age be clist 30,45,38,50,60,41,33,55,48,36
+            let sex be slist M,F,M,F,F,M,M,F,M,F
+            let df be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+            rsurvival intnp data=df time1=time1 time2=time2 event=event group=group
+            """
+            retR = libsipy.r_wrap.survival_analysis(
+                df,
+                time=time1,
+                event=event,
+                time2=time2,
+                method="interval-np",
+                group=group,
+                covariates=covariates,
+                rscript_exe_path=self.environment["rscript_exe"]
+            )
+            retR = "\n".join(retR)
+
+        elif op in ["intpar", "interval-par"]:
+            """
+            rsurvival {intpar|interval-par} data=<dataframe> time1=<time1> time2=<time2> event=<event> covariates=<...> [dist=<weibull|lognormal|loglogistic|exponential>]
+
+            Example:
+            let entry be clist 0,1,2,0,3,1,2,0,4,1
+            let time be clist 5,6,6,2,4,3,10,12,8,9
+            let time1 be clist 1,2,2,0,4,3,5,0,6,5
+            let time2 be clist 3,4,4,2,5,5,6,2,7,6
+            let event be dlist 1,1,0,1,1,0,1,0,1,1
+            let group be slist A,A,A,B,B,B,A,B,B,A
+            let age be clist 30,45,38,50,60,41,33,55,48,36
+            let sex be slist M,F,M,F,F,M,M,F,M,F
+            let df be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+            rsurvival intpar data=df time1=time1 time2=time2 event=event covariates=group,age,sex dist=weibull
+            """
+            retR = libsipy.r_wrap.survival_analysis(
+                df,
+                time=time1,
+                event=event,
+                time2=time2,
+                method="interval-par",
+                group=group,
+                covariates=covariates,
+                rscript_exe_path=self.environment["rscript_exe"],
+                dist=dist
+            )
+            retR = "\n".join(retR)
+
+        elif op in ["intsp", "interval-sp"]:
+            """
+            rsurvival {intsp|interval-sp} data=<dataframe> time1=<time1> time2=<time2> event=<event> covariates=<...>
+
+            Example:
+            let entry be clist 0,1,2,0,3,1,2,0,4,1
+            let time be clist 5,6,6,2,4,3,10,12,8,9
+            let time1 be clist 1,2,2,0,4,3,5,0,6,5
+            let time2 be clist 3,4,4,2,5,5,6,2,7,6
+            let event be dlist 1,1,0,1,1,0,1,0,1,1
+            let group be slist A,A,A,B,B,B,A,B,B,A
+            let age be clist 30,45,38,50,60,41,33,55,48,36
+            let sex be slist M,F,M,F,F,M,M,F,M,F
+            let df be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+            rsurvival intsp data=df time1=time1 time2=time2 event=event covariates=group,age,sex
+            """
+            retR = libsipy.r_wrap.survival_analysis(
+                df,
+                time=time1,
+                event=event,
+                time2=time2,
+                method="interval-sp",
+                group=group,
+                covariates=covariates,
+                rscript_exe_path=self.environment["rscript_exe"]
+            )
+            retR = "\n".join(retR)
+
+        elif op in ["int-aft", "interval-aft"]:
+            """
+            rsurvival {int-aft|interval-aft} data=<dataframe> time1=<time1> time2=<time2> event=<event> covariates=<...>
+
+            Example:
+            let entry be clist 0,1,2,0,3,1,2,0,4,1
+            let time be clist 5,6,6,2,4,3,10,12,8,9
+            let time1 be clist 1,2,2,0,4,3,5,0,6,5
+            let time2 be clist 3,4,4,2,5,5,6,2,7,6
+            let event be dlist 1,1,0,1,1,0,1,0,1,1
+            let group be slist A,A,A,B,B,B,A,B,B,A
+            let age be clist 30,45,38,50,60,41,33,55,48,36
+            let sex be slist M,F,M,F,F,M,M,F,M,F
+            let df be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+            rsurvival int-aft data=df time1=time1 time2=time2 event=event covariates=group,age,sex
+            """
+            retR = libsipy.r_wrap.survival_analysis(
+                df,
+                time=time1,
+                event=event,
+                time2=time2,
+                method="interval-aft",
+                group=group,
+                covariates=covariates,
+                rscript_exe_path=self.environment["rscript_exe"]
+            )
+            retR = "\n".join(retR)
+
+        else: 
+            retR = "Unknown sub-operation: %s" % op
+
         print(retR)
         return retR
 
@@ -3374,6 +3870,7 @@ class SiPy_Shell(object):
         elif operator == "regress": return self.do_regression(operand, kwargs)
         elif operator == "ranova": return self.do_R_anova(operand, kwargs)
         elif operator == "rregress": return self.do_R_regression(operand, kwargs)
+        elif operator == "rsurvival": return self.do_R_survival(operand, kwargs)
         elif operator == "pg": return self.do_plugin(operand, kwargs)
         elif operator == "script": return self.do_script(operand, kwargs)
         elif operator == "set": return self.do_set(operand, kwargs)
