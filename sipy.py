@@ -4071,10 +4071,10 @@ class SiPy_Shell(object):
 if __name__ == "__main__":
     shell = SiPy_Shell()
     if len(sys.argv) == 1:
-        shell.basic_gui()
-        sys.exit()
-    elif len(sys.argv) == 2 and sys.argv[1].lower() == "shell":
         shell.cmdLoop()
+        sys.exit()
+    elif len(sys.argv) == 2 and sys.argv[1].lower() == "bgui":
+        shell.basic_gui()
         sys.exit()
     elif (len(sys.argv) == 3) and (sys.argv[1].lower() == "script_execute"):
         scriptfile = os.path.abspath(sys.argv[2])
