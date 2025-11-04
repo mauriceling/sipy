@@ -6,5 +6,6 @@
 @include mean.sipy
 @include normality.sipy
 @include regression.sipy
+@include survival.sipy
 @include ttest.sipy
 @include variance.sipy

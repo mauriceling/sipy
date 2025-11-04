@@ -1,0 +1,42 @@
+@include data_values.sipy
+
+read excel surdata from data/survival_dataset.xlsx data
+
+rsurvival km data=df_surv time=time event=event group=group
+rsurvival km data=surdata time=time_months event=status group=arm
+
+rsurvival logrank data=df_surv time=time event=event group=group
+rsurvival logrank data=surdata time=time_months event=status group=arm
+
+rsurvival cox data=df_surv time=time event=event covariates=age,sex
+rsurvival cox data=surdata time=time_months event=status covariates=age,sex,stage
+
+rsurvival aft data=df_surv time=time event=event covariates=group,age,sex dist=weibull
+rsurvival aft data=surdata time=time_months event=status covariates=arm,age,sex,stage,biomarker_baseline,qol_baseline
+
+rsurvival intcens data=df_surv time1=time1 time2=time2 event=event group=group
+
+rsurvival ltcox data=df_surv entry=entry time=time event=event covariates=group,age,sex
+
+rsurvival expaft data=df_surv time=time event=event covariates=group,age,sex
+rsurvival expaft data=surdata time=time_months event=status covariates=arm,age,sex,stage
+
+rsurvival coxint data=df_surv time=time event=event covariates=age,sex,group
+rsurvival coxint data=surdata time=time_months event=status covariates=age,sex,stage
+
+rsurvival frailtycox data=df_surv time=time event=event group=group covariates=age,sex
+rsurvival frailtycox data=surdata time=time_months event=status group=center covariates=age,sex,stage
+
+rsurvival tdcox data=df_surv time=time event=event group=group covariates=age,sex
+rsurvival tdcox data=surdata time=time_months event=status group=arm covariates=treatment_td,age,sex
+
+rsurvival competing data=df_surv time=time event=event cause=event group=group covariates=age,sex
+rsurvival competing data=surdata time=time_months event=status cause=cause group=arm covariates=age,sex
+
+rsurvival intnp data=df_surv time1=time1 time2=time2 event=event group=group
+
+rsurvival intpar data=df_surv time1=time1 time2=time2 event=event covariates=group,age,sex dist=weibull
+
+rsurvival intsp data=df_surv time1=time1 time2=time2 event=event covariates=group,age,sex
+
+rsurvival int-aft data=df_surv time1=time1 time2=time2 event=event covariates=group,age,sex

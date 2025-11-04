@@ -10,3 +10,13 @@ let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
 let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
 let df_A be dataframe x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
 let df_B be dataframe x1:x1 x2:x2
+
+let entry be clist 0,1,2,0,3,1,2,0,4,1
+let time be clist 5,6,6,2,4,3,10,12,8,9
+let time1 be clist 1,2,2,0,4,3,5,0,6,5
+let time2 be clist 3,4,4,2,5,5,6,2,7,6
+let event be dlist 1,1,0,1,1,0,1,0,1,1
+let group be slist A,A,A,B,B,B,A,B,B,A
+let age be clist 30,45,38,50,60,41,33,55,48,36
+let sex be slist M,F,M,F,F,M,M,F,M,F
+let df_surv be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
