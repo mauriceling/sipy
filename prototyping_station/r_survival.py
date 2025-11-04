@@ -4,12 +4,7 @@ import os
 import time as pytime
 import uuid
 
-def ensure_r_package(package_name):
-    return f"""
-    if (!requireNamespace("{package_name}", quietly = TRUE)) install.packages("{package_name}", repos="https://cloud.r-project.org")
-    """
-
-def survival_analysis(df, time, event, time2=None, method="kaplan-meier", group=None, covariates=None, plots=None, rscript_exe_path="..\\portable_R\\bin\\Rscript.exe"):
+def survival_analysis(df, time, event, time2=None, method="kaplan-meier", group=None, covariates=None, plots=None, rscript_exe_path="/usr/local/bin/Rscript", cause=None, dist=None):
     """
     Run survival analysis in R via subprocess from Python.
 
@@ -118,7 +113,7 @@ def survival_analysis(df, time, event, time2=None, method="kaplan-meier", group=
 
             # Convert group to numeric (if it's not already)
             data$group_numeric <- as.numeric(as.factor(data${group}))
-            fg_model <- crr(ftime = data${time}, fstatus = data${event}, cov1 = data.frame(group = data$group_numeric))
+            fg_model <- crr(ftime = data${time}, fstatus = data${cause}, cov1 = data.frame(group = data$group_numeric))
             print(summary(fg_model))
         """,
         "cox": f""" 
@@ -243,7 +238,7 @@ def survival_analysis(df, time, event, time2=None, method="kaplan-meier", group=
             library(icenReg)
 
             # Fit parametric model (default: Weibull) for interval-censored data
-            par_fit <- ic_par(Surv({time}, {time2}, type = "interval2") ~ {formula}, data = data)
+            par_fit <- ic_par(Surv({time}, {time2}, type = "interval2") ~ {formula}, data = data, dist = "weibull")
 
             cat("Parametric model coefficients (Weibull):\\n")
             print(coef(par_fit))  # Correct way to extract coefficients
