@@ -19,11 +19,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
-draft = True
+draft = False
 
-release_number = "0.6.0"
-release_code_name = "Otoro-Chutoro Continuum"
-release_day = "03 May"
+release_number = "0.7.0"
+release_code_name = "Keropok"
+release_day = "05 December"
 release_year = "2025"
 release_date = " ".join([release_day, release_year])
 
