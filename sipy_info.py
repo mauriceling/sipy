@@ -19,7 +19,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
-draft = False
+draft = True
 
 release_number = "0.7.0"
 release_code_name = "Keropok"
