@@ -1,0 +1,129 @@
+[[LibUnwind]]
+arch = "aarch64"
+git-tree-sha1 = "0e44e0ca47b341de962caa28b0681af7ea8778f4"
+libc = "glibc"
+os = "linux"
+
+    [[LibUnwind.download]]
+    sha256 = "70f8e0cef93096548c2c90fdea805b0e898c808ca8d3d2feba78124bdcc5eab6"
+    url = "https://github.com/JuliaBinaryWrappers/LibUnwind_jll.jl/releases/download/LibUnwind-v1.8.1+2/LibUnwind.v1.8.1.aarch64-linux-gnu.tar.gz"
+[[LibUnwind]]
+arch = "aarch64"
+git-tree-sha1 = "bc3e15627aff8ac045908735ab795948541e44c3"
+libc = "musl"
+os = "linux"
+
+    [[LibUnwind.download]]
+    sha256 = "3f38bd074c742c013bdd22f6f1d2d537bc333a4b8d50ac178003f02faede996c"
+    url = "https://github.com/JuliaBinaryWrappers/LibUnwind_jll.jl/releases/download/LibUnwind-v1.8.1+2/LibUnwind.v1.8.1.aarch64-linux-musl.tar.gz"
+[[LibUnwind]]
+arch = "aarch64"
+git-tree-sha1 = "b19e15c883e9f3d400e964a0f332fa0228342368"
+os = "freebsd"
+
+    [[LibUnwind.download]]
+    sha256 = "04c9ad00e02451fb4ce3895b1489d53c25ff695ee244aa72b96fc0439105e1b4"
+    url = "https://github.com/JuliaBinaryWrappers/LibUnwind_jll.jl/releases/download/LibUnwind-v1.8.1+2/LibUnwind.v1.8.1.aarch64-unknown-freebsd.tar.gz"
+[[LibUnwind]]
+arch = "armv6l"
+call_abi = "eabihf"
+git-tree-sha1 = "a99249a28602886347b539e8813ab129203c670c"
+libc = "glibc"
+os = "linux"
+
+    [[LibUnwind.download]]
+    sha256 = "dd4ff7b77c1802d3cf57b142c910a419839f00a05258e15bdc266dd076a41d78"
+    url = "https://github.com/JuliaBinaryWrappers/LibUnwind_jll.jl/releases/download/LibUnwind-v1.8.1+2/LibUnwind.v1.8.1.armv6l-linux-gnueabihf.tar.gz"
+[[LibUnwind]]
+arch = "armv6l"
+call_abi = "eabihf"
+git-tree-sha1 = "ee2e2d0a9c65affb756301b684b868db1ffb2d96"
+libc = "musl"
+os = "linux"
+
+    [[LibUnwind.download]]
+    sha256 = "addb79e19a1e0ab04690bb7467ad6939e6b3baa71fd46c8be6ad919be801807f"
+    url = "https://github.com/JuliaBinaryWrappers/LibUnwind_jll.jl/releases/download/LibUnwind-v1.8.1+2/LibUnwind.v1.8.1.armv6l-linux-musleabihf.tar.gz"
+[[LibUnwind]]
+arch = "armv7l"
+call_abi = "eabihf"
+git-tree-sha1 = "f157d40d576753409c52694023c985e69c78e424"
+libc = "glibc"
+os = "linux"
+
+    [[LibUnwind.download]]
+    sha256 = "46e5d5625e736c0a76ccc572cd44afcec7fe2e3789bc1b3ae68484779683e73a"
+    url = "https://github.com/JuliaBinaryWrappers/LibUnwind_jll.jl/releases/download/LibUnwind-v1.8.1+2/LibUnwind.v1.8.1.armv7l-linux-gnueabihf.tar.gz"
+[[LibUnwind]]
+arch = "armv7l"
+call_abi = "eabihf"
+git-tree-sha1 = "8fa1f30553be3ff562759e1df55ffa1711cdea11"
+libc = "musl"
+os = "linux"
+
+    [[LibUnwind.download]]
+    sha256 = "182e93f2b327a47be70a3047a76a1a1e4dc8b7cb27a7f361ff3802b8b80d29a3"
+    url = "https://github.com/JuliaBinaryWrappers/LibUnwind_jll.jl/releases/download/LibUnwind-v1.8.1+2/LibUnwind.v1.8.1.armv7l-linux-musleabihf.tar.gz"
+[[LibUnwind]]
+arch = "i686"
+git-tree-sha1 = "749205dc6fb76ed90c95cde62933dc0bea54131a"
+libc = "glibc"
+os = "linux"
+
+    [[LibUnwind.download]]
+    sha256 = "1527c233491e9bf8fbd6f2c6fb284be3943134c23ced28eef2efe0f1256dcaf8"
+    url = "https://github.com/JuliaBinaryWrappers/LibUnwind_jll.jl/releases/download/LibUnwind-v1.8.1+2/LibUnwind.v1.8.1.i686-linux-gnu.tar.gz"
+[[LibUnwind]]
+arch = "i686"
+git-tree-sha1 = "fbc3118caaacc09fb73ed48f04e6acbf162d7ac5"
+libc = "musl"
+os = "linux"
+
+    [[LibUnwind.download]]
+    sha256 = "b355948e3868c0bf61b965992293ca96d5ded021ac15ae6227faa73f711edc35"
+    url = "https://github.com/JuliaBinaryWrappers/LibUnwind_jll.jl/releases/download/LibUnwind-v1.8.1+2/LibUnwind.v1.8.1.i686-linux-musl.tar.gz"
+[[LibUnwind]]
+arch = "powerpc64le"
+git-tree-sha1 = "bb2fd748331035547d71638098ebba013a2f3985"
+libc = "glibc"
+os = "linux"
+
+    [[LibUnwind.download]]
+    sha256 = "ec191dc3894fbfd2122d014f2a1a650eb0374bb7e7359399f17a89fe18a64a7b"
+    url = "https://github.com/JuliaBinaryWrappers/LibUnwind_jll.jl/releases/download/LibUnwind-v1.8.1+2/LibUnwind.v1.8.1.powerpc64le-linux-gnu.tar.gz"
+[[LibUnwind]]
+arch = "x86_64"
+git-tree-sha1 = "c1352cd1b9a30e467db1050463bb8a4cd9be6524"
+libc = "glibc"
+os = "linux"
+
+    [[LibUnwind.download]]
+    sha256 = "e5c9276edfcdb67efe6889a1e1ef3c1a41ac2b1477cc4d6688e2f973c2da1c12"
+    url = "https://github.com/JuliaBinaryWrappers/LibUnwind_jll.jl/releases/download/LibUnwind-v1.8.1+2/LibUnwind.v1.8.1.x86_64-linux-gnu.tar.gz"
+[[LibUnwind]]
+arch = "x86_64"
+git-tree-sha1 = "b040be14e701476fde9a6c866d2b68dab6466c64"
+libc = "glibc"
+os = "linux"
+sanitize = "memory"
+
+    [[LibUnwind.download]]
+    sha256 = "bc7c20233e87b3cdfcb9889178ec4ec85558bc85bbbbe50793f2853617da923c"
+    url = "https://github.com/JuliaBinaryWrappers/LibUnwind_jll.jl/releases/download/LibUnwind-v1.8.1+2/LibUnwind.v1.8.1.x86_64-linux-gnu-sanitize+memory.tar.gz"
+[[LibUnwind]]
+arch = "x86_64"
+git-tree-sha1 = "6e09d58ddd949d3da8eaea683ff2ebba1eedbf49"
+libc = "musl"
+os = "linux"
+
+    [[LibUnwind.download]]
+    sha256 = "7795d47fa3514466afa1c6be4d80284632e0a20334ba4f7ab0b7d78dd975488d"
+    url = "https://github.com/JuliaBinaryWrappers/LibUnwind_jll.jl/releases/download/LibUnwind-v1.8.1+2/LibUnwind.v1.8.1.x86_64-linux-musl.tar.gz"
+[[LibUnwind]]
+arch = "x86_64"
+git-tree-sha1 = "ac566b73b93ee8e2a0e1fdeccec845dc63ba9317"
+os = "freebsd"
+
+    [[LibUnwind.download]]
+    sha256 = "72a1d8eec3e14709e311169c38d7d6cf39e2f0a94d3846b9136ab7115be41afa"
+    url = "https://github.com/JuliaBinaryWrappers/LibUnwind_jll.jl/releases/download/LibUnwind-v1.8.1+2/LibUnwind.v1.8.1.x86_64-unknown-freebsd.tar.gz"
