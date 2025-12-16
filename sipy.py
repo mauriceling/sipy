@@ -21,7 +21,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
 import datetime
 import os
-import platform
 import shutil
 import subprocess
 import sys
@@ -40,29 +39,6 @@ import sipy_plugins
 from sipy_pm import PluginManager
 
 
-def find_executable(name):
-    """Helper function to find executable using system commands.
-
-    This is at module level so it's available to SiPy_Shell during
-    initialization (avoids UnboundLocalError when called before a
-    nested definition).
-    """
-    try:
-        if platform.system() == "Windows":
-            # Use 'where' on Windows
-            result = subprocess.run(['where', name], capture_output=True, text=True)
-            if result.returncode == 0:
-                return result.stdout.strip().split('\n')[0]
-        else:
-            # Use 'which' on Unix-like systems
-            result = subprocess.run(['which', name], capture_output=True, text=True)
-            if result.returncode == 0:
-                return result.stdout.strip()
-    except Exception:
-        return None
-    return None
-
-
 class SiPy_Shell(object):
     """!
     Command-line shell for SiPy.
@@ -73,85 +49,14 @@ class SiPy_Shell(object):
         """
         self.count = 1
         self.data = {}
-
-        # Detect operating system and find R executable        
-        system = platform.system()
-        rscript_exe = None        
-        if system == "Windows":
-            # Try portable R first (Windows)
-            portable_r = os.path.abspath("portable_R\\bin\\Rscript.exe")
-            if os.path.exists(portable_r):
-                rscript_exe = portable_r
-            else:
-                # Try using 'where' to find Rscript
-                rscript_exe = find_executable('Rscript.exe')
-                # If not found, try common installation paths
-                if not rscript_exe:
-                    # Check PATH for R
-                    r_cmd = shutil.which('R')
-                    if r_cmd:
-                        r_dir = os.path.dirname(os.path.dirname(r_cmd))
-                        possible_rscript = os.path.join(r_dir, 'bin', 'Rscript.exe')
-                        if os.path.exists(possible_rscript):
-                            rscript_exe = possible_rscript
-                    if not rscript_exe:
-                        # Try installed R on Windows - common paths
-                        win_paths = [
-                            os.path.join(os.environ.get("ProgramFiles", ""), "R"),
-                            os.path.join(os.environ.get("ProgramFiles(x86)", ""), "R"),
-                            os.path.join(os.environ.get("LOCALAPPDATA", ""), "Programs", "R")
-                        ]
-                        for base in win_paths:
-                            if os.path.exists(base):
-                                # Find latest R version
-                                r_versions = [d for d in os.listdir(base) if d.startswith("R-")]
-                                if r_versions:
-                                    latest = sorted(r_versions)[-1]
-                                    rpath = os.path.join(base, latest, "bin", "Rscript.exe")
-                                    if os.path.exists(rpath):
-                                        rscript_exe = rpath
-                                        break
-        else:
-            # Unix-like systems (Linux/Mac)
-            # First try using 'which'
-            rscript_exe = find_executable('Rscript')
-            
-            if not rscript_exe:
-                # Try using R to find Rscript
-                r_cmd = shutil.which('R')
-                if r_cmd:
-                    try:
-                        # Ask R where it is installed
-                        result = subprocess.run([r_cmd, '--slave', '-e', 
-                                              'cat(file.path(R.home("bin"), "Rscript"))'],
-                                             capture_output=True, text=True)
-                        if result.returncode == 0:
-                            possible_rscript = result.stdout.strip()
-                            if os.path.exists(possible_rscript):
-                                rscript_exe = possible_rscript
-                    except:
-                        pass
-            if not rscript_exe:
-                # Fall back to common Unix paths
-                unix_paths = [
-                    "/usr/bin/Rscript",
-                    "/usr/local/bin/Rscript",
-                    "/opt/local/bin/Rscript",  # MacPorts
-                    "/usr/lib/R/bin/Rscript",  # Some Linux distributions
-                    os.path.expanduser("~/Library/R/bin/Rscript"),  # Mac user install
-                    "/Library/Frameworks/R.framework/Resources/bin/Rscript"  # Mac framework install
-                ]
-                for path in unix_paths:
-                    if os.path.exists(path):
-                        rscript_exe = path
-                        break
         
         self.environment = {"cwd": os.getcwd(),
+                            "julia_exe": libsipy.utils.find_julia_executable(),
                             "plugin_directory": "sipy_plugins",
                             "plugin_system": True,
                             "plugin_suppress": True,
                             "prompt": ">>>",
-                            "rscript_exe": rscript_exe,
+                            "rscript_exe": libsipy.utils.find_R_executable(),
                             "separator": ",",
                             "sipy_directory": os.getcwd(),
                             "verbosity": 0}
