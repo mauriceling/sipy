@@ -1561,6 +1561,7 @@ class SiPy_Shell(object):
             let <variable_name> be {numeric|number|num|integer|int|float|value} <value>
             let <variable_name> be {list|series|tuple|vector} <comma-separated values>
             let <variable_name> be {dataframe|df|frame|table} <data descriptor>
+            let <variable_name> csv <file name>
             let <new_variable_name> from {dataframe|df|frame|table} <existing_variable_name> <series name>
             let <new_variable_name> melt <existing_variable_name> factor_name=<name of new factor> value_name=<name of value>
             let <new_variable_name> merge <existing_variable_name A> <existing_variable_name B> on=<column to merge on> how=<type of merge>
@@ -1603,6 +1604,10 @@ class SiPy_Shell(object):
                     source_data[d[0]] = self.data[d[1]]
                 self.data[variable_name] = pd.concat(source_data, axis=1)
                 retR = "%s = %s" % (variable_name, str(data_values))
+        elif operand[1].lower() == "csv":
+                csv_path = os.path.abspath(operand[2])
+                self.data[variable_name].to_csv(csv_path, index=False)
+                retR = "%s saved as %s" % (variable_name, csv_path)
         elif operand[1].lower() == "from" and operand[2].lower() in ["dataframe", "df", "frame", "table"]:
             if len(operand) == 5:
                 # let <new_variable_name> from {dataframe|df|frame|table} <existing_variable_name> <series name>
