@@ -68,3 +68,6 @@ regress linear y=y_1 x=edata intercept=yes
 let y_2 be list 1,0,1,0,1,0,1,0,1,0,1,0,1,0,1
 regress logistic y_2 edata
 regress logistic y=y_2 x=edata 
+
+jregress lasso data=df y=yN x=x1,x2,x3,x4,x5
+jregress lm data=df y=yN x=x1,x2,x3,x4,x5
