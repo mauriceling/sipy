@@ -181,5 +181,17 @@ def regression(df, response, predictors=None, model_type="ols", julia_exe_path="
     finally:
         os.remove(csv_path)
         os.remove(jl_script_path)
+    return result.stdout.strip().split("\n")
 
+def execute(jl_script_path, kwargs, julia_exe_path="..\\portable_julia\\bin\\julia.exe"):
+    command = " ".join([julia_exe_path, "--startup-file=no", jl_script_path])
+    for key in kwargs:
+        command = command + " --" + key + " "
+        command = command + kwargs[key]
+    try:
+        print("Command to run: %s" % command)
+        result = subprocess.run(command, capture_output=True, text=True, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error running R script:\n{e.stderr}")
+        raise
     return result.stdout.strip().split("\n")

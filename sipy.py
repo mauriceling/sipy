@@ -21,6 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
 import datetime
 import os
+import shlex
 import shutil
 import subprocess
 import sys
@@ -1491,6 +1492,39 @@ class SiPy_Shell(object):
                 filename = os.path.abspath(filename)
                 result = libsipy.workspace.save_workspace_json(filename, env)
             retR = "Environment saved as %s. Format = %s" % (filename, fmat)
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        print(retR)
+        return retR
+
+    def do_execute(self, operand, kwargs):
+        """!
+        Performs external script execution.
+
+        Commands: 
+            execute r <script path> {keyword parameters to the script file}
+
+        @return: String containing results of command execution
+        """
+        script_path = os.path.abspath(operand[1])
+        if operand[0].lower() in ["r"]:
+            """
+            execute r <script path> {keyword parameters to the script file}
+
+            Example: 
+            execute r example_scripts\\r_lm.R inputfile=example_scripts\\lm_data.csv formula="yN ~ x1 + x2 + x3 + x4 + x5"
+            """
+            retR = libsipy.r_wrap.execute(script_path, kwargs, self.environment["rscript_exe"])
+            retR = "\n".join(retR)
+        elif operand[0].lower() in ["julia", "jl"]:
+            """
+            execute julia <script path> {keyword parameters to the script file}
+
+            Example: 
+            execute julia example_scripts\\julia_lm.jl inputfile=example_scripts\\lm_data.csv response=yN predictors="x1,x2,x3,x4,x5"
+            """
+            retR = libsipy.julia_wrap.execute(script_path, kwargs, self.environment["julia_exe"])
+            retR = "\n".join(retR)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
@@ -3830,6 +3864,7 @@ class SiPy_Shell(object):
         elif operator == "correlate": return self.do_correlate(operand, kwargs)
         elif operator == "describe": return self.do_describe(operand, kwargs)
         elif operator == "environment": return self.do_environment(operand, kwargs)
+        elif operator == "execute": return self.do_execute(operand, kwargs)
         elif operator == "jregress": return self.do_Julia_regression(operand, kwargs)
         elif operator == "let": return self.do_let(operand, kwargs)
         elif operator == "mean": return self.do_mean(operand, kwargs)
@@ -3859,6 +3894,23 @@ class SiPy_Shell(object):
         @param statement String: command-line statement
         @return: String containing results of command execution
         """
+        def tokenize(statement):
+            result = []
+            in_quotes = False
+            current = []
+            for char in statement:
+                if char == '"' or char == "'":
+                    in_quotes = not in_quotes
+                    current.append(char)
+                elif char == ' ' and not in_quotes:
+                    if current:
+                        result.append(''.join(current))
+                        current = []
+                else:
+                    current.append(char)
+            if current:
+                result.append(''.join(current))
+            return result
         def dictionize(operand):
             op_list = []
             op_dict = {}
@@ -3876,7 +3928,8 @@ class SiPy_Shell(object):
                  if retR == "exit": return "exit"
             else:
                 statement = statement.strip()
-                statement = [x.strip() for x in statement.split()]
+                # statement = [x.strip() for x in statement.split()]
+                statement = tokenize(statement)
                 operator = statement[0].lower()
                 (operand, kwargs) = dictionize(statement[1:])
                 retR = self.command_processor(operator, operand, kwargs)

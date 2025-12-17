@@ -757,3 +757,16 @@ def survival_analysis(df, time, event, time2=None, method="kaplan-meier", group=
         os.remove(r_script_path)
 
     return result.stdout.strip().split("\n")
+
+def execute(r_script_path, kwargs, rscript_exe_path="/usr/local/bin/Rscript"):
+    command = " ".join([rscript_exe_path, "--vanilla", r_script_path])
+    for key in kwargs:
+        command = command + " --" + key + " "
+        command = command + kwargs[key]
+    try:
+        print("Command to run: %s" % command)
+        result = subprocess.run(command, capture_output=True, text=True, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error running R script:\n{e.stderr}")
+        raise
+    return result.stdout.strip().split("\n")
