@@ -1,0 +1,3 @@
+execute r example_scripts\\r_lm.R inputfile=example_scripts\\lm_data.csv formula="yN ~ x1 + x2 + x3 + x4 + x5"
+
+execute julia example_scripts\\julia_lm.jl inputfile=example_scripts\\lm_data.csv response=yN predictors="x1,x2,x3,x4,x5"

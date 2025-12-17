@@ -1,8 +1,9 @@
-# To run: python sipy.py script_execute test_scripts\all-test.sipy > test_reports\test_report-0.7.0.txt
+# To run: python sipy.py script_execute test_scripts\all-test.sipy > test_reports\test_report-0.8.0.txt
 
 @include anova.sipy
 @include compute_effsize.sipy
 @include correlate.sipy
+@include execute.sipy
 @include data_import.sipy
 @include describe.sipy
 @include mean.sipy
