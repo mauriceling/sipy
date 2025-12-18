@@ -57,6 +57,7 @@ class SiPy_Shell(object):
                             "plugin_system": True,
                             "plugin_suppress": True,
                             "prompt": ">>>",
+                            "python_exe": sys.executable,
                             "rscript_exe": libsipy.utils.find_R_executable(),
                             "separator": ",",
                             "sipy_directory": os.getcwd(),
@@ -1503,6 +1504,8 @@ class SiPy_Shell(object):
 
         Commands: 
             execute r <script path> {keyword parameters to the script file}
+            execute julia <script path> {keyword parameters to the script file}
+            execute python <script path> {keyword parameters to the script file}
 
         @return: String containing results of command execution
         """
@@ -1524,6 +1527,15 @@ class SiPy_Shell(object):
             execute julia example_scripts\\julia_lm.jl inputfile=example_scripts\\lm_data.csv response=yN predictors="x1,x2,x3,x4,x5"
             """
             retR = libsipy.julia_wrap.execute(script_path, kwargs, self.environment["julia_exe"])
+            retR = "\n".join(retR)
+        elif operand[0].lower() in ["python", "py"]:
+            """
+            execute python <script path> {keyword parameters to the script file}
+
+            Example: 
+            execute python example_scripts\\python_lm.py inputfile=example_scripts\\lm_data.csv response=yN predictors="x1,x2,x3,x4,x5"
+            """
+            retR = libsipy.utils.execute_python(script_path, kwargs, self.environment["python_exe"])
             retR = "\n".join(retR)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()

@@ -22,6 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 import platform
 import os
 import subprocess
+import sys
 
 def find_executable(name):
     """Helper function to find executable using system commands.
@@ -193,4 +194,52 @@ def find_julia_executable():
             if os.path.exists(path):
                 return path
     return None
+
+
+def execute_python(script_path, kwargs=None, python_exe_path=sys.executable):
+    """
+    Execute an external Python script using subprocess.
+
+    Parameters
+    ----------
+    script_path : str
+        Path to the Python script to execute.
+    kwargs : dict, optional
+        Command-line arguments passed as --key value.
+    python_exe_path : str, optional
+        Path to Python executable. Defaults to current interpreter.
+
+    Returns
+    -------
+    list
+        Standard output split into lines.
+    """
+    python_exe_path = os.path.abspath(python_exe_path)
+    script_path = os.path.abspath(script_path)
+    if not os.path.exists(python_exe_path):
+        raise FileNotFoundError(f"Python executable not found: {python_exe_path}")
+    if not os.path.exists(script_path):
+        raise FileNotFoundError(f"Python script not found: {script_path}")
+    command = [python_exe_path, script_path]
+    if kwargs:
+        for key, value in kwargs.items():
+            command.append(f"--{key}")
+            command.append(str(value))
+    try:
+        print(f"Command to run: {' '.join(command)}")
+        result = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            check=True
+        )
+    except subprocess.CalledProcessError as e:
+        print(f"Error running Python script:")
+        if e.stdout:
+            print(f"STDOUT:\n{e.stdout}")
+        if e.stderr:
+            print(f"STDERR:\n{e.stderr}")
+        print(f"Return code: {e.returncode}")
+        raise
+    return result.stdout.strip().split("\n")
     
