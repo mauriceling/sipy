@@ -1506,10 +1506,13 @@ class SiPy_Shell(object):
             execute r <script path> {keyword parameters to the script file}
             execute julia <script path> {keyword parameters to the script file}
             execute python <script path> {keyword parameters to the script file}
+            execute shell command=<command to execute>
+            .<command to execute>
 
         @return: String containing results of command execution
         """
-        script_path = os.path.abspath(operand[1])
+        if operand[0].lower() != "shell":
+            script_path = os.path.abspath(operand[1])
         if operand[0].lower() in ["r"]:
             """
             execute r <script path> {keyword parameters to the script file}
@@ -1536,6 +1539,20 @@ class SiPy_Shell(object):
             execute python example_scripts\\python_lm.py inputfile=example_scripts\\lm_data.csv response=yN predictors="x1,x2,x3,x4,x5"
             """
             retR = libsipy.utils.execute_python(script_path, kwargs, self.environment["python_exe"])
+            retR = "\n".join(retR)
+        elif operand[0].lower() in ["command", "cmd", "shell", "sh"]:
+            """
+            execute shell command=<command to execute>
+            .<command to execute>
+
+            Example: 
+            execute shell command="dir /p | findstr "sipy*""
+            .dir /p | findstr "sipy*"
+            """
+            command = kwargs["command"]
+            if command.startswith('"') and command.endswith('"'):
+                command = command[1:-1]
+            retR = libsipy.utils.execute_shell(command)
             retR = "\n".join(retR)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
@@ -3933,6 +3950,12 @@ class SiPy_Shell(object):
                     op = [x.strip() for x in op.split("=")]
                     op_dict[op[0]] = op[1]
             return (op_list, op_dict)
+        def special_statement(statement):
+            statement = statement.strip()
+            if statement[0] == ".":
+                statement = statement[1:].strip()
+                retR = self.command_processor("execute", ["shell"], {"command": statement})
+            return retR
         try:
             self.history[str(self.count)] = statement
             if statement.lower() in ["citation", "citation;", "copyright", "copyright;", "credits", "credits;", "exit", "exit;", "license", "license;", "quit", "quit;"]:
@@ -3940,11 +3963,13 @@ class SiPy_Shell(object):
                  if retR == "exit": return "exit"
             else:
                 statement = statement.strip()
-                # statement = [x.strip() for x in statement.split()]
-                statement = tokenize(statement)
-                operator = statement[0].lower()
-                (operand, kwargs) = dictionize(statement[1:])
-                retR = self.command_processor(operator, operand, kwargs)
+                if statement[0] in ["."]:
+                    retR = special_statement(statement)
+                else:
+                    statement = tokenize(statement)
+                    operator = statement[0].lower()
+                    (operand, kwargs) = dictionize(statement[1:])
+                    retR = self.command_processor(operator, operand, kwargs)
             self.result[str(self.count)] = retR
             self.count = self.count + 1
             return retR

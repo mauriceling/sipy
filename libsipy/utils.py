@@ -242,4 +242,39 @@ def execute_python(script_path, kwargs=None, python_exe_path=sys.executable):
         print(f"Return code: {e.returncode}")
         raise
     return result.stdout.strip().split("\n")
-    
+
+def execute_shell(command):
+    """
+    Execute a shell command as a single string.
+
+    Parameters
+    ----------
+    command : str
+        Shell command to execute (pipes, redirection, globbing allowed).
+        Example: dir /p | findstr "sipy*"
+
+    Returns
+    -------
+    list
+        Standard output split into lines.
+    """
+    try:
+        print(f"Command to run: {command}")
+        result = subprocess.run(
+            command,
+            shell=True,
+            capture_output=True,
+            check=True,
+            cwd=None,
+            env=None,
+            text=True
+        )
+    except subprocess.CalledProcessError as e:
+        print(f"Error running command:")
+        if e.stdout:
+            print(f"STDOUT:\n{e.stdout}")
+        if e.stderr:
+            print(f"STDERR:\n{e.stderr}")
+        print(f"Return code: {e.returncode}")
+        raise
+    return result.stdout.strip().split("\n")
