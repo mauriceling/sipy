@@ -19,7 +19,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 '''
-import fitter
 import pingouin
 from scipy import stats
 
@@ -616,6 +615,7 @@ def DistributionFit(values=(1,2,3,4,5), distributions="all"):
     """!
     Use fitter (https://github.com/cokelaer/fitter) to fit values to various distributions.
     """
+    import fitter
     if distributions == "all":
         f = fitter.Fitter(values)
     else:
