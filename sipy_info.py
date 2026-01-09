@@ -44,6 +44,7 @@ copyright = """Copyright (C) 2022-%s, Maurice HT Ling (on behalf of SiPy Team)
 credits = """SiPy Project Team
 Project architect: Maurice HT Ling (https://mauriceling.github.io; mauriceling@acm.org)
 Current and Past Developers:
+    3. Wira bin Ambel (https://github.com/Wira75)
     2. Mathialagan Mugundhan (https://github.com/Mugu17777777)
     1. Nicholas TF Tan (https://github.com/NicholasTTF)
 Current and Past Contributors:
