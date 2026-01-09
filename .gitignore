@@ -135,3 +135,4 @@ Rplots.pdf
 *.SEnvJ
 *.SEnvH5
 *.SEnvI
+/sipy_kernel/_sipy_kernelspec

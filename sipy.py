@@ -4126,6 +4126,37 @@ class SiPy_Shell(object):
                     print("")
         window.close()
 
+def run_jupyter(cwd=os.getcwd()):
+    target_dir = "sipy_kernel"
+    sipy_py_path = cwd + os.sep + "sipy.py"
+    custom_env = os.environ.copy()
+    custom_env["SIPY_PY"] = sipy_py_path
+    print(f"Changing directory to: {target_dir}")
+    subprocess.run(
+        [sys.executable, "-m", "pip", "install", "-e", "."], 
+        cwd=target_dir, 
+        check=True)
+    print("Pip install complete.")
+    subprocess.run(
+        ["sipy-kernel-install"], 
+        cwd=target_dir, 
+        env=custom_env, 
+        check=True)
+    print("sipy-kernel-install complete.")
+    if os.name == 'posix': # Linux/macOS
+        print("Launching Jupyter Lab in the background...")
+        subprocess.Popen(["nohup", "jupyter", "lab", "--no-browser", "&"], 
+                         cwd=cwd, 
+                         env=custom_env, 
+                         shell=True,
+                         stdout=subprocess.PIPE, # Optional: pipe output to avoid cluttering current terminal
+                         stderr=subprocess.PIPE)
+        print("Jupyter Lab started. The original Python script will now exit.")
+        print("You can find the URL/token in the terminal output or likely in nohup.out file in the sipy_kernel directory.")
+    else: # Windows (might require different handling for backgrounding)
+        print("Launching Jupyter Lab (Windows mode). It will block this script until closed.")
+        subprocess.run(["jupyter", "lab"], cwd=cwd, env=custom_env)
+
 if __name__ == "__main__":
     shell = SiPy_Shell()
     if len(sys.argv) == 1:
@@ -4134,6 +4165,8 @@ if __name__ == "__main__":
     elif len(sys.argv) == 2 and sys.argv[1].lower() == "bgui":
         shell.basic_gui()
         sys.exit()
+    elif len(sys.argv) == 2 and sys.argv[1].lower() == "jupyter":
+        run_jupyter(os.getcwd())
     elif (len(sys.argv) == 3) and (sys.argv[1].lower() == "script_execute"):
         scriptfile = os.path.abspath(sys.argv[2])
         shell.runScript(scriptfile, "script_execute")

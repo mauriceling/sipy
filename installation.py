@@ -28,7 +28,6 @@ def help():
 "python installation.py create_env <environment name>" to build new environment from essential packages.
 "python installation.py freeze" to generate conda and pip environment files.
 "python installation.py help" to print this help text. 
-"python installation.py pyinstaller windows" to generate a one-directory executable GUI and CLI/CUI together based on sipy_windows.spec for Windows operating system.
 "python installation.py remove <environment name>" to remove environment.
 "python installation.py update" to update environment from generated conda and pip environment files.
 "python installation.py update_all" to update entire environment.
@@ -40,11 +39,8 @@ Important: Turn off Dropbox / OneDrive synchronizations before generating execut
 
 data = {"conda_env": "conda_sipy_environment.txt",
         "pip_env": "pip_sipy_environment.txt",
-        "conda_packageList": "openpyxl pandas scipy pingouin pyinstaller scikit-learn statsmodels",
-        "pip_packageList": "fire fitter FreeSimpleGUI",
-        "CLI_scriptfile": "sipy_CLI.py",
-        "GUI_scriptfile": "sipy.py",
-        "folder_spec": "sipy_windows.spec"}
+        "conda_packageList": "openpyxl pandas scipy pingouin scikit-learn statsmodels jupyterlab ipykernel jupyter_client",
+        "pip_packageList": "FreeSimpleGUI"}
 
 def build(environment):
     os.system("conda create --name %s --file %s" % (environment, data["conda_env"]))

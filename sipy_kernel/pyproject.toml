@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sipy-kernel"
+version = "0.1.0"
+dependencies = ["ipykernel", "jupyter_client"]
+
+[project.scripts]
+sipy-kernel-install = "kernel.kernel:install"
