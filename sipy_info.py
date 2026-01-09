@@ -19,12 +19,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
-draft = True
+draft = False
 
-release_number = "0.7.0"
-release_code_name = "Keropok"
-release_day = "05 December"
-release_year = "2025"
+release_number = "0.8.0"
+release_code_name = "Mango Yoghurt Cake"
+release_day = "09 January"
+release_year = "2026"
 release_date = " ".join([release_day, release_year])
 
 if draft: release_number = "(Under Development After) " + release_number

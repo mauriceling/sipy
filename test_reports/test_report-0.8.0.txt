@@ -1,0 +1,3345 @@
+
+Executing script file: C:\Dropbox\MyProjects\sipy\test_scripts\all-test.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\all-test.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\anova.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\data_values.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\compute_effsize.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\data_values.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\correlate.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\data_values.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\execute.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\data_import.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\describe.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\data_values.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\mean.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\data_values.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\normality.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\data_values.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\regression.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\data_values.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\survival.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\data_values.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\ttest.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\data_values.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\variance.sipy
+
+
+Reading script file: C:\Dropbox\MyProjects\sipy\test_scripts\data_values.sipy
+
+Command #1: let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+yN = [1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5]
+Command #2: let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+yB = [1, 0, 1, 0, 1, 0, 1, 1, 0, 1]
+Command #3: let yC be slist A, B, C, A, B, C, A, B, C, A
+yC = ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A']
+Command #4: let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+x1 = [2.0, 3.0, 5.0, 7.0, 11.0, 13.0, 17.0, 19.0, 23.0, 29.0]
+Command #5: let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+x2 = [1.0, 4.0, 9.0, 16.0, 25.0, 36.0, 49.0, 64.0, 81.0, 100.0]
+Command #6: let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+x3 = [5.0, 8.0, 6.0, 10.0, 12.0, 14.0, 18.0, 20.0, 24.0, 30.0]
+Command #7: let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+x4 = [3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3]
+Command #8: let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+x5 = [100.0, 90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0]
+Command #9: let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df = ['yN:yN', 'yB:yB', 'yC:yC', 'x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #10: let df_A be dataframe x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df_A = ['x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #11: let df_B be dataframe x1:x1 x2:x2
+df_B = ['x1:x1', 'x2:x2']
+Command #12: let entry be clist 0,1,2,0,3,1,2,0,4,1
+entry = [0.0, 1.0, 2.0, 0.0, 3.0, 1.0, 2.0, 0.0, 4.0, 1.0]
+Command #13: let time be clist 5,6,6,2,4,3,10,12,8,9
+time = [5.0, 6.0, 6.0, 2.0, 4.0, 3.0, 10.0, 12.0, 8.0, 9.0]
+Command #14: let time1 be clist 1,2,2,0,4,3,5,0,6,5
+time1 = [1.0, 2.0, 2.0, 0.0, 4.0, 3.0, 5.0, 0.0, 6.0, 5.0]
+Command #15: let time2 be clist 3,4,4,2,5,5,6,2,7,6
+time2 = [3.0, 4.0, 4.0, 2.0, 5.0, 5.0, 6.0, 2.0, 7.0, 6.0]
+Command #16: let event be dlist 1,1,0,1,1,0,1,0,1,1
+event = [1, 1, 0, 1, 1, 0, 1, 0, 1, 1]
+Command #17: let group be slist A,A,A,B,B,B,A,B,B,A
+group = ['A', 'A', 'A', 'B', 'B', 'B', 'A', 'B', 'B', 'A']
+Command #18: let age be clist 30,45,38,50,60,41,33,55,48,36
+age = [30.0, 45.0, 38.0, 50.0, 60.0, 41.0, 33.0, 55.0, 48.0, 36.0]
+Command #19: let sex be slist M,F,M,F,F,M,M,F,M,F
+sex = ['M', 'F', 'M', 'F', 'F', 'M', 'M', 'F', 'M', 'F']
+Command #20: let df_surv be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+df_surv = ['entry:entry', 'time:time', 'time1:time1', 'time2:time2', 'event:event', 'group:group', 'age:age', 'sex:sex']
+Command #21: anova 1way list x1 x2 x3 x4 x5
+F = 9.260; p-value = 1.5103829009964825e-05
+Command #22: anova 1way list data=x1,x2,x3,x4,x5
+F = 9.260; p-value = 1.5103829009964825e-05
+Command #23: anova 1way dataframe wide data=df_A
+F = 9.260; p-value = 1.5103829009964825e-05
+Command #24: anova rm dataframe wide data=df_A
+   Source  ddof1  ddof2  ...  sphericity       W-spher       p-spher
+0  Within      4     36  ...       False  2.502333e-07  2.248358e-19
+
+[1 rows x 11 columns]
+Command #25: ranova anova data=df y=yN x=yC posthoc=lsd
+Response: yN
+Factors: ['yC']
+Df Sum Sq Mean Sq F value Pr(>F)
+yC           2   1.33   0.664   0.052  0.949
+Residuals    7  88.75  12.679               
+[1] "LSD posthoc test:"
+$statistics
+   MSerror Df Mean       CV
+  12.67905  7 5.97 59.64431
+
+$parameters
+        test p.ajusted name.t ntr alpha
+  Fisher-LSD      none     yC   3  0.05
+
+$means
+        yN      std r       se       LCL      UCL Min  Max  Q25  Q50  Q75
+A 6.100000 4.012481 4 1.780383 1.8900643 10.30994 1.2 10.5 3.90 6.35 8.55
+B 5.433333 3.053413 3 2.055809 0.5721183 10.29455 2.3  8.4 3.95 5.60 7.00
+C 6.333333 3.302020 3 2.055809 1.4721183 11.19455 3.1  9.7 4.65 6.20 7.95
+
+$comparison
+NULL
+
+$groups
+        yN groups
+C 6.333333      a
+A 6.100000      a
+B 5.433333      a
+
+attr(,"class")
+[1] "group"
+Command #26: ranova ancova data=df y=yN x=yB,yC covariates=x1,x2 posthoc=lsd
+Response: yN
+Factors: ['yB', 'yC']
+Covariates: ['x1', 'x2']
+Df Sum Sq Mean Sq F value  Pr(>F)   
+yB           1   0.32    0.32   0.600 0.51977   
+yC           2   1.70    0.85   1.576 0.38824   
+x1           1  85.18   85.18 158.270 0.00626 **
+x2           1   0.91    0.91   1.691 0.32318   
+yB:yC        2   0.89    0.45   0.829 0.54685   
+Residuals    2   1.08    0.54                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Command #27: ranova kruskal data=df y=yN x=yC posthoc=dunn
+Response: yN
+Factors: ['yC']
+Kruskal-Wallis rank sum test
+
+data:  yN by yC
+Kruskal-Wallis chi-squared = 0.16364, df = 2, p-value = 0.9214
+
+[1] "Dunn's posthoc test:"
+  Kruskal-Wallis rank sum test
+
+data: x and group
+Kruskal-Wallis chi-squared = 0.1636, df = 2, p-value = 0.92
+
+
+                           Comparison of x by group                            
+                                 (Bonferroni)                                  
+Col Mean-|
+Row Mean |          A          B
+---------+----------------------
+       B |   0.216224
+         |     1.0000
+         |
+       C |  -0.216224  -0.404519
+         |     1.0000     1.0000
+
+alpha = 0.05
+Reject Ho if p <= alpha/2
+Command #28: ranova permutation data=df y=yN x=yC posthoc=wilconox
+Response: yN
+Factors: ['yC']
+[1] "Settings:  unique SS "
+Component 1 :
+            Df R Sum Sq R Mean Sq Pr(Exact)
+yC           2    1.328    0.6638    0.8862
+Residuals    7   88.753   12.6790          
+
+NULL
+Command #29: ranova welch data=df y=yN x=yC posthoc=pairwise
+Response: yN
+Factors: ['yC']
+One-way analysis of means (not assuming equal variances)
+
+data:  yN and yC
+F = 0.057251, num df = 2.0000, denom df = 4.5545, p-value = 0.945
+
+[1] "Pairwise t-test posthoc (Bonferroni):"
+
+	Pairwise comparisons using t tests with pooled SD 
+
+data:  data$yN and data$yC 
+
+  A B
+B 1 -
+C 1 1
+
+P value adjustment method: bonferroni
+Command #30: ranova manova data=df y=yN,yB x=yC posthoc=perm
+Response: ['yN', 'yB']
+Factors: ['yC']
+Df  Pillai approx F num Df den Df Pr(>F)
+yC         2 0.14983  0.28342      4     14 0.8838
+Residuals  7                                      
+NULL
+Command #31: ranova mancova data=df y=yN,yB x=yC covariates=x1,x2 posthoc=perm
+Response: ['yN', 'yB']
+Factors: ['yC']
+Covariates: ['x1', 'x2']
+Df  Pillai approx F num Df den Df    Pr(>F)    
+yC         2 0.48667    0.804      4     10 0.5498200    
+x1         1 0.97813   89.445      2      4 0.0004783 ***
+x2         1 0.34852    1.070      2      4 0.4244289    
+Residuals  5                                             
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+NULL
+Command #32: read excel surdata from data/survival_dataset.xlsx data
+Read Excel: data/survival_dataset.xlsx.data into surdata
+Command #33: ranova ancova data=surdata y=age x=stage covariates=biomarker_baseline posthoc=lsd
+Response: age
+Factors: ['stage']
+Covariates: ['biomarker_baseline']
+Df Sum Sq Mean Sq F value Pr(>F)
+stage                2     54   26.91   0.261  0.771
+biomarker_baseline   1     12   12.09   0.117  0.732
+Residuals          996 102818  103.23               
+[1] "LSD posthoc test:"
+$statistics
+   MSerror  Df    Mean       CV
+  103.1396 997 59.1313 17.17494
+
+$parameters
+        test p.ajusted name.t ntr alpha
+  Fisher-LSD      none  stage   3  0.05
+
+$means
+         age       std   r        se      LCL      UCL  Min  Max    Q25  Q50
+I   59.40725  9.951821 414 0.4991287 58.42778 60.38671 30.8 88.6 52.725 59.9
+II  58.94041 10.082425 391 0.5135992 57.93255 59.94827 29.4 88.1 52.650 59.7
+III 58.92821 10.716986 195 0.7272696 57.50105 60.35536 29.5 89.1 51.500 59.4
+      Q75
+I   66.30
+II  65.50
+III 66.35
+
+$comparison
+NULL
+
+$groups
+         age groups
+I   59.40725      a
+II  58.94041      a
+III 58.92821      a
+
+attr(,"class")
+[1] "group"
+Command #34: ranova ancova data=surdata y=age x=stage covariates=biomarker_baseline,qol_baseline posthoc=lsd
+Response: age
+Factors: ['stage']
+Covariates: ['biomarker_baseline', 'qol_baseline']
+Df Sum Sq Mean Sq F value Pr(>F)
+stage                2     54   26.91   0.261  0.770
+biomarker_baseline   1     12   12.09   0.117  0.732
+qol_baseline         1    245  245.30   2.380  0.123
+Residuals          995 102573  103.09               
+[1] "LSD posthoc test:"
+$statistics
+   MSerror  Df    Mean       CV
+  103.1396 997 59.1313 17.17494
+
+$parameters
+        test p.ajusted name.t ntr alpha
+  Fisher-LSD      none  stage   3  0.05
+
+$means
+         age       std   r        se      LCL      UCL  Min  Max    Q25  Q50
+I   59.40725  9.951821 414 0.4991287 58.42778 60.38671 30.8 88.6 52.725 59.9
+II  58.94041 10.082425 391 0.5135992 57.93255 59.94827 29.4 88.1 52.650 59.7
+III 58.92821 10.716986 195 0.7272696 57.50105 60.35536 29.5 89.1 51.500 59.4
+      Q75
+I   66.30
+II  65.50
+III 66.35
+
+$comparison
+NULL
+
+$groups
+         age groups
+I   59.40725      a
+II  58.94041      a
+III 58.92821      a
+
+attr(,"class")
+[1] "group"
+Command #35: ranova anova data=surdata y=age x=stage posthoc=lsd
+Response: age
+Factors: ['stage']
+Df Sum Sq Mean Sq F value Pr(>F)
+stage         2     54   26.91   0.261   0.77
+Residuals   997 102830  103.14               
+[1] "LSD posthoc test:"
+$statistics
+   MSerror  Df    Mean       CV
+  103.1396 997 59.1313 17.17494
+
+$parameters
+        test p.ajusted name.t ntr alpha
+  Fisher-LSD      none  stage   3  0.05
+
+$means
+         age       std   r        se      LCL      UCL  Min  Max    Q25  Q50
+I   59.40725  9.951821 414 0.4991287 58.42778 60.38671 30.8 88.6 52.725 59.9
+II  58.94041 10.082425 391 0.5135992 57.93255 59.94827 29.4 88.1 52.650 59.7
+III 58.92821 10.716986 195 0.7272696 57.50105 60.35536 29.5 89.1 51.500 59.4
+      Q75
+I   66.30
+II  65.50
+III 66.35
+
+$comparison
+NULL
+
+$groups
+         age groups
+I   59.40725      a
+II  58.94041      a
+III 58.92821      a
+
+attr(,"class")
+[1] "group"
+Command #36: ranova anova data=surdata y=age x=stage,sex posthoc=lsd,tukey
+Response: age
+Factors: ['stage', 'sex']
+Df Sum Sq Mean Sq F value Pr(>F)
+stage         2     54   26.91   0.260  0.771
+sex           1     60   59.56   0.576  0.448
+stage:sex     2      7    3.48   0.034  0.967
+Residuals   994 102764  103.38               
+[1] "LSD posthoc test:"
+$statistics
+   MSerror  Df    Mean       CV
+  103.1396 997 59.1313 17.17494
+
+$parameters
+        test p.ajusted name.t ntr alpha
+  Fisher-LSD      none  stage   3  0.05
+
+$means
+         age       std   r        se      LCL      UCL  Min  Max    Q25  Q50
+I   59.40725  9.951821 414 0.4991287 58.42778 60.38671 30.8 88.6 52.725 59.9
+II  58.94041 10.082425 391 0.5135992 57.93255 59.94827 29.4 88.1 52.650 59.7
+III 58.92821 10.716986 195 0.7272696 57.50105 60.35536 29.5 89.1 51.500 59.4
+      Q75
+I   66.30
+II  65.50
+III 66.35
+
+$comparison
+NULL
+
+$groups
+         age groups
+I   59.40725      a
+II  58.94041      a
+III 58.92821      a
+
+attr(,"class")
+[1] "group"
+[1] "Tukey HSD posthoc:"
+  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = age ~ stage, data = data)
+
+$stage
+              diff       lwr      upr     p adj
+II-I   -0.46683717 -2.147864 1.214189 0.7913657
+III-I  -0.47904125 -2.549451 1.591369 0.8500306
+III-II -0.01220408 -2.102021 2.077613 0.9998964
+Command #37: ranova kruskal data=surdata y=age x=stage posthoc=dunn
+Response: age
+Factors: ['stage']
+Kruskal-Wallis rank sum test
+
+data:  age by stage
+Kruskal-Wallis chi-squared = 0.45218, df = 2, p-value = 0.7976
+
+[1] "Dunn's posthoc test:"
+  Kruskal-Wallis rank sum test
+
+data: x and group
+Kruskal-Wallis chi-squared = 0.4522, df = 2, p-value = 0.8
+
+
+                           Comparison of x by group                            
+                                 (Bonferroni)                                  
+Col Mean-|
+Row Mean |          I         II
+---------+----------------------
+      II |   0.547251
+         |     0.8763
+         |
+     III |   0.574908   0.129366
+         |     0.8480     1.0000
+
+alpha = 0.05
+Reject Ho if p <= alpha/2
+Command #38: ranova permutation data=surdata y=age x=stage posthoc=wilcoxon
+Response: age
+Factors: ['stage']
+[1] "Settings:  unique SS "
+Component 1 :
+             Df R Sum Sq R Mean Sq Iter Pr(Prob)   
+stage         2       54    26.908 5000   0.0092 **
+Residuals   997   102830   103.140                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+[1] "Pairwise Wilcoxon Tests (Bonferroni):"
+
+	Pairwise comparisons using Wilcoxon rank sum test with continuity correction 
+
+data:  data$age and data$stage 
+
+    I II
+II  1 - 
+III 1 1 
+
+P value adjustment method: bonferroni
+Command #39: ranova permutation data=surdata y=age x=stage,sex posthoc=wilcoxon,tukey
+Response: age
+Factors: ['stage', 'sex']
+[1] "Settings:  unique SS "
+Component 1 :
+             Df R Sum Sq R Mean Sq Iter Pr(Prob)
+stage         2       51    25.647   58   1.0000
+sex1          1       44    44.094   51   0.7451
+stage:sex1    2        7     3.481  205   1.0000
+Residuals   994   102764   103.384              
+
+[1] "Pairwise Wilcoxon Tests (Bonferroni):"
+
+	Pairwise comparisons using Wilcoxon rank sum test with continuity correction 
+
+data:  data$age and data$stage 
+
+    I II
+II  1 - 
+III 1 1 
+
+P value adjustment method: bonferroni
+Command #40: ranova welch data=surdata y=age x=stage posthoc=pairwise
+Response: age
+Factors: ['stage']
+One-way analysis of means (not assuming equal variances)
+
+data:  age and stage
+F = 0.26362, num df = 2.00, denom df = 509.32, p-value = 0.7684
+
+[1] "Pairwise t-test posthoc (Bonferroni):"
+
+	Pairwise comparisons using t tests with pooled SD 
+
+data:  data$age and data$stage 
+
+    I II
+II  1 - 
+III 1 1 
+
+P value adjustment method: bonferroni
+Command #41: ranova manova data=surdata y=age,biomarker_baseline x=stage posthoc=lsd
+Response: ['age', 'biomarker_baseline']
+Factors: ['stage']
+Df    Pillai approx F num Df den Df Pr(>F)
+stage       2 0.0013264  0.33083      4   1994 0.8574
+Residuals 997                                        
+NULL
+Command #42: ranova manova data=surdata y=age,biomarker_baseline x=stage,sex posthoc=lsd,tukey
+Response: ['age', 'biomarker_baseline']
+Factors: ['stage', 'sex']
+Df     Pillai approx F num Df den Df Pr(>F)
+stage       2 0.00132881  0.33043      4   1988 0.8576
+sex         1 0.00086791  0.43129      2    993 0.6498
+stage:sex   2 0.00226640  0.56384      4   1988 0.6889
+Residuals 994                                         
+NULL
+Command #43: ranova mancova data=surdata y=age,time_months x=stage covariates=biomarker_baseline posthoc=lsd
+Response: ['age', 'time_months']
+Factors: ['stage']
+Covariates: ['biomarker_baseline']
+Df    Pillai approx F num Df den Df   Pr(>F)   
+stage                2 0.0175641   4.4122      4   1992 0.001491 **
+biomarker_baseline   1 0.0001566   0.0779      2    995 0.925051   
+Residuals          996                                             
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+NULL
+Command #44: ranova mancova data=surdata y=age,time_months x=stage,sex covariates=biomarker_baseline,qol_baseline posthoc=lsd,tukey
+Response: ['age', 'time_months']
+Factors: ['stage', 'sex']
+Covariates: ['biomarker_baseline', 'qol_baseline']
+Df    Pillai approx F num Df den Df   Pr(>F)   
+stage                2 0.0176643   4.4198      4   1984 0.001471 **
+sex                  1 0.0016328   0.8104      2    991 0.444991   
+biomarker_baseline   1 0.0001417   0.0702      2    991 0.932177   
+qol_baseline         1 0.0023654   1.1749      2    991 0.309294   
+stage:sex            2 0.0046010   1.1437      4   1984 0.334126   
+Residuals          992                                             
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+NULL
+Command #45: let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+yN = [1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5]
+Command #46: let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+yB = [1, 0, 1, 0, 1, 0, 1, 1, 0, 1]
+Command #47: let yC be slist A, B, C, A, B, C, A, B, C, A
+yC = ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A']
+Command #48: let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+x1 = [2.0, 3.0, 5.0, 7.0, 11.0, 13.0, 17.0, 19.0, 23.0, 29.0]
+Command #49: let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+x2 = [1.0, 4.0, 9.0, 16.0, 25.0, 36.0, 49.0, 64.0, 81.0, 100.0]
+Command #50: let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+x3 = [5.0, 8.0, 6.0, 10.0, 12.0, 14.0, 18.0, 20.0, 24.0, 30.0]
+Command #51: let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+x4 = [3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3]
+Command #52: let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+x5 = [100.0, 90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0]
+Command #53: let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df = ['yN:yN', 'yB:yB', 'yC:yC', 'x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #54: let df_A be dataframe x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df_A = ['x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #55: let df_B be dataframe x1:x1 x2:x2
+df_B = ['x1:x1', 'x2:x2']
+Command #56: let entry be clist 0,1,2,0,3,1,2,0,4,1
+entry = [0.0, 1.0, 2.0, 0.0, 3.0, 1.0, 2.0, 0.0, 4.0, 1.0]
+Command #57: let time be clist 5,6,6,2,4,3,10,12,8,9
+time = [5.0, 6.0, 6.0, 2.0, 4.0, 3.0, 10.0, 12.0, 8.0, 9.0]
+Command #58: let time1 be clist 1,2,2,0,4,3,5,0,6,5
+time1 = [1.0, 2.0, 2.0, 0.0, 4.0, 3.0, 5.0, 0.0, 6.0, 5.0]
+Command #59: let time2 be clist 3,4,4,2,5,5,6,2,7,6
+time2 = [3.0, 4.0, 4.0, 2.0, 5.0, 5.0, 6.0, 2.0, 7.0, 6.0]
+Command #60: let event be dlist 1,1,0,1,1,0,1,0,1,1
+event = [1, 1, 0, 1, 1, 0, 1, 0, 1, 1]
+Command #61: let group be slist A,A,A,B,B,B,A,B,B,A
+group = ['A', 'A', 'A', 'B', 'B', 'B', 'A', 'B', 'B', 'A']
+Command #62: let age be clist 30,45,38,50,60,41,33,55,48,36
+age = [30.0, 45.0, 38.0, 50.0, 60.0, 41.0, 33.0, 55.0, 48.0, 36.0]
+Command #63: let sex be slist M,F,M,F,F,M,M,F,M,F
+sex = ['M', 'F', 'M', 'F', 'F', 'M', 'M', 'F', 'M', 'F']
+Command #64: let df_surv be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+df_surv = ['entry:entry', 'time:time', 'time1:time1', 'time2:time2', 'event:event', 'group:group', 'age:age', 'sex:sex']
+Command #65: compute_effsize auc list x1 x2
+0.23444390858839936
+Command #66: compute_effsize auc list data=x1,x2
+0.23444390858839936
+Command #67: compute_effsize auc dataframe wide df_B x1 x2
+0.23444390858839936
+Command #68: compute_effsize auc dataframe wide data=df_B.x1,df_B.x2
+0.23444390858839936
+Command #69: compute_effsize cles list x1 x2
+0.29
+Command #70: compute_effsize cles list data=x1,x2
+0.29
+Command #71: compute_effsize cles dataframe wide df_B x1 x2
+0.29
+Command #72: compute_effsize cles dataframe wide data=df_B.x1,df_B.x2
+0.29
+Command #73: compute_effsize cohen list x1 x2
+-1.024300505562247
+Command #74: compute_effsize cohen list data=x1,x2
+-1.024300505562247
+Command #75: compute_effsize cohen dataframe wide df_B x1 x2
+-1.024300505562247
+Command #76: compute_effsize cohen dataframe wide data=df_B.x1,df_B.x2
+-1.024300505562247
+Command #77: compute_effsize eta-square list x1 x2
+0.20779396470817027
+Command #78: compute_effsize eta-square list data=x1,x2
+0.20779396470817027
+Command #79: compute_effsize eta-square dataframe wide df_B x1 x2
+0.20779396470817027
+Command #80: compute_effsize eta-square dataframe wide data=df_B.x1,df_B.x2
+0.20779396470817027
+Command #81: compute_effsize hedges list x1 x2
+-0.9810202025103211
+Command #82: compute_effsize hedges list data=x1,x2
+-0.9810202025103211
+Command #83: compute_effsize hedges dataframe wide df_B x1 x2
+-0.9810202025103211
+Command #84: compute_effsize hedges dataframe wide data=df_B.x1,df_B.x2
+-0.9810202025103211
+Command #85: compute_effsize none list x1 x2
+-1.024300505562247
+Command #86: compute_effsize none list data=x1,x2
+-1.024300505562247
+Command #87: compute_effsize none dataframe wide df_B x1 x2
+-1.024300505562247
+Command #88: compute_effsize none dataframe wide data=df_B.x1,df_B.x2
+-1.024300505562247
+Command #89: compute_effsize odds-ratio list x1 x2
+0.15600369193329172
+Command #90: compute_effsize odds-ratio list data=x1,x2
+0.15600369193329172
+Command #91: compute_effsize odds-ratio dataframe wide df_B x1 x2
+0.15600369193329172
+Command #92: compute_effsize odds-ratio dataframe wide data=df_B.x1,df_B.x2
+0.15600369193329172
+Command #93: compute_effsize r list x1 x2
+0.994251716145228
+Command #94: compute_effsize r list data=x1,x2
+0.994251716145228
+Command #95: compute_effsize r dataframe wide df_B x1 x2
+0.994251716145228
+Command #96: compute_effsize r dataframe wide data=df_B.x1,df_B.x2
+0.994251716145228
+Command #97: let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+yN = [1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5]
+Command #98: let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+yB = [1, 0, 1, 0, 1, 0, 1, 1, 0, 1]
+Command #99: let yC be slist A, B, C, A, B, C, A, B, C, A
+yC = ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A']
+Command #100: let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+x1 = [2.0, 3.0, 5.0, 7.0, 11.0, 13.0, 17.0, 19.0, 23.0, 29.0]
+Command #101: let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+x2 = [1.0, 4.0, 9.0, 16.0, 25.0, 36.0, 49.0, 64.0, 81.0, 100.0]
+Command #102: let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+x3 = [5.0, 8.0, 6.0, 10.0, 12.0, 14.0, 18.0, 20.0, 24.0, 30.0]
+Command #103: let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+x4 = [3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3]
+Command #104: let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+x5 = [100.0, 90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0]
+Command #105: let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df = ['yN:yN', 'yB:yB', 'yC:yC', 'x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #106: let df_A be dataframe x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df_A = ['x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #107: let df_B be dataframe x1:x1 x2:x2
+df_B = ['x1:x1', 'x2:x2']
+Command #108: let entry be clist 0,1,2,0,3,1,2,0,4,1
+entry = [0.0, 1.0, 2.0, 0.0, 3.0, 1.0, 2.0, 0.0, 4.0, 1.0]
+Command #109: let time be clist 5,6,6,2,4,3,10,12,8,9
+time = [5.0, 6.0, 6.0, 2.0, 4.0, 3.0, 10.0, 12.0, 8.0, 9.0]
+Command #110: let time1 be clist 1,2,2,0,4,3,5,0,6,5
+time1 = [1.0, 2.0, 2.0, 0.0, 4.0, 3.0, 5.0, 0.0, 6.0, 5.0]
+Command #111: let time2 be clist 3,4,4,2,5,5,6,2,7,6
+time2 = [3.0, 4.0, 4.0, 2.0, 5.0, 5.0, 6.0, 2.0, 7.0, 6.0]
+Command #112: let event be dlist 1,1,0,1,1,0,1,0,1,1
+event = [1, 1, 0, 1, 1, 0, 1, 0, 1, 1]
+Command #113: let group be slist A,A,A,B,B,B,A,B,B,A
+group = ['A', 'A', 'A', 'B', 'B', 'B', 'A', 'B', 'B', 'A']
+Command #114: let age be clist 30,45,38,50,60,41,33,55,48,36
+age = [30.0, 45.0, 38.0, 50.0, 60.0, 41.0, 33.0, 55.0, 48.0, 36.0]
+Command #115: let sex be slist M,F,M,F,F,M,M,F,M,F
+sex = ['M', 'F', 'M', 'F', 'F', 'M', 'M', 'F', 'M', 'F']
+Command #116: let df_surv be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+df_surv = ['entry:entry', 'time:time', 'time1:time1', 'time2:time2', 'event:event', 'group:group', 'age:age', 'sex:sex']
+Command #117: correlate bicor list x1 x2
+        n         r        CI95%         p-val     power
+bicor  10  0.987391  [0.95, 1.0]  1.089362e-07  0.999999
+Command #118: correlate bicor list data=x1,x2
+        n         r        CI95%         p-val     power
+bicor  10  0.987391  [0.95, 1.0]  1.089362e-07  0.999999
+Command #119: correlate bicor dataframe wide df_B x1 x2
+        n         r        CI95%         p-val     power
+bicor  10  0.987391  [0.95, 1.0]  1.089362e-07  0.999999
+Command #120: correlate bicor dataframe wide data=df_B.x1,df_B.x2
+        n         r        CI95%         p-val     power
+bicor  10  0.987391  [0.95, 1.0]  1.089362e-07  0.999999
+Command #121: correlate distance list x1 x2
+          n         r        CI95%         p-val      BF10  power
+pearson  10  0.994252  [0.98, 1.0]  2.371931e-09  8.99e+05    1.0
+Command #122: correlate distance list data=x1,x2
+          n         r        CI95%         p-val      BF10  power
+pearson  10  0.994252  [0.98, 1.0]  2.371931e-09  8.99e+05    1.0
+Command #123: correlate distance dataframe wide df_B x1 x2
+          n         r        CI95%         p-val      BF10  power
+pearson  10  0.994252  [0.98, 1.0]  2.371931e-09  8.99e+05    1.0
+Command #124: correlate distance dataframe wide data=df_B.x1,df_B.x2
+          n         r        CI95%         p-val      BF10  power
+pearson  10  0.994252  [0.98, 1.0]  2.371931e-09  8.99e+05    1.0
+Command #125: correlate kendall list x1 x2
+          n    r       CI95%         p-val  power
+kendall  10  1.0  [1.0, 1.0]  5.511464e-07    1.0
+Command #126: correlate kendall list data=x1,x2
+          n    r       CI95%         p-val  power
+kendall  10  1.0  [1.0, 1.0]  5.511464e-07    1.0
+Command #127: correlate kendall dataframe wide df_B x1 x2
+          n    r       CI95%         p-val  power
+kendall  10  1.0  [1.0, 1.0]  5.511464e-07    1.0
+Command #128: correlate kendall dataframe wide data=df_B.x1,df_B.x2
+          n    r       CI95%         p-val  power
+kendall  10  1.0  [1.0, 1.0]  5.511464e-07    1.0
+Command #129: correlate pearson list x1 x2
+          n         r        CI95%         p-val       BF10  power
+pearson  10  0.994252  [0.97, 1.0]  4.743861e-09  4.495e+05    1.0
+Command #130: correlate pearson list data=x1,x2
+          n         r        CI95%         p-val       BF10  power
+pearson  10  0.994252  [0.97, 1.0]  4.743861e-09  4.495e+05    1.0
+Command #131: correlate pearson dataframe wide df_B x1 x2
+          n         r        CI95%         p-val       BF10  power
+pearson  10  0.994252  [0.97, 1.0]  4.743861e-09  4.495e+05    1.0
+Command #132: correlate pearson dataframe wide data=df_B.x1,df_B.x2
+          n         r        CI95%         p-val       BF10  power
+pearson  10  0.994252  [0.97, 1.0]  4.743861e-09  4.495e+05    1.0
+Command #133: correlate percbend list x1 x2
+           n         r        CI95%         p-val  power
+percbend  10  0.993952  [0.97, 1.0]  5.813106e-09    1.0
+Command #134: correlate percbend list data=x1,x2
+           n         r        CI95%         p-val  power
+percbend  10  0.993952  [0.97, 1.0]  5.813106e-09    1.0
+Command #135: correlate percbend dataframe wide df_B x1 x2
+           n         r        CI95%         p-val  power
+percbend  10  0.993952  [0.97, 1.0]  5.813106e-09    1.0
+Command #136: correlate percbend dataframe wide data=df_B.x1,df_B.x2
+           n         r        CI95%         p-val  power
+percbend  10  0.993952  [0.97, 1.0]  5.813106e-09    1.0
+Command #137: correlate skipped list x1 x2
+          n  outliers    r       CI95%         p-val  power
+skipped  10         0  1.0  [1.0, 1.0]  6.646897e-64    1.0
+Command #138: correlate skipped list data=x1,x2
+          n  outliers    r       CI95%         p-val  power
+skipped  10         0  1.0  [1.0, 1.0]  6.646897e-64    1.0
+Command #139: correlate skipped dataframe wide df_B x1 x2
+          n  outliers    r       CI95%         p-val  power
+skipped  10         0  1.0  [1.0, 1.0]  6.646897e-64    1.0
+Command #140: correlate skipped dataframe wide data=df_B.x1,df_B.x2
+          n  outliers    r       CI95%         p-val  power
+skipped  10         0  1.0  [1.0, 1.0]  6.646897e-64    1.0
+Command #141: correlate spearman list x1 x2
+           n    r       CI95%         p-val  power
+spearman  10  1.0  [1.0, 1.0]  6.646897e-64    1.0
+Command #142: correlate spearman list data=x1,x2
+           n    r       CI95%         p-val  power
+spearman  10  1.0  [1.0, 1.0]  6.646897e-64    1.0
+Command #143: correlate spearman dataframe wide df_B x1 x2
+           n    r       CI95%         p-val  power
+spearman  10  1.0  [1.0, 1.0]  6.646897e-64    1.0
+Command #144: correlate spearman dataframe wide data=df_B.x1,df_B.x2
+           n    r       CI95%         p-val  power
+spearman  10  1.0  [1.0, 1.0]  6.646897e-64    1.0
+Command #145: execute r example_scripts\\r_lm.R inputfile=example_scripts\\lm_data.csv formula="yN ~ x1 + x2 + x3 + x4 + x5"
+Command to run: C:\Dropbox\MyProjects\sipy\portable_R\bin\Rscript.exe --vanilla C:\Dropbox\MyProjects\sipy\example_scripts\r_lm.R --inputfile example_scripts\\lm_data.csv --formula "yN ~ x1 + x2 + x3 + x4 + x5"
+Call:
+lm(formula = as.formula(formula_str), data = data)
+
+Residuals:
+       1        2        3        4        5        6        7        8 
+ 0.11440 -0.08477 -0.05909  0.05514 -0.15369 -0.12513  0.32204 -0.00958 
+       9       10 
+ 0.05335 -0.11267 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)   
+(Intercept) 12.04579    1.57314   7.657  0.00156 **
+x1          -0.02335    0.11690  -0.200  0.85141   
+x2          -0.01062    0.02633  -0.403  0.70740   
+x3           0.01416    0.09793   0.145  0.89199   
+x4           0.08901    0.04580   1.943  0.12391   
+x5          -0.11250    0.01574  -7.147  0.00203 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.2153 on 4 degrees of freedom
+Multiple R-squared:  0.9979,	Adjusted R-squared:  0.9954 
+F-statistic: 387.8 on 5 and 4 DF,  p-value: 1.85e-05
+Command #146: execute julia example_scripts\\julia_lm.jl inputfile=example_scripts\\lm_data.csv response=yN predictors="x1,x2,x3,x4,x5"
+Command to run: C:\Dropbox\MyProjects\sipy\portable_julia\bin\julia.exe --startup-file=no C:\Dropbox\MyProjects\sipy\example_scripts\julia_lm.jl --inputfile example_scripts\\lm_data.csv --response yN --predictors "x1,x2,x3,x4,x5"
+OLS Regression Results:
+Response: yN
+Predictors: x1, x2, x3, x4, x5
+Coefficients:
+[12.045793542011443, -0.023352405307506683, -0.01061719410951987, 0.01416489286203465, 0.08901173277843084, -0.11249636916806162]
+
+RMSE: 0.13617144047533922
+R-squared: 0.9979415569097669
+Command #147: execute python example_scripts\\python_lm.py inputfile=example_scripts\\lm_data.csv response=yN predictors="x1,x2,x3,x4,x5"
+Command to run: C:\Users\mauri\anaconda3\envs\sipy\python.exe C:\Dropbox\MyProjects\sipy\example_scripts\python_lm.py --inputfile example_scripts\\lm_data.csv --response yN --predictors "x1,x2,x3,x4,x5"
+OLS Regression Results:
+Response: yN
+Predictors: x1, x2, x3, x4, x5
+Coefficients:
+[ 1.20457935e+01 -2.33524053e-02 -1.06171941e-02  1.41648929e-02
+  8.90117328e-02 -1.12496369e-01]
+
+RMSE: 0.13617144047533944
+R-squared: 0.9979415569097669
+Command #148: execute shell command="dir /p | findstr "sipy*""
+Command to run: dir /p | findstr "sipy*"
+Directory of C:\Dropbox\MyProjects\sipy
+18/09/2025  10:32 pm             8,131 conda_sipy_environment.txt
+16/12/2025  07:27 pm    <DIR>          libsipy
+18/09/2025  10:32 pm             1,405 pip_sipy_environment.txt
+18/12/2025  11:03 pm           221,880 sipy.py
+08/10/2022  12:23 am             1,395 sipy_CLI.py
+09/01/2026  09:34 am             2,380 sipy_info.py
+04/04/2025  04:17 pm    <DIR>          sipy_plugins
+04/05/2025  12:47 pm             3,837 sipy_pm.py
+Command #149: .dir /p | findstr "sipy*"
+Command to run: dir /p | findstr "sipy*"
+Directory of C:\Dropbox\MyProjects\sipy
+18/09/2025  10:32 pm             8,131 conda_sipy_environment.txt
+16/12/2025  07:27 pm    <DIR>          libsipy
+18/09/2025  10:32 pm             1,405 pip_sipy_environment.txt
+18/12/2025  11:03 pm           221,880 sipy.py
+08/10/2022  12:23 am             1,395 sipy_CLI.py
+09/01/2026  09:34 am             2,380 sipy_info.py
+04/04/2025  04:17 pm    <DIR>          sipy_plugins
+04/05/2025  12:47 pm             3,837 sipy_pm.py
+Command #150: read csv random_5_csv from data/random_5_samples.csv
+Read CSV: data/random_5_samples.csv into random_5_csv
+Command #151: read csv europop from https://raw.githubusercontent.com/softhints/Pandas-Exercises-Projects/refs/heads/main/data/europe_pop.csv
+Read CSV: https://raw.githubusercontent.com/softhints/Pandas-Exercises-Projects/refs/heads/main/data/europe_pop.csv into europop
+Command #152: let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+yN = [1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5]
+Command #153: let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+yB = [1, 0, 1, 0, 1, 0, 1, 1, 0, 1]
+Command #154: let yC be slist A, B, C, A, B, C, A, B, C, A
+yC = ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A']
+Command #155: let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+x1 = [2.0, 3.0, 5.0, 7.0, 11.0, 13.0, 17.0, 19.0, 23.0, 29.0]
+Command #156: let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+x2 = [1.0, 4.0, 9.0, 16.0, 25.0, 36.0, 49.0, 64.0, 81.0, 100.0]
+Command #157: let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+x3 = [5.0, 8.0, 6.0, 10.0, 12.0, 14.0, 18.0, 20.0, 24.0, 30.0]
+Command #158: let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+x4 = [3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3]
+Command #159: let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+x5 = [100.0, 90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0]
+Command #160: let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df = ['yN:yN', 'yB:yB', 'yC:yC', 'x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #161: let df_A be dataframe x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df_A = ['x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #162: let df_B be dataframe x1:x1 x2:x2
+df_B = ['x1:x1', 'x2:x2']
+Command #163: let entry be clist 0,1,2,0,3,1,2,0,4,1
+entry = [0.0, 1.0, 2.0, 0.0, 3.0, 1.0, 2.0, 0.0, 4.0, 1.0]
+Command #164: let time be clist 5,6,6,2,4,3,10,12,8,9
+time = [5.0, 6.0, 6.0, 2.0, 4.0, 3.0, 10.0, 12.0, 8.0, 9.0]
+Command #165: let time1 be clist 1,2,2,0,4,3,5,0,6,5
+time1 = [1.0, 2.0, 2.0, 0.0, 4.0, 3.0, 5.0, 0.0, 6.0, 5.0]
+Command #166: let time2 be clist 3,4,4,2,5,5,6,2,7,6
+time2 = [3.0, 4.0, 4.0, 2.0, 5.0, 5.0, 6.0, 2.0, 7.0, 6.0]
+Command #167: let event be dlist 1,1,0,1,1,0,1,0,1,1
+event = [1, 1, 0, 1, 1, 0, 1, 0, 1, 1]
+Command #168: let group be slist A,A,A,B,B,B,A,B,B,A
+group = ['A', 'A', 'A', 'B', 'B', 'B', 'A', 'B', 'B', 'A']
+Command #169: let age be clist 30,45,38,50,60,41,33,55,48,36
+age = [30.0, 45.0, 38.0, 50.0, 60.0, 41.0, 33.0, 55.0, 48.0, 36.0]
+Command #170: let sex be slist M,F,M,F,F,M,M,F,M,F
+sex = ['M', 'F', 'M', 'F', 'F', 'M', 'M', 'F', 'M', 'F']
+Command #171: let df_surv be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+df_surv = ['entry:entry', 'time:time', 'time1:time1', 'time2:time2', 'event:event', 'group:group', 'age:age', 'sex:sex']
+Command #172: describe kurtosis x1
+Kurtosis = -0.9874131145220866
+Command #173: describe kurtosis data=x1
+Kurtosis = -0.9874131145220866
+Command #174: describe se x1
+Standard error = 2.853652630109932
+Command #175: describe se data=x1
+Standard error = 2.853652630109932
+Command #176: describe skew x1
+Skew = 0.4030520544765256
+Command #177: describe skew data=x1
+Skew = 0.4030520544765256
+Command #178: describe stdev x1
+Standard deviation = 9.024041962077378
+Command #179: describe stdev data=x1
+Standard deviation = 9.024041962077378
+Command #180: describe var x1
+Variance = 81.43333333333332
+Command #181: describe var data=x1
+Variance = 81.43333333333332
+Command #182: let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+yN = [1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5]
+Command #183: let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+yB = [1, 0, 1, 0, 1, 0, 1, 1, 0, 1]
+Command #184: let yC be slist A, B, C, A, B, C, A, B, C, A
+yC = ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A']
+Command #185: let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+x1 = [2.0, 3.0, 5.0, 7.0, 11.0, 13.0, 17.0, 19.0, 23.0, 29.0]
+Command #186: let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+x2 = [1.0, 4.0, 9.0, 16.0, 25.0, 36.0, 49.0, 64.0, 81.0, 100.0]
+Command #187: let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+x3 = [5.0, 8.0, 6.0, 10.0, 12.0, 14.0, 18.0, 20.0, 24.0, 30.0]
+Command #188: let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+x4 = [3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3]
+Command #189: let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+x5 = [100.0, 90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0]
+Command #190: let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df = ['yN:yN', 'yB:yB', 'yC:yC', 'x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #191: let df_A be dataframe x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df_A = ['x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #192: let df_B be dataframe x1:x1 x2:x2
+df_B = ['x1:x1', 'x2:x2']
+Command #193: let entry be clist 0,1,2,0,3,1,2,0,4,1
+entry = [0.0, 1.0, 2.0, 0.0, 3.0, 1.0, 2.0, 0.0, 4.0, 1.0]
+Command #194: let time be clist 5,6,6,2,4,3,10,12,8,9
+time = [5.0, 6.0, 6.0, 2.0, 4.0, 3.0, 10.0, 12.0, 8.0, 9.0]
+Command #195: let time1 be clist 1,2,2,0,4,3,5,0,6,5
+time1 = [1.0, 2.0, 2.0, 0.0, 4.0, 3.0, 5.0, 0.0, 6.0, 5.0]
+Command #196: let time2 be clist 3,4,4,2,5,5,6,2,7,6
+time2 = [3.0, 4.0, 4.0, 2.0, 5.0, 5.0, 6.0, 2.0, 7.0, 6.0]
+Command #197: let event be dlist 1,1,0,1,1,0,1,0,1,1
+event = [1, 1, 0, 1, 1, 0, 1, 0, 1, 1]
+Command #198: let group be slist A,A,A,B,B,B,A,B,B,A
+group = ['A', 'A', 'A', 'B', 'B', 'B', 'A', 'B', 'B', 'A']
+Command #199: let age be clist 30,45,38,50,60,41,33,55,48,36
+age = [30.0, 45.0, 38.0, 50.0, 60.0, 41.0, 33.0, 55.0, 48.0, 36.0]
+Command #200: let sex be slist M,F,M,F,F,M,M,F,M,F
+sex = ['M', 'F', 'M', 'F', 'F', 'M', 'M', 'F', 'M', 'F']
+Command #201: let df_surv be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+df_surv = ['entry:entry', 'time:time', 'time1:time1', 'time2:time2', 'event:event', 'group:group', 'age:age', 'sex:sex']
+Command #202: mean arithmetic x1
+Arimethic mean = 12.9
+Command #203: mean arithmetic data=x1
+Arimethic mean = 12.9
+Command #204: mean geometric x1
+Geometric mean = 9.573888578831271
+Command #205: mean geometric data=x1
+Geometric mean = 9.573888578831271
+Command #206: mean harmonic x1
+Harmonic mean = 6.521290698677154
+Command #207: mean harmonic data=x1
+Harmonic mean = 6.521290698677154
+Command #208: let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+yN = [1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5]
+Command #209: let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+yB = [1, 0, 1, 0, 1, 0, 1, 1, 0, 1]
+Command #210: let yC be slist A, B, C, A, B, C, A, B, C, A
+yC = ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A']
+Command #211: let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+x1 = [2.0, 3.0, 5.0, 7.0, 11.0, 13.0, 17.0, 19.0, 23.0, 29.0]
+Command #212: let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+x2 = [1.0, 4.0, 9.0, 16.0, 25.0, 36.0, 49.0, 64.0, 81.0, 100.0]
+Command #213: let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+x3 = [5.0, 8.0, 6.0, 10.0, 12.0, 14.0, 18.0, 20.0, 24.0, 30.0]
+Command #214: let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+x4 = [3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3]
+Command #215: let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+x5 = [100.0, 90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0]
+Command #216: let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df = ['yN:yN', 'yB:yB', 'yC:yC', 'x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #217: let df_A be dataframe x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df_A = ['x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #218: let df_B be dataframe x1:x1 x2:x2
+df_B = ['x1:x1', 'x2:x2']
+Command #219: let entry be clist 0,1,2,0,3,1,2,0,4,1
+entry = [0.0, 1.0, 2.0, 0.0, 3.0, 1.0, 2.0, 0.0, 4.0, 1.0]
+Command #220: let time be clist 5,6,6,2,4,3,10,12,8,9
+time = [5.0, 6.0, 6.0, 2.0, 4.0, 3.0, 10.0, 12.0, 8.0, 9.0]
+Command #221: let time1 be clist 1,2,2,0,4,3,5,0,6,5
+time1 = [1.0, 2.0, 2.0, 0.0, 4.0, 3.0, 5.0, 0.0, 6.0, 5.0]
+Command #222: let time2 be clist 3,4,4,2,5,5,6,2,7,6
+time2 = [3.0, 4.0, 4.0, 2.0, 5.0, 5.0, 6.0, 2.0, 7.0, 6.0]
+Command #223: let event be dlist 1,1,0,1,1,0,1,0,1,1
+event = [1, 1, 0, 1, 1, 0, 1, 0, 1, 1]
+Command #224: let group be slist A,A,A,B,B,B,A,B,B,A
+group = ['A', 'A', 'A', 'B', 'B', 'B', 'A', 'B', 'B', 'A']
+Command #225: let age be clist 30,45,38,50,60,41,33,55,48,36
+age = [30.0, 45.0, 38.0, 50.0, 60.0, 41.0, 33.0, 55.0, 48.0, 36.0]
+Command #226: let sex be slist M,F,M,F,F,M,M,F,M,F
+sex = ['M', 'F', 'M', 'F', 'F', 'M', 'M', 'F', 'M', 'F']
+Command #227: let df_surv be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+df_surv = ['entry:entry', 'time:time', 'time1:time1', 'time2:time2', 'event:event', 'group:group', 'age:age', 'sex:sex']
+Command #228: normality kurtosis x1
+Z-score = -0.5122942701282507; p-value = 0.608445074800392
+Command #229: normality kurtosis data=x1
+Z-score = -0.5122942701282507; p-value = 0.608445074800392
+Command #230: normality kurtosis df_A
+Z-score = [-0.51229427 -0.47723698 -0.18472672 -1.16071509 -0.98906474]; p-value = [0.60844507 0.63319338 0.85344339 0.24575778 0.32263147]
+Command #231: normality kurtosis data=df_A
+Z-score = [-0.51229427 -0.47723698 -0.18472672 -1.16071509 -0.98906474]; p-value = [0.60844507 0.63319338 0.85344339 0.24575778 0.32263147]
+Command #232: normality jarquebera x1
+Statistic = 0.6769952055005001; p-value = 0.7128404882435215
+Command #233: normality jarquebera data=x1
+Statistic = 0.6769952055005001; p-value = 0.7128404882435215
+Command #234: normality jarquebera df_A
+Statistic = 19.904084848945228; p-value = 4.763025332934925e-05
+Command #235: normality jarquebera data=df_A
+Statistic = 19.904084848945228; p-value = 4.763025332934925e-05
+Command #236: normality shapirowilk x1
+Statistic = 0.949425736005048; p-value = 0.6617106334001631
+Command #237: normality shapirowilk data=x1
+Statistic = 0.949425736005048; p-value = 0.6617106334001631
+Command #238: normality shapirowilk df_A
+Statistic = 0.7771954045321356; p-value = 2.7184402555824915e-07
+Command #239: normality shapirowilk data=df_A
+Statistic = 0.7771954045321356; p-value = 2.7184402555824915e-07
+Command #240: normality skewtest x1
+Z-score = 0.716977; p-value = 0.473388
+Command #241: normality skewtest data=x1
+Z-score = 0.716977; p-value = 0.473388
+Command #242: normality skewtest df_A
+Z-score, p-value 
+0.7169774652205027, 0.47338800143151827 
+1.0056270445744642, 0.3145950093890053 
+0.9705928134120045, 0.33175108609595383 
+-0.07684093862381985, 0.9387500826844087 
+1.024073604571085, 0.3058005106397915
+Command #243: normality skewtest data=df_A
+Z-score, p-value 
+0.7169774652205027, 0.47338800143151827 
+1.0056270445744642, 0.3145950093890053 
+0.9705928134120045, 0.33175108609595383 
+-0.07684093862381985, 0.9387500826844087 
+1.024073604571085, 0.3058005106397915
+Command #244: let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+yN = [1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5]
+Command #245: let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+yB = [1, 0, 1, 0, 1, 0, 1, 1, 0, 1]
+Command #246: let yC be slist A, B, C, A, B, C, A, B, C, A
+yC = ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A']
+Command #247: let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+x1 = [2.0, 3.0, 5.0, 7.0, 11.0, 13.0, 17.0, 19.0, 23.0, 29.0]
+Command #248: let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+x2 = [1.0, 4.0, 9.0, 16.0, 25.0, 36.0, 49.0, 64.0, 81.0, 100.0]
+Command #249: let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+x3 = [5.0, 8.0, 6.0, 10.0, 12.0, 14.0, 18.0, 20.0, 24.0, 30.0]
+Command #250: let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+x4 = [3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3]
+Command #251: let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+x5 = [100.0, 90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0]
+Command #252: let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df = ['yN:yN', 'yB:yB', 'yC:yC', 'x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #253: let df_A be dataframe x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df_A = ['x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #254: let df_B be dataframe x1:x1 x2:x2
+df_B = ['x1:x1', 'x2:x2']
+Command #255: let entry be clist 0,1,2,0,3,1,2,0,4,1
+entry = [0.0, 1.0, 2.0, 0.0, 3.0, 1.0, 2.0, 0.0, 4.0, 1.0]
+Command #256: let time be clist 5,6,6,2,4,3,10,12,8,9
+time = [5.0, 6.0, 6.0, 2.0, 4.0, 3.0, 10.0, 12.0, 8.0, 9.0]
+Command #257: let time1 be clist 1,2,2,0,4,3,5,0,6,5
+time1 = [1.0, 2.0, 2.0, 0.0, 4.0, 3.0, 5.0, 0.0, 6.0, 5.0]
+Command #258: let time2 be clist 3,4,4,2,5,5,6,2,7,6
+time2 = [3.0, 4.0, 4.0, 2.0, 5.0, 5.0, 6.0, 2.0, 7.0, 6.0]
+Command #259: let event be dlist 1,1,0,1,1,0,1,0,1,1
+event = [1, 1, 0, 1, 1, 0, 1, 0, 1, 1]
+Command #260: let group be slist A,A,A,B,B,B,A,B,B,A
+group = ['A', 'A', 'A', 'B', 'B', 'B', 'A', 'B', 'B', 'A']
+Command #261: let age be clist 30,45,38,50,60,41,33,55,48,36
+age = [30.0, 45.0, 38.0, 50.0, 60.0, 41.0, 33.0, 55.0, 48.0, 36.0]
+Command #262: let sex be slist M,F,M,F,F,M,M,F,M,F
+sex = ['M', 'F', 'M', 'F', 'F', 'M', 'M', 'F', 'M', 'F']
+Command #263: let df_surv be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+df_surv = ['entry:entry', 'time:time', 'time1:time1', 'time2:time2', 'event:event', 'group:group', 'age:age', 'sex:sex']
+Command #264: rregress cloglog data=df y=yB x=x1,x2,x3,x4,x5
+Call:
+glm(formula = yB ~ x1 + x2 + x3 + x4 + x5, family = binomial(link = "cloglog"), 
+    data = data)
+
+Coefficients:
+             Estimate Std. Error z value Pr(>|z|)
+(Intercept) -37.42995   36.59558  -1.023    0.306
+x1            3.59106    3.23870   1.109    0.268
+x2           -0.09291    0.21418  -0.434    0.664
+x3           -1.90586    2.19276  -0.869    0.385
+x4           -0.08588    0.45361  -0.189    0.850
+x5            0.41811    0.38778   1.078    0.281
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 13.4602  on 9  degrees of freedom
+Residual deviance:  5.8472  on 4  degrees of freedom
+AIC: 17.847
+
+Number of Fisher Scoring iterations: 11
+Command #265: rregress cloglog data=df y=yB x=all
+Call:
+glm(formula = yB ~ yN + yC + x1 + x2 + x3 + x4 + x5, family = binomial(link = "cloglog"), 
+    data = data)
+
+Coefficients:
+              Estimate Std. Error z value Pr(>|z|)
+(Intercept) -3.997e+02  5.220e+06       0        1
+yN           2.075e+01  2.948e+05       0        1
+yCB          5.456e+00  1.816e+05       0        1
+yCC         -2.224e+01  1.788e+05       0        1
+x1           1.843e+01  6.196e+04       0        1
+x2           1.538e+00  1.037e+04       0        1
+x3          -1.708e+01  1.010e+05       0        1
+x4          -3.225e+00  4.000e+04       0        1
+x5           4.576e+00  4.735e+04       0        1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1.3460e+01  on 9  degrees of freedom
+Residual deviance: 4.6972e-10  on 1  degrees of freedom
+AIC: 18
+
+Number of Fisher Scoring iterations: 23
+Command #266: rregress decision_tree data=df y=yN x=x1,x2,x3,x4,x5
+Call:
+rpart::rpart(formula = yN ~ x1 + x2 + x3 + x4 + x5, data = data)
+  n= 10 
+
+    CP nsplit rel error xerror xstd
+1 0.01      0         1      0    0
+
+Node number 1: 10 observations
+  mean=5.97, MSE=9.0081
+Command #267: rregress decision_tree data=df y=yN x=all
+Call:
+rpart::rpart(formula = yN ~ yB + yC + x1 + x2 + x3 + x4 + x5, 
+    data = data)
+  n= 10 
+
+    CP nsplit rel error xerror xstd
+1 0.01      0         1      0    0
+
+Node number 1: 10 observations
+  mean=5.97, MSE=9.0081
+Command #268: rregress elasticnet data=df y=yN x=x1,x2,x3,x4,x5
+Length Class  Mode     
+lambda     62     -none- numeric  
+cvm        62     -none- numeric  
+cvsd       62     -none- numeric  
+cvup       62     -none- numeric  
+cvlo       62     -none- numeric  
+nzero      62     -none- numeric  
+call        4     -none- call     
+name        1     -none- character
+glmnet.fit 12     elnet  list     
+lambda.min  1     -none- numeric  
+lambda.1se  1     -none- numeric  
+index       2     -none- numeric
+Command #269: rregress elasticnet data=df y=yN x=all
+Length Class  Mode     
+lambda     95     -none- numeric  
+cvm        95     -none- numeric  
+cvsd       95     -none- numeric  
+cvup       95     -none- numeric  
+cvlo       95     -none- numeric  
+nzero      95     -none- numeric  
+call        4     -none- call     
+name        1     -none- character
+glmnet.fit 12     elnet  list     
+lambda.min  1     -none- numeric  
+lambda.1se  1     -none- numeric  
+index       2     -none- numeric
+Command #270: rregress gamma data=df y=yN x=x1,x2,x3,x4,x5
+Call:
+glm(formula = yN ~ x1 + x2 + x3 + x4 + x5, family = Gamma(link = "log"), 
+    data = data)
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  5.442789   0.624957   8.709 0.000957 ***
+x1          -0.035289   0.046439  -0.760 0.489643    
+x2          -0.025587   0.010460  -2.446 0.070739 .  
+x3           0.022213   0.038904   0.571 0.598569    
+x4           0.025924   0.018197   1.425 0.227379    
+x5          -0.052692   0.006253  -8.427 0.001086 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Gamma family taken to be 0.007316107)
+
+    Null deviance: 3.572618  on 9  degrees of freedom
+Residual deviance: 0.028706  on 4  degrees of freedom
+AIC: 16.014
+
+Number of Fisher Scoring iterations: 4
+Command #271: rregress gamma data=df y=yN x=all
+Call:
+glm(formula = yN ~ yB + yC + x1 + x2 + x3 + x4 + x5, family = Gamma(link = "log"), 
+    data = data)
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  5.89138    1.11911   5.264    0.120
+yB           0.28165    0.24312   1.158    0.453
+yCB         -0.05730    0.09869  -0.581    0.665
+yCC          0.25788    0.21492   1.200    0.442
+x1          -0.18414    0.14366  -1.282    0.422
+x2          -0.03478    0.01499  -2.321    0.259
+x3           0.17116    0.12858   1.331    0.410
+x4           0.04152    0.02568   1.617    0.353
+x5          -0.06545    0.01484  -4.411    0.142
+
+(Dispersion parameter for Gamma family taken to be 0.01095669)
+
+    Null deviance: 3.572618  on 9  degrees of freedom
+Residual deviance: 0.011043  on 1  degrees of freedom
+AIC: 12.457
+
+Number of Fisher Scoring iterations: 4
+Command #272: rregress gradient_boosting data=df y=yN x=x1,x2,x3,x4,x5
+Distribution not specified, assuming gaussian ...
+   var    rel.inf
+x1  x1 89.4232495
+x5  x5  8.6713643
+x4  x4  1.0341604
+x3  x3  0.8712258
+x2  x2  0.0000000
+Command #273: rregress hurdle data=df y=yB x=x1,x2,x3,x4,x5
+Call:
+pscl::hurdle(formula = yB ~ x1 + x2 + x3 + x4 + x5, data = data)
+
+Pearson residuals:
+     Min       1Q   Median       3Q      Max 
+-1.26969 -0.09179  0.11949  0.32417  1.56110 
+
+Count model coefficients (truncated poisson with log link):
+              Estimate Std. Error z value Pr(>|z|)
+(Intercept) -1.305e+01  3.380e+06       0        1
+x1           1.426e+00  5.401e+05       0        1
+x2          -2.349e-01  3.567e+04       0        1
+x3          -9.312e-01  4.655e+05       0        1
+x4          -9.479e-02  5.754e+04       0        1
+x5          -1.098e-01  3.782e+04       0        1
+Zero hurdle model coefficients (binomial with logit link):
+             Estimate Std. Error z value Pr(>|z|)
+(Intercept) -47.49114   48.74507  -0.974    0.330
+x1            4.46216    3.85487   1.158    0.247
+x2           -0.07283    0.38649  -0.188    0.851
+x3           -2.45155    3.26683  -0.750    0.453
+x4           -0.16344    0.73701  -0.222    0.825
+x5            0.55247    0.51536   1.072    0.284
+
+Number of iterations in BFGS optimization: 4 
+Log-likelihood: -3.198 on 12 Df
+Command #274: rregress hurdle data=df y=yB x=all
+Call:
+pscl::hurdle(formula = yB ~ yN + yC + x1 + x2 + x3 + x4 + x5, data = data)
+
+Pearson residuals:
+       Min         1Q     Median         3Q        Max 
+-4.860e-06 -2.369e-06  1.691e-07  2.904e-06  5.332e-06 
+
+Count model coefficients (truncated poisson with log link):
+              Estimate Std. Error z value Pr(>|z|)
+(Intercept)  8.709e+01        NaN     NaN      NaN
+yN          -5.598e+00  1.125e+06       0        1
+yCB         -1.107e+01        NaN     NaN      NaN
+yCC         -3.446e+01        NaN     NaN      NaN
+x1           1.912e+01        NaN     NaN      NaN
+x2           1.793e+00        NaN     NaN      NaN
+x3          -2.663e+01        NaN     NaN      NaN
+x4           6.113e-01        NaN     NaN      NaN
+x5          -1.994e-01  3.756e+04       0        1
+Zero hurdle model coefficients (binomial with logit link):
+              Estimate Std. Error z value Pr(>|z|)
+(Intercept) -7.467e+02  1.475e+07       0        1
+yN           3.993e+01  9.789e+05       0        1
+yCB          1.167e+01  4.674e+05       0        1
+yCC         -4.108e+01  4.943e+05       0        1
+x1           3.369e+01  2.557e+05       0        1
+x2           2.848e+00  4.536e+04       0        1
+x3          -3.096e+01  1.961e+05       0        1
+x4          -5.995e+00  1.276e+05       0        1
+x5           8.700e+00  1.358e+05       0        1
+
+Number of iterations in BFGS optimization: 3 
+Log-likelihood: 0.003484 on 18 Df
+Command #275: rregress inversegaussian data=df y=yN x=x1,x2,x3,x4,x5
+Call:
+glm(formula = yN ~ x1 + x2 + x3 + x4 + x5, family = inverse.gaussian(link = "log"), 
+    data = data)
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  6.240421   0.760719   8.203 0.001203 ** 
+x1          -0.068109   0.059039  -1.154 0.312894    
+x2          -0.024969   0.014570  -1.714 0.161727    
+x3           0.027999   0.037078   0.755 0.492189    
+x4           0.020467   0.023227   0.881 0.427993    
+x5          -0.060689   0.006775  -8.958 0.000859 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for inverse.gaussian family taken to be 0.001987347)
+
+    Null deviance: 0.9078106  on 9  degrees of freedom
+Residual deviance: 0.0076893  on 4  degrees of freedom
+AIC: 18.917
+
+Number of Fisher Scoring iterations: 5
+Command #276: rregress inversegaussian data=df y=yN x=all
+Call:
+glm(formula = yN ~ yB + yC + x1 + x2 + x3 + x4 + x5, family = inverse.gaussian(link = "log"), 
+    data = data)
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)  
+(Intercept)  6.14609    0.96856   6.346   0.0995 .
+yB           0.32049    0.18333   1.748   0.3308  
+yCB         -0.06826    0.08700  -0.785   0.5765  
+yCC          0.29859    0.14612   2.044   0.2897  
+x1          -0.21245    0.10710  -1.984   0.2973  
+x2          -0.03513    0.01367  -2.570   0.2362  
+x3           0.18903    0.09399   2.011   0.2938  
+x4           0.04592    0.02289   2.006   0.2944  
+x5          -0.06908    0.01129  -6.116   0.1032  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for inverse.gaussian family taken to be 0.001421984)
+
+    Null deviance: 0.9078106  on 9  degrees of freedom
+Residual deviance: 0.0014522  on 1  degrees of freedom
+AIC: 8.2493
+
+Number of Fisher Scoring iterations: 4
+Command #277: rregress lasso data=df y=yN x=x1,x2,x3,x4,x5
+Length Class  Mode     
+lambda     56     -none- numeric  
+cvm        56     -none- numeric  
+cvsd       56     -none- numeric  
+cvup       56     -none- numeric  
+cvlo       56     -none- numeric  
+nzero      56     -none- numeric  
+call        4     -none- call     
+name        1     -none- character
+glmnet.fit 12     elnet  list     
+lambda.min  1     -none- numeric  
+lambda.1se  1     -none- numeric  
+index       2     -none- numeric
+Command #278: rregress lasso data=df y=yN x=all
+Length Class  Mode     
+lambda     75     -none- numeric  
+cvm        75     -none- numeric  
+cvsd       75     -none- numeric  
+cvup       75     -none- numeric  
+cvlo       75     -none- numeric  
+nzero      75     -none- numeric  
+call        4     -none- call     
+name        1     -none- character
+glmnet.fit 12     elnet  list     
+lambda.min  1     -none- numeric  
+lambda.1se  1     -none- numeric  
+index       2     -none- numeric
+Command #279: rregress lm data=df y=yN x=x1,x2,x3,x4,x5
+Call:
+lm(formula = yN ~ x1 + x2 + x3 + x4 + x5, data = data)
+
+Residuals:
+       1        2        3        4        5        6        7        8 
+ 0.11440 -0.08477 -0.05909  0.05514 -0.15369 -0.12513  0.32204 -0.00958 
+       9       10 
+ 0.05335 -0.11267 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)   
+(Intercept) 12.04579    1.57314   7.657  0.00156 **
+x1          -0.02335    0.11690  -0.200  0.85141   
+x2          -0.01062    0.02633  -0.403  0.70740   
+x3           0.01416    0.09793   0.145  0.89199   
+x4           0.08901    0.04580   1.943  0.12391   
+x5          -0.11250    0.01574  -7.147  0.00203 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.2153 on 4 degrees of freedom
+Multiple R-squared:  0.9979,	Adjusted R-squared:  0.9954 
+F-statistic: 387.8 on 5 and 4 DF,  p-value: 1.85e-05
+Command #280: rregress lm data=df y=yN x=all
+Call:
+lm(formula = yN ~ yB + yC + x1 + x2 + x3 + x4 + x5, data = data)
+
+Residuals:
+        1         2         3         4         5         6         7         8 
+ 0.074350  0.012392 -0.086742 -0.099133  0.007875 -0.040534  0.156575 -0.020267 
+        9        10 
+ 0.127275 -0.131792 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept) 14.22103    3.08447   4.611    0.136
+yB           0.24707    0.67008   0.369    0.775
+yCB         -0.27691    0.27200  -1.018    0.494
+yCC         -0.06459    0.59235  -0.109    0.931
+x1          -0.21814    0.39594  -0.551    0.679
+x2          -0.00765    0.04131  -0.185    0.883
+x3           0.12105    0.35438   0.342    0.790
+x4           0.08859    0.07078   1.252    0.429
+x5          -0.13778    0.04090  -3.369    0.184
+
+Residual standard error: 0.2885 on 1 degrees of freedom
+Multiple R-squared:  0.9991,	Adjusted R-squared:  0.9917 
+F-statistic: 135.2 on 8 and 1 DF,  p-value: 0.06643
+Command #281: rregress multinom data=df y=yC x=x1,x2,x3,x4,x5
+# weights:  21 (12 variable)
+initial  value 10.986123 
+iter  10 value 7.795260
+iter  20 value 6.740264
+iter  30 value 6.623106
+iter  40 value 6.316542
+iter  50 value 6.215245
+iter  60 value 6.204664
+iter  70 value 6.120127
+iter  80 value 5.967442
+iter  90 value 5.877778
+iter 100 value 5.839955
+final  value 5.839955 
+stopped after 100 iterations
+Call:
+nnet::multinom(formula = yC ~ x1 + x2 + x3 + x4 + x5, data = data)
+
+Coefficients:
+  (Intercept)        x1         x2          x3         x4         x5
+B    31.14076 -1.349844 0.04034069   0.2521877 -0.3572707 -0.3012964
+C   -51.08582 68.881412 3.09595680 -75.6129292 -1.2046572  2.2135126
+
+Std. Errors:
+  (Intercept)       x1        x2       x3        x4        x5
+B  30.5607166 1.467528 0.3508552 1.329338 0.6710372 0.2714155
+C   0.3259539 2.341665 1.2324099 2.265220 0.8871705 0.3343897
+
+Residual Deviance: 11.67991 
+AIC: 35.67991
+Command #282: rregress multinom data=df y=yC x=all
+# weights:  27 (16 variable)
+initial  value 10.986123 
+iter  10 value 4.987441
+iter  20 value 0.128868
+iter  30 value 0.000126
+iter  30 value 0.000063
+iter  30 value 0.000062
+final  value 0.000062 
+converged
+Call:
+nnet::multinom(formula = yC ~ yN + yB + x1 + x2 + x3 + x4 + x5, 
+    data = data)
+
+Coefficients:
+  (Intercept)       yN        yB        x1        x2         x3        x4
+B    60.24454 36.15776  291.9850 -153.5995  5.865259   95.96562 27.680136
+C    11.68283 74.27455 -445.9784  166.4057 40.496512 -331.64982  1.921081
+         x5
+B -6.716137
+C 14.284189
+
+Std. Errors:
+   (Intercept)           yN           yB           x1           x2           x3
+B 4.464659e+01 3.040910e+02 2.102667e+02 3.991768e+02 9.966404e+01 3.009113e+02
+C 1.204282e-52 5.780552e-52 2.786879e-83 8.429972e-52 1.926851e-51 1.204282e-51
+            x4           x5
+B 2.180891e+02 1.015285e+01
+C 1.035682e-51 8.429972e-51
+
+Residual Deviance: 0.0001233243 
+AIC: 32.00012
+Command #283: rregress negbinom data=df y=yB x=x1,x2,x3,x4,x5
+Call:
+MASS::glm.nb(formula = yB ~ x1 + x2 + x3 + x4 + x5, data = data, 
+    init.theta = 21620.76942, link = log)
+
+Coefficients:
+             Estimate Std. Error z value Pr(>|z|)
+(Intercept) -13.04331   11.28134  -1.156    0.248
+x1            1.48864    1.16366   1.279    0.201
+x2           -0.04845    0.18632  -0.260    0.795
+x3           -0.86228    0.95054  -0.907    0.364
+x4           -0.06348    0.33029  -0.192    0.848
+x5            0.14422    0.11636   1.239    0.215
+
+(Dispersion parameter for Negative Binomial(21620.77) family taken to be 1)
+
+    Null deviance: 6.1298  on 9  degrees of freedom
+Residual deviance: 3.2119  on 4  degrees of freedom
+AIC: 29.212
+
+Number of Fisher Scoring iterations: 1
+
+
+              Theta:  21621 
+          Std. Err.:  781612 
+Warning while fitting theta: iteration limit reached 
+
+ 2 x log-likelihood:  -15.212
+Command #284: rregress negbinom data=df y=yB x=all
+Call:
+MASS::glm.nb(formula = yB ~ yN + yC + x1 + x2 + x3 + x4 + x5, 
+    data = data, init.theta = 47139.34767, link = log)
+
+Coefficients:
+              Estimate Std. Error z value Pr(>|z|)
+(Intercept)  9.228e+01  9.762e+06       0        1
+yN          -5.869e+00  5.624e+05       0        1
+yCB         -1.161e+01  3.521e+05       0        1
+yCC         -3.598e+01  3.783e+05       0        1
+x1           1.998e+01  1.520e+05       0        1
+x2           2.116e+00  2.114e+04       0        1
+x3          -2.768e+01  1.153e+05       0        1
+x4           6.946e-01  7.473e+04       0        1
+x5           8.947e-02  8.847e+04       0        1
+
+(Dispersion parameter for Negative Binomial(47139.35) family taken to be 1)
+
+    Null deviance: 6.1299e+00  on 9  degrees of freedom
+Residual deviance: 9.4674e-11  on 1  degrees of freedom
+AIC: 32
+
+Number of Fisher Scoring iterations: 1
+
+
+              Theta:  47139 
+          Std. Err.:  2274405 
+Warning while fitting theta: iteration limit reached 
+
+ 2 x log-likelihood:  -12
+Command #285: rregress polr data=df y=yC x=x1,x2,x3,x4,x5
+Call:
+MASS::polr(formula = yC ~ x1 + x2 + x3 + x4 + x5, data = data)
+
+Coefficients:
+     Value Std. Error t value
+x1 -1.0689     1.1918 -0.8969
+x2  0.2302     0.2633  0.8741
+x3 -0.7294     0.9270 -0.7869
+x4 -0.2134     0.4313 -0.4948
+x5 -0.2624     0.1899 -1.3813
+
+Intercepts:
+    Value    Std. Error t value 
+A|B -32.2249  20.3046    -1.5871
+B|C -30.2339  19.9199    -1.5178
+
+Residual Deviance: 16.48028 
+AIC: 30.48028
+Command #286: rregress polr data=df y=yC x=all
+Call:
+MASS::polr(formula = yC ~ yN + yB + x1 + x2 + x3 + x4 + x5, data = data)
+
+Coefficients:
+     Value Std. Error  t value
+yN -605.14    1098.27 -0.55100
+yB  -25.46     260.90 -0.09758
+x1  -57.20     349.67 -0.16358
+x2   12.78     257.39  0.04967
+x3  -36.08     992.76 -0.03634
+x4   62.74      79.13  0.79291
+x5  -70.35      78.84 -0.89231
+
+Intercepts:
+    Value      Std. Error t value   
+A|B -7816.9967    82.1112   -95.2001
+B|C -7792.5689  2324.3775    -3.3525
+
+Residual Deviance: 0.0005399265 
+AIC: 18.00054
+Command #287: rregress quasibinom data=df y=yB x=x1,x2,x3,x4,x5
+Call:
+glm(formula = yB ~ x1 + x2 + x3 + x4 + x5, family = quasibinomial(), 
+    data = data)
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) -47.49114   56.19609  -0.845    0.446
+x1            4.46216    4.43494   1.006    0.371
+x2           -0.07283    0.44381  -0.164    0.878
+x3           -2.45155    3.75836  -0.652    0.550
+x4           -0.16344    0.84769  -0.193    0.857
+x5            0.55247    0.59463   0.929    0.405
+
+(Dispersion parameter for quasibinomial family taken to be 1.324672)
+
+    Null deviance: 13.4602  on 9  degrees of freedom
+Residual deviance:  6.3964  on 4  degrees of freedom
+AIC: NA
+
+Number of Fisher Scoring iterations: 7
+Command #288: rregress quasibinom data=df y=yB x=all
+Call:
+glm(formula = yB ~ yN + yC + x1 + x2 + x3 + x4 + x5, family = quasibinomial(), 
+    data = data)
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)  
+(Intercept) -746.693    159.680  -4.676   0.1341  
+yN            39.931     10.586   3.772   0.1650  
+yCB           11.667      5.056   2.307   0.2604  
+yCC          -41.081      5.346  -7.684   0.0824 .
+x1            33.691      2.763  12.192   0.0521 .
+x2             2.848      0.491   5.800   0.1087  
+x3           -30.959      2.121 -14.599   0.0435 *
+x4            -5.995      1.380  -4.345   0.1440  
+x5             8.700      1.471   5.914   0.1066  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for quasibinomial family taken to be 3.178174e-10)
+
+    Null deviance: 1.3460e+01  on 9  degrees of freedom
+Residual deviance: 2.3384e-10  on 1  degrees of freedom
+AIC: NA
+
+Number of Fisher Scoring iterations: 24
+Command #289: rregress quasipoisson data=df y=yN x=x1,x2,x3,x4,x5
+Call:
+glm(formula = yN ~ x1 + x2 + x3 + x4 + x5, family = quasipoisson(), 
+    data = data)
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  4.904432   0.438557  11.183 0.000364 ***
+x1          -0.018707   0.035268  -0.530 0.623906    
+x2          -0.025424   0.006992  -3.636 0.022038 *  
+x3           0.023143   0.036044   0.642 0.555774    
+x4           0.025344   0.012478   2.031 0.112071    
+x5          -0.047003   0.005150  -9.127 0.000800 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for quasipoisson family taken to be 0.02080112)
+
+    Null deviance: 16.793020  on 9  degrees of freedom
+Residual deviance:  0.083447  on 4  degrees of freedom
+AIC: NA
+
+Number of Fisher Scoring iterations: 3
+Command #290: rregress quasipoisson data=df y=yN x=all
+Call:
+glm(formula = yN ~ yB + yC + x1 + x2 + x3 + x4 + x5, family = quasipoisson(), 
+    data = data)
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  5.36002    1.11545   4.805    0.131
+yB           0.16330    0.29020   0.563    0.674
+yCB         -0.04186    0.09745  -0.430    0.742
+yCC          0.13802    0.28300   0.488    0.711
+x1          -0.11195    0.16980  -0.659    0.629
+x2          -0.03004    0.01712  -1.754    0.330
+x3           0.10819    0.16775   0.645    0.635
+x4           0.03275    0.02482   1.319    0.413
+x5          -0.05616    0.01747  -3.214    0.192
+
+(Dispersion parameter for quasipoisson family taken to be 0.05810227)
+
+    Null deviance: 16.793020  on 9  degrees of freedom
+Residual deviance:  0.058532  on 1  degrees of freedom
+AIC: NA
+
+Number of Fisher Scoring iterations: 3
+Command #291: rregress randomforest data=df y=yN x=x1,x2,x3,x4,x5
+Length Class  Mode     
+call              3    -none- call     
+type              1    -none- character
+predicted        10    -none- numeric  
+mse             500    -none- numeric  
+rsq             500    -none- numeric  
+oob.times        10    -none- numeric  
+importance        5    -none- numeric  
+importanceSD      0    -none- NULL     
+localImportance   0    -none- NULL     
+proximity         0    -none- NULL     
+ntree             1    -none- numeric  
+mtry              1    -none- numeric  
+forest           11    -none- list     
+coefs             0    -none- NULL     
+y                10    -none- numeric  
+test              0    -none- NULL     
+inbag             0    -none- NULL     
+terms             3    terms  call
+Command #292: rregress randomforest data=df y=yN x=all
+Length Class  Mode     
+call              3    -none- call     
+type              1    -none- character
+predicted        10    -none- numeric  
+mse             500    -none- numeric  
+rsq             500    -none- numeric  
+oob.times        10    -none- numeric  
+importance        7    -none- numeric  
+importanceSD      0    -none- NULL     
+localImportance   0    -none- NULL     
+proximity         0    -none- NULL     
+ntree             1    -none- numeric  
+mtry              1    -none- numeric  
+forest           11    -none- list     
+coefs             0    -none- NULL     
+y                10    -none- numeric  
+test              0    -none- NULL     
+inbag             0    -none- NULL     
+terms             3    terms  call
+Command #293: rregress svm data=df y=yN x=x1,x2,x3,x4,x5
+Call:
+svm(formula = yN ~ x1 + x2 + x3 + x4 + x5, data = data)
+
+
+Parameters:
+   SVM-Type:  eps-regression 
+ SVM-Kernel:  radial 
+       cost:  1 
+      gamma:  0.2 
+    epsilon:  0.1 
+
+
+Number of Support Vectors:  8
+Command #294: rregress svm data=df y=yN x=all
+Call:
+svm(formula = yN ~ yB + yC + x1 + x2 + x3 + x4 + x5, data = data)
+
+
+Parameters:
+   SVM-Type:  eps-regression 
+ SVM-Kernel:  radial 
+       cost:  1 
+      gamma:  0.1111111 
+    epsilon:  0.1 
+
+
+Number of Support Vectors:  7
+Command #295: rregress svr data=df y=yN x=x1,x2,x3,x4,x5
+Call:
+svm(formula = yN ~ x1 + x2 + x3 + x4 + x5, data = data)
+
+
+Parameters:
+   SVM-Type:  eps-regression 
+ SVM-Kernel:  radial 
+       cost:  1 
+      gamma:  0.2 
+    epsilon:  0.1 
+
+
+Number of Support Vectors:  8
+Command #296: rregress svr data=df y=yN x=all
+Call:
+svm(formula = yN ~ yB + yC + x1 + x2 + x3 + x4 + x5, data = data)
+
+
+Parameters:
+   SVM-Type:  eps-regression 
+ SVM-Kernel:  radial 
+       cost:  1 
+      gamma:  0.1111111 
+    epsilon:  0.1 
+
+
+Number of Support Vectors:  7
+Command #297: rregress tweedie data=df y=yN x=x1,x2,x3,x4,x5
+Call:
+glm(formula = yN ~ x1 + x2 + x3 + x4 + x5, family = statmod::tweedie(var.power = 1.5, 
+    link.power = 0), data = data)
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  5.132434   0.527029   9.738 0.000623 ***
+x1          -0.024574   0.040256  -0.610 0.574543    
+x2          -0.025566   0.008542  -2.993 0.040221 *  
+x3           0.021695   0.037896   0.572 0.597637    
+x4           0.026177   0.015205   1.722 0.160240    
+x5          -0.049448   0.005687  -8.696 0.000963 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Tweedie family taken to be 0.01253651)
+
+    Null deviance: 7.59806  on 9  degrees of freedom
+Residual deviance: 0.04988  on 4  degrees of freedom
+AIC: NA
+
+Number of Fisher Scoring iterations: 3
+Command #298: rregress tweedie data=df y=yN x=all
+Call:
+glm(formula = yN ~ yB + yC + x1 + x2 + x3 + x4 + x5, family = statmod::tweedie(var.power = 1.5, 
+    link.power = 0), data = data)
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  5.65435    1.15802   4.883    0.129
+yB           0.23268    0.27465   0.847    0.553
+yCB         -0.04918    0.10074  -0.488    0.711
+yCC          0.20868    0.25592   0.815    0.565
+x1          -0.15345    0.16156  -0.950    0.516
+x2          -0.03311    0.01614  -2.051    0.289
+x3           0.14596    0.15114   0.966    0.511
+x4           0.03762    0.02610   1.441    0.386
+x5          -0.06151    0.01670  -3.682    0.169
+
+(Dispersion parameter for Tweedie family taken to be 0.02698886)
+
+    Null deviance: 7.59806  on 9  degrees of freedom
+Residual deviance: 0.02712  on 1  degrees of freedom
+AIC: NA
+
+Number of Fisher Scoring iterations: 2
+Command #299: rregress zeroinfl data=df y=yB x=x1,x2,x3,x4,x5
+Call:
+pscl::zeroinfl(formula = yB ~ x1 + x2 + x3 + x4 + x5, data = data)
+
+Pearson residuals:
+     Min       1Q   Median       3Q      Max 
+-0.45947 -0.26794 -0.01359  0.09141  0.60865 
+
+Count model coefficients (poisson with log link):
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept) -9.15384   11.12547  -0.823    0.411
+x1           1.13648    1.23371   0.921    0.357
+x2          -0.15954    0.19555  -0.816    0.415
+x3          -0.16241    1.13707  -0.143    0.886
+x4          -0.34086    0.41293  -0.825    0.409
+x5           0.08786    0.11902   0.738    0.460
+
+Zero-inflation model coefficients (binomial with logit link):
+             Estimate Std. Error z value Pr(>|z|)
+(Intercept)   48.5403  3272.1665   0.015    0.988
+x1            -2.9789   157.3541  -0.019    0.985
+x2            -2.7745    29.5648  -0.094    0.925
+x3            12.8501    65.4869   0.196    0.844
+x4            -8.5312    84.0976  -0.101    0.919
+x5            -0.8874    32.9442  -0.027    0.979
+
+Number of iterations in BFGS optimization: 65 
+Log-likelihood: -6.632 on 12 Df
+Command #300: rregress zeroinfl data=df y=yB x=all
+Call:
+pscl::zeroinfl(formula = yB ~ yN + yC + x1 + x2 + x3 + x4 + x5, data = data)
+
+Pearson residuals:
+       Min         1Q     Median         3Q        Max 
+-2.843e-09 -2.065e-09 -1.815e-09 -2.714e-11 -6.105e-22 
+
+Count model coefficients (poisson with log link):
+             Estimate Std. Error z value Pr(>|z|)
+(Intercept)  87.09492         NA      NA       NA
+yN           -5.56379         NA      NA       NA
+yCB         -11.07250         NA      NA       NA
+yCC         -34.45570         NA      NA       NA
+x1           19.20183         NA      NA       NA
+x2            2.02437         NA      NA       NA
+x3          -26.54282         NA      NA       NA
+x4            0.64897         NA      NA       NA
+x5            0.09856         NA      NA       NA
+
+Zero-inflation model coefficients (binomial with logit link):
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept)  746.693         NA      NA       NA
+yN           -39.931         NA      NA       NA
+yCB          -11.667         NA      NA       NA
+yCC           41.080         NA      NA       NA
+x1           -33.691         NA      NA       NA
+x2            -2.848         NA      NA       NA
+x3            30.959         NA      NA       NA
+x4             5.995         NA      NA       NA
+x5            -8.700         NA      NA       NA
+
+Number of iterations in BFGS optimization: 1 
+Log-likelihood:    -6 on 18 Df
+Command #301: regress linear yN x1
+       names      coef        se          T          pval        r2    adj_r2  CI[2.5%]  CI[97.5%]
+0  Intercept  1.534998  0.375778   4.084848  3.510515e-03  0.961656  0.956863  0.668451   2.401545
+1       None  0.343799  0.024272  14.164663  6.003703e-07  0.961656  0.956863  0.287828   0.399769
+Command #302: regress linear y=yN x=x1 intercept=yes
+       names      coef        se          T          pval        r2    adj_r2  CI[2.5%]  CI[97.5%]
+0  Intercept  1.534998  0.375778   4.084848  3.510515e-03  0.961656  0.956863  0.668451   2.401545
+1       None  0.343799  0.024272  14.164663  6.003703e-07  0.961656  0.956863  0.287828   0.399769
+Command #303: regress logistic yB x1
+  File "C:\Dropbox\MyProjects\sipy\sipy.py", line 3972, in interpret
+    retR = self.command_processor(operator, operand, kwargs)
+
+  File "C:\Dropbox\MyProjects\sipy\sipy.py", line 3902, in command_processor
+    elif operator == "regress": return self.do_regression(operand, kwargs)
+
+  File "C:\Dropbox\MyProjects\sipy\sipy.py", line 1998, in do_regression
+    retR = libsipy.base.regressionLogistic(X, y)
+
+  File "C:\Dropbox\MyProjects\sipy\libsipy\base.py", line 187, in regressionLogistic
+    result = pingouin.logistic_regression(X, y)
+
+  File "C:\Users\mauri\anaconda3\envs\sipy\lib\site-packages\pingouin\regression.py", line 898, in logistic_regression
+    lom.fit(X, y)
+
+  File "C:\Users\mauri\anaconda3\envs\sipy\lib\site-packages\sklearn\base.py", line 1382, in wrapper
+    estimator._validate_params()
+
+  File "C:\Users\mauri\anaconda3\envs\sipy\lib\site-packages\sklearn\base.py", line 436, in _validate_params
+    validate_parameter_constraints(
+
+  File "C:\Users\mauri\anaconda3\envs\sipy\lib\site-packages\sklearn\utils\_param_validation.py", line 98, in validate_parameter_constraints
+    raise InvalidParameterError(
+
+Command #303: regress logistic y=yB x=x1
+  File "C:\Dropbox\MyProjects\sipy\sipy.py", line 3972, in interpret
+    retR = self.command_processor(operator, operand, kwargs)
+
+  File "C:\Dropbox\MyProjects\sipy\sipy.py", line 3902, in command_processor
+    elif operator == "regress": return self.do_regression(operand, kwargs)
+
+  File "C:\Dropbox\MyProjects\sipy\sipy.py", line 1998, in do_regression
+    retR = libsipy.base.regressionLogistic(X, y)
+
+  File "C:\Dropbox\MyProjects\sipy\libsipy\base.py", line 187, in regressionLogistic
+    result = pingouin.logistic_regression(X, y)
+
+  File "C:\Users\mauri\anaconda3\envs\sipy\lib\site-packages\pingouin\regression.py", line 898, in logistic_regression
+    lom.fit(X, y)
+
+  File "C:\Users\mauri\anaconda3\envs\sipy\lib\site-packages\sklearn\base.py", line 1382, in wrapper
+    estimator._validate_params()
+
+  File "C:\Users\mauri\anaconda3\envs\sipy\lib\site-packages\sklearn\base.py", line 436, in _validate_params
+    validate_parameter_constraints(
+
+  File "C:\Users\mauri\anaconda3\envs\sipy\lib\site-packages\sklearn\utils\_param_validation.py", line 98, in validate_parameter_constraints
+    raise InvalidParameterError(
+
+Command #303: jregress lasso data=df y=yN x=x1,x2,x3,x4,x5
+Lasso Regression (demonstration with OLS, lambda=0.01):
+Coefficients:
+[12.045793542011443, -0.023352405307506683, -0.01061719410951987, 0.01416489286203465, 0.08901173277843084, -0.11249636916806162]
+
+RMSE: 0.13617144047533922
+R-squared: 0.9979415569097669
+Command #304: jregress lm data=df y=yN x=x1,x2,x3,x4,x5
+OLS Regression Results:
+Coefficients:
+[12.045793542011443, -0.023352405307506683, -0.01061719410951987, 0.01416489286203465, 0.08901173277843084, -0.11249636916806162]
+
+RMSE: 0.13617144047533922
+R-squared: 0.9979415569097669
+Command #305: read excel edata from data/random_5_samples.xlsx Sheet1
+Read Excel: data/random_5_samples.xlsx.Sheet1 into edata
+Command #306: let y_1 be list 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+y_1 = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0]
+Command #307: regress linear y_1 edata
+       names       coef         se         T      pval        r2    adj_r2   CI[2.5%]  CI[97.5%]
+0  Intercept  10.077030  20.339927  0.495431  0.632167  0.455912  0.153642 -35.935082  56.089141
+1    SampleA   0.115394   0.113597  1.015812  0.336248  0.455912  0.153642  -0.141582   0.372369
+2    SampleB   0.001269   0.163862  0.007743  0.993991  0.455912  0.153642  -0.369413   0.371951
+3    SampleC  -0.180128   0.087702 -2.053874  0.070173  0.455912  0.153642  -0.378523   0.018267
+4    SampleD   0.004825   0.180605  0.026715  0.979270  0.455912  0.153642  -0.403732   0.413382
+5    SampleE  -0.000058   0.097925 -0.000593  0.999540  0.455912  0.153642  -0.221581   0.221464
+Command #308: regress linear y=y_1 x=edata intercept=yes
+       names       coef         se         T      pval        r2    adj_r2   CI[2.5%]  CI[97.5%]
+0  Intercept  10.077030  20.339927  0.495431  0.632167  0.455912  0.153642 -35.935082  56.089141
+1    SampleA   0.115394   0.113597  1.015812  0.336248  0.455912  0.153642  -0.141582   0.372369
+2    SampleB   0.001269   0.163862  0.007743  0.993991  0.455912  0.153642  -0.369413   0.371951
+3    SampleC  -0.180128   0.087702 -2.053874  0.070173  0.455912  0.153642  -0.378523   0.018267
+4    SampleD   0.004825   0.180605  0.026715  0.979270  0.455912  0.153642  -0.403732   0.413382
+5    SampleE  -0.000058   0.097925 -0.000593  0.999540  0.455912  0.153642  -0.221581   0.221464
+Command #309: let y_2 be list 1,0,1,0,1,0,1,0,1,0,1,0,1,0,1
+y_2 = [1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0]
+Command #310: regress logistic y_2 edata
+  File "C:\Dropbox\MyProjects\sipy\sipy.py", line 3972, in interpret
+    retR = self.command_processor(operator, operand, kwargs)
+
+  File "C:\Dropbox\MyProjects\sipy\sipy.py", line 3902, in command_processor
+    elif operator == "regress": return self.do_regression(operand, kwargs)
+
+  File "C:\Dropbox\MyProjects\sipy\sipy.py", line 1998, in do_regression
+    retR = libsipy.base.regressionLogistic(X, y)
+
+  File "C:\Dropbox\MyProjects\sipy\libsipy\base.py", line 187, in regressionLogistic
+    result = pingouin.logistic_regression(X, y)
+
+  File "C:\Users\mauri\anaconda3\envs\sipy\lib\site-packages\pingouin\regression.py", line 898, in logistic_regression
+    lom.fit(X, y)
+
+  File "C:\Users\mauri\anaconda3\envs\sipy\lib\site-packages\sklearn\base.py", line 1382, in wrapper
+    estimator._validate_params()
+
+  File "C:\Users\mauri\anaconda3\envs\sipy\lib\site-packages\sklearn\base.py", line 436, in _validate_params
+    validate_parameter_constraints(
+
+  File "C:\Users\mauri\anaconda3\envs\sipy\lib\site-packages\sklearn\utils\_param_validation.py", line 98, in validate_parameter_constraints
+    raise InvalidParameterError(
+
+Command #310: regress logistic y=y_2 x=edata
+  File "C:\Dropbox\MyProjects\sipy\sipy.py", line 3972, in interpret
+    retR = self.command_processor(operator, operand, kwargs)
+
+  File "C:\Dropbox\MyProjects\sipy\sipy.py", line 3902, in command_processor
+    elif operator == "regress": return self.do_regression(operand, kwargs)
+
+  File "C:\Dropbox\MyProjects\sipy\sipy.py", line 1998, in do_regression
+    retR = libsipy.base.regressionLogistic(X, y)
+
+  File "C:\Dropbox\MyProjects\sipy\libsipy\base.py", line 187, in regressionLogistic
+    result = pingouin.logistic_regression(X, y)
+
+  File "C:\Users\mauri\anaconda3\envs\sipy\lib\site-packages\pingouin\regression.py", line 898, in logistic_regression
+    lom.fit(X, y)
+
+  File "C:\Users\mauri\anaconda3\envs\sipy\lib\site-packages\sklearn\base.py", line 1382, in wrapper
+    estimator._validate_params()
+
+  File "C:\Users\mauri\anaconda3\envs\sipy\lib\site-packages\sklearn\base.py", line 436, in _validate_params
+    validate_parameter_constraints(
+
+  File "C:\Users\mauri\anaconda3\envs\sipy\lib\site-packages\sklearn\utils\_param_validation.py", line 98, in validate_parameter_constraints
+    raise InvalidParameterError(
+
+Command #310: rregress lm data=edata y=SampleA x=SampleB,SampleC
+Call:
+lm(formula = SampleA ~ SampleB + SampleC, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-14.284 -10.057   1.776   9.434  15.783 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)  
+(Intercept)  65.2771    36.1161   1.807   0.0958 .
+SampleB       0.1325     0.4142   0.320   0.7546  
+SampleC      -0.1301     0.2296  -0.566   0.5815  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 11.18 on 12 degrees of freedom
+Multiple R-squared:  0.05036,	Adjusted R-squared:  -0.1079 
+F-statistic: 0.3182 on 2 and 12 DF,  p-value: 0.7334
+Command #311: jregress lm data=edata y=SampleA x=SampleB,SampleC
+OLS Regression Results:
+Coefficients:
+[65.27711321545137, 0.13248930736866, -0.13005316957034585]
+
+RMSE: 10.00268880900782
+R-squared: 0.05036272390043406
+Command #312: let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+yN = [1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5]
+Command #313: let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+yB = [1, 0, 1, 0, 1, 0, 1, 1, 0, 1]
+Command #314: let yC be slist A, B, C, A, B, C, A, B, C, A
+yC = ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A']
+Command #315: let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+x1 = [2.0, 3.0, 5.0, 7.0, 11.0, 13.0, 17.0, 19.0, 23.0, 29.0]
+Command #316: let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+x2 = [1.0, 4.0, 9.0, 16.0, 25.0, 36.0, 49.0, 64.0, 81.0, 100.0]
+Command #317: let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+x3 = [5.0, 8.0, 6.0, 10.0, 12.0, 14.0, 18.0, 20.0, 24.0, 30.0]
+Command #318: let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+x4 = [3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3]
+Command #319: let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+x5 = [100.0, 90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0]
+Command #320: let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df = ['yN:yN', 'yB:yB', 'yC:yC', 'x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #321: let df_A be dataframe x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df_A = ['x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #322: let df_B be dataframe x1:x1 x2:x2
+df_B = ['x1:x1', 'x2:x2']
+Command #323: let entry be clist 0,1,2,0,3,1,2,0,4,1
+entry = [0.0, 1.0, 2.0, 0.0, 3.0, 1.0, 2.0, 0.0, 4.0, 1.0]
+Command #324: let time be clist 5,6,6,2,4,3,10,12,8,9
+time = [5.0, 6.0, 6.0, 2.0, 4.0, 3.0, 10.0, 12.0, 8.0, 9.0]
+Command #325: let time1 be clist 1,2,2,0,4,3,5,0,6,5
+time1 = [1.0, 2.0, 2.0, 0.0, 4.0, 3.0, 5.0, 0.0, 6.0, 5.0]
+Command #326: let time2 be clist 3,4,4,2,5,5,6,2,7,6
+time2 = [3.0, 4.0, 4.0, 2.0, 5.0, 5.0, 6.0, 2.0, 7.0, 6.0]
+Command #327: let event be dlist 1,1,0,1,1,0,1,0,1,1
+event = [1, 1, 0, 1, 1, 0, 1, 0, 1, 1]
+Command #328: let group be slist A,A,A,B,B,B,A,B,B,A
+group = ['A', 'A', 'A', 'B', 'B', 'B', 'A', 'B', 'B', 'A']
+Command #329: let age be clist 30,45,38,50,60,41,33,55,48,36
+age = [30.0, 45.0, 38.0, 50.0, 60.0, 41.0, 33.0, 55.0, 48.0, 36.0]
+Command #330: let sex be slist M,F,M,F,F,M,M,F,M,F
+sex = ['M', 'F', 'M', 'F', 'F', 'M', 'M', 'F', 'M', 'F']
+Command #331: let df_surv be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+df_surv = ['entry:entry', 'time:time', 'time1:time1', 'time2:time2', 'event:event', 'group:group', 'age:age', 'sex:sex']
+Command #332: read excel surdata from data/survival_dataset.xlsx data
+Read Excel: data/survival_dataset.xlsx.data into surdata
+Command #333: rsurvival km data=df_surv time=time event=event group=group
+Call: survfit(formula = surv_obj ~ group, data = data)
+
+                group=A 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    5      5       1      0.8   0.179       0.5161            1
+    6      4       1      0.6   0.219       0.2933            1
+    9      2       1      0.3   0.239       0.0631            1
+   10      1       1      0.0     NaN           NA           NA
+
+                group=B 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    2      5       1    0.800   0.179       0.5161            1
+    4      3       1    0.533   0.248       0.2142            1
+    8      2       1    0.267   0.226       0.0507            1
+
+
+Median survival times:
+group=A group=B 
+      9       8
+Command #334: rsurvival km data=surdata time=time_months event=status group=arm
+Call: survfit(formula = surv_obj ~ arm, data = data)
+
+                arm=Control 
+  time n.risk n.event survival std.err lower 95% CI upper 95% CI
+  0.03    491       2    0.996 0.00287        0.990        1.000
+  0.26    489       1    0.994 0.00352        0.987        1.000
+  0.33    488       1    0.992 0.00406        0.984        1.000
+  0.36    487       1    0.990 0.00453        0.981        0.999
+  0.49    486       1    0.988 0.00496        0.978        0.998
+  0.50    485       1    0.986 0.00535        0.975        0.996
+  0.69    484       1    0.984 0.00571        0.973        0.995
+  0.71    483       1    0.982 0.00605        0.970        0.994
+  0.73    482       1    0.980 0.00637        0.967        0.992
+  0.75    481       1    0.978 0.00668        0.965        0.991
+  0.79    480       2    0.974 0.00725        0.959        0.988
+  0.86    478       1    0.971 0.00751        0.957        0.986
+  0.90    477       1    0.969 0.00777        0.954        0.985
+  1.00    476       1    0.967 0.00801        0.952        0.983
+  1.14    475       1    0.965 0.00825        0.949        0.982
+  1.15    474       1    0.963 0.00848        0.947        0.980
+  1.17    473       1    0.961 0.00870        0.944        0.979
+  1.20    472       1    0.959 0.00892        0.942        0.977
+  1.21    471       1    0.957 0.00913        0.939        0.975
+  1.23    470       1    0.955 0.00934        0.937        0.974
+  1.25    469       1    0.953 0.00954        0.935        0.972
+  1.27    468       1    0.951 0.00973        0.932        0.970
+  1.30    467       1    0.949 0.00992        0.930        0.969
+  1.34    466       1    0.947 0.01011        0.927        0.967
+  1.35    465       1    0.945 0.01029        0.925        0.965
+  1.45    464       1    0.943 0.01047        0.923        0.964
+  1.56    463       1    0.941 0.01064        0.920        0.962
+  1.70    462       1    0.939 0.01081        0.918        0.960
+  1.78    461       1    0.937 0.01098        0.916        0.959
+  1.91    460       1    0.935 0.01114        0.913        0.957
+  1.96    459       1    0.933 0.01130        0.911        0.955
+  1.97    458       1    0.931 0.01146        0.909        0.953
+  2.04    457       1    0.929 0.01161        0.906        0.952
+  2.08    456       1    0.927 0.01176        0.904        0.950
+  2.15    455       1    0.925 0.01191        0.902        0.948
+  2.17    454       1    0.923 0.01206        0.899        0.947
+  2.19    453       1    0.921 0.01220        0.897        0.945
+  2.21    452       1    0.919 0.01235        0.895        0.943
+  2.23    451       1    0.916 0.01248        0.892        0.941
+  2.25    450       1    0.914 0.01262        0.890        0.940
+  2.45    449       1    0.912 0.01276        0.888        0.938
+  2.70    448       2    0.908 0.01302        0.883        0.934
+  2.75    446       1    0.906 0.01315        0.881        0.932
+  2.87    445       1    0.904 0.01328        0.879        0.931
+  2.92    444       1    0.902 0.01340        0.876        0.929
+  2.99    443       1    0.900 0.01353        0.874        0.927
+  3.00    442       1    0.898 0.01365        0.872        0.925
+  3.07    441       1    0.896 0.01377        0.870        0.924
+  3.21    440       1    0.894 0.01389        0.867        0.922
+  3.22    439       1    0.892 0.01400        0.865        0.920
+  3.28    438       1    0.890 0.01412        0.863        0.918
+  3.31    437       1    0.888 0.01423        0.861        0.916
+  3.35    436       1    0.886 0.01435        0.858        0.915
+  3.39    435       1    0.884 0.01446        0.856        0.913
+  3.41    434       2    0.880 0.01467        0.852        0.909
+  3.45    432       1    0.878 0.01478        0.849        0.907
+  3.53    431       1    0.876 0.01489        0.847        0.905
+  3.66    430       1    0.874 0.01499        0.845        0.904
+  3.67    429       1    0.872 0.01509        0.843        0.902
+  3.69    428       2    0.868 0.01529        0.838        0.898
+  3.79    426       1    0.866 0.01539        0.836        0.896
+  3.93    425       1    0.864 0.01549        0.834        0.894
+  3.98    424       1    0.862 0.01559        0.831        0.893
+  4.12    423       2    0.857 0.01578        0.827        0.889
+  4.25    421       1    0.855 0.01587        0.825        0.887
+  4.30    420       1    0.853 0.01596        0.823        0.885
+  4.31    419       1    0.851 0.01606        0.820        0.883
+  4.36    418       1    0.849 0.01615        0.818        0.882
+  4.43    417       1    0.847 0.01624        0.816        0.880
+  4.51    416       1    0.845 0.01632        0.814        0.878
+  4.52    415       1    0.843 0.01641        0.812        0.876
+  4.55    414       1    0.841 0.01650        0.809        0.874
+  4.65    413       1    0.839 0.01658        0.807        0.872
+  4.71    412       1    0.837 0.01667        0.805        0.870
+  4.82    411       1    0.835 0.01675        0.803        0.869
+  4.86    410       1    0.833 0.01683        0.801        0.867
+  4.96    409       1    0.831 0.01691        0.798        0.865
+  5.02    408       1    0.829 0.01699        0.796        0.863
+  5.04    407       1    0.827 0.01707        0.794        0.861
+  5.10    406       1    0.825 0.01715        0.792        0.859
+  5.13    405       1    0.823 0.01723        0.790        0.857
+  5.18    404       1    0.821 0.01731        0.788        0.855
+  5.23    403       1    0.819 0.01739        0.785        0.854
+  5.25    402       1    0.817 0.01746        0.783        0.852
+  5.27    401       1    0.815 0.01754        0.781        0.850
+  5.31    400       1    0.813 0.01761        0.779        0.848
+  5.45    399       1    0.811 0.01768        0.777        0.846
+  5.49    398       1    0.809 0.01776        0.774        0.844
+  5.50    397       1    0.807 0.01783        0.772        0.842
+  5.68    396       1    0.804 0.01790        0.770        0.840
+  5.77    395       1    0.802 0.01797        0.768        0.838
+  5.79    394       1    0.800 0.01804        0.766        0.837
+  5.81    393       1    0.798 0.01811        0.764        0.835
+  5.82    392       1    0.796 0.01817        0.761        0.833
+  5.86    391       1    0.794 0.01824        0.759        0.831
+  5.92    390       1    0.792 0.01831        0.757        0.829
+  5.97    389       1    0.790 0.01837        0.755        0.827
+  5.99    388       1    0.788 0.01844        0.753        0.825
+  6.00    387       2    0.784 0.01857        0.749        0.821
+  6.08    385       1    0.782 0.01863        0.746        0.819
+  6.13    384       1    0.780 0.01869        0.744        0.818
+  6.39    383       1    0.778 0.01876        0.742        0.816
+  6.40    382       1    0.776 0.01882        0.740        0.814
+  6.42    381       1    0.774 0.01888        0.738        0.812
+  6.43    380       2    0.770 0.01900        0.734        0.808
+  6.48    378       1    0.768 0.01905        0.731        0.806
+  6.49    377       1    0.766 0.01911        0.729        0.804
+  6.57    376       1    0.764 0.01917        0.727        0.802
+  6.61    375       1    0.762 0.01923        0.725        0.800
+  6.64    374       1    0.760 0.01928        0.723        0.798
+  6.65    373       1    0.758 0.01934        0.721        0.797
+  6.69    372       1    0.756 0.01939        0.719        0.795
+  6.89    371       2    0.752 0.01950        0.714        0.791
+  6.96    369       1    0.749 0.01955        0.712        0.789
+  7.04    368       1    0.747 0.01961        0.710        0.787
+  7.15    367       1    0.745 0.01966        0.708        0.785
+  7.19    366       1    0.743 0.01971        0.706        0.783
+  7.21    365       1    0.741 0.01976        0.704        0.781
+  7.28    364       1    0.739 0.01981        0.701        0.779
+  7.36    363       1    0.737 0.01986        0.699        0.777
+  7.46    362       1    0.735 0.01991        0.697        0.775
+  7.55    361       1    0.733 0.01996        0.695        0.773
+  7.64    360       1    0.731 0.02001        0.693        0.771
+  7.74    359       1    0.729 0.02006        0.691        0.770
+  7.76    358       1    0.727 0.02010        0.689        0.768
+  7.92    357       1    0.725 0.02015        0.687        0.766
+  7.97    356       1    0.723 0.02020        0.684        0.764
+  7.99    355       1    0.721 0.02024        0.682        0.762
+  8.09    354       1    0.719 0.02029        0.680        0.760
+  8.15    353       1    0.717 0.02033        0.678        0.758
+  8.18    352       1    0.715 0.02037        0.676        0.756
+  8.22    351       1    0.713 0.02042        0.674        0.754
+  8.23    350       1    0.711 0.02046        0.672        0.752
+  8.32    349       1    0.709 0.02050        0.670        0.750
+  8.47    348       1    0.707 0.02055        0.668        0.748
+  8.48    347       1    0.705 0.02059        0.665        0.746
+  8.49    346       2    0.701 0.02067        0.661        0.742
+  8.51    344       1    0.699 0.02071        0.659        0.740
+  8.52    343       1    0.697 0.02075        0.657        0.738
+  8.67    342       1    0.695 0.02079        0.655        0.736
+  8.76    341       1    0.692 0.02083        0.653        0.735
+  8.89    340       1    0.690 0.02086        0.651        0.733
+  9.05    339       1    0.688 0.02090        0.649        0.731
+  9.06    338       1    0.686 0.02094        0.647        0.729
+  9.13    337       1    0.684 0.02098        0.644        0.727
+  9.17    336       1    0.682 0.02101        0.642        0.725
+  9.37    335       1    0.680 0.02105        0.640        0.723
+  9.38    334       1    0.678 0.02108        0.638        0.721
+  9.52    333       1    0.676 0.02112        0.636        0.719
+  9.80    332       1    0.674 0.02115        0.634        0.717
+  9.85    331       1    0.672 0.02119        0.632        0.715
+  9.91    330       1    0.670 0.02122        0.630        0.713
+  9.94    329       1    0.668 0.02125        0.628        0.711
+  9.97    328       1    0.666 0.02128        0.626        0.709
+ 10.01    327       2    0.662 0.02135        0.621        0.705
+ 10.09    325       1    0.660 0.02138        0.619        0.703
+ 10.13    324       1    0.658 0.02141        0.617        0.701
+ 10.14    323       1    0.656 0.02144        0.615        0.699
+ 10.19    322       1    0.654 0.02147        0.613        0.697
+ 10.22    321       1    0.652 0.02150        0.611        0.695
+ 10.23    320       1    0.650 0.02153        0.609        0.693
+ 10.39    319       1    0.648 0.02156        0.607        0.691
+ 10.50    318       1    0.646 0.02159        0.605        0.689
+ 10.65    317       1    0.644 0.02161        0.603        0.687
+ 10.70    316       1    0.642 0.02164        0.601        0.685
+ 10.72    315       1    0.640 0.02167        0.598        0.683
+ 10.78    314       1    0.637 0.02170        0.596        0.681
+ 10.79    313       1    0.635 0.02172        0.594        0.679
+ 10.80    312       1    0.633 0.02175        0.592        0.677
+ 10.83    311       1    0.631 0.02177        0.590        0.676
+ 10.92    310       1    0.629 0.02180        0.588        0.674
+ 11.14    309       1    0.627 0.02182        0.586        0.672
+ 11.19    308       1    0.625 0.02185        0.584        0.670
+ 11.29    307       1    0.623 0.02187        0.582        0.668
+ 11.31    306       1    0.621 0.02189        0.580        0.666
+ 11.35    305       1    0.619 0.02191        0.578        0.664
+ 11.41    304       1    0.617 0.02194        0.576        0.662
+ 11.64    303       1    0.615 0.02196        0.574        0.660
+ 11.72    302       1    0.613 0.02198        0.571        0.658
+ 11.95    301       1    0.611 0.02200        0.569        0.656
+ 11.97    300       1    0.609 0.02202        0.567        0.654
+ 12.16    298       1    0.607 0.02204        0.565        0.652
+ 12.20    297       1    0.605 0.02206        0.563        0.650
+ 12.29    296       1    0.603 0.02208        0.561        0.648
+ 12.46    295       1    0.601 0.02210        0.559        0.646
+ 12.56    293       1    0.599 0.02212        0.557        0.644
+ 12.65    289       2    0.595 0.02216        0.553        0.640
+ 12.66    287       1    0.593 0.02218        0.551        0.638
+ 12.69    286       1    0.590 0.02220        0.549        0.636
+ 12.91    284       1    0.588 0.02222        0.546        0.634
+ 12.96    283       1    0.586 0.02224        0.544        0.632
+ 13.04    281       1    0.584 0.02226        0.542        0.629
+ 13.17    278       1    0.582 0.02228        0.540        0.627
+ 13.18    277       1    0.580 0.02229        0.538        0.625
+ 13.24    275       1    0.578 0.02231        0.536        0.623
+ 13.28    274       1    0.576 0.02233        0.534        0.621
+ 13.42    272       1    0.574 0.02235        0.531        0.619
+ 13.50    270       1    0.572 0.02237        0.529        0.617
+ 13.83    267       1    0.569 0.02239        0.527        0.615
+ 13.86    266       1    0.567 0.02240        0.525        0.613
+ 13.87    265       1    0.565 0.02242        0.523        0.611
+ 14.10    263       1    0.563 0.02244        0.521        0.609
+ 14.19    262       1    0.561 0.02246        0.518        0.607
+ 14.53    256       1    0.559 0.02247        0.516        0.604
+ 14.59    254       2    0.554 0.02251        0.512        0.600
+ 14.62    252       1    0.552 0.02253        0.510        0.598
+ 14.69    250       1    0.550 0.02255        0.507        0.596
+ 14.89    248       1    0.548 0.02256        0.505        0.594
+ 14.96    247       1    0.545 0.02258        0.503        0.591
+ 15.02    246       1    0.543 0.02260        0.501        0.589
+ 15.10    243       1    0.541 0.02262        0.498        0.587
+ 15.26    241       2    0.536 0.02265        0.494        0.583
+ 15.59    238       1    0.534 0.02267        0.492        0.581
+ 15.66    237       1    0.532 0.02268        0.489        0.578
+ 15.88    234       1    0.530 0.02270        0.487        0.576
+ 16.29    231       1    0.527 0.02272        0.485        0.574
+ 16.39    230       1    0.525 0.02273        0.482        0.572
+ 16.40    229       1    0.523 0.02275        0.480        0.569
+ 16.58    227       1    0.520 0.02277        0.478        0.567
+ 16.65    226       2    0.516 0.02280        0.473        0.563
+ 16.68    224       1    0.514 0.02281        0.471        0.560
+ 16.81    221       1    0.511 0.02283        0.468        0.558
+ 16.95    218       1    0.509 0.02284        0.466        0.556
+ 17.21    215       1    0.507 0.02286        0.464        0.553
+ 17.26    214       1    0.504 0.02287        0.461        0.551
+ 17.47    213       1    0.502 0.02289        0.459        0.549
+ 17.70    212       1    0.499 0.02290        0.457        0.546
+ 17.80    211       1    0.497 0.02291        0.454        0.544
+ 17.82    210       1    0.495 0.02293        0.452        0.542
+ 18.03    209       1    0.492 0.02294        0.449        0.539
+ 18.12    208       1    0.490 0.02295        0.447        0.537
+ 18.22    206       1    0.488 0.02296        0.445        0.535
+ 18.26    204       1    0.485 0.02297        0.442        0.532
+ 18.76    197       1    0.483 0.02299        0.440        0.530
+ 18.77    196       1    0.480 0.02300        0.437        0.528
+ 18.88    194       1    0.478 0.02302        0.435        0.525
+ 19.37    190       1    0.475 0.02303        0.432        0.523
+ 19.43    188       1    0.473 0.02305        0.430        0.520
+ 19.47    187       1    0.470 0.02306        0.427        0.518
+ 19.64    186       1    0.468 0.02308        0.425        0.515
+ 19.89    183       1    0.465 0.02309        0.422        0.513
+ 20.25    178       1    0.463 0.02311        0.419        0.510
+ 20.42    175       2    0.457 0.02315        0.414        0.505
+ 20.43    173       1    0.455 0.02316        0.411        0.502
+ 20.56    170       1    0.452 0.02318        0.409        0.500
+ 20.60    169       1    0.449 0.02320        0.406        0.497
+ 20.88    165       1    0.447 0.02322        0.403        0.494
+ 20.97    164       1    0.444 0.02323        0.401        0.492
+ 21.07    162       1    0.441 0.02325        0.398        0.489
+ 21.55    156       1    0.438 0.02327        0.395        0.486
+ 21.67    155       1    0.435 0.02329        0.392        0.484
+ 22.22    151       1    0.433 0.02332        0.389        0.481
+ 22.25    150       1    0.430 0.02334        0.386        0.478
+ 22.50    149       1    0.427 0.02336        0.383        0.475
+ 22.68    146       1    0.424 0.02338        0.380        0.472
+ 23.11    143       1    0.421 0.02341        0.377        0.469
+ 23.26    141       1    0.418 0.02343        0.374        0.466
+ 23.75    140       1    0.415 0.02345        0.371        0.464
+ 24.43    136       1    0.412 0.02348        0.368        0.461
+ 24.54    135       1    0.409 0.02350        0.365        0.458
+ 25.43    128       1    0.406 0.02353        0.362        0.454
+ 25.45    127       1    0.402 0.02356        0.359        0.451
+ 25.51    125       1    0.399 0.02359        0.356        0.448
+ 25.83    123       1    0.396 0.02362        0.352        0.445
+ 26.02    122       1    0.393 0.02365        0.349        0.442
+ 26.40    118       1    0.389 0.02369        0.346        0.439
+ 26.44    117       1    0.386 0.02372        0.342        0.435
+ 26.88    115       1    0.383 0.02375        0.339        0.432
+ 27.10    113       1    0.379 0.02378        0.335        0.429
+ 28.03    108       1    0.376 0.02381        0.332        0.425
+ 28.85    107       1    0.372 0.02385        0.328        0.422
+ 29.01    103       1    0.369 0.02389        0.325        0.419
+ 29.49    101       1    0.365 0.02393        0.321        0.415
+ 29.88     99       1    0.361 0.02397        0.317        0.412
+ 30.20     98       1    0.358 0.02401        0.314        0.408
+ 30.36     96       1    0.354 0.02405        0.310        0.404
+ 31.19     92       1    0.350 0.02409        0.306        0.401
+ 31.30     91       1    0.346 0.02413        0.302        0.397
+ 32.23     83       1    0.342 0.02420        0.298        0.393
+ 32.31     81       1    0.338 0.02426        0.293        0.389
+ 32.77     76       1    0.333 0.02435        0.289        0.385
+ 33.24     72       1    0.329 0.02445        0.284        0.380
+ 33.53     71       1    0.324 0.02454        0.279        0.376
+ 34.72     64       1    0.319 0.02467        0.274        0.371
+ 34.95     62       1    0.314 0.02480        0.269        0.366
+ 35.04     61       1    0.309 0.02493        0.264        0.362
+ 36.62     51       1    0.303 0.02516        0.257        0.356
+ 36.74     49       1    0.297 0.02539        0.251        0.351
+ 36.81     48       1    0.290 0.02561        0.244        0.345
+ 38.02     38       1    0.283 0.02605        0.236        0.339
+ 39.31     33       1    0.274 0.02663        0.227        0.332
+ 43.30     18       1    0.259 0.02918        0.208        0.323
+
+                arm=Drug 
+  time n.risk n.event survival std.err lower 95% CI upper 95% CI
+  0.54    509       1    0.998 0.00196        0.994        1.000
+  0.65    508       2    0.994 0.00339        0.987        1.000
+  0.93    506       1    0.992 0.00391        0.985        1.000
+  1.04    505       1    0.990 0.00437        0.982        0.999
+  1.06    504       1    0.988 0.00478        0.979        0.998
+  1.07    503       1    0.986 0.00516        0.976        0.996
+  1.12    502       1    0.984 0.00551        0.974        0.995
+  1.24    501       1    0.982 0.00584        0.971        0.994
+  1.35    500       1    0.980 0.00615        0.968        0.992
+  1.41    499       1    0.978 0.00645        0.966        0.991
+  1.48    498       1    0.976 0.00672        0.963        0.990
+  1.50    497       1    0.974 0.00699        0.961        0.988
+  1.58    496       1    0.972 0.00725        0.958        0.987
+  1.62    495       1    0.971 0.00750        0.956        0.985
+  1.67    494       1    0.969 0.00773        0.954        0.984
+  1.89    493       2    0.965 0.00819        0.949        0.981
+  1.90    491       1    0.963 0.00840        0.946        0.979
+  2.01    490       1    0.961 0.00861        0.944        0.978
+  2.14    489       1    0.959 0.00882        0.942        0.976
+  2.23    488       1    0.957 0.00901        0.939        0.975
+  2.26    487       2    0.953 0.00940        0.935        0.971
+  2.42    485       1    0.951 0.00958        0.932        0.970
+  2.48    484       1    0.949 0.00976        0.930        0.968
+  2.63    483       1    0.947 0.00993        0.928        0.967
+  2.73    482       1    0.945 0.01011        0.925        0.965
+  2.92    481       1    0.943 0.01027        0.923        0.963
+  3.02    480       1    0.941 0.01044        0.921        0.962
+  3.07    479       1    0.939 0.01060        0.919        0.960
+  3.11    478       1    0.937 0.01076        0.916        0.958
+  3.12    477       2    0.933 0.01107        0.912        0.955
+  3.17    475       1    0.931 0.01122        0.910        0.953
+  3.39    474       1    0.929 0.01136        0.907        0.952
+  3.45    473       1    0.927 0.01151        0.905        0.950
+  3.55    472       1    0.925 0.01165        0.903        0.948
+  3.57    471       1    0.923 0.01179        0.901        0.947
+  3.63    470       1    0.921 0.01193        0.898        0.945
+  3.69    469       1    0.919 0.01206        0.896        0.943
+  3.83    468       1    0.917 0.01220        0.894        0.942
+  3.92    467       1    0.916 0.01233        0.892        0.940
+  4.24    466       1    0.914 0.01246        0.889        0.938
+  4.34    465       1    0.912 0.01258        0.887        0.937
+  4.47    464       1    0.910 0.01271        0.885        0.935
+  4.56    463       1    0.908 0.01283        0.883        0.933
+  4.60    462       1    0.906 0.01295        0.881        0.931
+  4.66    461       1    0.904 0.01307        0.878        0.930
+  4.74    460       1    0.902 0.01319        0.876        0.928
+  4.86    459       1    0.900 0.01331        0.874        0.926
+  4.87    458       1    0.898 0.01342        0.872        0.925
+  4.93    457       1    0.896 0.01354        0.870        0.923
+  5.05    456       1    0.894 0.01365        0.868        0.921
+  5.15    455       1    0.892 0.01376        0.865        0.919
+  5.32    454       1    0.890 0.01387        0.863        0.918
+  5.34    453       1    0.888 0.01398        0.861        0.916
+  5.53    452       1    0.886 0.01408        0.859        0.914
+  5.56    451       1    0.884 0.01419        0.857        0.912
+  5.60    450       1    0.882 0.01429        0.855        0.911
+  5.68    449       1    0.880 0.01440        0.852        0.909
+  5.70    448       1    0.878 0.01450        0.850        0.907
+  5.77    447       1    0.876 0.01460        0.848        0.905
+  5.91    446       2    0.872 0.01479        0.844        0.902
+  5.93    444       1    0.870 0.01489        0.842        0.900
+  5.99    443       1    0.868 0.01499        0.839        0.898
+  6.11    442       1    0.866 0.01508        0.837        0.896
+  6.36    441       2    0.862 0.01527        0.833        0.893
+  6.38    439       1    0.861 0.01536        0.831        0.891
+  6.45    438       2    0.857 0.01554        0.827        0.888
+  6.51    436       1    0.855 0.01562        0.825        0.886
+  6.74    435       1    0.853 0.01571        0.822        0.884
+  7.12    434       1    0.851 0.01580        0.820        0.882
+  7.19    433       1    0.849 0.01588        0.818        0.880
+  7.22    432       1    0.847 0.01597        0.816        0.879
+  7.32    431       1    0.845 0.01605        0.814        0.877
+  7.33    430       1    0.843 0.01613        0.812        0.875
+  7.36    429       1    0.841 0.01621        0.810        0.873
+  7.54    428       1    0.839 0.01629        0.808        0.871
+  7.56    427       1    0.837 0.01637        0.805        0.870
+  7.57    426       1    0.835 0.01645        0.803        0.868
+  7.61    425       1    0.833 0.01653        0.801        0.866
+  7.67    424       1    0.831 0.01661        0.799        0.864
+  7.72    423       1    0.829 0.01669        0.797        0.862
+  7.73    422       1    0.827 0.01676        0.795        0.861
+  7.90    421       1    0.825 0.01684        0.793        0.859
+  7.92    420       1    0.823 0.01691        0.791        0.857
+  7.99    419       1    0.821 0.01698        0.789        0.855
+  8.00    418       1    0.819 0.01706        0.786        0.853
+  8.02    417       1    0.817 0.01713        0.784        0.852
+  8.13    416       1    0.815 0.01720        0.782        0.850
+  8.25    415       1    0.813 0.01727        0.780        0.848
+  8.34    414       1    0.811 0.01734        0.778        0.846
+  8.36    413       1    0.809 0.01741        0.776        0.844
+  8.40    412       1    0.807 0.01748        0.774        0.842
+  8.41    411       1    0.806 0.01754        0.772        0.841
+  8.43    410       1    0.804 0.01761        0.770        0.839
+  8.45    409       1    0.802 0.01768        0.768        0.837
+  8.68    408       1    0.800 0.01774        0.766        0.835
+  8.84    407       1    0.798 0.01781        0.763        0.833
+  8.91    406       1    0.796 0.01787        0.761        0.831
+  8.94    405       1    0.794 0.01794        0.759        0.830
+  9.03    404       1    0.792 0.01800        0.757        0.828
+  9.16    403       1    0.790 0.01806        0.755        0.826
+  9.26    402       1    0.788 0.01812        0.753        0.824
+  9.27    401       1    0.786 0.01818        0.751        0.822
+  9.40    400       1    0.784 0.01824        0.749        0.820
+  9.47    399       1    0.782 0.01830        0.747        0.819
+  9.62    398       1    0.780 0.01836        0.745        0.817
+  9.64    397       1    0.778 0.01842        0.743        0.815
+  9.73    396       1    0.776 0.01848        0.741        0.813
+  9.77    395       1    0.774 0.01854        0.739        0.811
+ 10.37    394       1    0.772 0.01859        0.737        0.809
+ 10.39    393       1    0.770 0.01865        0.734        0.808
+ 10.41    392       1    0.768 0.01870        0.732        0.806
+ 10.45    391       1    0.766 0.01876        0.730        0.804
+ 10.65    390       1    0.764 0.01881        0.728        0.802
+ 10.80    389       1    0.762 0.01887        0.726        0.800
+ 10.85    388       1    0.760 0.01892        0.724        0.798
+ 10.94    387       1    0.758 0.01897        0.722        0.796
+ 11.02    386       1    0.756 0.01903        0.720        0.795
+ 11.04    385       1    0.754 0.01908        0.718        0.793
+ 11.05    384       1    0.752 0.01913        0.716        0.791
+ 11.06    383       1    0.750 0.01918        0.714        0.789
+ 11.21    382       1    0.749 0.01923        0.712        0.787
+ 11.29    381       1    0.747 0.01928        0.710        0.785
+ 11.35    380       1    0.745 0.01933        0.708        0.783
+ 11.41    379       1    0.743 0.01938        0.706        0.782
+ 11.42    378       1    0.741 0.01943        0.704        0.780
+ 11.55    377       1    0.739 0.01947        0.702        0.778
+ 11.60    376       1    0.737 0.01952        0.699        0.776
+ 11.78    375       1    0.735 0.01957        0.697        0.774
+ 11.88    374       1    0.733 0.01961        0.695        0.772
+ 11.90    373       1    0.731 0.01966        0.693        0.770
+ 11.98    372       1    0.729 0.01970        0.691        0.769
+ 12.31    366       1    0.727 0.01975        0.689        0.767
+ 12.44    365       1    0.725 0.01980        0.687        0.765
+ 12.55    364       1    0.723 0.01984        0.685        0.763
+ 12.62    363       2    0.719 0.01993        0.681        0.759
+ 12.70    360       1    0.717 0.01998        0.679        0.757
+ 12.71    359       1    0.715 0.02002        0.677        0.755
+ 12.79    357       1    0.713 0.02006        0.675        0.753
+ 12.82    356       1    0.711 0.02011        0.673        0.751
+ 12.91    353       1    0.709 0.02015        0.670        0.750
+ 13.00    351       1    0.707 0.02019        0.668        0.748
+ 13.05    349       1    0.705 0.02024        0.666        0.746
+ 13.06    348       1    0.703 0.02028        0.664        0.744
+ 13.09    347       1    0.701 0.02032        0.662        0.742
+ 13.17    346       1    0.699 0.02036        0.660        0.740
+ 13.43    342       1    0.697 0.02041        0.658        0.738
+ 13.44    341       2    0.693 0.02049        0.654        0.734
+ 13.48    339       1    0.691 0.02053        0.652        0.732
+ 13.49    338       1    0.689 0.02057        0.649        0.730
+ 13.55    336       1    0.687 0.02061        0.647        0.728
+ 13.77    332       1    0.684 0.02066        0.645        0.726
+ 13.95    329       1    0.682 0.02070        0.643        0.724
+ 14.17    327       1    0.680 0.02074        0.641        0.722
+ 14.26    326       1    0.678 0.02078        0.639        0.720
+ 14.43    322       1    0.676 0.02082        0.636        0.718
+ 14.53    320       1    0.674 0.02086        0.634        0.716
+ 14.57    319       1    0.672 0.02090        0.632        0.714
+ 14.58    318       2    0.668 0.02099        0.628        0.710
+ 14.84    314       1    0.666 0.02103        0.626        0.708
+ 14.99    313       1    0.663 0.02107        0.623        0.706
+ 15.07    310       1    0.661 0.02111        0.621        0.704
+ 15.21    309       1    0.659 0.02115        0.619        0.702
+ 15.36    308       1    0.657 0.02119        0.617        0.700
+ 15.59    306       1    0.655 0.02123        0.615        0.698
+ 15.87    305       1    0.653 0.02126        0.612        0.696
+ 15.89    304       1    0.651 0.02130        0.610        0.694
+ 16.01    303       1    0.648 0.02134        0.608        0.692
+ 16.04    301       1    0.646 0.02138        0.606        0.690
+ 16.12    300       1    0.644 0.02141        0.603        0.687
+ 16.14    299       2    0.640 0.02149        0.599        0.683
+ 16.34    296       1    0.638 0.02152        0.597        0.681
+ 16.47    293       1    0.635 0.02156        0.595        0.679
+ 16.72    291       1    0.633 0.02160        0.592        0.677
+ 16.93    290       1    0.631 0.02163        0.590        0.675
+ 17.00    289       1    0.629 0.02167        0.588        0.673
+ 17.25    286       1    0.627 0.02170        0.586        0.671
+ 17.28    285       1    0.624 0.02174        0.583        0.669
+ 17.34    284       1    0.622 0.02177        0.581        0.666
+ 17.39    282       1    0.620 0.02181        0.579        0.664
+ 17.59    280       1    0.618 0.02184        0.577        0.662
+ 18.51    270       1    0.616 0.02188        0.574        0.660
+ 18.59    269       1    0.613 0.02192        0.572        0.658
+ 18.60    268       1    0.611 0.02195        0.569        0.656
+ 18.91    265       1    0.609 0.02199        0.567        0.653
+ 19.04    262       1    0.606 0.02203        0.565        0.651
+ 19.30    258       1    0.604 0.02207        0.562        0.649
+ 19.43    257       1    0.602 0.02211        0.560        0.647
+ 19.75    252       1    0.599 0.02215        0.557        0.644
+ 19.87    249       1    0.597 0.02219        0.555        0.642
+ 19.93    247       1    0.594 0.02223        0.552        0.640
+ 20.17    245       1    0.592 0.02227        0.550        0.637
+ 20.53    240       1    0.590 0.02232        0.547        0.635
+ 20.54    239       1    0.587 0.02236        0.545        0.633
+ 20.84    237       1    0.585 0.02240        0.542        0.630
+ 20.94    236       1    0.582 0.02244        0.540        0.628
+ 21.06    233       1    0.580 0.02249        0.537        0.625
+ 21.13    232       1    0.577 0.02253        0.535        0.623
+ 21.25    230       1    0.575 0.02257        0.532        0.621
+ 21.26    229       1    0.572 0.02261        0.529        0.618
+ 21.28    228       1    0.570 0.02265        0.527        0.616
+ 21.69    221       1    0.567 0.02269        0.524        0.613
+ 21.73    220       1    0.564 0.02274        0.522        0.611
+ 21.83    219       1    0.562 0.02278        0.519        0.608
+ 22.06    217       1    0.559 0.02282        0.516        0.606
+ 22.10    216       1    0.557 0.02286        0.514        0.603
+ 22.23    212       1    0.554 0.02290        0.511        0.601
+ 22.34    211       1    0.551 0.02294        0.508        0.598
+ 22.53    209       1    0.549 0.02298        0.506        0.596
+ 22.75    207       1    0.546 0.02303        0.503        0.593
+ 23.40    198       1    0.543 0.02307        0.500        0.591
+ 23.77    197       1    0.541 0.02312        0.497        0.588
+ 23.88    194       1    0.538 0.02317        0.494        0.585
+ 24.11    191       1    0.535 0.02322        0.491        0.583
+ 24.48    188       1    0.532 0.02327        0.488        0.580
+ 24.67    184       1    0.529 0.02332        0.486        0.577
+ 24.70    183       1    0.526 0.02337        0.483        0.574
+ 24.74    182       1    0.524 0.02342        0.480        0.572
+ 24.98    180       1    0.521 0.02347        0.477        0.569
+ 25.10    177       1    0.518 0.02352        0.474        0.566
+ 25.31    176       1    0.515 0.02357        0.471        0.563
+ 25.47    174       1    0.512 0.02362        0.468        0.560
+ 25.84    170       1    0.509 0.02367        0.464        0.557
+ 25.89    168       1    0.506 0.02373        0.461        0.554
+ 25.94    166       1    0.503 0.02378        0.458        0.552
+ 26.93    161       1    0.500 0.02383        0.455        0.549
+ 27.02    159       1    0.496 0.02389        0.452        0.546
+ 27.10    156       1    0.493 0.02395        0.448        0.542
+ 27.23    154       1    0.490 0.02401        0.445        0.539
+ 27.27    151       1    0.487 0.02407        0.442        0.536
+ 27.36    150       1    0.484 0.02412        0.439        0.533
+ 27.79    143       1    0.480 0.02419        0.435        0.530
+ 28.65    134       1    0.477 0.02427        0.431        0.527
+ 28.71    133       1    0.473 0.02435        0.428        0.523
+ 28.92    132       1    0.469 0.02443        0.424        0.520
+ 28.94    131       1    0.466 0.02451        0.420        0.516
+ 29.34    129       1    0.462 0.02458        0.416        0.513
+ 29.62    127       1    0.459 0.02466        0.413        0.510
+ 29.78    125       1    0.455 0.02473        0.409        0.506
+ 30.93    115       1    0.451 0.02483        0.405        0.502
+ 31.38    110       1    0.447 0.02494        0.401        0.499
+ 31.61    108       1    0.443 0.02505        0.396        0.495
+ 31.66    106       1    0.439 0.02516        0.392        0.491
+ 31.72    105       1    0.434 0.02526        0.388        0.487
+ 31.97    104       1    0.430 0.02536        0.383        0.483
+ 32.02    103       1    0.426 0.02546        0.379        0.479
+ 32.25    100       1    0.422 0.02556        0.375        0.475
+ 32.61     97       1    0.417 0.02566        0.370        0.471
+ 33.23     91       1    0.413 0.02579        0.365        0.467
+ 33.52     89       1    0.408 0.02591        0.360        0.462
+ 34.78     83       1    0.403 0.02606        0.355        0.458
+ 35.44     79       1    0.398 0.02623        0.350        0.453
+ 35.86     75       1    0.393 0.02641        0.344        0.448
+ 35.95     74       1    0.388 0.02658        0.339        0.443
+ 36.49     69       1    0.382 0.02678        0.333        0.438
+ 36.92     67       1    0.376 0.02698        0.327        0.433
+ 38.71     55       1    0.369 0.02734        0.319        0.427
+ 38.87     54       1    0.363 0.02768        0.312        0.421
+ 39.23     51       1    0.355 0.02804        0.305        0.415
+ 39.31     50       1    0.348 0.02836        0.297        0.409
+ 41.06     38       1    0.339 0.02906        0.287        0.401
+
+
+Median survival times:
+arm=Control    arm=Drug 
+      17.70       26.93
+Command #335: rsurvival logrank data=df_surv time=time event=event group=group
+Call:
+survdiff(formula = surv_obj ~ group, data = data)
+
+        N Observed Expected (O-E)^2/E (O-E)^2/V
+group=A 5        4     4.17   0.00714    0.0182
+group=B 5        3     2.83   0.01054    0.0182
+
+ Chisq= 0  on 1 degrees of freedom, p= 0.9
+Command #336: rsurvival logrank data=surdata time=time_months event=status group=arm
+Call:
+survdiff(formula = surv_obj ~ arm, data = data)
+
+              N Observed Expected (O-E)^2/E (O-E)^2/V
+arm=Control 491      308      262      8.24      15.1
+arm=Drug    509      271      317      6.79      15.1
+
+ Chisq= 15.1  on 1 degrees of freedom, p= 1e-04
+Command #337: rsurvival cox data=df_surv time=time event=event covariates=age,sex
+Call:
+coxph(formula = surv_obj ~ age + sex, data = data)
+
+  n= 10, number of events= 7 
+
+          coef exp(coef)  se(coef)      z Pr(>|z|)
+age  -0.001597  0.998404  0.048986 -0.033    0.974
+sexM -0.254685  0.775160  0.934281 -0.273    0.785
+
+     exp(coef) exp(-coef) lower .95 upper .95
+age     0.9984      1.002    0.9070     1.099
+sexM    0.7752      1.290    0.1242     4.838
+
+Concordance= 0.606  (se = 0.109 )
+Likelihood ratio test= 0.1  on 2 df,   p=1
+Wald test            = 0.1  on 2 df,   p=1
+Score (logrank) test = 0.1  on 2 df,   p=1
+
+
+Testing proportional hazards assumption:
+       chisq df    p
+age     2.53  1 0.11
+sex     1.69  1 0.19
+GLOBAL  2.56  2 0.28
+
+Martingale residuals (first 10):
+          1           2           3           4           5           6 
+ 0.66970954  0.39687210 -0.47277701  0.88836583  0.75290212 -0.08778723 
+          7           8           9          10 
+-0.42717340 -1.77756481  0.31802811 -0.26057524 
+
+Deviance residuals (first 10):
+         1          2          3          4          5          6          7 
+ 0.9360270  0.4663773 -0.9723960  1.6150308  1.1358421 -0.4190161 -0.3780941 
+         8          9         10 
+-1.8855051  0.3598298 -0.2408613
+Command #338: rsurvival cox data=surdata time=time_months event=status covariates=age,sex,stage
+Call:
+coxph(formula = surv_obj ~ age + sex + stage, data = data)
+
+  n= 1000, number of events= 579 
+
+              coef exp(coef)  se(coef)      z Pr(>|z|)    
+age       0.004428  1.004438  0.004143  1.069  0.28522    
+sexM     -0.120865  0.886153  0.083555 -1.447  0.14803    
+stageII   0.291091  1.337886  0.095299  3.054  0.00225 ** 
+stageIII  0.539778  1.715625  0.110726  4.875 1.09e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+         exp(coef) exp(-coef) lower .95 upper .95
+age         1.0044     0.9956    0.9963     1.013
+sexM        0.8862     1.1285    0.7523     1.044
+stageII     1.3379     0.7474    1.1099     1.613
+stageIII    1.7156     0.5829    1.3809     2.131
+
+Concordance= 0.563  (se = 0.013 )
+Likelihood ratio test= 26.83  on 4 df,   p=2e-05
+Wald test            = 27.02  on 4 df,   p=2e-05
+Score (logrank) test = 27.41  on 4 df,   p=2e-05
+
+
+Testing proportional hazards assumption:
+       chisq df     p
+age    0.601  1 0.438
+sex    5.707  1 0.017
+stage  1.985  2 0.371
+GLOBAL 8.011  4 0.091
+
+Martingale residuals (first 10):
+         1          2          3          4          5          6          7 
+ 0.7618384  0.9961547  0.4045548  0.7203918  0.9053938 -0.7867643 -0.8633679 
+         8          9         10 
+-0.9555646  0.3912663  0.9393745 
+
+Deviance residuals (first 10):
+         1          2          3          4          5          6          7 
+ 1.1601443  3.0215096  0.4772654  1.0525912  1.7044875 -1.2544037 -1.3140532 
+         8          9         10 
+-1.3824359  0.4584934  1.9306296
+Command #339: rsurvival aft data=df_surv time=time event=event covariates=group,age,sex dist=weibull
+Call:
+survreg(formula = surv_obj ~ group + age + sex, data = data, 
+    dist = "weibull")
+               Value Std. Error     z      p
+(Intercept)  1.77962    2.41785  0.74 0.4617
+groupB      -0.03436    1.03193 -0.03 0.9734
+age          0.00787    0.06148  0.13 0.8982
+sexM         0.10012    0.52098  0.19 0.8476
+Log(scale)  -0.80625    0.31224 -2.58 0.0098
+
+Scale= 0.447 
+
+Weibull distribution
+Loglik(model)= -20.1   Loglik(intercept only)= -20.1
+	Chisq= 0.09 on 3 degrees of freedom, p= 0.99 
+Number of Newton-Raphson Iterations: 7 
+n= 10 
+
+
+Scale parameter:
+[1] 0.4465272
+
+Linear predictors (first 10):
+ [1] 2.115724 2.133597 2.178653 2.138565 2.217227 2.167889 2.139323 2.177896
+ [9] 2.222952 2.062802
+Command #340: rsurvival aft data=surdata time=time_months event=status covariates=arm,age,sex,stage,biomarker_baseline,qol_baseline
+Call:
+survreg(formula = surv_obj ~ arm + age + sex + stage + biomarker_baseline + 
+    qol_baseline, data = data, dist = "weibull")
+                      Value Std. Error     z       p
+(Intercept)         3.81699    0.40417  9.44 < 2e-16
+armDrug             0.32311    0.08368  3.86 0.00011
+age                -0.00452    0.00415 -1.09 0.27688
+sexM                0.14479    0.08340  1.74 0.08255
+stageII            -0.30102    0.09533 -3.16 0.00159
+stageIII           -0.53733    0.11132 -4.83 1.4e-06
+biomarker_baseline -0.00328    0.00415 -0.79 0.42961
+qol_baseline        0.00144    0.00338  0.43 0.67019
+Log(scale)         -0.00259    0.03601 -0.07 0.94257
+
+Scale= 0.997 
+
+Weibull distribution
+Loglik(model)= -2581.6   Loglik(intercept only)= -2603.7
+	Chisq= 44.14 on 7 degrees of freedom, p= 2e-07 
+Number of Newton-Raphson Iterations: 5 
+n= 1000 
+
+
+Scale parameter:
+[1] 0.9974092
+
+Linear predictors (first 10):
+ [1] 3.478483 3.314259 3.103523 3.452029 3.577384 3.677782 4.081505 3.430817
+ [9] 3.615669 3.544140
+Command #341: rsurvival intcens data=df_surv time1=time1 time2=time2 event=event group=group
+Model:  Cox PH
+Dependency structure assumed: Independence
+Baseline:  loglogistic 
+Call: ic_par(formula = Surv(time1, time2, type = "interval2") ~ group, 
+    data = data, dist = "loglogistic")
+
+          Estimate Exp(Est) Std.Error z-value         p
+log_alpha  1.20800    3.348    0.1942 6.22300 4.862e-10
+log_beta   1.11400    3.047    0.3035 3.67100 2.412e-04
+groupB     0.05671    1.058    0.6702 0.08463 9.326e-01
+
+final llk =  -16.99613 
+Iterations =  3 
+
+Fit estimates:
+[1] 3.348326
+Command #342: rsurvival ltcox data=df_surv entry=entry time=time event=event covariates=group,age,sex
+Call:
+coxph(formula = surv_obj ~ group + age + sex, data = data)
+
+  n= 10, number of events= 7 
+
+            coef exp(coef)  se(coef)      z Pr(>|z|)
+groupB  0.117425  1.124597  2.208642  0.053    0.958
+age     0.001735  1.001737  0.135974  0.013    0.990
+sexM   -0.043956  0.956996  1.244118 -0.035    0.972
+
+       exp(coef) exp(-coef) lower .95 upper .95
+groupB     1.125     0.8892   0.01483    85.309
+age        1.002     0.9983   0.76738     1.308
+sexM       0.957     1.0449   0.08354    10.962
+
+Concordance= 0.571  (se = 0.182 )
+Likelihood ratio test= 0.05  on 3 df,   p=1
+Wald test            = 0.05  on 3 df,   p=1
+Score (logrank) test = 0.05  on 3 df,   p=1
+
+
+PH assumption test:
+       chisq df     p
+group   3.18  1 0.074
+age     2.94  1 0.086
+sex     1.44  1 0.230
+GLOBAL  3.24  3 0.355
+Command #343: rsurvival expaft data=df_surv time=time event=event covariates=group,age,sex
+Call:
+survreg(formula = surv_obj ~ group + age + sex, data = data, 
+    dist = "exponential")
+              Value Std. Error     z    p
+(Intercept)  1.1023     4.3507  0.25 0.80
+groupB      -0.2138     1.7618 -0.12 0.90
+age          0.0234     0.1078  0.22 0.83
+sexM         0.4521     1.0962  0.41 0.68
+
+Scale fixed at 1 
+
+Exponential distribution
+Loglik(model)= -22.5   Loglik(intercept only)= -22.6
+	Chisq= 0.19 on 3 degrees of freedom, p= 0.98 
+Number of Newton-Raphson Iterations: 4 
+n= 10 
+
+
+Linear predictors (first 10):
+ [1] 2.257119 2.156373 2.444507 2.059655 2.293890 2.300942 2.327389 2.176773
+ [9] 2.464906 1.945561
+Command #344: rsurvival expaft data=surdata time=time_months event=status covariates=arm,age,sex,stage
+Call:
+survreg(formula = surv_obj ~ arm + age + sex + stage, data = data, 
+    dist = "exponential")
+               Value Std. Error     z       p
+(Intercept)  3.75963    0.26304 14.29 < 2e-16
+armDrug      0.32302    0.08339  3.87 0.00011
+age         -0.00456    0.00415 -1.10 0.27210
+sexM         0.14239    0.08351  1.71 0.08817
+stageII     -0.30257    0.09519 -3.18 0.00148
+stageIII    -0.53558    0.11063 -4.84 1.3e-06
+
+Scale fixed at 1 
+
+Exponential distribution
+Loglik(model)= -2582   Loglik(intercept only)= -2603.8
+	Chisq= 43.46 on 5 degrees of freedom, p= 3e-08 
+Number of Newton-Raphson Iterations: 4 
+n= 1000 
+
+
+Linear predictors (first 10):
+ [1] 3.442235 3.358670 3.131584 3.465036 3.583256 3.626579 4.010255 3.387856
+ [9] 3.571683 3.587188
+Command #345: rsurvival coxint data=df_surv time=time event=event covariates=age,sex,group
+Call:
+coxph(formula = formula_str, data = data)
+
+  n= 10, number of events= 7 
+
+                  coef  exp(coef)   se(coef)      z Pr(>|z|)
+age          4.747e-02  1.049e+00  1.666e-01  0.285    0.776
+sexM         1.077e+01  4.780e+04  1.226e+01  0.879    0.379
+groupB      -7.286e+00  6.851e-04  1.729e+01 -0.421    0.674
+age:sexM    -3.316e-01  7.178e-01  3.620e-01 -0.916    0.360
+age:groupB   1.137e-01  1.120e+00  3.188e-01  0.357    0.721
+sexM:groupB  6.330e+00  5.610e+02  7.240e+00  0.874    0.382
+
+            exp(coef) exp(-coef) lower .95 upper .95
+age         1.049e+00  9.536e-01 7.565e-01 1.454e+00
+sexM        4.780e+04  2.092e-05 1.756e-06 1.301e+15
+groupB      6.851e-04  1.460e+03 1.309e-18 3.586e+11
+age:sexM    7.178e-01  1.393e+00 3.530e-01 1.459e+00
+age:groupB  1.120e+00  8.925e-01 5.997e-01 2.093e+00
+sexM:groupB 5.610e+02  1.782e-03 3.858e-04 8.158e+08
+
+Concordance= 0.697  (se = 0.182 )
+Likelihood ratio test= 1.23  on 6 df,   p=1
+Wald test            = 0.93  on 6 df,   p=1
+Score (logrank) test = 1  on 6 df,   p=1
+
+
+Testing proportional hazards assumption:
+          chisq df       p
+age        2.89  1 0.08923
+sex        2.43  1 0.11907
+group      2.70  1 0.10019
+age:sex    3.17  1 0.07501
+age:group  3.12  1 0.07755
+sex:group  3.15  1 0.07575
+GLOBAL    24.35  6 0.00045
+Command #346: rsurvival coxint data=surdata time=time_months event=status covariates=age,sex,stage
+Call:
+coxph(formula = formula_str, data = data)
+
+  n= 1000, number of events= 579 
+
+                    coef  exp(coef)   se(coef)      z Pr(>|z|)
+age            0.0045864  1.0045969  0.0086043  0.533    0.594
+sexM           0.1674604  1.1822985  0.5214597  0.321    0.748
+stageII        0.2387427  1.2696518  0.5900643  0.405    0.686
+stageIII       0.2891532  1.3352963  0.6694017  0.432    0.666
+age:sexM      -0.0041456  0.9958630  0.0084043 -0.493    0.622
+age:stageII    0.0003455  1.0003455  0.0096750  0.036    0.972
+age:stageIII   0.0067656  1.0067886  0.0109570  0.617    0.537
+sexM:stageII   0.0724398  1.0751280  0.1905250  0.380    0.704
+sexM:stageIII -0.3083893  0.7346293  0.2217562 -1.391    0.164
+
+              exp(coef) exp(-coef) lower .95 upper .95
+age              1.0046     0.9954    0.9878     1.022
+sexM             1.1823     0.8458    0.4255     3.285
+stageII          1.2697     0.7876    0.3994     4.036
+stageIII         1.3353     0.7489    0.3596     4.959
+age:sexM         0.9959     1.0042    0.9796     1.012
+age:stageII      1.0003     0.9997    0.9816     1.019
+age:stageIII     1.0068     0.9933    0.9854     1.029
+sexM:stageII     1.0751     0.9301    0.7401     1.562
+sexM:stageIII    0.7346     1.3612    0.4757     1.135
+
+Concordance= 0.562  (se = 0.013 )
+Likelihood ratio test= 30.78  on 9 df,   p=3e-04
+Wald test            = 32.8  on 9 df,   p=1e-04
+Score (logrank) test = 33.71  on 9 df,   p=1e-04
+
+
+Testing proportional hazards assumption:
+           chisq df     p
+age        0.809  1 0.368
+sex        6.011  1 0.014
+stage      1.497  2 0.473
+age:sex    5.865  1 0.015
+age:stage  1.309  2 0.520
+sex:stage  4.551  2 0.103
+GLOBAL    10.415  9 0.318
+Command #347: rsurvival frailtycox data=df_surv time=time event=event group=group covariates=age,sex
+Call:
+coxph(formula = formula_str, data = data)
+
+  n= 10, number of events= 7 
+
+             coef    se(coef) se2    Chisq DF p   
+sexM         -0.2374 0.7703   0.7703 0.09  1  0.76
+frailty(age)                         0.00  0  0.96
+
+     exp(coef) exp(-coef) lower .95 upper .95
+sexM    0.7887      1.268    0.1743     3.569
+
+Iterations: 6 outer, 28 Newton-Raphson
+     Variance of random effect= 5e-07   I-likelihood = -11.2 
+Degrees of freedom for terms= 1 0 
+Concordance= 0.818  (se = 0.105 )
+Likelihood ratio test= 0.1  on 1 df,   p=0.8
+Command #348: rsurvival frailtycox data=surdata time=time_months event=status group=center covariates=age,sex,stage
+Call:
+coxph(formula = formula_str, data = data)
+
+  n= 1000, number of events= 579 
+
+             coef    se(coef) se2     Chisq DF   p      
+sexM         -0.1176 0.08360  0.08347  1.98 1.00 1.6e-01
+stageII       0.2882 0.09538  0.09525  9.13 1.00 2.5e-03
+stageIII      0.5345 0.11080  0.11061 23.27 1.00 1.4e-06
+frailty(age)                           2.59 2.32 3.3e-01
+
+         exp(coef) exp(-coef) lower .95 upper .95
+sexM        0.8891     1.1248    0.7547     1.047
+stageII     1.3340     0.7496    1.1065     1.608
+stageIII    1.7066     0.5860    1.3735     2.121
+
+Iterations: 5 outer, 21 Newton-Raphson
+     Variance of random effect= 0.00407605   I-likelihood = -3677.6 
+Degrees of freedom for terms= 1.0 2.0 2.3 
+Concordance= 0.598  (se = 0.013 )
+Likelihood ratio test= 30.85  on 5.31 df,   p=1e-05
+Command #349: rsurvival tdcox data=df_surv time=time event=event group=group covariates=age,sex
+Call:
+coxph(formula = surv_obj ~ tt(group_numeric), data = data, tt = function(x, 
+    t, ...) x * log(t))
+
+  n= 10, number of events= 7 
+
+                     coef exp(coef) se(coef)      z Pr(>|z|)
+tt(group_numeric) -0.1336    0.8749   0.4479 -0.298    0.766
+
+                  exp(coef) exp(-coef) lower .95 upper .95
+tt(group_numeric)    0.8749      1.143    0.3637     2.105
+
+Concordance= 0.409  (se = 0.123 )
+Likelihood ratio test= 0.09  on 1 df,   p=0.8
+Wald test            = 0.09  on 1 df,   p=0.8
+Score (logrank) test = 0.09  on 1 df,   p=0.8
+Command #350: rsurvival tdcox data=surdata time=time_months event=status group=arm covariates=treatment_td,age,sex
+Call:
+coxph(formula = surv_obj ~ tt(group_numeric), data = data, tt = function(x, 
+    t, ...) x * log(t))
+
+  n= 1000, number of events= 579 
+
+                      coef exp(coef) se(coef)      z Pr(>|z|)  
+tt(group_numeric) -0.08541   0.91813  0.03484 -2.452   0.0142 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+                  exp(coef) exp(-coef) lower .95 upper .95
+tt(group_numeric)    0.9181      1.089    0.8575     0.983
+
+Concordance= 0.533  (se = 0.011 )
+Likelihood ratio test= 6  on 1 df,   p=0.01
+Wald test            = 6.01  on 1 df,   p=0.01
+Score (logrank) test = 6.04  on 1 df,   p=0.01
+Command #351: rsurvival competing data=df_surv time=time event=event cause=event group=group covariates=age,sex
+Competing Risks Regression
+
+Call:
+crr(ftime = data$time, fstatus = data$event, cov1 = data.frame(group = data$group_numeric))
+
+       coef exp(coef) se(coef)     z p-value
+group 0.105      1.11    0.723 0.145    0.88
+
+      exp(coef) exp(-coef)  2.5% 97.5%
+group      1.11      0.901 0.269  4.58
+
+Num. cases = 10
+Pseudo Log-likelihood = -11.3 
+Pseudo likelihood ratio test = 0.02  on 1 df,
+Command #352: rsurvival competing data=surdata time=time_months event=status cause=cause group=arm covariates=age,sex
+Competing Risks Regression
+
+Call:
+crr(ftime = data$time_months, fstatus = data$cause, cov1 = data.frame(group = data$group_numeric))
+
+        coef exp(coef) se(coef)     z p-value
+group -0.277     0.758   0.0938 -2.95  0.0031
+
+      exp(coef) exp(-coef)  2.5% 97.5%
+group     0.758       1.32 0.631 0.911
+
+Num. cases = 1000
+Pseudo Log-likelihood = -2932 
+Pseudo likelihood ratio test = 8.66  on 1 df,
+Command #353: rsurvival intnp data=df_surv time1=time1 time2=time2 event=event group=group
+Start   End Survival Group
+baseline1  2e+00 2e+00      1.0     A
+baseline2  2e+00 3e+00      0.4     A
+baseline3  5e+00 6e+00      0.0     A
+baseline11 2e-10 2e-10      1.0     B
+baseline21 2e-10 2e+00      0.6     B
+baseline31 4e+00 5e+00      0.2     B
+baseline4  6e+00 7e+00      0.0     B
+Command #354: rsurvival intpar data=df_surv time1=time1 time2=time2 event=event covariates=group,age,sex dist=weibull
+Parametric model coefficients (Weibull):
+  log_shape   log_scale      groupB         age        sexM 
+ 0.83368618  1.41022472  0.30457549 -0.01135702 -0.65401695 
+
+Baseline survival estimates:
+[1] 3.493818
+Command #355: rsurvival intsp data=df_surv time1=time1 time2=time2 event=event covariates=group,age,sex
+Model:  Cox PH
+Dependency structure assumed: Independence
+Baseline:  semi-parametric 
+Call: ic_sp(formula = Surv(time1, time2, type = "interval2") ~ group + 
+    age + sex, data = data)
+
+       Estimate Exp(Est)
+groupB  0.15360   1.1660
+age    -0.01241   0.9877
+sexM   -0.84950   0.4276
+
+final llk =  -14.10217 
+Iterations =  12 
+Bootstrap Samples =  0 
+WARNING: only  0  bootstrap samples used for standard errors. 
+Suggest using more bootstrap samples for inference
+
+Smoothed survival estimates:
+$Tbull_ints
+     lower upper
+[1,]     1     1
+[2,]     1     2
+[3,]     2     3
+[4,]     3     4
+[5,]     4     5
+[6,]     5     6
+[7,]     6     7
+
+$S_curves
+$S_curves$baseline
+[1] 1.00000000 0.73914670 0.62447595 0.45556238 0.30399858 0.07910564 0.00000000
+
+
+attr(,"class")
+[1] "sp_curves"
+Command #356: rsurvival int-aft data=df_surv time1=time1 time2=time2 event=event covariates=group,age,sex
+Model:  Cox PH
+Dependency structure assumed: Independence
+Baseline:  loglogistic 
+Call: ic_par(formula = Surv(time1, time2, type = "interval2") ~ group + 
+    age + sex, data = data, dist = "loglogistic")
+
+          Estimate Exp(Est) Std.Error z-value         p
+log_alpha   1.2020   3.3270   0.19170  6.2720 3.572e-10
+log_beta    1.1350   3.1120   0.30370  3.7380 1.856e-04
+groupB      0.4125   1.5110   1.61900  0.2547 7.989e-01
+age        -0.0169   0.9832   0.08805 -0.1919 8.478e-01
+sexM       -0.6067   0.5452   1.02400 -0.5923 5.537e-01
+
+final llk =  -16.75117 
+Iterations =  5 
+
+Baseline survival estimates:
+[1] 3.327364
+Command #357: let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+yN = [1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5]
+Command #358: let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+yB = [1, 0, 1, 0, 1, 0, 1, 1, 0, 1]
+Command #359: let yC be slist A, B, C, A, B, C, A, B, C, A
+yC = ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A']
+Command #360: let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+x1 = [2.0, 3.0, 5.0, 7.0, 11.0, 13.0, 17.0, 19.0, 23.0, 29.0]
+Command #361: let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+x2 = [1.0, 4.0, 9.0, 16.0, 25.0, 36.0, 49.0, 64.0, 81.0, 100.0]
+Command #362: let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+x3 = [5.0, 8.0, 6.0, 10.0, 12.0, 14.0, 18.0, 20.0, 24.0, 30.0]
+Command #363: let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+x4 = [3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3]
+Command #364: let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+x5 = [100.0, 90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0]
+Command #365: let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df = ['yN:yN', 'yB:yB', 'yC:yC', 'x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #366: let df_A be dataframe x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df_A = ['x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #367: let df_B be dataframe x1:x1 x2:x2
+df_B = ['x1:x1', 'x2:x2']
+Command #368: let entry be clist 0,1,2,0,3,1,2,0,4,1
+entry = [0.0, 1.0, 2.0, 0.0, 3.0, 1.0, 2.0, 0.0, 4.0, 1.0]
+Command #369: let time be clist 5,6,6,2,4,3,10,12,8,9
+time = [5.0, 6.0, 6.0, 2.0, 4.0, 3.0, 10.0, 12.0, 8.0, 9.0]
+Command #370: let time1 be clist 1,2,2,0,4,3,5,0,6,5
+time1 = [1.0, 2.0, 2.0, 0.0, 4.0, 3.0, 5.0, 0.0, 6.0, 5.0]
+Command #371: let time2 be clist 3,4,4,2,5,5,6,2,7,6
+time2 = [3.0, 4.0, 4.0, 2.0, 5.0, 5.0, 6.0, 2.0, 7.0, 6.0]
+Command #372: let event be dlist 1,1,0,1,1,0,1,0,1,1
+event = [1, 1, 0, 1, 1, 0, 1, 0, 1, 1]
+Command #373: let group be slist A,A,A,B,B,B,A,B,B,A
+group = ['A', 'A', 'A', 'B', 'B', 'B', 'A', 'B', 'B', 'A']
+Command #374: let age be clist 30,45,38,50,60,41,33,55,48,36
+age = [30.0, 45.0, 38.0, 50.0, 60.0, 41.0, 33.0, 55.0, 48.0, 36.0]
+Command #375: let sex be slist M,F,M,F,F,M,M,F,M,F
+sex = ['M', 'F', 'M', 'F', 'F', 'M', 'M', 'F', 'M', 'F']
+Command #376: let df_surv be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+df_surv = ['entry:entry', 'time:time', 'time1:time1', 'time2:time2', 'event:event', 'group:group', 'age:age', 'sex:sex']
+Command #377: ttest 1s list x1 4
+              T  dof alternative     p-val          CI95%   cohen-d  BF10     power
+T-test  3.11881    9   two-sided  0.012342  [6.44, 19.36]  0.986254  5.24  0.792328
+Command #378: ttest 1s list data=x1 mu=4
+              T  dof alternative     p-val          CI95%   cohen-d  BF10     power
+T-test  3.11881    9   two-sided  0.012342  [6.44, 19.36]  0.986254  5.24  0.792328
+Command #379: ttest 1s dataframe wide df_B x1 5
+               T  dof alternative     p-val          CI95%   cohen-d   BF10     power
+T-test  2.768382    9   two-sided  0.021811  [6.44, 19.36]  0.875439  3.341  0.693589
+Command #380: ttest 1s dataframe wide data=df_B.x1 mu=5
+               T  dof alternative     p-val          CI95%   cohen-d   BF10     power
+T-test  2.768382    9   two-sided  0.021811  [6.44, 19.36]  0.875439  3.341  0.693589
+Command #381: ttest 2se list x1 x2
+               T  dof alternative     p-val            CI95%   cohen-d   BF10     power
+T-test -2.290406   18   two-sided  0.034287  [-49.08, -2.12]  1.024301  2.185  0.582133
+Command #382: ttest 2se list data=x1,x2
+               T  dof alternative     p-val            CI95%   cohen-d   BF10     power
+T-test -2.290406   18   two-sided  0.034287  [-49.08, -2.12]  1.024301  2.185  0.582133
+Command #383: ttest 2se dataframe wide df_B x1 x2
+               T  dof alternative     p-val            CI95%   cohen-d   BF10     power
+T-test -2.290406   18   two-sided  0.034287  [-49.08, -2.12]  1.024301  2.185  0.582133
+Command #384: ttest 2se dataframe wide data=df_B.x1,df_B.x2
+               T  dof alternative     p-val            CI95%   cohen-d   BF10     power
+T-test -2.290406   18   two-sided  0.034287  [-49.08, -2.12]  1.024301  2.185  0.582133
+Command #385: ttest 2su list x1 x2
+               T  dof alternative     p-val            CI95%   cohen-d   BF10     power
+T-test -2.290406   18   two-sided  0.034287  [-49.08, -2.12]  1.024301  2.185  0.582133
+Command #386: ttest 2su list data=x1,x2
+               T  dof alternative     p-val            CI95%   cohen-d   BF10     power
+T-test -2.290406   18   two-sided  0.034287  [-49.08, -2.12]  1.024301  2.185  0.582133
+Command #387: ttest 2su dataframe wide df_B x1 x2
+               T  dof alternative     p-val            CI95%   cohen-d   BF10     power
+T-test -2.290406   18   two-sided  0.034287  [-49.08, -2.12]  1.024301  2.185  0.582133
+Command #388: ttest 2su dataframe wide data=df_B.x1,df_B.x2
+               T  dof alternative     p-val            CI95%   cohen-d   BF10     power
+T-test -2.290406   18   two-sided  0.034287  [-49.08, -2.12]  1.024301  2.185  0.582133
+Command #389: ttest mwu list x1 x2
+     U-val alternative     p-val   RBC  CLES
+MWU   29.0   two-sided  0.121225  0.42  0.29
+Command #390: ttest mwu list data=x1,x2
+     U-val alternative     p-val   RBC  CLES
+MWU   29.0   two-sided  0.121225  0.42  0.29
+Command #391: ttest mwu dataframe wide df_B x1 x2
+     U-val alternative     p-val   RBC  CLES
+MWU   29.0   two-sided  0.121225  0.42  0.29
+Command #392: ttest mwu dataframe wide data=df_B.x1,df_B.x2
+     U-val alternative     p-val   RBC  CLES
+MWU   29.0   two-sided  0.121225  0.42  0.29
+Command #393: ttest paired list x1 x2
+               T  dof alternative    p-val            CI95%   cohen-d  BF10    power
+T-test -3.209935    9   two-sided  0.01066  [-43.64, -7.56]  1.024301  5.89  0.82128
+Command #394: ttest paired list data=x1,x2
+               T  dof alternative    p-val            CI95%   cohen-d  BF10    power
+T-test -3.209935    9   two-sided  0.01066  [-43.64, -7.56]  1.024301  5.89  0.82128
+Command #395: ttest paired dataframe wide df_B x1 x2
+               T  dof alternative    p-val            CI95%   cohen-d  BF10    power
+T-test -3.209935    9   two-sided  0.01066  [-43.64, -7.56]  1.024301  5.89  0.82128
+Command #396: ttest paired dataframe wide data=df_B.x1,df_B.x2
+               T  dof alternative    p-val            CI95%   cohen-d  BF10    power
+T-test -3.209935    9   two-sided  0.01066  [-43.64, -7.56]  1.024301  5.89  0.82128
+Command #397: ttest tost list x1 x2
+      bound  dof      pval
+TOST      1   18  0.979484
+Command #398: ttest tost list data=x1,x2
+      bound  dof      pval
+TOST      1   18  0.979484
+Command #399: ttest tost dataframe wide df_B x1 x2
+      bound  dof      pval
+TOST      1   18  0.979484
+Command #400: ttest tost dataframe wide data=df_B.x1,df_B.x2
+      bound  dof      pval
+TOST      1   18  0.979484
+Command #401: let yN be clist 1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5
+yN = [1.2, 2.3, 3.1, 4.8, 5.6, 6.2, 7.9, 8.4, 9.7, 10.5]
+Command #402: let yB be dlist 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+yB = [1, 0, 1, 0, 1, 0, 1, 1, 0, 1]
+Command #403: let yC be slist A, B, C, A, B, C, A, B, C, A
+yC = ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A']
+Command #404: let x1 be clist 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+x1 = [2.0, 3.0, 5.0, 7.0, 11.0, 13.0, 17.0, 19.0, 23.0, 29.0]
+Command #405: let x2 be clist 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+x2 = [1.0, 4.0, 9.0, 16.0, 25.0, 36.0, 49.0, 64.0, 81.0, 100.0]
+Command #406: let x3 be clist 5, 8, 6, 10, 12, 14, 18, 20, 24, 30
+x3 = [5.0, 8.0, 6.0, 10.0, 12.0, 14.0, 18.0, 20.0, 24.0, 30.0]
+Command #407: let x4 be clist 3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3
+x4 = [3.1, 5.2, 2.7, 8.6, 9.1, 4.4, 7.8, 6.5, 10.2, 11.3]
+Command #408: let x5 be clist 100, 90, 80, 70, 60, 50, 40, 30, 20, 10
+x5 = [100.0, 90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0]
+Command #409: let df be dataframe yN:yN yB:yB yC:yC x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df = ['yN:yN', 'yB:yB', 'yC:yC', 'x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #410: let df_A be dataframe x1:x1 x2:x2 x3:x3 x4:x4 x5:x5
+df_A = ['x1:x1', 'x2:x2', 'x3:x3', 'x4:x4', 'x5:x5']
+Command #411: let df_B be dataframe x1:x1 x2:x2
+df_B = ['x1:x1', 'x2:x2']
+Command #412: let entry be clist 0,1,2,0,3,1,2,0,4,1
+entry = [0.0, 1.0, 2.0, 0.0, 3.0, 1.0, 2.0, 0.0, 4.0, 1.0]
+Command #413: let time be clist 5,6,6,2,4,3,10,12,8,9
+time = [5.0, 6.0, 6.0, 2.0, 4.0, 3.0, 10.0, 12.0, 8.0, 9.0]
+Command #414: let time1 be clist 1,2,2,0,4,3,5,0,6,5
+time1 = [1.0, 2.0, 2.0, 0.0, 4.0, 3.0, 5.0, 0.0, 6.0, 5.0]
+Command #415: let time2 be clist 3,4,4,2,5,5,6,2,7,6
+time2 = [3.0, 4.0, 4.0, 2.0, 5.0, 5.0, 6.0, 2.0, 7.0, 6.0]
+Command #416: let event be dlist 1,1,0,1,1,0,1,0,1,1
+event = [1, 1, 0, 1, 1, 0, 1, 0, 1, 1]
+Command #417: let group be slist A,A,A,B,B,B,A,B,B,A
+group = ['A', 'A', 'A', 'B', 'B', 'B', 'A', 'B', 'B', 'A']
+Command #418: let age be clist 30,45,38,50,60,41,33,55,48,36
+age = [30.0, 45.0, 38.0, 50.0, 60.0, 41.0, 33.0, 55.0, 48.0, 36.0]
+Command #419: let sex be slist M,F,M,F,F,M,M,F,M,F
+sex = ['M', 'F', 'M', 'F', 'F', 'M', 'M', 'F', 'M', 'F']
+Command #420: let df_surv be dataframe entry:entry time:time time1:time1 time2:time2 event:event group:group age:age sex:sex
+df_surv = ['entry:entry', 'time:time', 'time1:time1', 'time2:time2', 'event:event', 'group:group', 'age:age', 'sex:sex']
+Command #421: variance bartlett list x1 x2 x3 x4 x5
+Statistic = 50.422; p-value = 2.9471902944178116e-10
+Command #422: variance bartlett list data=x1,x2,x3,x4,x5
+Statistic = 50.422; p-value = 2.9471902944178116e-10
+Command #423: variance bartlett frame wide df_A
+Statistic = 50.422; p-value = 2.9471902944178116e-10
+Command #424: variance bartlett dataframe wide data=df_A
+Statistic = 50.422; p-value = 2.9471902944178116e-10
+Command #425: variance fligner list x1 x2 x3 x4 x5
+Statistic = 26.972; p-value = 2.0136953020687342e-05
+Command #426: variance fligner list data=x1,x2,x3,x4,x5
+Statistic = 26.972; p-value = 2.0136953020687342e-05
+Command #427: variance fligner frame wide df_A
+Statistic = 26.972; p-value = 2.0136953020687342e-05
+Command #428: variance fligner dataframe wide data=df_A
+Statistic = 26.972; p-value = 2.0136953020687342e-05
+Command #429: variance levene list x1 x2 x3 x4 x5
+Statistic = 12.206; p-value = 8.39877961872885e-07
+Command #430: variance levene list data=x1,x2,x3,x4,x5
+Statistic = 12.206; p-value = 8.39877961872885e-07
+Command #431: variance levene frame wide df_A
+Statistic = 12.206; p-value = 8.39877961872885e-07
+Command #432: variance levene dataframe wide data=df_A
+Statistic = 12.206; p-value = 8.39877961872885e-07
