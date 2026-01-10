@@ -191,30 +191,7 @@ class SiPyKernel(Kernel):
                 "payload": [],
                 "user_expressions": {},
             }
-        """
-        # Runtime commands: allow changing timeout from a notebook cell
-        # Usage in a notebook cell:
-        #   session.set_timeout = 60
-        #   session.get_timeout
-        if code.startswith("session.set_timeout"):
-            parts = code.split("=")
-            try:
-                val = int(parts[1].strip())
-                self._exec_timeout = val
-                msg = f"SIPY exec timeout set to {val} seconds\n"
-                self.send_response(self.iopub_socket, "stream", {"name": "stdout", "text": msg})
-                return {"status": "ok", "execution_count": self.execution_count, "payload": [], "user_expressions": {}}
-            except Exception:
-                err = "Invalid timeout value\n"
-                self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": err})
-                return {"status": "error", "execution_count": self.execution_count, "evalue": err}
 
-        if code.strip() == "session.get_timeout":
-            val = getattr(self, "_exec_timeout", int(os.environ.get("SIPY_EXEC_TIMEOUT", "30")))
-            msg = f"SIPY exec timeout is {val} seconds\n"
-            self.send_response(self.iopub_socket, "stream", {"name": "stdout", "text": msg})
-            return {"status": "ok", "execution_count": self.execution_count, "payload": [], "user_expressions": {}}
-        """
         if not self.sipy_ready:
             msg = (
                 "SiPy kernel is not properly initialized.\n"
