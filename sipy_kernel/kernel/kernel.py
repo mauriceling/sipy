@@ -248,7 +248,12 @@ class SiPyKernel(Kernel):
                 stdout_capture = io.StringIO()
                 stderr_capture = io.StringIO()
                 with redirect_stdout(stdout_capture), redirect_stderr(stderr_capture):
-                    res = self.sipy_shell.interpret(code)
+                    # Split by newlines to allow multiple commands per cell
+                    lines = code.split('\n')
+                    for line in lines:
+                        line = line.strip()
+                        if line:  # Skip empty lines
+                            res = self.sipy_shell.interpret(line)
                 result_container["result"] = res
                 result_container["stdout"] = stdout_capture.getvalue()
                 result_container["stderr"] = stderr_capture.getvalue()
