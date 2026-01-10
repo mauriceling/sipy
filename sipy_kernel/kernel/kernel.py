@@ -255,7 +255,12 @@ class SiPyKernel(Kernel):
                         if not line:  # Skip empty lines
                             continue
                         
-                        # Handle session commands inline for multi-line cells
+                        # Handle session.get_timeout and session.set_timeout
+                        if line.strip() == "session.get_timeout":
+                            val = getattr(self, "_exec_timeout", int(os.environ.get("SIPY_EXEC_TIMEOUT", "30")))
+                            print(f"SiPy Kernel execution timeout is {val} seconds")
+                            result = None
+                            continue
                         if line.startswith("session.set_timeout"):
                             parts = line.split("=")
                             try:
@@ -266,9 +271,20 @@ class SiPyKernel(Kernel):
                                 print("Error: Invalid timeout value", file=sys.stderr)
                             result = None
                             continue
-                        if line.strip() == "session.get_timeout":
-                            val = getattr(self, "_exec_timeout", int(os.environ.get("SIPY_EXEC_TIMEOUT", "30")))
-                            print(f"SiPy Kernel execution timeout is {val} seconds")
+                        
+                        # Handle session.get_cwd and session.set_cwd
+                        if line.strip() == "session.get_cwd":
+                            print(f"Current working directory: {os.getcwd()}")
+                            result = None
+                            continue
+                        if line.startswith("session.set_cwd"):
+                            parts = line.split("=")
+                            try:
+                                cwd = parts[1].strip()
+                                os.chdir(cwd)
+                                print(f"Working directory changed to {os.getcwd()}")
+                            except Exception as e:
+                                print(f"Error: Could not change directory: {e}", file=sys.stderr)
                             result = None
                             continue
                         
