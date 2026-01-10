@@ -252,9 +252,29 @@ class SiPyKernel(Kernel):
                     lines = code.split('\n')
                     for line in lines:
                         line = line.strip()
-                        if line:  # Skip empty lines
-                            res = self.sipy_shell.interpret(line)
-                result_container["result"] = res
+                        if not line:  # Skip empty lines
+                            continue
+                        
+                        # Handle session commands inline for multi-line cells
+                        if line.startswith("session.set_timeout"):
+                            parts = line.split("=")
+                            try:
+                                val = int(parts[1].strip())
+                                self._exec_timeout = val
+                                print(f"SiPy Kernel execution timeout set to {val} seconds")
+                            except Exception:
+                                print("Error: Invalid timeout value", file=sys.stderr)
+                            result = None
+                            continue
+                        if line.strip() == "session.get_timeout":
+                            val = getattr(self, "_exec_timeout", int(os.environ.get("SIPY_EXEC_TIMEOUT", "30")))
+                            print(f"SiPy Kernel execution timeout is {val} seconds")
+                            result = None
+                            continue
+                        
+                        # Regular SiPy command
+                        result = self.sipy_shell.interpret(line)
+                result_container["result"] = result
                 result_container["stdout"] = stdout_capture.getvalue()
                 result_container["stderr"] = stderr_capture.getvalue()
                 result_container["exc"] = None
