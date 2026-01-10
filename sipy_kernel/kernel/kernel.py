@@ -192,6 +192,29 @@ class SiPyKernel(Kernel):
                 "user_expressions": {},
             }
 
+        # Runtime commands: allow changing timeout from a notebook cell
+        # Usage in a notebook cell:
+        #   session.set_timeout = 60
+        #   session.get_timeout
+        if code.startswith("session.set_timeout"):
+            parts = code.split("=")
+            try:
+                val = int(parts[1].strip())
+                self._exec_timeout = val
+                msg = f"SIPY exec timeout set to {val} seconds\n"
+                self.send_response(self.iopub_socket, "stream", {"name": "stdout", "text": msg})
+                return {"status": "ok", "execution_count": self.execution_count, "payload": [], "user_expressions": {}}
+            except Exception:
+                err = "Invalid timeout value\n"
+                self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": err})
+                return {"status": "error", "execution_count": self.execution_count, "evalue": err}
+
+        if code.strip() == "session.get_timeout":
+            val = getattr(self, "_exec_timeout", int(os.environ.get("SIPY_EXEC_TIMEOUT", "30")))
+            msg = f"SIPY exec timeout is {val} seconds\n"
+            self.send_response(self.iopub_socket, "stream", {"name": "stdout", "text": msg})
+            return {"status": "ok", "execution_count": self.execution_count, "payload": [], "user_expressions": {}}
+
         if not self.sipy_ready:
             msg = (
                 "SiPy kernel is not properly initialized.\n"
@@ -208,9 +231,15 @@ class SiPyKernel(Kernel):
             }
 
         # Run interpret in a worker thread with timeout to avoid blocking the server
-        exec_timeout = int(os.environ.get("SIPY_EXEC_TIMEOUT", "30"))
+        # Prefer session timeout set by `sipy.set_timeout`, then fall back to env or default
+        exec_timeout = getattr(self, "_exec_timeout", None)
+        if exec_timeout is None:
+            try:
+                exec_timeout = int(os.environ.get("SIPY_EXEC_TIMEOUT", "30"))
+            except Exception:
+                exec_timeout = 30
         self._log = getattr(self, "_log", logging.getLogger("sipy.kernel"))
-        self._log.debug("Executing code (timeout=%ss): %s", exec_timeout, code[:80])
+        self._log.debug("Executing code (timeout=%ss): %s", exec_timeout, code)
 
         result_container = {}
 
