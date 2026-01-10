@@ -29,6 +29,10 @@ from contextlib import redirect_stdout, redirect_stderr
 from ipykernel.kernelbase import Kernel
 from jupyter_client.kernelspec import KernelSpecManager
 import importlib.util
+import logging
+import threading
+import traceback
+import logging
 
 # Add sipy directory to path for imports
 sipy_py_env = os.environ.get("SIPY_PY")
@@ -71,15 +75,28 @@ class SiPyKernel(Kernel):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
-        # Initialize persistent SiPy REPL shell
-        print(f"[SiPy Kernel] Initialization starting, cwd={os.getcwd()}", flush=True)
+
+        # Configure logger: console level controlled by SIPY_KERNEL_LOG_LEVEL; file handler will capture DEBUG
+        log_level_name = os.environ.get("SIPY_KERNEL_LOG_LEVEL", "WARNING").upper()
+        console_level = getattr(logging, log_level_name, logging.WARNING)
+        self._log = logging.getLogger("sipy.kernel")
+        # Always set logger to DEBUG so handlers can filter independently
+        self._log.setLevel(logging.DEBUG)
+
+        # Console handler (stderr) with configurable level
+        if not any(isinstance(h, logging.StreamHandler) for h in self._log.handlers):
+            ch = logging.StreamHandler(sys.stderr)
+            ch.setLevel(console_level)
+            ch.setFormatter(logging.Formatter("%(levelname)s: %(message)s"))
+            self._log.addHandler(ch)
+
+        self._log.debug("Initialization starting, cwd=%s", os.getcwd())
         sipy_py_env = os.environ.get("SIPY_PY", "")
         sipy_py = Path(sipy_py_env).expanduser() if sipy_py_env else None
 
         # If SIPY_PY not set or file not found, walk up from cwd to locate sipy.py
         if not sipy_py or not sipy_py.exists():
-            print("[SiPy Kernel] Searching for sipy.py...", flush=True)
+            self._log.debug("Searching for sipy.py...")
             found = None
             cur = Path.cwd()
             for _ in range(32):
@@ -92,50 +109,69 @@ class SiPyKernel(Kernel):
                 cur = cur.parent
             if found:
                 sipy_py = found
-                print(f"[SiPy Kernel] Found sipy.py at {sipy_py}", flush=True)
+                self._log.debug("Found sipy.py at %s", sipy_py)
             else:
-                print("[SiPy Kernel] Failed to find sipy.py", flush=True)
+                self._log.warning("Failed to find sipy.py")
                 self.sipy_shell = None
                 self.sipy_ready = False
                 return
 
-
         # Ensure sipy directory is on sys.path and make it the working directory
         sipy_dir = str(sipy_py.parent.resolve())
-        print(f"[SiPy Kernel] Setting up sipy_dir={sipy_dir}", flush=True)
+        self._log.debug("Setting up sipy_dir=%s", sipy_dir)
         if sipy_dir not in sys.path:
             sys.path.insert(0, sipy_dir)
         try:
             os.chdir(sipy_dir)
-            print(f"[SiPy Kernel] Changed cwd to {sipy_dir}", flush=True)
+            self._log.debug("Changed cwd to %s", sipy_dir)
         except Exception as e:
-            print(f"[SiPy Kernel] Failed to chdir: {e}", flush=True)
+            self._log.debug("Failed to chdir: %s", e)
             pass
         # Export SIPY_PY for downstream code that expects it
         os.environ["SIPY_PY"] = str(sipy_py)
 
+        # Add file handler for persistent logs (always capture DEBUG)
+        log_file = os.environ.get("SIPY_KERNEL_LOG_FILE", str(Path(sipy_dir) / "sipy-kernel.log"))
         try:
-            print(f"[SiPy Kernel] Loading sipy module from {sipy_py}...", flush=True)
+            if not any(isinstance(h, logging.FileHandler) for h in self._log.handlers):
+                fh = logging.FileHandler(log_file)
+                fh.setLevel(logging.DEBUG)
+                fh.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
+                self._log.addHandler(fh)
+                self._log.debug("File logging enabled at %s", log_file)
+        except Exception:
+            pass
+
+        try:
+            self._log.debug("Loading sipy module from %s", sipy_py)
             spec = importlib.util.spec_from_file_location("sipy", str(sipy_py))
-            print("[SiPy Kernel] Creating module from spec...", flush=True)
             module = importlib.util.module_from_spec(spec)
-            print("[SiPy Kernel] Executing module...", flush=True)
             spec.loader.exec_module(module)
-            print("[SiPy Kernel] Module loaded successfully", flush=True)
             sipy = module
-            print("[SiPy Kernel] Creating SiPy_Shell instance...", flush=True)
+            self._log.debug("Creating SiPy_Shell instance")
             self.sipy_shell = sipy.SiPy_Shell()
-            print("[SiPy Kernel] SiPy_Shell created successfully", flush=True)
+            self._log.info("SiPy_Shell created successfully")
             self.sipy_ready = True
+            try:
+                self.send_response(
+                    self.iopub_socket,
+                    "stream",
+                    {"name": "stdout", "text": f"SiPy kernel initialized. SIPY_PY={sipy_py} cwd={sipy_dir}\n"},
+                )
+            except Exception:
+                pass
         except Exception as e:
-            print(f"[SiPy Kernel] Exception during initialization: {e}", flush=True)
+            self._log.exception("Exception during initialization: %s", e)
             import traceback
             traceback.print_exc()
-            self.send_response(
-                self.iopub_socket,
-                "stream",
-                {"name": "stderr", "text": f"Failed to initialize SiPy: {e}\n"},
-            )
+            try:
+                self.send_response(
+                    self.iopub_socket,
+                    "stream",
+                    {"name": "stderr", "text": f"Failed to initialize SiPy: {e}\n"},
+                )
+            except Exception:
+                pass
             self.sipy_shell = None
             self.sipy_ready = False
 
@@ -171,52 +207,69 @@ class SiPyKernel(Kernel):
                 "traceback": [],
             }
 
-        try:
-            # Capture output from the shell's interpret method
-            stdout_capture = io.StringIO()
-            stderr_capture = io.StringIO()
-            
-            with redirect_stdout(stdout_capture), redirect_stderr(stderr_capture):
-                result = self.sipy_shell.interpret(code)
-            
-            stdout_text = stdout_capture.getvalue()
-            stderr_text = stderr_capture.getvalue()
-            
-            # Send captured output to Jupyter
+        # Run interpret in a worker thread with timeout to avoid blocking the server
+        exec_timeout = int(os.environ.get("SIPY_EXEC_TIMEOUT", "30"))
+        self._log = getattr(self, "_log", logging.getLogger("sipy.kernel"))
+        self._log.debug("Executing code (timeout=%ss): %s", exec_timeout, code[:80])
+
+        result_container = {}
+
+        def _worker():
+            try:
+                stdout_capture = io.StringIO()
+                stderr_capture = io.StringIO()
+                with redirect_stdout(stdout_capture), redirect_stderr(stderr_capture):
+                    res = self.sipy_shell.interpret(code)
+                result_container["result"] = res
+                result_container["stdout"] = stdout_capture.getvalue()
+                result_container["stderr"] = stderr_capture.getvalue()
+                result_container["exc"] = None
+            except Exception:
+                result_container["exc"] = traceback.format_exc()
+
+        thread = threading.Thread(target=_worker, daemon=True)
+        thread.start()
+        thread.join(exec_timeout)
+
+        if thread.is_alive():
+            # timed out
+            timeout_msg = f"Execution timed out after {exec_timeout} seconds.\n"
             if not silent:
-                if stdout_text:
-                    self.send_response(
-                        self.iopub_socket, 
-                        "stream", 
-                        {"name": "stdout", "text": stdout_text}
-                    )
-                if stderr_text:
-                    self.send_response(
-                        self.iopub_socket, 
-                        "stream", 
-                        {"name": "stderr", "text": stderr_text}
-                    )
-            
+                self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": timeout_msg})
             return {
-                "status": "ok",
+                "status": "error",
                 "execution_count": self.execution_count,
-                "payload": [],
-                "user_expressions": {},
+                "ename": "SiPyExecutionTimeout",
+                "evalue": timeout_msg,
+                "traceback": [],
             }
-            
-        except Exception as e:
-            import traceback
-            tb = traceback.format_exc()
+
+        # Check for exception in worker
+        if result_container.get("exc"):
+            tb = result_container.get("exc")
             if not silent:
-                self.send_response(
-                    self.iopub_socket, 
-                    "stream", 
-                    {"name": "stderr", "text": f"Error executing code:\n{tb}\n"}
-                )
+                self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": f"Error executing code:\n{tb}\n"})
             return {
                 "status": "error",
                 "execution_count": self.execution_count,
                 "ename": "SiPyExecutionError",
-                "evalue": str(e),
-                "traceback": tb.split('\n'),
+                "evalue": "See stderr for traceback",
+                "traceback": tb.split("\n"),
             }
+
+        stdout_text = result_container.get("stdout", "")
+        stderr_text = result_container.get("stderr", "")
+
+        # Send captured output to Jupyter
+        if not silent:
+            if stdout_text:
+                self.send_response(self.iopub_socket, "stream", {"name": "stdout", "text": stdout_text})
+            if stderr_text:
+                self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": stderr_text})
+
+        return {
+            "status": "ok",
+            "execution_count": self.execution_count,
+            "payload": [],
+            "user_expressions": {},
+        }
