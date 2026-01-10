@@ -28,6 +28,7 @@ from contextlib import redirect_stdout, redirect_stderr
 
 from ipykernel.kernelbase import Kernel
 from jupyter_client.kernelspec import KernelSpecManager
+import importlib.util
 
 # Add sipy directory to path for imports
 sipy_py_env = os.environ.get("SIPY_PY")
@@ -38,8 +39,16 @@ if sipy_py_env:
 
 def install():
     sipy_py = os.environ.get("SIPY_PY")
+    if sipy_py:
+        sipy_path = Path(sipy_py)
+        if not sipy_path.is_absolute():
+            sipy_path = (Path.cwd() / sipy_path).resolve()
+        sipy_py = str(sipy_path)
+    else:
+        sipy_py = ""
+
     spec = {
-        "argv": ["python", "-m", "kernel", "-f", "{connection_file}"],
+        "argv": [sys.executable, "-m", "kernel", "-f", "{connection_file}"],
         "display_name": "SiPy",
         "language": "sipy",
         "env": {"SIPY_PY": sipy_py},
@@ -64,24 +73,71 @@ class SiPyKernel(Kernel):
         super().__init__(*args, **kwargs)
         
         # Initialize persistent SiPy REPL shell
-        sipy_py = Path(os.environ.get("SIPY_PY", "")).expanduser()
-        if not sipy_py.exists():
-            self.sipy_shell = None
-            self.sipy_ready = False
-        else:
-            try:
-                # Import SiPy_Shell from sipy.py
-                import sipy
-                self.sipy_shell = sipy.SiPy_Shell()
-                self.sipy_ready = True
-            except Exception as e:
-                self.send_response(
-                    self.iopub_socket, 
-                    "stream", 
-                    {"name": "stderr", "text": f"Failed to initialize SiPy: {e}\n"}
-                )
+        print(f"[SiPy Kernel] Initialization starting, cwd={os.getcwd()}", flush=True)
+        sipy_py_env = os.environ.get("SIPY_PY", "")
+        sipy_py = Path(sipy_py_env).expanduser() if sipy_py_env else None
+
+        # If SIPY_PY not set or file not found, walk up from cwd to locate sipy.py
+        if not sipy_py or not sipy_py.exists():
+            print("[SiPy Kernel] Searching for sipy.py...", flush=True)
+            found = None
+            cur = Path.cwd()
+            for _ in range(32):
+                candidate = cur / "sipy.py"
+                if candidate.exists():
+                    found = candidate
+                    break
+                if cur.parent == cur:
+                    break
+                cur = cur.parent
+            if found:
+                sipy_py = found
+                print(f"[SiPy Kernel] Found sipy.py at {sipy_py}", flush=True)
+            else:
+                print("[SiPy Kernel] Failed to find sipy.py", flush=True)
                 self.sipy_shell = None
                 self.sipy_ready = False
+                return
+
+
+        # Ensure sipy directory is on sys.path and make it the working directory
+        sipy_dir = str(sipy_py.parent.resolve())
+        print(f"[SiPy Kernel] Setting up sipy_dir={sipy_dir}", flush=True)
+        if sipy_dir not in sys.path:
+            sys.path.insert(0, sipy_dir)
+        try:
+            os.chdir(sipy_dir)
+            print(f"[SiPy Kernel] Changed cwd to {sipy_dir}", flush=True)
+        except Exception as e:
+            print(f"[SiPy Kernel] Failed to chdir: {e}", flush=True)
+            pass
+        # Export SIPY_PY for downstream code that expects it
+        os.environ["SIPY_PY"] = str(sipy_py)
+
+        try:
+            print(f"[SiPy Kernel] Loading sipy module from {sipy_py}...", flush=True)
+            spec = importlib.util.spec_from_file_location("sipy", str(sipy_py))
+            print("[SiPy Kernel] Creating module from spec...", flush=True)
+            module = importlib.util.module_from_spec(spec)
+            print("[SiPy Kernel] Executing module...", flush=True)
+            spec.loader.exec_module(module)
+            print("[SiPy Kernel] Module loaded successfully", flush=True)
+            sipy = module
+            print("[SiPy Kernel] Creating SiPy_Shell instance...", flush=True)
+            self.sipy_shell = sipy.SiPy_Shell()
+            print("[SiPy Kernel] SiPy_Shell created successfully", flush=True)
+            self.sipy_ready = True
+        except Exception as e:
+            print(f"[SiPy Kernel] Exception during initialization: {e}", flush=True)
+            import traceback
+            traceback.print_exc()
+            self.send_response(
+                self.iopub_socket,
+                "stream",
+                {"name": "stderr", "text": f"Failed to initialize SiPy: {e}\n"},
+            )
+            self.sipy_shell = None
+            self.sipy_ready = False
 
     def do_execute(
         self,
