@@ -46,7 +46,7 @@ def install():
         sipy_py = str(sipy_path)
     else:
         sipy_py = ""
-
+    print(f"Installing SiPy kernel with SIPY_PY={sipy_py}")
     spec = {
         "argv": [sys.executable, "-m", "kernel", "-f", "{connection_file}"],
         "display_name": "SiPy",
