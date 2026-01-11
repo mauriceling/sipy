@@ -199,6 +199,32 @@ class SiPyKernel(Kernel):
         self._log = getattr(self, "_log", logging.getLogger("sipy.kernel"))
         self._log.debug("Executing code (timeout=%ss): %s", exec_timeout, code)
 
+        def session_manager(line):
+            # Handle session.get_timeout and session.set_timeout
+            if line.startswith("session.get_timeout"):
+                val = getattr(self, "_exec_timeout", int(os.environ.get("SIPY_EXEC_TIMEOUT", "30")))
+                print(f"SiPy Kernel execution timeout is {val} seconds")
+            if line.startswith("session.set_timeout"):
+                parts = line.split("=")
+                try:
+                    val = int(parts[1].strip())
+                    self._exec_timeout = val
+                    print(f"SiPy Kernel execution timeout set to {val} seconds")
+                except Exception:
+                    print("Error: Invalid timeout value", file=sys.stderr)
+            # Handle session.get_cwd and session.set_cwd
+            if line.startswith("session.get_cwd"):
+                print(f"Current working directory: {os.getcwd()}")
+            if line.startswith("session.set_cwd"):
+                parts = line.split("=")
+                try:
+                    cwd = parts[1].strip()
+                    os.chdir(cwd)
+                    print(f"Working directory changed to {os.getcwd()}")
+                except Exception as e:
+                    print(f"Error: Could not change directory: {e}", file=sys.stderr)
+            return None
+
         result_container = {}
 
         def sipy_worker():
@@ -212,42 +238,11 @@ class SiPyKernel(Kernel):
                         line = line.strip()
                         if (not line) or (line.startswith("#")):  # Skip empty lines or comment lines
                             continue
-                        
-                        # Handle session.get_timeout and session.set_timeout
-                        if line.strip() == "session.get_timeout":
-                            val = getattr(self, "_exec_timeout", int(os.environ.get("SIPY_EXEC_TIMEOUT", "30")))
-                            print(f"SiPy Kernel execution timeout is {val} seconds")
-                            result = None
-                            continue
-                        if line.startswith("session.set_timeout"):
-                            parts = line.split("=")
-                            try:
-                                val = int(parts[1].strip())
-                                self._exec_timeout = val
-                                print(f"SiPy Kernel execution timeout set to {val} seconds")
-                            except Exception:
-                                print("Error: Invalid timeout value", file=sys.stderr)
-                            result = None
-                            continue
-                        
-                        # Handle session.get_cwd and session.set_cwd
-                        if line.strip() == "session.get_cwd":
-                            print(f"Current working directory: {os.getcwd()}")
-                            result = None
-                            continue
-                        if line.startswith("session.set_cwd"):
-                            parts = line.split("=")
-                            try:
-                                cwd = parts[1].strip()
-                                os.chdir(cwd)
-                                print(f"Working directory changed to {os.getcwd()}")
-                            except Exception as e:
-                                print(f"Error: Could not change directory: {e}", file=sys.stderr)
-                            result = None
-                            continue
-                        
-                        # Regular SiPy command
-                        result = self.sipy_shell.interpret(line)
+                        if line.startswith("session."):
+                            result = session_manager(line)
+                        else:
+                            # Regular SiPy command
+                            result = self.sipy_shell.interpret(line)
                 result_container["result"] = result
                 result_container["stdout"] = stdout_capture.getvalue()
                 result_container["stderr"] = stderr_capture.getvalue()
