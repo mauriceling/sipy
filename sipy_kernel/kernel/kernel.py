@@ -1,5 +1,5 @@
 """!
-SiPy Kernel for Jupyter
+SiPy Kernel for Jupyter Notebook / JupyterLab
 
 Date created: 10th January 2026
 
@@ -55,8 +55,7 @@ def install():
         "argv": [sys.executable, "-m", "kernel", "-f", "{connection_file}"],
         "display_name": "SiPy",
         "language": "sipy",
-        "env": {"SIPY_PY": sipy_py},
-    }
+        "env": {"SIPY_PY": sipy_py}}
     tmp = Path.cwd() / "_sipy_kernelspec"
     tmp.mkdir(exist_ok=True)
     (tmp / "kernel.json").write_text(json.dumps(spec, indent=2))
@@ -153,11 +152,7 @@ class SiPyKernel(Kernel):
             self._log.info("SiPy_Shell created successfully")
             self.sipy_ready = True
             try:
-                self.send_response(
-                    self.iopub_socket,
-                    "stream",
-                    {"name": "stdout", "text": f"SiPy kernel initialized. SIPY_PY={sipy_py} cwd={sipy_dir}\n"},
-                )
+                self.send_response(self.iopub_socket, "stream", {"name": "stdout", "text": f"SiPy kernel initialized. SIPY_PY={sipy_py} cwd={sipy_dir}\n"})
             except Exception:
                 pass
         except Exception as e:
@@ -165,11 +160,7 @@ class SiPyKernel(Kernel):
             import traceback
             traceback.print_exc()
             try:
-                self.send_response(
-                    self.iopub_socket,
-                    "stream",
-                    {"name": "stderr", "text": f"Failed to initialize SiPy: {e}\n"},
-                )
+                self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": f"Failed to initialize SiPy: {e}\n"})
             except Exception:
                 pass
             self.sipy_shell = None
@@ -189,10 +180,8 @@ class SiPyKernel(Kernel):
             html_content = "\n".join(code.splitlines()[1:])
             if not silent:
                 self.send_response(self.iopub_socket, "display_data",
-                    {
-                        "data": {"text/html": html_content},
-                        "metadata": {}
-                    })
+                    {"data": {"text/html": html_content},
+                     "metadata": {}})
             return {
                 "status": "ok",
                 "execution_count": self.execution_count,
@@ -202,8 +191,7 @@ class SiPyKernel(Kernel):
         if not self.sipy_ready:
             msg = (
                 "SiPy kernel is not properly initialized.\n"
-                "Ensure SIPY_PY environment variable points to a valid sipy.py file.\n"
-            )
+                "Ensure SIPY_PY environment variable points to a valid sipy.py file.\n")
             if not silent:
                 self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": msg})
             return {
@@ -294,8 +282,7 @@ class SiPyKernel(Kernel):
                 "execution_count": self.execution_count,
                 "ename": "SiPyExecutionTimeout",
                 "evalue": timeout_msg,
-                "traceback": [],
-            }
+                "traceback": []}
 
         # Check for exception in worker
         if result_container.get("exc"):
@@ -307,8 +294,7 @@ class SiPyKernel(Kernel):
                 "execution_count": self.execution_count,
                 "ename": "SiPyExecutionError",
                 "evalue": "See stderr for traceback",
-                "traceback": tb.split("\n"),
-            }
+                "traceback": tb.split("\n")}
 
         stdout_text = result_container.get("stdout", "")
         stderr_text = result_container.get("stderr", "")
@@ -324,5 +310,4 @@ class SiPyKernel(Kernel):
             "status": "ok",
             "execution_count": self.execution_count,
             "payload": [],
-            "user_expressions": {},
-        }
+            "user_expressions": {}}
