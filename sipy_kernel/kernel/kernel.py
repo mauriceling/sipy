@@ -175,19 +175,6 @@ class SiPyKernel(Kernel):
                 "payload": [],
                 "user_expressions": {}}
 
-        # HTML cell support (explicit opt-in)
-        if code.startswith("%%html"):
-            html_content = "\n".join(code.splitlines()[1:])
-            if not silent:
-                self.send_response(self.iopub_socket, "display_data",
-                    {"data": {"text/html": html_content},
-                     "metadata": {}})
-            return {
-                "status": "ok",
-                "execution_count": self.execution_count,
-                "payload": [],
-                "user_expressions": {}}
-
         if not self.sipy_ready:
             msg = (
                 "SiPy kernel is not properly initialized.\n"
@@ -214,7 +201,7 @@ class SiPyKernel(Kernel):
 
         result_container = {}
 
-        def _worker():
+        def sipy_worker():
             try:
                 stdout_capture = io.StringIO()
                 stderr_capture = io.StringIO()
@@ -223,7 +210,7 @@ class SiPyKernel(Kernel):
                     lines = code.split('\n')
                     for line in lines:
                         line = line.strip()
-                        if not line:  # Skip empty lines
+                        if (not line) or (line.startswith("#")):  # Skip empty lines or comment lines
                             continue
                         
                         # Handle session.get_timeout and session.set_timeout
@@ -268,9 +255,29 @@ class SiPyKernel(Kernel):
             except Exception:
                 result_container["exc"] = traceback.format_exc()
 
-        thread = threading.Thread(target=_worker, daemon=True)
-        thread.start()
-        thread.join(exec_timeout)
+        """
+        Main routine for cell operation
+        """
+        # HTML cell support (explicit opt-in)
+        if code.startswith("%%html"):
+            html_content = "\n".join(code.splitlines()[1:])
+            if not silent:
+                self.send_response(self.iopub_socket, "display_data",
+                    {"data": {"text/html": html_content},
+                     "metadata": {}})
+            return {
+                "status": "ok",
+                "execution_count": self.execution_count,
+                "payload": [],
+                "user_expressions": {}}
+        else:
+            # Default - SiPy cell
+            thread = threading.Thread(target=sipy_worker, daemon=True)
+            thread.start()
+            thread.join(exec_timeout)
+        """
+        End - Main routine for cell operation
+        """
 
         if thread.is_alive():
             # timed out
