@@ -175,22 +175,29 @@ class SiPyKernel(Kernel):
             self.sipy_shell = None
             self.sipy_ready = False
 
-    def do_execute(
-        self,
-        code,
-        silent,
-        store_history=True,
-        user_expressions=None,
-        allow_stdin=False,
-    ):
+    def do_execute(self, code, silent, store_history=True, user_expressions=None, allow_stdin=False):
         code = (code or "").strip()
         if not code:
             return {
                 "status": "ok",
                 "execution_count": self.execution_count,
                 "payload": [],
-                "user_expressions": {},
-            }
+                "user_expressions": {}}
+
+        # HTML cell support (explicit opt-in)
+        if code.startswith("%%html"):
+            html_content = "\n".join(code.splitlines()[1:])
+            if not silent:
+                self.send_response(self.iopub_socket, "display_data",
+                    {
+                        "data": {"text/html": html_content},
+                        "metadata": {}
+                    })
+            return {
+                "status": "ok",
+                "execution_count": self.execution_count,
+                "payload": [],
+                "user_expressions": {}}
 
         if not self.sipy_ready:
             msg = (
@@ -204,8 +211,7 @@ class SiPyKernel(Kernel):
                 "execution_count": self.execution_count,
                 "ename": "SiPyInitError",
                 "evalue": msg,
-                "traceback": [],
-            }
+                "traceback": []}
 
         # Run interpret in a worker thread with timeout to avoid blocking the server
         # Prefer session timeout set by `sipy.set_timeout`, then fall back to env or default
