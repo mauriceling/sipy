@@ -66,10 +66,10 @@ def install():
 
 class SiPyKernel(Kernel):
     implementation = "SiPy"
-    implementation_version = "0.2.0"
+    implementation_version = "0.3.0"
     language = "sipy"
     language_version = "0.1"
-    language_info = {"name": "sipy", "mimetype": "text/plain", "file_extension": ".sipy"}
+    language_info = {"name": "bash", "mimetype": "text/x-sh", "file_extension": ".sipy", "codemirror_mode": "shell"}
     banner = "SiPy Kernel - REPL Mode"
 
     def __init__(self, *args, **kwargs):
