@@ -59,6 +59,7 @@ citations = """
 To cite SiPy in publications, use
 
     Tan, NTF, Mugundhan, M, Liu, T, Tan, RYH, Tang, AY, Sim, BJH, Tan, JZH, Ling, MHT. 2025. SiPy – Bringing Python and R to the End-User in a Plugin-Extensible System. Medicon Medical Sciences 8(6): 32-41. https://doi.org/10.55162/MCMS.08.295
+    Ambel, W, Ling, MHT. 2026. SiPy 0.7.0 – R-Based ANOVA and Survival Analyses. Open Access Journal of Science 9: 1-5.
 
 We have invested a lot of time and effort in creating SiPy,please cite it when using it.
 """
