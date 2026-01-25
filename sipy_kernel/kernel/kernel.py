@@ -82,9 +82,7 @@ class SiPyKernel(Kernel):
             return True  # Security disabled
         
         dangerous_keywords = [
-            "import", "os.", "sys.", "eval", "exec", "open(", "file(", "__",
-            "subprocess", "shutil", "socket", "urllib", "requests", "http",
-            "rm ", "del ", ".rm", ".del", "format(", "f\"", "f'", ".format"
+            "import", "os.", "sys.", "eval",  "open(", "file(", "__", "subprocess", "shutil", "socket", "urllib", "requests", "http", "rm ", "del ", ".rm", ".del", "format(", "f\"", "f'", ".format"
         ]
         return not any(keyword in line for keyword in dangerous_keywords)
 
@@ -111,6 +109,11 @@ class SiPyKernel(Kernel):
 
         # Configurable security mode
         self._security_enabled = os.environ.get("SIPY_SECURITY_ENABLED", "true").lower() in ("true", "1", "yes")
+
+        # Resource monitoring: thread limits and output limits
+        self._max_concurrent_threads = int(os.environ.get("SIPY_MAX_THREADS", "10"))
+        self._max_output_size = int(os.environ.get("SIPY_MAX_OUTPUT_SIZE", "1048576"))  # 1MB default
+        self._active_threads = []
 
         # Configure logger: console level controlled by SIPY_KERNEL_LOG_LEVEL; file handler will capture DEBUG
         log_level_name = os.environ.get("SIPY_KERNEL_LOG_LEVEL", "WARNING").upper()
@@ -336,6 +339,13 @@ class SiPyKernel(Kernel):
                 result_container["result"] = result
                 result_container["stdout"] = stdout_capture.getvalue()
                 result_container["stderr"] = stderr_capture.getvalue()
+                # Resource monitoring: limit output sizes
+                if len(result_container["stdout"]) > self._max_output_size:
+                    result_container["stdout"] = result_container["stdout"][:self._max_output_size] + "\n... [stdout truncated]"
+                    self._log.warning("Stdout output truncated to %d bytes", self._max_output_size)
+                if len(result_container["stderr"]) > self._max_output_size:
+                    result_container["stderr"] = result_container["stderr"][:self._max_output_size] + "\n... [stderr truncated]"
+                    self._log.warning("Stderr output truncated to %d bytes", self._max_output_size)
                 result_container["exc"] = None
             except Exception:
                 result_container["exc"] = traceback.format_exc()
@@ -360,10 +370,31 @@ class SiPyKernel(Kernel):
                 "user_expressions": {}}
         else:
             # Default - SiPy cell
+            # Resource monitoring: check thread limit
+            if len(self._active_threads) >= self._max_concurrent_threads:
+                msg = f"Too many concurrent executions. Maximum allowed: {self._max_concurrent_threads}"
+                self._log.warning(msg)
+                if not silent:
+                    try:
+                        self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": msg + "\n"})
+                    except Exception as e:
+                        self._log.error("Failed to send thread limit response: %s", e)
+                return {
+                    "status": "error",
+                    "execution_count": self.execution_count,
+                    "ename": "ThreadLimitError",
+                    "evalue": msg,
+                    "traceback": []}
             self._log.debug("Starting SiPy execution thread")
             thread = threading.Thread(target=sipy_worker, daemon=True)
+            self._active_threads.append(thread)
             thread.start()
             thread.join(exec_timeout)
+            # Cleanup: remove from active threads
+            if thread in self._active_threads:
+                self._active_threads.remove(thread)
+            if thread.is_alive():
+                self._log.warning("Thread did not complete within timeout; potential resource leak")
             self._log.debug("SiPy execution thread completed")
         """
         End - Main routine for cell operation
