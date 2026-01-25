@@ -73,6 +73,21 @@ class SiPyKernel(Kernel):
     language_info = {"name": "bash", "mimetype": "text/x-sh", "file_extension": ".sipy", "codemirror_mode": "shell"}
     banner = "SiPy Kernel - REPL Mode"
 
+    def _is_safe_command(self, line):
+        """
+        Security check for SiPy commands.
+        Blacklists dangerous keywords that could lead to code execution or system access.
+        """
+        if not getattr(self, '_security_enabled', True):
+            return True  # Security disabled
+        
+        dangerous_keywords = [
+            "import", "os.", "sys.", "eval", "exec", "open(", "file(", "__",
+            "subprocess", "shutil", "socket", "urllib", "requests", "http",
+            "rm ", "del ", ".rm", ".del", "format(", "f\"", "f'", ".format"
+        ]
+        return not any(keyword in line for keyword in dangerous_keywords)
+
     def __init__(self, *args, **kwargs):
         # Version checks for compatibility
         try:
@@ -93,6 +108,9 @@ class SiPyKernel(Kernel):
             raise RuntimeError(f"Version check failed: {e}")
 
         super().__init__(*args, **kwargs)
+
+        # Configurable security mode
+        self._security_enabled = os.environ.get("SIPY_SECURITY_ENABLED", "true").lower() in ("true", "1", "yes")
 
         # Configure logger: console level controlled by SIPY_KERNEL_LOG_LEVEL; file handler will capture DEBUG
         log_level_name = os.environ.get("SIPY_KERNEL_LOG_LEVEL", "WARNING").upper()
@@ -273,6 +291,23 @@ class SiPyKernel(Kernel):
                         print(f"Error: Invalid log level '{level_name}'", file=sys.stderr)
                 except Exception:
                     print("Error: Invalid log level format", file=sys.stderr)
+            # Handle session.get_security and session.set_security
+            if line.startswith("session.get_security"):
+                print(f"Security enabled: {self._security_enabled}")
+            if line.startswith("session.set_security"):
+                parts = line.split("=")
+                try:
+                    val = parts[1].strip().lower()
+                    if val in ("true", "1", "yes"):
+                        self._security_enabled = True
+                    elif val in ("false", "0", "no"):
+                        self._security_enabled = False
+                    else:
+                        print("Error: Invalid security value. Use true/false", file=sys.stderr)
+                        return None
+                    print(f"Security set to {self._security_enabled}")
+                except Exception:
+                    print("Error: Invalid security format", file=sys.stderr)
             return None
 
         result_container = {}
@@ -291,6 +326,11 @@ class SiPyKernel(Kernel):
                         if line.startswith("session."):
                             result = session_manager(line)
                         else:
+                            # Security: Validate command
+                            if not self._is_safe_command(line):
+                                raise ValueError(f"Unsafe SiPy command detected: {line}")
+                            # Audit log
+                            self._log.info("Executing SiPy command: %s", line)
                             # Regular SiPy command
                             result = self.sipy_shell.interpret(line)
                 result_container["result"] = result
