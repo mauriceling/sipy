@@ -203,12 +203,17 @@ class SiPyKernel(Kernel):
                 "payload": [],
                 "user_expressions": {}}
 
+        self._log.debug("Starting execution of code (length=%d): %s", len(code), code[:100] + "..." if len(code) > 100 else code)
+
         if not self.sipy_ready:
             msg = (
                 "SiPy kernel is not properly initialized.\n"
                 "Ensure SIPY_PY environment variable points to a valid sipy.py file.\n")
             if not silent:
-                self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": msg})
+                try:
+                    self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": msg})
+                except Exception as e:
+                    self._log.error("Failed to send error response: %s", e)
             return {
                 "status": "error",
                 "execution_count": self.execution_count,
@@ -251,6 +256,23 @@ class SiPyKernel(Kernel):
                     print(f"Working directory changed to {os.getcwd()}")
                 except Exception as e:
                     print(f"Error: Could not change directory: {e}", file=sys.stderr)
+            # Handle session.get_log_level and session.set_log_level
+            if line.startswith("session.get_log_level"):
+                levels = [logging.getLevelName(h.level) for h in self._log.handlers]
+                print(f"Current log levels: {levels}")
+            if line.startswith("session.set_log_level"):
+                parts = line.split("=")
+                try:
+                    level_name = parts[1].strip().upper()
+                    numeric_level = getattr(logging, level_name, None)
+                    if numeric_level is not None and isinstance(numeric_level, int):
+                        for handler in self._log.handlers:
+                            handler.setLevel(numeric_level)
+                        print(f"Log level set to {level_name}")
+                    else:
+                        print(f"Error: Invalid log level '{level_name}'", file=sys.stderr)
+                except Exception:
+                    print("Error: Invalid log level format", file=sys.stderr)
             return None
 
         result_container = {}
@@ -285,9 +307,12 @@ class SiPyKernel(Kernel):
         if code.startswith("%%html"):
             html_content = "\n".join(code.splitlines()[1:])
             if not silent:
-                self.send_response(self.iopub_socket, "display_data",
-                    {"data": {"text/html": html_content},
-                     "metadata": {}})
+                try:
+                    self.send_response(self.iopub_socket, "display_data",
+                        {"data": {"text/html": html_content},
+                         "metadata": {}})
+                except Exception as e:
+                    self._log.error("Failed to send HTML response: %s", e)
             return {
                 "status": "ok",
                 "execution_count": self.execution_count,
@@ -295,18 +320,24 @@ class SiPyKernel(Kernel):
                 "user_expressions": {}}
         else:
             # Default - SiPy cell
+            self._log.debug("Starting SiPy execution thread")
             thread = threading.Thread(target=sipy_worker, daemon=True)
             thread.start()
             thread.join(exec_timeout)
+            self._log.debug("SiPy execution thread completed")
         """
         End - Main routine for cell operation
         """
 
         if thread.is_alive():
             # timed out
+            self._log.warning("Execution timed out after %d seconds", exec_timeout)
             timeout_msg = f"Execution timed out after {exec_timeout} seconds.\n"
             if not silent:
-                self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": timeout_msg})
+                try:
+                    self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": timeout_msg})
+                except Exception as e:
+                    self._log.error("Failed to send timeout response: %s", e)
             return {
                 "status": "error",
                 "execution_count": self.execution_count,
@@ -317,13 +348,24 @@ class SiPyKernel(Kernel):
         # Check for exception in worker
         if result_container.get("exc"):
             tb = result_container.get("exc")
+            self._log.error("Exception in SiPy execution: %s", tb)
+            # Structured error response
+            if "SiPy" in tb or "interpret" in tb:
+                ename = "SiPyExecutionError"
+                evalue = "SiPy command execution failed. See stderr for details."
+            else:
+                ename = "ExecutionError"
+                evalue = "Code execution failed. See stderr for details."
             if not silent:
-                self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": f"Error executing code:\n{tb}\n"})
+                try:
+                    self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": f"Error executing code:\n{tb}\n"})
+                except Exception as e:
+                    self._log.error("Failed to send exception response: %s", e)
             return {
                 "status": "error",
                 "execution_count": self.execution_count,
-                "ename": "SiPyExecutionError",
-                "evalue": "See stderr for traceback",
+                "ename": ename,
+                "evalue": evalue,
                 "traceback": tb.split("\n")}
 
         stdout_text = result_container.get("stdout", "")
@@ -332,10 +374,17 @@ class SiPyKernel(Kernel):
         # Send captured output to Jupyter
         if not silent:
             if stdout_text:
-                self.send_response(self.iopub_socket, "stream", {"name": "stdout", "text": stdout_text})
+                try:
+                    self.send_response(self.iopub_socket, "stream", {"name": "stdout", "text": stdout_text})
+                except Exception as e:
+                    self._log.error("Failed to send stdout response: %s", e)
             if stderr_text:
-                self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": stderr_text})
+                try:
+                    self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": stderr_text})
+                except Exception as e:
+                    self._log.error("Failed to send stderr response: %s", e)
 
+        self._log.debug("Execution completed successfully")
         return {
             "status": "ok",
             "execution_count": self.execution_count,
