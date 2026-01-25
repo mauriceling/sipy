@@ -33,6 +33,7 @@ import logging
 import threading
 import traceback
 import logging
+import importlib.metadata
 
 # Add sipy directory to path for imports
 sipy_py_env = os.environ.get("SIPY_PY")
@@ -73,6 +74,24 @@ class SiPyKernel(Kernel):
     banner = "SiPy Kernel - REPL Mode"
 
     def __init__(self, *args, **kwargs):
+        # Version checks for compatibility
+        try:
+            ipykernel_version = importlib.metadata.version('ipykernel')
+            jupyter_client_version = importlib.metadata.version('jupyter_client')
+            # Minimum versions (adjust as needed)
+            min_ipykernel = (6, 0, 0)
+            min_jupyter_client = (7, 0, 0)
+            current_ipykernel = tuple(map(int, ipykernel_version.split('.')[:3]))
+            current_jupyter_client = tuple(map(int, jupyter_client_version.split('.')[:3]))
+            if current_ipykernel < min_ipykernel:
+                raise RuntimeError(f"ipykernel version {ipykernel_version} is too old. Minimum required: {'.'.join(map(str, min_ipykernel))}")
+            if current_jupyter_client < min_jupyter_client:
+                raise RuntimeError(f"jupyter_client version {jupyter_client_version} is too old. Minimum required: {'.'.join(map(str, min_jupyter_client))}")
+        except importlib.metadata.PackageNotFoundError as e:
+            raise RuntimeError(f"Required package not found: {e}")
+        except Exception as e:
+            raise RuntimeError(f"Version check failed: {e}")
+
         super().__init__(*args, **kwargs)
 
         # Configure logger: console level controlled by SIPY_KERNEL_LOG_LEVEL; file handler will capture DEBUG
@@ -110,10 +129,16 @@ class SiPyKernel(Kernel):
                 sipy_py = found
                 self._log.debug("Found sipy.py at %s", sipy_py)
             else:
-                self._log.warning("Failed to find sipy.py")
-                self.sipy_shell = None
-                self.sipy_ready = False
-                return
+                # Fallback: check in user home
+                user_sipy = Path.home() / ".sipy" / "sipy.py"
+                if user_sipy.exists():
+                    sipy_py = user_sipy
+                    self._log.debug("Found sipy.py in user home at %s", sipy_py)
+                else:
+                    self._log.error("Could not find sipy.py. Searched in current directory tree (up to 32 levels) and %s. Set SIPY_PY environment variable to the path of sipy.py.", user_sipy)
+                    self.sipy_shell = None
+                    self.sipy_ready = False
+                    return
 
         # Ensure sipy directory is on sys.path and make it the working directory
         sipy_dir = str(sipy_py.parent.resolve())
@@ -149,7 +174,10 @@ class SiPyKernel(Kernel):
             sipy = module
             self._log.debug("Creating SiPy_Shell instance")
             self.sipy_shell = sipy.SiPy_Shell()
-            self._log.info("SiPy_Shell created successfully")
+            # Validate SiPy_Shell has required method
+            if not hasattr(self.sipy_shell, 'interpret') or not callable(getattr(self.sipy_shell, 'interpret')):
+                raise RuntimeError("SiPy_Shell does not have a callable 'interpret' method.")
+            self._log.info("SiPy_Shell created and validated successfully")
             self.sipy_ready = True
             try:
                 self.send_response(self.iopub_socket, "stream", {"name": "stdout", "text": f"SiPy kernel initialized. SIPY_PY={sipy_py} cwd={sipy_dir}\n"})
