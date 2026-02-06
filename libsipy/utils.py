@@ -21,6 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 '''
 import platform
 import os
+import shutil
 import subprocess
 import sys
 
