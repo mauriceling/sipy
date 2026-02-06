@@ -216,6 +216,26 @@ class SiPyKernel(Kernel):
             self.sipy_ready = False
 
     def do_execute(self, code, silent, store_history=True, user_expressions=None, allow_stdin=False):
+        """
+        Execute a block of code in the SiPy environment.
+
+        Parameters
+        ----------
+        code : str
+            The code to be executed in the SiPy environment.
+        silent : bool
+            Whether to suppress output to the Jupyter notebook.
+        store_history : bool
+            Whether to store the code block in the SiPy history.
+        user_expressions : dict
+            A dictionary of user expressions to be evaluated after the code block has been executed.
+        allow_stdin : bool
+            Whether to allow access to the standard input stream.
+
+        Returns
+        -------
+        A dictionary containing information about the result of the execution.
+        """
         code = (code or "").strip()
         if not code:
             return {
@@ -255,6 +275,22 @@ class SiPyKernel(Kernel):
 
         def session_manager(line):
             # Handle session.get_timeout and session.set_timeout
+            """
+            Handle special session commands sent from the client.
+
+            The session commands are prefixed with "session." and are used to query
+            or modify the state of the kernel. The following session commands are
+            supported:
+
+            - `session.get_timeout`: Returns the current execution timeout in seconds.
+            - `session.set_timeout=<val>`: Sets the execution timeout to `<val>` seconds.
+            - `session.get_cwd`: Returns the current working directory.
+            - `session.set_cwd=<cwd>`: Sets the current working directory to `<cwd>`.
+            - `session.get_log_level`: Returns a list of the current log levels.
+            - `session.set_log_level=<level>`: Sets the log level to `<level>`.
+            - `session.get_security`: Returns whether security is enabled.
+            - `session.set_security=<val>`: Enables or disables security based on `<val>`.
+            """
             if line.startswith("session.get_timeout"):
                 val = getattr(self, "_exec_timeout", int(os.environ.get("SIPY_EXEC_TIMEOUT", "30")))
                 print(f"SiPy Kernel execution timeout is {val} seconds")
@@ -316,6 +352,25 @@ class SiPyKernel(Kernel):
         result_container = {}
 
         def sipy_worker():
+            """
+            Internal worker function for executing SiPy commands
+
+            This function splits the input code by newlines, filters out empty lines and comment lines,
+            and executes each line as a separate SiPy command. It also performs security checks
+            to ensure that only safe commands are executed.
+
+            The function captures stdout and stderr output from the commands and stores them in a result
+            container, along with any exceptions that occur during execution.
+
+            The function also audits each command in a log file and limits the size of the output
+            to prevent excessive memory usage.
+
+            :param code: The input code to execute as a SiPy command
+            :type code: str
+            :return: A dictionary containing the result of the command execution, stdout output, stderr output,
+                and any exceptions that occur during execution
+            :rtype: dict
+            """
             try:
                 stdout_capture = io.StringIO()
                 stderr_capture = io.StringIO()
