@@ -35,6 +35,13 @@ import traceback
 import logging
 import importlib.metadata
 
+class SiPySecurityError(Exception):
+    """Raised when a security policy violation is detected."""
+    def __init__(self, command, triggered_keywords):
+        self.command = command
+        self.triggered_keywords = triggered_keywords
+        super().__init__(f"Security policy violation: command contains restricted keywords")
+
 # Add sipy directory to path for imports
 sipy_py_env = os.environ.get("SIPY_PY")
 if sipy_py_env:
@@ -77,14 +84,20 @@ class SiPyKernel(Kernel):
         """
         Security check for SiPy commands.
         Blacklists dangerous keywords that could lead to code execution or system access.
+        
+        Returns
+        -------
+        tuple
+            (is_safe: bool, triggered_keywords: list)
         """
         if not getattr(self, '_security_enabled', True):
-            return True  # Security disabled
+            return (True, [])  # Security disabled
         
         dangerous_keywords = [
             "import", "os.", "sys.", "eval",  "open(", "file(", "__", "subprocess", "shutil", "socket", "urllib", "requests", "http", "rm ", "del ", ".rm", ".del", "format(", "f\"", "f'", ".format"
         ]
-        return not any(keyword in line for keyword in dangerous_keywords)
+        triggered = [kw for kw in dangerous_keywords if kw in line]
+        return (len(triggered) == 0, triggered)
 
     def __init__(self, *args, **kwargs):
         # Version checks for compatibility
@@ -244,6 +257,7 @@ class SiPyKernel(Kernel):
                 "payload": [],
                 "user_expressions": {}}
 
+        thread = None  # Initialize to handle all code paths
         self._log.debug("Starting execution of code (length=%d): %s", len(code), code[:100] + "..." if len(code) > 100 else code)
 
         if not self.sipy_ready:
@@ -385,8 +399,9 @@ class SiPyKernel(Kernel):
                             result = session_manager(line)
                         else:
                             # Security: Validate command
-                            if not self._is_safe_command(line):
-                                raise ValueError(f"Unsafe SiPy command detected: {line}")
+                            is_safe, triggered_keywords = self._is_safe_command(line)
+                            if not is_safe:
+                                raise SiPySecurityError(line, triggered_keywords)
                             # Audit log
                             self._log.info("Executing SiPy command: %s", line)
                             # Regular SiPy command
@@ -402,8 +417,23 @@ class SiPyKernel(Kernel):
                     result_container["stderr"] = result_container["stderr"][:self._max_output_size] + "\n... [stderr truncated]"
                     self._log.warning("Stderr output truncated to %d bytes", self._max_output_size)
                 result_container["exc"] = None
+            except SiPySecurityError as e:
+                # Format security error nicely without full traceback
+                security_msg = (
+                    f"[SECURITY] Policy Violation\n\n"
+                    f"Command: {e.command}\n\n"
+                    f"Restricted keywords detected: {', '.join(repr(kw) for kw in e.triggered_keywords)}\n\n"
+                    f"Your command contains operations that are blocked for security reasons.\n"
+                    f"Blocked keywords: file operations (open, del), imports, eval, system calls, etc.\n\n"
+                    f"[TIP] Use SiPy commands instead. To disable security, set:\n"
+                    f"   SIPY_SECURITY_ENABLED=false or\n"
+                    f"   session.set_security=false"
+                )
+                result_container["exc"] = security_msg
+                result_container["is_security_error"] = True
             except Exception:
                 result_container["exc"] = traceback.format_exc()
+                result_container["is_security_error"] = False
 
         """
         Main routine for cell operation
@@ -455,7 +485,7 @@ class SiPyKernel(Kernel):
         End - Main routine for cell operation
         """
 
-        if thread.is_alive():
+        if thread is not None and thread.is_alive():
             # timed out
             self._log.warning("Execution timed out after %d seconds", exec_timeout)
             timeout_msg = f"Execution timed out after {exec_timeout} seconds.\n"
@@ -473,26 +503,38 @@ class SiPyKernel(Kernel):
 
         # Check for exception in worker
         if result_container.get("exc"):
-            tb = result_container.get("exc")
-            self._log.error("Exception in SiPy execution: %s", tb)
+            exc_msg = result_container.get("exc")
+            is_security_error = result_container.get("is_security_error", False)
+            self._log.error("Exception in SiPy execution: %s", exc_msg)
+            
             # Structured error response
-            if "SiPy" in tb or "interpret" in tb:
+            if is_security_error:
+                ename = "SiPySecurityError"
+                evalue = "Security policy violation detected."
+                error_text = exc_msg  # Already formatted nicely
+            elif "SiPy" in exc_msg or "interpret" in exc_msg:
                 ename = "SiPyExecutionError"
                 evalue = "SiPy command execution failed. See stderr for details."
+                error_text = f"Error executing code:\n{exc_msg}\n"
             else:
                 ename = "ExecutionError"
                 evalue = "Code execution failed. See stderr for details."
+                error_text = f"Error executing code:\n{exc_msg}\n"
+            
             if not silent:
                 try:
-                    self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": f"Error executing code:\n{tb}\n"})
+                    self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": error_text})
                 except Exception as e:
                     self._log.error("Failed to send exception response: %s", e)
+            
+            # Always include error_text in traceback so it's displayed in notebook
+            traceback_lines = error_text.split("\n")
             return {
                 "status": "error",
                 "execution_count": self.execution_count,
                 "ename": ename,
                 "evalue": evalue,
-                "traceback": tb.split("\n")}
+                "traceback": traceback_lines}
 
         stdout_text = result_container.get("stdout", "")
         stderr_text = result_container.get("stderr", "")
@@ -516,3 +558,103 @@ class SiPyKernel(Kernel):
             "execution_count": self.execution_count,
             "payload": [],
             "user_expressions": {}}
+
+    def do_complete(self, code, cursor_pos):
+        """
+        Handle tab completion and code introspection.
+        
+        Parameters
+        ----------
+        code : str
+            The code string to provide completions for.
+        cursor_pos : int
+            The position of the cursor in the code string.
+        
+        Returns
+        -------
+        dict
+            A dictionary with 'matches', 'cursor_start', 'cursor_end', 'metadata', and 'status'.
+        """
+        self._log.debug("do_complete called with cursor_pos=%d, code length=%d", cursor_pos, len(code))
+        
+        if not self.sipy_ready:
+            return {"status": "error", "matches": [], "cursor_start": cursor_pos, "cursor_end": cursor_pos, "metadata": {}}
+        
+        # Extract the word being completed
+        line = code[:cursor_pos]
+        word_start = cursor_pos
+        while word_start > 0 and (code[word_start - 1].isalnum() or code[word_start - 1] in "_."):
+            word_start -= 1
+        word = code[word_start:cursor_pos]
+        
+        matches = []
+        
+        # Get SiPy shell available commands from interpret method's recognized patterns
+        # Common SiPy commands
+        sipy_commands = [
+            "let", "list", "set", "load", "save", "describe", "compute", "mean", "median",
+            "variance", "std", "min", "max", "count", "correlate", "regression", "ttest",
+            "anova", "normality", "survival", "execute", "import", "export", "help", "info"
+        ]
+        
+        # Get workspace variables from sipy_shell if available
+        workspace_vars = []
+        try:
+            if hasattr(self.sipy_shell, 'data'):
+                workspace_vars = list(self.sipy_shell.data.keys())
+        except Exception as e:
+            self._log.debug("Failed to extract workspace variables: %s", e)
+        
+        # Get session commands
+        session_commands = [
+            "session.get_timeout", "session.set_timeout", "session.get_cwd", "session.set_cwd",
+            "session.get_log_level", "session.set_log_level", "session.get_security", "session.set_security"
+        ]
+        
+        # Filter matches based on current word
+        all_completions = sipy_commands + workspace_vars + session_commands
+        matches = [c for c in all_completions if c.startswith(word)]
+        
+        # Remove duplicates and sort
+        matches = sorted(list(set(matches)))
+        
+        self._log.debug("do_complete found %d matches for word '%s'", len(matches), word)
+        
+        return {
+            "status": "ok",
+            "matches": matches,
+            "cursor_start": word_start,
+            "cursor_end": cursor_pos,
+            "metadata": {}
+        }
+
+    def do_kernel_info(self):
+        """
+        Return information about the SiPy kernel for IDE integration.
+        
+        Returns
+        -------
+        dict
+            Kernel information including language, version, and capabilities.
+        """
+        self._log.debug("do_kernel_info called")
+        return {
+            "protocol_version": "5.3",
+            "implementation": self.implementation,
+            "implementation_version": self.implementation_version,
+            "language_info": {
+                "name": "SiPy",
+                "version": self.language_version,
+                "mimetype": "text/x-sipy",
+                "file_extension": ".sipy",
+                "pygments_lexer": "bash",
+                "codemirror_mode": "shell",
+                "nbconvert_exporter": "script"
+            },
+            "banner": self.banner,
+            "status": "ok",
+            "help_links": [
+                {"text": "SiPy Documentation", "url": "https://github.com/sipy/sipy"},
+                {"text": "SiPy Command Help", "url": "https://github.com/sipy/sipy/wiki"}
+            ]
+        }
