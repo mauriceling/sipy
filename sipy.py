@@ -25,6 +25,7 @@ import shlex
 import shutil
 import subprocess
 import sys
+import time
 import traceback
 import warnings
 
@@ -61,6 +62,7 @@ class SiPy_Shell(object):
                             "rscript_exe": libsipy.utils.find_R_executable(),
                             "separator": ",",
                             "sipy_directory": os.getcwd(),
+                            "timing": False,
                             "verbosity": 0}
         self.history = {}
         self.modules = [m for m in dir(libsipy) 
@@ -3245,6 +3247,11 @@ class SiPy_Shell(object):
             old = self.environment["separator"]
             self.environment["separator"] = operand[1]
             retR = "set separator from %s to %s" % (old, operand[1])
+        elif operand[0].lower() in ["timing"]:
+            if operand[1].lower() in ["false", "f", "no", "n"]: timing = False
+            else: timing = True
+            self.environment["timing"] = timing
+            retR = "set timing to %s" % timing
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
@@ -3986,11 +3993,18 @@ class SiPy_Shell(object):
         """
         self.header()
         while True:
+            if self.environment["timing"]: start_time = time.time()
             statement = input("SiPy: %s %s " % (str(self.count), self.environment["prompt"])).strip() 
             if len(statement) == 0: pass
             elif statement.lower() in ["exit", "exit()"]: return 0
             elif statement.startswith("#"): continue
             else: _ = self.interpret(statement)
+            if self.environment["timing"]: 
+                try:
+                    end_time = time.time()
+                    elapsed_time = end_time - start_time
+                    print(f"The code executed in {elapsed_time:.5f} seconds")
+                except UnboundLocalError: pass
             print("")
 
     def cmdScript(self, script):
