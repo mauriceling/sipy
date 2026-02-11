@@ -20,8 +20,31 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 '''
 
-import seaborn as sns
+import matplotlib
+import sys
+
+# Detect if running in Jupyter kernel context
+def _is_jupyter_kernel():
+    """Check if we're running in a Jupyter kernel."""
+    try:
+        # Check if ipykernel is running
+        if 'ipykernel' in sys.modules:
+            return True
+        # Check for IPython kernel
+        from IPython import get_ipython
+        if get_ipython() is not None and 'IPKernelApp' in get_ipython().config:
+            return True
+    except (ImportError, AttributeError):
+        pass
+    return False
+
+# Use non-interactive Agg backend only in Jupyter kernel to prevent GUI initialization in thread contexts
+# Use interactive TkAgg or default for regular CLI/IDE use
+if _is_jupyter_kernel():
+    matplotlib.use('Agg')
+
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 def seaborn_histogram(data, **kwargs):
     '''! 
@@ -60,5 +83,7 @@ def seaborn_histogram(data, **kwargs):
     '''
     fig, ax = plt.subplots()
     sns.histplot(data=data, **kwargs, ax=ax)
-    plt.show()
+    # Only show in CLI mode (not in Jupyter where kernel handles display)
+    if not _is_jupyter_kernel():
+        plt.show()
     return fig

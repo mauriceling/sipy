@@ -23,6 +23,7 @@ import json
 import os
 import sys
 import io
+import base64
 from pathlib import Path
 from contextlib import redirect_stdout, redirect_stderr
 
@@ -34,6 +35,12 @@ import threading
 import traceback
 import logging
 import importlib.metadata
+
+try:
+    import matplotlib.pyplot as plt
+    HAS_MATPLOTLIB = True
+except ImportError:
+    HAS_MATPLOTLIB = False
 
 class SiPySecurityError(Exception):
     """Raised when a security policy violation is detected."""
@@ -79,6 +86,60 @@ class SiPyKernel(Kernel):
     language_version = "0.1"
     language_info = {"name": "bash", "mimetype": "text/x-sh", "file_extension": ".sipy", "codemirror_mode": "shell"}
     banner = "SiPy Kernel - REPL Mode"
+
+    def _send_matplotlib_figures(self):
+        """
+        Capture and send all matplotlib figures as inline images to Jupyter.
+        This function converts matplotlib figures to PNG images, encodes them as base64,
+        and sends them as display_data messages for rendering in the notebook.
+        
+        Figures are automatically closed after sending to prevent them from appearing
+        in a separate GUI window.
+        """
+        if not HAS_MATPLOTLIB:
+            return
+        
+        try:
+            # Get all current figure numbers
+            fig_nums = plt.get_fignums()
+            
+            for fig_num in fig_nums:
+                try:
+                    fig = plt.figure(fig_num)
+                    
+                    # Render figure to PNG in memory
+                    buffer = io.BytesIO()
+                    fig.savefig(buffer, format='png', dpi=100, bbox_inches='tight')
+                    buffer.seek(0)
+                    img_data = buffer.read()
+                    buffer.close()
+                    
+                    # Encode to base64
+                    b64 = base64.b64encode(img_data).decode('ascii')
+                    
+                    # Send to Jupyter as display_data
+                    try:
+                        self.send_response(
+                            self.iopub_socket,
+                            "display_data",
+                            {
+                                "data": {
+                                    "image/png": b64
+                                },
+                                "metadata": {}
+                            }
+                        )
+                    except Exception as e:
+                        self._log.error("Failed to send figure display_data: %s", e)
+                    
+                    # Close the figure to prevent GUI window
+                    plt.close(fig)
+                    
+                except Exception as e:
+                    self._log.error("Error processing figure %d: %s", fig_num, e)
+        
+        except Exception as e:
+            self._log.debug("Error in _send_matplotlib_figures: %s", e)
 
     def _is_safe_command(self, line):
         """
@@ -409,6 +470,9 @@ class SiPyKernel(Kernel):
                 result_container["result"] = result
                 result_container["stdout"] = stdout_capture.getvalue()
                 result_container["stderr"] = stderr_capture.getvalue()
+                
+                # Capture matplotlib figures as inline images
+                result_container["has_figures"] = len(plt.get_fignums()) > 0 if HAS_MATPLOTLIB else False
                 # Resource monitoring: limit output sizes
                 if len(result_container["stdout"]) > self._max_output_size:
                     result_container["stdout"] = result_container["stdout"][:self._max_output_size] + "\n... [stdout truncated]"
@@ -551,6 +615,10 @@ class SiPyKernel(Kernel):
                     self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": stderr_text})
                 except Exception as e:
                     self._log.error("Failed to send stderr response: %s", e)
+            
+            # Send matplotlib figures as inline images
+            if result_container.get("has_figures"):
+                self._send_matplotlib_figures()
 
         self._log.debug("Execution completed successfully")
         return {
