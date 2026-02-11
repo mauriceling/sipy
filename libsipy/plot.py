@@ -169,3 +169,45 @@ def seaborn_scatterplot(df, **kwargs):
     if not _is_jupyter_kernel():
         plt.show()
     return fig
+
+def seaborn_regplot(df, **kwargs):
+    '''! 
+    Plots a regression plot using seaborn.regplot.
+    
+    @param df: DataFrame containing the data to plot
+    @param kwargs: Additional keyword arguments for seaborn.regplot
+                   Common kwargs: 
+                   - x (str): Column name for x-axis
+                   - y (str): Column name for y-axis
+                   - order (int): Degree of polynomial regression (default: 1 for linear)
+                   - scatter (bool): Whether to plot the data points
+                   - fit_reg (bool): Whether to fit and plot the regression line
+                   - color (str): Color of the line and points
+                   - scatter_kws (dict): kwargs for scatter plot
+                   - line_kws (dict): kwargs for regression line
+    
+    @return: matplotlib figure object
+    
+    Python Usage Examples:
+        from libsipy.plot import seaborn_regplot
+        
+        # Basic regression plot
+        import pandas as pd
+        df = pd.DataFrame({'x': [1, 2, 3, 4, 5], 'y': [2, 4, 5, 4, 5]})
+        seaborn_regplot(df, x='x', y='y')
+        
+        # Polynomial regression with order 2
+        seaborn_regplot(df, x='x', y='y', order=2)
+        
+        # Regression plot without scatter points
+        seaborn_regplot(df, x='x', y='y', scatter=False)
+        
+        # Regression plot with custom color
+        seaborn_regplot(df, x='x', y='y', color='red')
+    '''
+    fig, ax = plt.subplots()
+    sns.regplot(data=df, **kwargs, ax=ax)
+    # Only show in CLI mode (not in Jupyter where kernel handles display)
+    if not _is_jupyter_kernel():
+        plt.show()
+    return fig

@@ -1909,6 +1909,10 @@ class SiPy_Shell(object):
             plot scatterplot {dataframe|df|frame|table} <variable name> x=<column name> y=<column name>
             plot scatterplot {dataframe|df|frame|table} data=<variable name> x=<column name> y=<column name>
             plot scatterplot {dataframe|df|frame|table} data=<variable name> x=<column name> y=<column name> hue=<column name> size=<column name> palette=<palette name> ...
+            
+            plot regplot {dataframe|df|frame|table} <variable name> x=<column name> y=<column name>
+            plot regplot {dataframe|df|frame|table} data=<variable name> x=<column name> y=<column name>
+            plot regplot {dataframe|df|frame|table} data=<variable name> x=<column name> y=<column name> order=<int> scatter=<bool> color=<color> ...
 
         @return: String containing results of command execution
         """
@@ -2129,8 +2133,86 @@ class SiPy_Shell(object):
             else:
                 retR = "Error: Unsupported data type '%s' for scatterplot. Use: dataframe, df, frame, or table" % data_type
         
+        elif plot_type in ["regplot", "reg", "regressionplot", "regression"]:
+            data_type = operand[1].lower() if len(operand) > 1 else None
+            
+            # Handle dataframe/df/frame/table data types
+            if data_type in ["dataframe", "df", "frame", "table"]:
+                if "data" not in kwargs:
+                    """
+                    plot regplot {dataframe|df|frame|table} <variable name> x=<column name> y=<column name>
+                    plot regplot {dataframe|df|frame|table} <variable name> x=<column name> y=<column name> order=2
+                    
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,4,5,4,5
+                    let df be dataframe x:x y:y
+                    plot regplot dataframe df x=x y=y
+                    plot regplot dataframe df x=x y=y order=2
+                    """
+                    if len(operand) < 3:
+                        retR = "Error: Variable name required for regplot"
+                    else:
+                        df_name = operand[2]
+                        # Extract kwargs for x and y from operands if provided
+                        plot_kwargs = {}
+                        if len(operand) > 3:
+                            # Handle any positional kwargs (if needed)
+                            pass
+                        
+                        # Check if x and y are in kwargs
+                        if "x" not in kwargs or "y" not in kwargs:
+                            retR = "Error: Both 'x' and 'y' parameters are required for regplot"
+                        else:
+                            plot_kwargs = {k: v for k, v in kwargs.items()}
+                            # Convert string integers and booleans
+                            for key in plot_kwargs:
+                                if isinstance(plot_kwargs[key], str) and plot_kwargs[key].lower() in ["true", "false"]:
+                                    plot_kwargs[key] = plot_kwargs[key].lower() == "true"
+                                elif key in ["order"]:
+                                    try:
+                                        plot_kwargs[key] = int(plot_kwargs[key])
+                                    except ValueError:
+                                        pass
+                            libsipy.plot.seaborn_regplot(self.data[df_name], **plot_kwargs)
+                            retR = "Regplot plotted successfully for dataframe '%s'" % df_name
+                else:
+                    """
+                    plot regplot {dataframe|df|frame|table} data=<variable name> x=<column name> y=<column name>
+                    plot regplot {dataframe|df|frame|table} data=<variable name> x=<column name> y=<column name> order=2 scatter=true color=red
+                    
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,4,5,4,5
+                    let df be dataframe x:x y:y
+                    plot regplot dataframe data=df x=x y=y
+                    plot regplot dataframe data=df x=x y=y order=2 scatter=true
+                    """
+                    if "x" not in kwargs or "y" not in kwargs:
+                        retR = "Error: Both 'x' and 'y' parameters are required for regplot"
+                    else:
+                        df_name = kwargs["data"]
+                        
+                        # Extract and prepare plotting kwargs (keeping all parameters including x and y)
+                        plot_kwargs = {k: v for k, v in kwargs.items() if k != "data"}
+                        
+                        # Convert string boolean values and integers to actual types
+                        for key in plot_kwargs:
+                            if isinstance(plot_kwargs[key], str) and plot_kwargs[key].lower() in ["true", "false"]:
+                                plot_kwargs[key] = plot_kwargs[key].lower() == "true"
+                            elif key in ["order"]:
+                                try:
+                                    plot_kwargs[key] = int(plot_kwargs[key])
+                                except ValueError:
+                                    pass
+                        
+                        libsipy.plot.seaborn_regplot(self.data[df_name], **plot_kwargs)
+                        retR = "Regplot plotted successfully for dataframe '%s'" % df_name
+            else:
+                retR = "Error: Unsupported data type '%s' for regplot. Use: dataframe, df, frame, or table" % data_type
+        
         else:
-            retR = "Unknown plot type: %s. Currently supported: histplot, boxplot, scatterplot" % plot_type
+            retR = "Unknown plot type: %s. Currently supported: histplot, boxplot, scatterplot, regplot" % plot_type
         
         print(retR)
         return retR
