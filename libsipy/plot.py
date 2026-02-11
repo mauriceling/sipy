@@ -211,3 +211,19 @@ def seaborn_regplot(df, **kwargs):
     if not _is_jupyter_kernel():
         plt.show()
     return fig
+
+def seaborn_heatmap(df, **kwargs):
+    '''! 
+    Plots a correlation heatmap using seaborn.heatmap.
+    
+    @param df: DataFrame containing the data to plot
+    @param kwargs: Additional keyword arguments for seaborn.regplot
+    
+    @return: matplotlib figure object
+    '''
+    fig, ax = plt.subplots()
+    sns.heatmap(data=df, **kwargs)
+    # Only show in CLI mode (not in Jupyter where kernel handles display)
+    if not _is_jupyter_kernel():
+        plt.show()
+    return fig

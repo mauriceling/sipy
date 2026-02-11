@@ -2210,7 +2210,58 @@ class SiPy_Shell(object):
                         retR = "Regplot plotted successfully for dataframe '%s'" % df_name
             else:
                 retR = "Error: Unsupported data type '%s' for regplot. Use: dataframe, df, frame, or table" % data_type
-        
+        elif plot_type in ["heatmap", "correlation"]:
+            data_type = operand[1].lower() if len(operand) > 1 else None
+            
+            # Handle dataframe/df/frame/table data types
+            if data_type in ["dataframe", "df", "frame", "table"]:
+                if "data" not in kwargs:
+                    """
+                    plot heatmap {dataframe|df|frame|table} <variable name>
+                    
+                    Example:
+                    read excel surdata from data/survival_dataset.xlsx data
+                    plot heatmap dataframe surdata
+                    """
+                    if len(operand) < 3:
+                        retR = "Error: Variable name required for heatmap"
+                    else:
+                        df_name = operand[2]
+                        # Extract kwargs for x and y from operands if provided
+                        plot_kwargs = {}
+                        if len(operand) > 3:
+                            # Handle any positional kwargs (if needed)
+                            pass
+                        correlations = self.data[df_name].corr(numeric_only=True)
+                        libsipy.plot.seaborn_heatmap(correlations, **plot_kwargs)
+                        retR = "Heatmap plotted successfully for dataframe '%s'" % df_name
+                else:
+                    """
+                    plot heatmap {dataframe|df|frame|table} data=<variable name>
+                    
+                    Example:
+                    read excel surdata from data/survival_dataset.xlsx data
+                    plot heatmap dataframe data=surdata
+                    """
+                    df_name = kwargs["data"]
+                    
+                    # Extract and prepare plotting kwargs (keeping all parameters including x and y)
+                    plot_kwargs = {k: v for k, v in kwargs.items() if k != "data"}
+                    
+                    # Convert string boolean values and integers to actual types
+                    for key in plot_kwargs:
+                        if isinstance(plot_kwargs[key], str) and plot_kwargs[key].lower() in ["true", "false"]:
+                            plot_kwargs[key] = plot_kwargs[key].lower() == "true"
+                        elif key in ["order"]:
+                            try:
+                                plot_kwargs[key] = int(plot_kwargs[key])
+                            except ValueError:
+                                pass
+                    correlations = self.data[df_name].corr(numeric_only=True)
+                    libsipy.plot.seaborn_heatmap(correlations, **plot_kwargs)
+                    retR = "Regplot plotted successfully for dataframe '%s'" % df_name
+            else:
+                retR = "Error: Unsupported data type '%s' for heatmap. Use: dataframe, df, frame, or table" % data_type
         else:
             retR = "Unknown plot type: %s. Currently supported: histplot, boxplot, scatterplot, regplot" % plot_type
         
