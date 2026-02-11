@@ -1905,37 +1905,6 @@ class SiPy_Shell(object):
             plot histplot {dataframe|df|frame|table} wide data=<variable name>.<column name>
             plot histplot {dataframe|df|frame|table} wide <variable name> <column name> bins=<int> kde=<bool> ...
 
-        Usage Examples:
-            # Simple histogram - positional
-            let x be list 1,2,3,4,5,6,7,8,9,10
-            plot histplot list x
-            
-            # Simple histogram - keyword
-            let y be list 2,4,6,8,10,12,14,16
-            plot histplot list data=y
-            
-            # Histogram with custom bins
-            plot histplot list data=x bins=5
-            
-            # Histogram with KDE (kernel density estimate)
-            plot histplot list data=x bins=20 kde=true
-            
-            # Histogram with multiple options
-            plot histplot list data=x bins=15 kde=true stat=density color=blue
-            
-            # Histogram with different statistics
-            plot histplot list data=y bins=10 stat=count
-            
-            # Dataframe histogram - from specific column
-            let df be dataframe col1:x col2:y
-            plot histplot dataframe wide df col1
-            
-            # Dataframe histogram with keyword syntax
-            plot histplot dataframe wide data=df.col1
-            
-            # Dataframe histogram with options
-            plot histplot dataframe wide df col1 bins=15 kde=true
-
         @return: String containing results of command execution
         """
         plot_type = operand[0].lower() if len(operand) > 0 else None
