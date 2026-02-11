@@ -87,3 +87,43 @@ def seaborn_histogram(data, **kwargs):
     if not _is_jupyter_kernel():
         plt.show()
     return fig
+
+def seaborn_boxplot(df, **kwargs):
+    '''! 
+    Plots a boxplot using seaborn.boxplot.
+    
+    @param df: DataFrame containing the data to plot
+    @param kwargs: Additional keyword arguments for seaborn.boxplot
+                   Common kwargs: 
+                   - x (str): Column name for x-axis (categorical variable)
+                   - y (str): Column name for y-axis (numeric variable)
+                   - hue (str): Column name for color-coding by groups
+                   - palette (str): Color palette name
+                   - orient (str): Orientation ('v' for vertical, 'h' for horizontal)
+                   - color (str): Color of the boxes
+    
+    @return: matplotlib figure object
+    
+    Python Usage Examples:
+        from libsipy.plot import seaborn_boxplot
+        
+        # Basic boxplot
+        import pandas as pd
+        df = pd.DataFrame({'x': ['A', 'A', 'B', 'B'], 'y': [1, 2, 3, 4]})
+        seaborn_boxplot(df, x='x', y='y')
+        
+        # Boxplot with hue
+        seaborn_boxplot(df, x='x', y='y', hue='category')
+        
+        # Boxplot with custom color palette
+        seaborn_boxplot(df, x='x', y='y', palette='Set2')
+        
+        # Horizontal boxplot
+        seaborn_boxplot(df, x='y', y='x', orient='h')
+    '''
+    fig, ax = plt.subplots()
+    sns.boxplot(data=df, **kwargs, ax=ax)
+    # Only show in CLI mode (not in Jupyter where kernel handles display)
+    if not _is_jupyter_kernel():
+        plt.show()
+    return fig

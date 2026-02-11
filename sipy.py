@@ -1900,16 +1900,16 @@ class SiPy_Shell(object):
             plot histplot {list|series|tuple|vector} <variable name>
             plot histplot {list|series|tuple|vector} data=<variable name>
             plot histplot {list|series|tuple|vector} data=<variable name> bins=<int> kde=<bool> ...
+            plot histplot {dataframe|df|frame|table} data=<variable name>.<column name> bins=<int> kde=<bool> ...
             
-            plot histplot {dataframe|df|frame|table} wide <variable name> <column name>
-            plot histplot {dataframe|df|frame|table} wide data=<variable name>.<column name>
-            plot histplot {dataframe|df|frame|table} wide <variable name> <column name> bins=<int> kde=<bool> ...
+            plot boxplot {dataframe|df|frame|table} <variable name> x=<column name> y=<column name>
+            plot boxplot {dataframe|df|frame|table} data=<variable name> x=<column name> y=<column name>
+            plot boxplot {dataframe|df|frame|table} data=<variable name> x=<column name> y=<column name> hue=<column name> palette=<palette name> ...
 
         @return: String containing results of command execution
         """
         plot_type = operand[0].lower() if len(operand) > 0 else None
-        
-        if plot_type == "histplot":
+        if plot_type in ["histplot", "histogram", "hist"]:
             data_type = operand[1].lower() if len(operand) > 1 else None
             
             # Handle list/series/tuple/vector data types
@@ -1961,75 +1961,110 @@ class SiPy_Shell(object):
                     retR = "Histogram plotted successfully for variable: %s" % kwargs["data"]
             
             # Handle dataframe/df/frame/table data types
-            elif data_type in ["dataframe", "df", "frame", "table"] and len(operand) > 2 and operand[2].lower() == "wide":
+            elif data_type in ["dataframe", "df", "frame", "table"] and len(operand) == 2:
+                """
+                plot histplot {dataframe|df|frame|table} data=<variable name>.<column name>
+                plot histplot {dataframe|df|frame|table} data=<variable name>.<column name> bins=20 kde=true
+                
+                Example:
+                let x be list 1,2,3,4,5
+                let y be list 2,3,4,5,6
+                let df be dataframe x:x y:y
+                plot histplot dataframe data=df.x
+                plot histplot dataframe data=df.y bins=10 kde=true
+                """
+                # Parse the dataframe.column format
+                d = [x.strip() for x in kwargs["data"].split(".")]
+                if len(d) != 2:
+                    retR = "Error: Expected format data=dataframe_name.column_name"
+                else:
+                    df_name = d[0]
+                    column_name = d[1]
+                    data_values = libsipy.data_wrangler.df_extract(df=self.data[df_name], columns=column_name, rtype="list")
+                    
+                    # Extract and prepare plotting kwargs (excluding 'data' key)
+                    plot_kwargs = {k: v for k, v in kwargs.items() if k != "data"}
+                    
+                    # Convert string boolean values to actual booleans
+                    for key in plot_kwargs:
+                        if plot_kwargs[key].lower() in ["true", "false"]:
+                            plot_kwargs[key] = plot_kwargs[key].lower() == "true"
+                        # Try to convert to int if it looks like a number
+                        elif key in ["bins"]:
+                            try:
+                                plot_kwargs[key] = int(plot_kwargs[key])
+                            except ValueError:
+                                pass
+                    
+                    libsipy.plot.seaborn_histogram(data_values, **plot_kwargs)
+                    retR = "Histogram plotted successfully for column '%s' in dataframe '%s'" % (column_name, df_name)
+            else:
+                retR = "Error: Unsupported data type '%s' for histplot. Use: list, series, tuple, vector, or dataframe" % data_type
+        
+        elif plot_type in ["boxplot", "box"]:
+            data_type = operand[1].lower() if len(operand) > 1 else None
+            
+            # Handle dataframe/df/frame/table data types
+            if data_type in ["dataframe", "df", "frame", "table"]:
                 if "data" not in kwargs:
                     """
-                    plot histplot {dataframe|df|frame|table} wide <variable name> <column name>
-                    plot histplot {dataframe|df|frame|table} wide <variable name> <column name> bins=20 kde=true
+                    plot boxplot {dataframe|df|frame|table} <variable name> x=<column name> y=<column name>
+                    plot boxplot {dataframe|df|frame|table} <variable name> x=<column name> y=<column name> hue=<column name>
                     
                     Example:
                     let x be list 1,2,3,4,5
                     let y be list 2,3,4,5,6
                     let df be dataframe x:x y:y
-                    plot histplot dataframe wide df x
-                    plot histplot dataframe wide df y bins=10 kde=true
+                    plot boxplot dataframe df x=x y=y
                     """
-                    if len(operand) < 4:
-                        retR = "Error: Variable name and column name required for dataframe histplot"
+                    if len(operand) < 3:
+                        retR = "Error: Variable name required for boxplot"
                     else:
-                        df_name = operand[3]
-                        column_name = operand[4]
-                        data_values = libsipy.data_wrangler.df_extract(df=self.data[df_name], columns=column_name, rtype="list")
-                        
-                        # Extract plotting kwargs from remaining operands
+                        df_name = operand[2]
+                        # Extract kwargs for x and y from operands if provided
                         plot_kwargs = {}
-                        if len(operand) > 5:
+                        if len(operand) > 3:
                             # Handle any positional kwargs (if needed)
                             pass
                         
-                        libsipy.plot.seaborn_histogram(data_values, **plot_kwargs)
-                        retR = "Histogram plotted successfully for column '%s' in dataframe '%s'" % (column_name, df_name)
+                        # Check if x and y are in kwargs
+                        if "x" not in kwargs or "y" not in kwargs:
+                            retR = "Error: Both 'x' and 'y' parameters are required for boxplot"
+                        else:
+                            plot_kwargs = {k: v for k, v in kwargs.items()}
+                            libsipy.plot.seaborn_boxplot(self.data[df_name], **plot_kwargs)
+                            retR = "Boxplot plotted successfully for dataframe '%s'" % df_name
                 else:
                     """
-                    plot histplot {dataframe|df|frame|table} wide data=<variable name>.<column name>
-                    plot histplot {dataframe|df|frame|table} wide data=<variable name>.<column name> bins=20 kde=true
+                    plot boxplot {dataframe|df|frame|table} data=<variable name> x=<column name> y=<column name>
+                    plot boxplot {dataframe|df|frame|table} data=<variable name> x=<column name> y=<column name> hue=<column name> palette=Set2
                     
                     Example:
-                    let x be list 1,2,3,4,5
-                    let y be list 2,3,4,5,6
+                    let x be list A,A,A,B,B,B
+                    let y be list 1,2,3,4,5,6
                     let df be dataframe x:x y:y
-                    plot histplot dataframe wide data=df.x
-                    plot histplot dataframe wide data=df.y bins=10 kde=true
+                    plot boxplot dataframe data=df x=x y=y
                     """
-                    # Parse the dataframe.column format
-                    d = [x.strip() for x in kwargs["data"].split(".")]
-                    if len(d) != 2:
-                        retR = "Error: Expected format data=dataframe_name.column_name"
+                    if "x" not in kwargs or "y" not in kwargs:
+                        retR = "Error: Both 'x' and 'y' parameters are required for boxplot"
                     else:
-                        df_name = d[0]
-                        column_name = d[1]
-                        data_values = libsipy.data_wrangler.df_extract(df=self.data[df_name], columns=column_name, rtype="list")
+                        df_name = kwargs["data"]
                         
-                        # Extract and prepare plotting kwargs (excluding 'data' key)
+                        # Extract and prepare plotting kwargs (keeping all parameters including x and y)
                         plot_kwargs = {k: v for k, v in kwargs.items() if k != "data"}
                         
                         # Convert string boolean values to actual booleans
                         for key in plot_kwargs:
-                            if plot_kwargs[key].lower() in ["true", "false"]:
+                            if isinstance(plot_kwargs[key], str) and plot_kwargs[key].lower() in ["true", "false"]:
                                 plot_kwargs[key] = plot_kwargs[key].lower() == "true"
-                            # Try to convert to int if it looks like a number
-                            elif key in ["bins"]:
-                                try:
-                                    plot_kwargs[key] = int(plot_kwargs[key])
-                                except ValueError:
-                                    pass
                         
-                        libsipy.plot.seaborn_histogram(data_values, **plot_kwargs)
-                        retR = "Histogram plotted successfully for column '%s' in dataframe '%s'" % (column_name, df_name)
+                        libsipy.plot.seaborn_boxplot(self.data[df_name], **plot_kwargs)
+                        retR = "Boxplot plotted successfully for dataframe '%s'" % df_name
             else:
-                retR = "Error: Unsupported data type '%s' for histplot. Use: list, series, tuple, vector, or dataframe" % data_type
+                retR = "Error: Unsupported data type '%s' for boxplot. Use: dataframe, df, frame, or table" % data_type
+        
         else:
-            retR = "Unknown plot type: %s. Currently supported: histplot" % plot_type
+            retR = "Unknown plot type: %s. Currently supported: histplot, boxplot" % plot_type
         
         print(retR)
         return retR
