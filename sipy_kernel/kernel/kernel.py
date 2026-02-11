@@ -605,17 +605,29 @@ class SiPyKernel(Kernel):
 
         # Send captured output to Jupyter
         if not silent:
+            # Render stdout as rich display (Markdown + Plain fallback)
             if stdout_text:
                 try:
-                    self.send_response(self.iopub_socket, "stream", {"name": "stdout", "text": stdout_text})
+                    self.send_response(self.iopub_socket,
+                        "display_data",
+                        {"data": {
+                                "text/markdown": f"```\n{stdout_text}\n```",
+                                "text/plain": stdout_text},
+                            "metadata": {}
+                        })
                 except Exception as e:
-                    self._log.error("Failed to send stdout response: %s", e)
+                    self._log.error("Failed to send display_data for stdout: %s", e)
+
+            # Keep stderr as stream (errors should look like errors)
             if stderr_text:
                 try:
-                    self.send_response(self.iopub_socket, "stream", {"name": "stderr", "text": stderr_text})
+                    self.send_response(
+                        self.iopub_socket,
+                        "stream",
+                        {"name": "stderr", "text": stderr_text})
                 except Exception as e:
                     self._log.error("Failed to send stderr response: %s", e)
-            
+
             # Send matplotlib figures as inline images
             if result_container.get("has_figures"):
                 self._send_matplotlib_figures()
