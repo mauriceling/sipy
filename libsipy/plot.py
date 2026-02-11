@@ -1,7 +1,7 @@
 '''!
 libsipy (Plot): Plotting Functions for SiPy
 
-Date created: 9th September 2022
+Date created: 11th February 2026
 
 License: GNU General Public License version 3 for academic or 
 not-for-profit use only
