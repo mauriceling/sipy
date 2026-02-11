@@ -1892,6 +1892,179 @@ class SiPy_Shell(object):
         print(retR)
         return retR
 
+    def do_plot(self, operand, kwargs):
+        """!
+        Creates plots using seaborn plotting functions.
+
+        Commands: 
+            plot histplot {list|series|tuple|vector} <variable name>
+            plot histplot {list|series|tuple|vector} data=<variable name>
+            plot histplot {list|series|tuple|vector} data=<variable name> bins=<int> kde=<bool> ...
+            
+            plot histplot {dataframe|df|frame|table} wide <variable name> <column name>
+            plot histplot {dataframe|df|frame|table} wide data=<variable name>.<column name>
+            plot histplot {dataframe|df|frame|table} wide <variable name> <column name> bins=<int> kde=<bool> ...
+
+        Usage Examples:
+            # Simple histogram - positional
+            let x be list 1,2,3,4,5,6,7,8,9,10
+            plot histplot list x
+            
+            # Simple histogram - keyword
+            let y be list 2,4,6,8,10,12,14,16
+            plot histplot list data=y
+            
+            # Histogram with custom bins
+            plot histplot list data=x bins=5
+            
+            # Histogram with KDE (kernel density estimate)
+            plot histplot list data=x bins=20 kde=true
+            
+            # Histogram with multiple options
+            plot histplot list data=x bins=15 kde=true stat=density color=blue
+            
+            # Histogram with different statistics
+            plot histplot list data=y bins=10 stat=count
+            
+            # Dataframe histogram - from specific column
+            let df be dataframe col1:x col2:y
+            plot histplot dataframe wide df col1
+            
+            # Dataframe histogram with keyword syntax
+            plot histplot dataframe wide data=df.col1
+            
+            # Dataframe histogram with options
+            plot histplot dataframe wide df col1 bins=15 kde=true
+
+        @return: String containing results of command execution
+        """
+        plot_type = operand[0].lower() if len(operand) > 0 else None
+        
+        if plot_type == "histplot":
+            data_type = operand[1].lower() if len(operand) > 1 else None
+            
+            # Handle list/series/tuple/vector data types
+            if data_type in ["list", "series", "tuple", "vector"]:
+                # Handle positional syntax: plot histplot list variable_name
+                if "data" not in kwargs:
+                    """
+                    plot histplot {list|series|tuple|vector} <variable name>
+                    
+                    Example:
+                    let x be list 1,2,3,4,5,6,7,8,9
+                    plot histplot list x
+                    """
+                    if len(operand) < 3:
+                        retR = "Error: Variable name required for histplot"
+                    else:
+                        data_values = self.data[operand[2]]
+                        libsipy.plot.seaborn_histogram(data_values)
+                        retR = "Histogram plotted successfully for variable: %s" % operand[2]
+                # Handle keyword syntax: plot histplot list data=variable_name [kwargs]
+                else:
+                    """
+                    plot histplot {list|series|tuple|vector} data=<variable name>
+                    plot histplot {list|series|tuple|vector} data=<variable name> bins=20 kde=true
+                    
+                    Example:
+                    let x be list 1,2,3,4,5,6,7,8,9
+                    plot histplot list data=x
+                    plot histplot list data=x bins=20 kde=true
+                    """
+                    data_values = self.data[kwargs["data"]]
+                    
+                    # Extract and prepare plotting kwargs (excluding 'data' key)
+                    plot_kwargs = {k: v for k, v in kwargs.items() if k != "data"}
+                    
+                    # Convert string boolean values to actual booleans (e.g., "true" -> True)
+                    # Convert string integers to actual integers (e.g., "20" -> 20 for bins parameter)
+                    for key in plot_kwargs:
+                        if plot_kwargs[key].lower() in ["true", "false"]:
+                            plot_kwargs[key] = plot_kwargs[key].lower() == "true"
+                        # Try to convert to int if it looks like a number
+                        elif key in ["bins"]:
+                            try:
+                                plot_kwargs[key] = int(plot_kwargs[key])
+                            except ValueError:
+                                pass
+                    
+                    libsipy.plot.seaborn_histogram(data_values, **plot_kwargs)
+                    retR = "Histogram plotted successfully for variable: %s" % kwargs["data"]
+            
+            # Handle dataframe/df/frame/table data types
+            elif data_type in ["dataframe", "df", "frame", "table"] and len(operand) > 2 and operand[2].lower() == "wide":
+                if "data" not in kwargs:
+                    """
+                    plot histplot {dataframe|df|frame|table} wide <variable name> <column name>
+                    plot histplot {dataframe|df|frame|table} wide <variable name> <column name> bins=20 kde=true
+                    
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let df be dataframe x:x y:y
+                    plot histplot dataframe wide df x
+                    plot histplot dataframe wide df y bins=10 kde=true
+                    """
+                    if len(operand) < 4:
+                        retR = "Error: Variable name and column name required for dataframe histplot"
+                    else:
+                        df_name = operand[3]
+                        column_name = operand[4]
+                        data_values = libsipy.data_wrangler.df_extract(df=self.data[df_name], columns=column_name, rtype="list")
+                        
+                        # Extract plotting kwargs from remaining operands
+                        plot_kwargs = {}
+                        if len(operand) > 5:
+                            # Handle any positional kwargs (if needed)
+                            pass
+                        
+                        libsipy.plot.seaborn_histogram(data_values, **plot_kwargs)
+                        retR = "Histogram plotted successfully for column '%s' in dataframe '%s'" % (column_name, df_name)
+                else:
+                    """
+                    plot histplot {dataframe|df|frame|table} wide data=<variable name>.<column name>
+                    plot histplot {dataframe|df|frame|table} wide data=<variable name>.<column name> bins=20 kde=true
+                    
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,3,4,5,6
+                    let df be dataframe x:x y:y
+                    plot histplot dataframe wide data=df.x
+                    plot histplot dataframe wide data=df.y bins=10 kde=true
+                    """
+                    # Parse the dataframe.column format
+                    d = [x.strip() for x in kwargs["data"].split(".")]
+                    if len(d) != 2:
+                        retR = "Error: Expected format data=dataframe_name.column_name"
+                    else:
+                        df_name = d[0]
+                        column_name = d[1]
+                        data_values = libsipy.data_wrangler.df_extract(df=self.data[df_name], columns=column_name, rtype="list")
+                        
+                        # Extract and prepare plotting kwargs (excluding 'data' key)
+                        plot_kwargs = {k: v for k, v in kwargs.items() if k != "data"}
+                        
+                        # Convert string boolean values to actual booleans
+                        for key in plot_kwargs:
+                            if plot_kwargs[key].lower() in ["true", "false"]:
+                                plot_kwargs[key] = plot_kwargs[key].lower() == "true"
+                            # Try to convert to int if it looks like a number
+                            elif key in ["bins"]:
+                                try:
+                                    plot_kwargs[key] = int(plot_kwargs[key])
+                                except ValueError:
+                                    pass
+                        
+                        libsipy.plot.seaborn_histogram(data_values, **plot_kwargs)
+                        retR = "Histogram plotted successfully for column '%s' in dataframe '%s'" % (column_name, df_name)
+            else:
+                retR = "Error: Unsupported data type '%s' for histplot. Use: list, series, tuple, vector, or dataframe" % data_type
+        else:
+            retR = "Unknown plot type: %s. Currently supported: histplot" % plot_type
+        
+        print(retR)
+        return retR
+    
     def do_plugin(self, operand, kwargs):
         """!
         Executes analysis using plugin.
@@ -3905,6 +4078,7 @@ class SiPy_Shell(object):
         elif operator == "let": return self.do_let(operand, kwargs)
         elif operator == "mean": return self.do_mean(operand, kwargs)
         elif operator == "normality": return self.do_normality(operand, kwargs)
+        elif operator == "plot": return self.do_plot(operand, kwargs)
         elif operator == "read": return self.do_read(operand, kwargs)
         elif operator == "regress": return self.do_regression(operand, kwargs)
         elif operator == "ranova": return self.do_R_anova(operand, kwargs)
