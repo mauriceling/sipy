@@ -127,3 +127,45 @@ def seaborn_boxplot(df, **kwargs):
     if not _is_jupyter_kernel():
         plt.show()
     return fig
+
+def seaborn_scatterplot(df, **kwargs):
+    '''! 
+    Plots a scatterplot using seaborn.scatterplot.
+    
+    @param df: DataFrame containing the data to plot
+    @param kwargs: Additional keyword arguments for seaborn.scatterplot
+                   Common kwargs: 
+                   - x (str): Column name for x-axis
+                   - y (str): Column name for y-axis
+                   - hue (str): Column name for color-coding by groups
+                   - size (str): Column name for marker size
+                   - palette (str): Color palette name
+                   - s (int): Size of markers
+                   - alpha (float): Transparency of markers (0-1)
+                   - style (str): Column name for marker style
+    
+    @return: matplotlib figure object
+    
+    Python Usage Examples:
+        from libsipy.plot import seaborn_scatterplot
+        
+        # Basic scatterplot
+        import pandas as pd
+        df = pd.DataFrame({'x': [1, 2, 3, 4], 'y': [1, 2, 3, 4]})
+        seaborn_scatterplot(df, x='x', y='y')
+        
+        # Scatterplot with hue
+        seaborn_scatterplot(df, x='x', y='y', hue='category')
+        
+        # Scatterplot with size and hue
+        seaborn_scatterplot(df, x='x', y='y', hue='category', size='magnitude')
+        
+        # Scatterplot with custom palette and alpha
+        seaborn_scatterplot(df, x='x', y='y', hue='category', palette='Set2', alpha=0.6)
+    '''
+    fig, ax = plt.subplots()
+    sns.scatterplot(data=df, **kwargs, ax=ax)
+    # Only show in CLI mode (not in Jupyter where kernel handles display)
+    if not _is_jupyter_kernel():
+        plt.show()
+    return fig

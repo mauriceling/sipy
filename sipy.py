@@ -1905,6 +1905,10 @@ class SiPy_Shell(object):
             plot boxplot {dataframe|df|frame|table} <variable name> x=<column name> y=<column name>
             plot boxplot {dataframe|df|frame|table} data=<variable name> x=<column name> y=<column name>
             plot boxplot {dataframe|df|frame|table} data=<variable name> x=<column name> y=<column name> hue=<column name> palette=<palette name> ...
+            
+            plot scatterplot {dataframe|df|frame|table} <variable name> x=<column name> y=<column name>
+            plot scatterplot {dataframe|df|frame|table} data=<variable name> x=<column name> y=<column name>
+            plot scatterplot {dataframe|df|frame|table} data=<variable name> x=<column name> y=<column name> hue=<column name> size=<column name> palette=<palette name> ...
 
         @return: String containing results of command execution
         """
@@ -2063,8 +2067,70 @@ class SiPy_Shell(object):
             else:
                 retR = "Error: Unsupported data type '%s' for boxplot. Use: dataframe, df, frame, or table" % data_type
         
+        elif plot_type in ["scatterplot", "scatter"]:
+            data_type = operand[1].lower() if len(operand) > 1 else None
+            
+            # Handle dataframe/df/frame/table data types
+            if data_type in ["dataframe", "df", "frame", "table"]:
+                if "data" not in kwargs:
+                    """
+                    plot scatterplot {dataframe|df|frame|table} <variable name> x=<column name> y=<column name>
+                    plot scatterplot {dataframe|df|frame|table} <variable name> x=<column name> y=<column name> hue=<column name>
+                    
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,4,6,8,10
+                    let df be dataframe x:x y:y
+                    plot scatterplot dataframe df x=x y=y
+                    """
+                    if len(operand) < 3:
+                        retR = "Error: Variable name required for scatterplot"
+                    else:
+                        df_name = operand[2]
+                        # Extract kwargs for x and y from operands if provided
+                        plot_kwargs = {}
+                        if len(operand) > 3:
+                            # Handle any positional kwargs (if needed)
+                            pass
+                        
+                        # Check if x and y are in kwargs
+                        if "x" not in kwargs or "y" not in kwargs:
+                            retR = "Error: Both 'x' and 'y' parameters are required for scatterplot"
+                        else:
+                            plot_kwargs = {k: v for k, v in kwargs.items()}
+                            libsipy.plot.seaborn_scatterplot(self.data[df_name], **plot_kwargs)
+                            retR = "Scatterplot plotted successfully for dataframe '%s'" % df_name
+                else:
+                    """
+                    plot scatterplot {dataframe|df|frame|table} data=<variable name> x=<column name> y=<column name>
+                    plot scatterplot {dataframe|df|frame|table} data=<variable name> x=<column name> y=<column name> hue=<column name> size=<column name> palette=Set2
+                    
+                    Example:
+                    let x be list 1,2,3,4,5
+                    let y be list 2,4,6,8,10
+                    let df be dataframe x:x y:y
+                    plot scatterplot dataframe data=df x=x y=y
+                    """
+                    if "x" not in kwargs or "y" not in kwargs:
+                        retR = "Error: Both 'x' and 'y' parameters are required for scatterplot"
+                    else:
+                        df_name = kwargs["data"]
+                        
+                        # Extract and prepare plotting kwargs (keeping all parameters including x and y)
+                        plot_kwargs = {k: v for k, v in kwargs.items() if k != "data"}
+                        
+                        # Convert string boolean values to actual booleans
+                        for key in plot_kwargs:
+                            if isinstance(plot_kwargs[key], str) and plot_kwargs[key].lower() in ["true", "false"]:
+                                plot_kwargs[key] = plot_kwargs[key].lower() == "true"
+                        
+                        libsipy.plot.seaborn_scatterplot(self.data[df_name], **plot_kwargs)
+                        retR = "Scatterplot plotted successfully for dataframe '%s'" % df_name
+            else:
+                retR = "Error: Unsupported data type '%s' for scatterplot. Use: dataframe, df, frame, or table" % data_type
+        
         else:
-            retR = "Unknown plot type: %s. Currently supported: histplot, boxplot" % plot_type
+            retR = "Unknown plot type: %s. Currently supported: histplot, boxplot, scatterplot" % plot_type
         
         print(retR)
         return retR
