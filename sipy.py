@@ -3599,6 +3599,7 @@ class SiPy_Shell(object):
             set plugin_suppress {True|False}
             set prompt <new prompt>
             set separator <new separator>
+            set timing {True|False}
 
         @return: String containing results of command execution
         """
