@@ -74,6 +74,7 @@ def save_workspace_json(filepath, workspace_dict):
         "result": workspace_dict.get("result", {}),
         "timestamp": workspace_dict.get("timestamp", {})
     }
+    if to_store["data"] == {}: del to_store["data"]
 
     with open(filepath, "w", encoding="utf-8") as f:
         json.dump(to_store, f, indent=2)
@@ -227,6 +228,7 @@ def save_workspace_ini(filepath, workspace_dict):
         else:
             payload = {"__type__": "raw", "data": v}
         config["data"][k] = json.dumps(payload)
+    if config["data"] == {}: del config["data"]
 
     # Write to disk
     with open(filepath, "w", encoding="utf-8") as f:

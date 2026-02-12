@@ -1363,6 +1363,7 @@ class SiPy_Shell(object):
 
         Commands: 
             environment combine
+            environment execlog path=<file path of saved environment> format=<format>
             environment load path=<file path of saved environment> format=<format>
             environment save name=<name to save to> format=<format to save as>
 
@@ -1498,6 +1499,40 @@ class SiPy_Shell(object):
                 result = libsipy.workspace.save_workspace_ini(filename, env)
             elif fmat == "json":
                 filename = name + ".SEnvJ"
+                filename = os.path.abspath(filename)
+                result = libsipy.workspace.save_workspace_json(filename, env)
+            retR = "Environment saved as %s. Format = %s" % (filename, fmat)
+        elif operand[0].lower() == "execlog":
+            """
+            environment execlog name=<name to save to> format=<format to save as>
+
+            Example:
+            let x be list 2,3,4,5,6,7,8,9
+            let X1 be list 1,2,3,4,5,6
+            let X2 be list 2,3,4,5,6,7
+            let X3 be list 3,4,5,6,7,8
+            let z be dataframe X1:X1 X2:X2 X3:X3
+            mean geometric x
+            normality kurtosis data=z
+            environment execlog name=execution_log format=ini
+            """
+            env = {"count": self.count, "environment": self.environment, "history": self.history, "result": self.result, "timestamp": self.timestamp}
+            if "name" in kwargs: name = kwargs["name"]
+            else: name = "workspace"
+            if "format" in kwargs: fmat = kwargs["format"]
+            else: fmat = "ini"
+            """
+            if fmat == "hdf5":
+                filename = name + ".SEnvH5"
+                filename = os.path.abspath(filename)
+                result = libsipy.workspace.save_workspace_hdf5(filename, env)
+            """
+            if fmat == "ini":
+                filename = name + ".SLogI"
+                filename = os.path.abspath(filename)
+                result = libsipy.workspace.save_workspace_ini(filename, env)
+            elif fmat == "json":
+                filename = name + ".SLogJ"
                 filename = os.path.abspath(filename)
                 result = libsipy.workspace.save_workspace_json(filename, env)
             retR = "Environment saved as %s. Format = %s" % (filename, fmat)
