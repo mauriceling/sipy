@@ -68,6 +68,7 @@ class SiPy_Shell(object):
         self.modules = [m for m in dir(libsipy) 
                         if m not in ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']]
         self.result = {}
+        self.timestamp = {}
         # Plugin Manager Initialization
         self.sipy_pm = PluginManager(self.environment)
         try:
@@ -1372,7 +1373,7 @@ class SiPy_Shell(object):
             """
             environment combine
             """
-            env = {"count": self.count, "environment": self.environment, "history": self.history, "data": self.data, "result": self.result}
+            env = {"count": self.count, "environment": self.environment, "history": self.history, "data": self.data, "result": self.result, "timestamp": self.timestamp}
             retR = "Environmental variables = %s" % env
         elif operand[0].lower() == "del-all":
             """
@@ -1450,18 +1451,21 @@ class SiPy_Shell(object):
             """
             filepath = os.path.abspath(kwargs["path"])
             if "format" in kwargs: fmat = kwargs["format"]
-            else: fmat = "json"
-            if fmat == "hdf5":
-                env = libsipy.workspace.load_workspace_hdf5(filepath)
-            elif fmat == "ini":
+            else: fmat = "ini"
+            if fmat == "ini":
                 env = libsipy.workspace.load_workspace_ini(filepath)
             elif fmat == "json":
                 env = libsipy.workspace.load_workspace_json(filepath)
+            """
+            if fmat == "hdf5":
+                env = libsipy.workspace.load_workspace_hdf5(filepath)
+            """
             self.count = env["count"]
             self.environment = env["environment"]
             self.history = env["history"]
             self.data = env["data"]
             self.result = env["result"]
+            self.timestamp = env["timestamp"]
             retR = "Environment loaded from %s. Format = %s" % (filepath, fmat)
         elif operand[0].lower() == "save":
             """
@@ -1477,16 +1481,18 @@ class SiPy_Shell(object):
             normality kurtosis data=z
             environment save name=wspace format=json
             """
-            env = {"count": self.count, "environment": self.environment, "history": self.history, "data": self.data, "result": self.result}
+            env = {"count": self.count, "environment": self.environment, "history": self.history, "data": self.data, "result": self.result, "timestamp": self.timestamp}
             if "name" in kwargs: name = kwargs["name"]
             else: name = "workspace"
             if "format" in kwargs: fmat = kwargs["format"]
-            else: fmat = "json"
+            else: fmat = "ini"
+            """
             if fmat == "hdf5":
                 filename = name + ".SEnvH5"
                 filename = os.path.abspath(filename)
                 result = libsipy.workspace.save_workspace_hdf5(filename, env)
-            elif fmat == "ini":
+            """
+            if fmat == "ini":
                 filename = name + ".SEnvI"
                 filename = os.path.abspath(filename)
                 result = libsipy.workspace.save_workspace_ini(filename, env)
@@ -3643,6 +3649,7 @@ class SiPy_Shell(object):
             show {available_plugins|environment|history|modules}
             show item <history number>
             show result
+            show timestamp
 
         @return: String containing results of command execution
         """
@@ -3668,6 +3675,11 @@ class SiPy_Shell(object):
             for x in self.history: 
                 retR = self.history
                 print("%s: %s" % (str(x), str(self.history[x])))
+        elif operand[0].lower() in ["timestamp", "ts", "t"]:
+            # show timestamp
+            for x in self.timestamp: 
+                retR = self.timestamp
+                print("%s: %s" % (str(x), str(self.timestamp[x])))
         elif operand[0].lower() in ["environment", "env", "e"]:
             # # show environment
             for x in self.environment: 
@@ -3678,9 +3690,11 @@ class SiPy_Shell(object):
             item = str(int(operand[1]))
             try:
                 retR = ["Command: %s" % (str(self.history[item])),
-                        "Result: %s" % (str(self.result[item]))]
+                        "Result: %s" % (str(self.result[item])),
+                        "Timestamp: %s" % (str(self.timestamp[item]))]
                 print(retR[0])
                 print(retR[1])
+                print(retR[2])
                 retR = "\n".join(retR)
             except KeyError:
                 retR = "Item %s not found" % item
@@ -4356,6 +4370,7 @@ class SiPy_Shell(object):
                     (operand, kwargs) = dictionize(statement[1:])
                     retR = self.command_processor(operator, operand, kwargs)
             self.result[str(self.count)] = retR
+            self.timestamp[str(self.count)] = ";".join([str(time.time()), str(datetime.datetime.now())])
             self.count = self.count + 1
             return retR
         except:

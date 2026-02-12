@@ -71,7 +71,8 @@ def save_workspace_json(filepath, workspace_dict):
         "environment": workspace_dict.get("environment", {}),
         "history": workspace_dict.get("history", {}),
         "data": _serialize_data_json(workspace_dict.get("data", {})),
-        "result": workspace_dict.get("result", {})
+        "result": workspace_dict.get("result", {}),
+        "timestamp": workspace_dict.get("timestamp", {})
     }
 
     with open(filepath, "w", encoding="utf-8") as f:
@@ -85,19 +86,25 @@ def load_workspace_json(filepath):
     with open(filepath, "r", encoding="utf-8") as f:
         raw = json.load(f)
 
+    environment = raw.get("environment", {})
+    for k in environment:
+        if environment[k] == "True": environment[k] = True
+        if environment[k] == "False": environment[k] = False
+
     workspace = {
         "count": raw.get("count", 0),
-        "environment": raw.get("environment", {}),
+        "environment": environment,
         "history": raw.get("history", {}),
         "data": _deserialize_data_json(raw.get("data", {})),
-        "result": raw.get("result", {})
+        "result": raw.get("result", {}),
+        "timestamp": raw.get("timestamp", {})
     }
 
     return workspace
 
 
 # -----------------------------
-# HDF5 Save / Load
+# HDF5 Save / Load - Not to be used yet
 # -----------------------------
 def save_workspace_hdf5(filepath, workspace_dict):
     """Save workspace to HDF5 (efficient for large datasets)."""
@@ -107,7 +114,8 @@ def save_workspace_hdf5(filepath, workspace_dict):
         "count": workspace_dict.get("count", 0),
         "environment": workspace_dict.get("environment", {}),
         "history": workspace_dict.get("history", {}),
-        "result": workspace_dict.get("result", {})
+        "result": workspace_dict.get("result", {}),
+        "timestamp": workspace_dict.get("timestamp", {})
     }
 
     # Save metadata as JSON string inside HDF5
@@ -203,10 +211,11 @@ def save_workspace_ini(filepath, workspace_dict):
         "count": str(workspace_dict.get("count", 0))
     }
 
-    # Environment, history, result — all strings
+    # Environment, history, result, timestamp — all strings
     config["environment"] = {k: str(v) for k, v in workspace_dict.get("environment", {}).items()}
     config["history"] = {k: str(v) for k, v in workspace_dict.get("history", {}).items()}
     config["result"] = {k: str(v) for k, v in workspace_dict.get("result", {}).items()}
+    config["timestamp"] = {k: str(v) for k, v in workspace_dict.get("timestamp", {}).items()}
 
     # Data (Series + DataFrames → tagged JSON)
     config["data"] = {}
@@ -245,10 +254,16 @@ def load_workspace_ini(filepath):
         except Exception:
             data[k] = v  # fallback: keep raw string
 
+    environment = dict(config["environment"])
+    for k in environment:
+        if environment[k] == "True": environment[k] = True
+        if environment[k] == "False": environment[k] = False
+
     return {
         "count": int(config["meta"].get("count", 0)),
-        "environment": dict(config["environment"]),
+        "environment": environment,
         "history": dict(config["history"]),
         "result": dict(config["result"]),
+        "timestamp": dict(config["timestamp"]),
         "data": data
     }
