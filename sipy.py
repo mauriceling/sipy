@@ -1457,10 +1457,6 @@ class SiPy_Shell(object):
                 env = libsipy.workspace.load_workspace_ini(filepath)
             elif fmat == "json":
                 env = libsipy.workspace.load_workspace_json(filepath)
-            """
-            if fmat == "hdf5":
-                env = libsipy.workspace.load_workspace_hdf5(filepath)
-            """
             self.count = env["count"]
             self.environment = env["environment"]
             self.history = env["history"]
@@ -1486,13 +1482,6 @@ class SiPy_Shell(object):
             if "name" in kwargs: name = kwargs["name"]
             else: name = "workspace"
             if "format" in kwargs: fmat = kwargs["format"]
-            else: fmat = "ini"
-            """
-            if fmat == "hdf5":
-                filename = name + ".SEnvH5"
-                filename = os.path.abspath(filename)
-                result = libsipy.workspace.save_workspace_hdf5(filename, env)
-            """
             if fmat == "ini":
                 filename = name + ".SEnvI"
                 filename = os.path.abspath(filename)
@@ -1515,26 +1504,21 @@ class SiPy_Shell(object):
             mean geometric x
             normality kurtosis data=z
             environment execlog name=execution_log format=ini
+            environment execlog name=execution_log format=json
             """
-            env = {"count": self.count, "environment": self.environment, "history": self.history, "result": self.result, "timestamp": self.timestamp}
+            env = {"sipy_version": sipy_info.release_number, "sipy_codename": sipy_info.release_code_name, "environment": self.environment, "history": self.history, "result": self.result, "timestamp": self.timestamp}
             if "name" in kwargs: name = kwargs["name"]
             else: name = "workspace"
             if "format" in kwargs: fmat = kwargs["format"]
             else: fmat = "ini"
-            """
-            if fmat == "hdf5":
-                filename = name + ".SEnvH5"
-                filename = os.path.abspath(filename)
-                result = libsipy.workspace.save_workspace_hdf5(filename, env)
-            """
             if fmat == "ini":
                 filename = name + ".SLogI"
                 filename = os.path.abspath(filename)
-                result = libsipy.workspace.save_workspace_ini(filename, env)
+                result = libsipy.workspace.save_execution_log_ini(filename, env)
             elif fmat == "json":
                 filename = name + ".SLogJ"
                 filename = os.path.abspath(filename)
-                result = libsipy.workspace.save_workspace_json(filename, env)
+                result = libsipy.workspace.save_execution_log_json(filename, env)
             retR = "Environment saved as %s. Format = %s" % (filename, fmat)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()

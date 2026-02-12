@@ -63,6 +63,20 @@ def _deserialize_data_json(data_dict):
 # -----------------------------
 # JSON Save / Load
 # -----------------------------
+def save_execution_log_json(filepath, workspace_dict):
+    """Save execution log to JSON file (human-readable, cross-version safe)."""
+    to_store = {
+        "sipy_version": workspace_dict.get("sipy_version", 0),
+        "sipy_codename": workspace_dict.get("sipy_codename", 0),
+        "environment": workspace_dict.get("environment", {}),
+        "history": workspace_dict.get("history", {}),
+        "result": workspace_dict.get("result", {}),
+        "timestamp": workspace_dict.get("timestamp", {})
+    }
+
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(to_store, f, indent=2)
+
 def save_workspace_json(filepath, workspace_dict):
     """Save workspace to JSON file (human-readable, cross-version safe)."""
     to_store = {
@@ -74,7 +88,6 @@ def save_workspace_json(filepath, workspace_dict):
         "result": workspace_dict.get("result", {}),
         "timestamp": workspace_dict.get("timestamp", {})
     }
-    if to_store["data"] == {}: del to_store["data"]
 
     with open(filepath, "w", encoding="utf-8") as f:
         json.dump(to_store, f, indent=2)
@@ -103,106 +116,28 @@ def load_workspace_json(filepath):
 
     return workspace
 
-
-# -----------------------------
-# HDF5 Save / Load - Not to be used yet
-# -----------------------------
-def save_workspace_hdf5(filepath, workspace_dict):
-    """Save workspace to HDF5 (efficient for large datasets)."""
-    # Metadata: everything except 'data'
-    metadata = {
-        "version": version,
-        "count": workspace_dict.get("count", 0),
-        "environment": workspace_dict.get("environment", {}),
-        "history": workspace_dict.get("history", {}),
-        "result": workspace_dict.get("result", {}),
-        "timestamp": workspace_dict.get("timestamp", {})
-    }
-
-    # Save metadata as JSON string inside HDF5
-    store = pd.HDFStore(filepath, mode="w")
-    try:
-        store.put("metadata", pd.Series({"json": json.dumps(metadata)}))
-
-        # Save each DataFrame/Series separately
-        for name, obj in workspace_dict.get("data", {}).items():
-            if isinstance(obj, pd.DataFrame):
-                store.put(f"data/{name}", obj)
-            elif isinstance(obj, pd.Series):
-                store.put(f"data/{name}", obj.to_frame(name="value"))
-            else:
-                raise TypeError(f"Unsupported type {type(obj)} for {name}")
-    finally:
-        store.close()
-
-def load_workspace_hdf5(filepath):
-    """Load workspace from HDF5."""
-    if not os.path.exists(filepath):
-        raise FileNotFoundError(f"Workspace file not found: {filepath}")
-
-    store = pd.HDFStore(filepath, mode="r")
-    try:
-        # --- Load metadata safely ---
-        meta_obj = store["metadata"]
-
-        if isinstance(meta_obj, pd.DataFrame):
-            if "json" in meta_obj.columns:
-                metadata_json = meta_obj["json"].iloc[0]
-                metadata = json.loads(metadata_json)
-            else:
-                metadata = meta_obj.to_dict(orient="list")
-        elif isinstance(meta_obj, pd.Series):
-            if "json" in meta_obj.index:
-                metadata_json = meta_obj.loc["json"]
-                metadata = json.loads(metadata_json)
-            else:
-                # Maybe a single row Series
-                if len(meta_obj) == 1:
-                    metadata_json = meta_obj.iloc[0]
-                    try:
-                        metadata = json.loads(metadata_json)
-                    except Exception:
-                        metadata = {meta_obj.index[0]: metadata_json}
-                else:
-                    metadata = meta_obj.to_dict()
-        else:
-            # If it’s already a Python object
-            try:
-                metadata = json.loads(meta_obj)
-            except Exception:
-                metadata = meta_obj
-
-        # --- Load data ---
-        data = {}
-        for key in store.keys():
-            if key.startswith("/data/"):
-                name = key.split("/")[-1]
-                obj = store[key]
-                if (
-                    isinstance(obj, pd.DataFrame)
-                    and obj.shape[1] == 1
-                    and "value" in obj.columns
-                ):
-                    data[name] = obj["value"]  # restore Series
-                else:
-                    data[name] = obj
-
-        workspace = {
-            "count": metadata.get("count", 0) if isinstance(metadata, dict) else 0,
-            "environment": metadata.get("environment", {}) if isinstance(metadata, dict) else {},
-            "history": metadata.get("history", {}) if isinstance(metadata, dict) else {},
-            "result": metadata.get("result", {}) if isinstance(metadata, dict) else {},
-            "data": data,
-        }
-
-        return workspace
-    finally:
-        store.close()
-
-
 # -----------------------------
 # INI Save / Load
 # -----------------------------
+def save_execution_log_ini(filepath, workspace_dict):
+    config = configparser.ConfigParser()
+
+    # Metadata
+    config["sipy"] = {
+        "sipy_version": str(workspace_dict.get("sipy_version", 0)),
+        "sipy_codename": str(workspace_dict.get("sipy_codename", 0))
+    }
+
+    # Environment, history, result, timestamp — all strings
+    config["environment"] = {k: str(v) for k, v in workspace_dict.get("environment", {}).items()}
+    config["history"] = {k: str(v) for k, v in workspace_dict.get("history", {}).items()}
+    config["result"] = {k: str(v) for k, v in workspace_dict.get("result", {}).items()}
+    config["timestamp"] = {k: str(v) for k, v in workspace_dict.get("timestamp", {}).items()}
+
+    # Write to disk
+    with open(filepath, "w", encoding="utf-8") as f:
+        config.write(f)
+
 def save_workspace_ini(filepath, workspace_dict):
     config = configparser.ConfigParser()
 
@@ -228,7 +163,6 @@ def save_workspace_ini(filepath, workspace_dict):
         else:
             payload = {"__type__": "raw", "data": v}
         config["data"][k] = json.dumps(payload)
-    if config["data"] == {}: del config["data"]
 
     # Write to disk
     with open(filepath, "w", encoding="utf-8") as f:
