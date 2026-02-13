@@ -1506,7 +1506,14 @@ class SiPy_Shell(object):
             environment execlog name=execution_log format=ini
             environment execlog name=execution_log format=json
             """
-            env = {"sipy_version": sipy_info.release_number, "sipy_codename": sipy_info.release_code_name, "environment": self.environment, "history": self.history, "result": self.result, "timestamp": self.timestamp}
+            from importlib.metadata import distributions
+            packages = {}
+            for dist in distributions():
+                name = dist.metadata["Name"]
+                version = dist.version
+                packages[name] = version
+            print(packages)
+            env = {"sipy_version": sipy_info.release_number, "sipy_codename": sipy_info.release_code_name, "environment": self.environment, "history": self.history, "result": self.result, "timestamp": self.timestamp, "python_packages": packages}
             if "name" in kwargs: name = kwargs["name"]
             else: name = "workspace"
             if "format" in kwargs: fmat = kwargs["format"]
