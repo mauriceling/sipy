@@ -75,7 +75,6 @@ def save_execution_log_json(filepath, workspace_dict):
         "system_information": workspace_dict.get("system_information", {}),
         "important_python_packages": workspace_dict.get("important_python_packages", {}),
     }
-
     with open(filepath, "w", encoding="utf-8") as f:
         json.dump(to_store, f, indent=2)
 
@@ -123,22 +122,16 @@ def load_workspace_json(filepath):
 # -----------------------------
 def save_execution_log_ini(filepath, workspace_dict):
     config = configparser.ConfigParser()
-
-    # Metadata
     config["sipy"] = {
         "sipy_version": str(workspace_dict.get("sipy_version", 0)),
         "sipy_codename": str(workspace_dict.get("sipy_codename", 0))
     }
-
-    # Environment, history, result, timestamp — all strings
     config["environment"] = {k: str(v) for k, v in workspace_dict.get("environment", {}).items()}
     config["history"] = {k: str(v) for k, v in workspace_dict.get("history", {}).items()}
     config["result"] = {k: str(v) for k, v in workspace_dict.get("result", {}).items()}
     config["timestamp"] = {k: str(v) for k, v in workspace_dict.get("timestamp", {}).items()}
     config["system_information"] = {k: str(v) for k, v in workspace_dict.get("system_information", {}).items()}
     config["important_python_packages"] = {k: str(v) for k, v in workspace_dict.get("important_python_packages", {}).items()}
-
-    # Write to disk
     with open(filepath, "w", encoding="utf-8") as f:
         config.write(f)
 
