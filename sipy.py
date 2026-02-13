@@ -1506,14 +1506,36 @@ class SiPy_Shell(object):
             environment execlog name=execution_log format=ini
             environment execlog name=execution_log format=json
             """
+            import platform
+            import socket
+            import uuid
             from importlib.metadata import distributions
+            system_information = {}
+            system_information["OS_System"] = platform.system()
+            system_information["OS_Node_Name"] = platform.node()
+            system_information["OS_Release"] = platform.release()
+            system_information["OS_Version"] = platform.version()
+            system_information["OS_Machine"] = platform.machine()
+            system_information["OS_Processor"] = platform.processor()
+            system_information["Python_Version"] = platform.python_version()
+            system_information["Python_Build"] = platform.python_build()
+            system_information["Python_Compiler"] = platform.python_compiler()
+            system_information["Python_Executable_Path"] = sys.executable
+            system_information["CPU_Count"] = os.cpu_count()
+            system_information["Network_Hostname"] = socket.gethostname()
+            try:
+                system_information["IP Address"] = socket.gethostbyname(socket.gethostname())
+            except Exception:
+                system_information["IP Address"] = "Unable to determine"
+            system_information["MAC_Address"] = ':'.join(['{:02x}'.format((uuid.getnode() >> ele) & 0xff) for ele in range(40, -1, -8)])
+            system_information["User"] = os.environ.get('USERNAME') or os.environ.get('USER')
+            system_information["Platform"] = sys.platform
             packages = {}
             for dist in distributions():
                 name = dist.metadata["Name"]
                 version = dist.version
                 packages[name] = version
-            print(packages)
-            env = {"sipy_version": sipy_info.release_number, "sipy_codename": sipy_info.release_code_name, "environment": self.environment, "history": self.history, "result": self.result, "timestamp": self.timestamp, "python_packages": packages}
+            env = {"sipy_version": sipy_info.release_number, "sipy_codename": sipy_info.release_code_name, "environment": self.environment, "history": self.history, "result": self.result, "timestamp": self.timestamp, "system_information": system_information, "python_packages": packages}
             if "name" in kwargs: name = kwargs["name"]
             else: name = "workspace"
             if "format" in kwargs: fmat = kwargs["format"]

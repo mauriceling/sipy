@@ -72,6 +72,7 @@ def save_execution_log_json(filepath, workspace_dict):
         "history": workspace_dict.get("history", {}),
         "result": workspace_dict.get("result", {}),
         "timestamp": workspace_dict.get("timestamp", {}),
+        "system_information": workspace_dict.get("system_information", {}),
         "python_packages": workspace_dict.get("python_packages", {}),
     }
 
@@ -134,6 +135,7 @@ def save_execution_log_ini(filepath, workspace_dict):
     config["history"] = {k: str(v) for k, v in workspace_dict.get("history", {}).items()}
     config["result"] = {k: str(v) for k, v in workspace_dict.get("result", {}).items()}
     config["timestamp"] = {k: str(v) for k, v in workspace_dict.get("timestamp", {}).items()}
+    config["system_information"] = {k: str(v) for k, v in workspace_dict.get("system_information", {}).items()}
     config["python_packages"] = {k: str(v) for k, v in workspace_dict.get("python_packages", {}).items()}
 
     # Write to disk
