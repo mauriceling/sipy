@@ -69,6 +69,7 @@ def save_execution_log_json(filepath, workspace_dict):
         "sipy_version": workspace_dict.get("sipy_version", 0),
         "sipy_codename": workspace_dict.get("sipy_codename", 0),
         "environment": workspace_dict.get("environment", {}),
+        "log_generation_timestamp": workspace_dict.get("log_generation_timestamp", {}),
         "history": workspace_dict.get("history", {}),
         "result": workspace_dict.get("result", {}),
         "timestamp": workspace_dict.get("timestamp", {}),
@@ -127,6 +128,7 @@ def save_execution_log_ini(filepath, workspace_dict):
         "sipy_codename": str(workspace_dict.get("sipy_codename", 0))
     }
     config["environment"] = {k: str(v) for k, v in workspace_dict.get("environment", {}).items()}
+    config["log_generation_timestamp"] = {k: str(v) for k, v in workspace_dict.get("log_generation_timestamp", {}).items()}
     config["history"] = {k: str(v) for k, v in workspace_dict.get("history", {}).items()}
     config["result"] = {k: str(v) for k, v in workspace_dict.get("result", {}).items()}
     config["timestamp"] = {k: str(v) for k, v in workspace_dict.get("timestamp", {}).items()}

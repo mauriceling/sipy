@@ -1525,9 +1525,10 @@ class SiPy_Shell(object):
                 version = dist.version
                 if name in ["numpy", "scipy", "pandas", "statsmodels", "scikit-learn", "seaborn", "xarray", "pingouin"]:
                     packages[name] = version
-            env = {"sipy_version": sipy_info.release_number, "sipy_codename": sipy_info.release_code_name, "environment": self.environment, "history": self.history, "result": self.result, "timestamp": self.timestamp, "system_information": system_information, "important_python_packages": packages}
+            log_timestamp = {"UTC_epoch": time.time(), "Local_Time": str(datetime.datetime.now())}
+            env = {"sipy_version": sipy_info.release_number, "sipy_codename": sipy_info.release_code_name, "environment": self.environment, "log_generation_timestamp": log_timestamp, "history": self.history, "result": self.result, "timestamp": self.timestamp, "system_information": system_information, "important_python_packages": packages}
             if "name" in kwargs: name = kwargs["name"]
-            else: name = "workspace"
+            else: name = "execution_log"
             if "format" in kwargs: fmat = kwargs["format"]
             else: fmat = "ini"
             if fmat == "ini":
