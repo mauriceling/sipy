@@ -1538,7 +1538,7 @@ class SiPy_Shell(object):
                 filename = name + ".SLogJ"
                 filename = os.path.abspath(filename)
                 result = libsipy.workspace.save_execution_log_json(filename, env)
-            retR = "Environment saved as %s. Format = %s" % (filename, fmat)
+            retR = "Execution log saved as %s. Format = %s" % (filename, fmat)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()
         print(retR)
