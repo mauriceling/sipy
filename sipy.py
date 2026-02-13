@@ -1523,8 +1523,9 @@ class SiPy_Shell(object):
             for dist in distributions():
                 name = dist.metadata["Name"]
                 version = dist.version
-                packages[name] = version
-            env = {"sipy_version": sipy_info.release_number, "sipy_codename": sipy_info.release_code_name, "environment": self.environment, "history": self.history, "result": self.result, "timestamp": self.timestamp, "system_information": system_information, "python_packages": packages}
+                if name in ["numpy", "scipy", "pandas", "statsmodels", "scikit-learn", "seaborn", "xarray", "pingouin"]:
+                    packages[name] = version
+            env = {"sipy_version": sipy_info.release_number, "sipy_codename": sipy_info.release_code_name, "environment": self.environment, "history": self.history, "result": self.result, "timestamp": self.timestamp, "system_information": system_information, "important_python_packages": packages}
             if "name" in kwargs: name = kwargs["name"]
             else: name = "workspace"
             if "format" in kwargs: fmat = kwargs["format"]
