@@ -75,6 +75,8 @@ def save_execution_log_json(filepath, workspace_dict):
         "timestamp": workspace_dict.get("timestamp", {}),
         "system_information": workspace_dict.get("system_information", {}),
         "important_python_packages": workspace_dict.get("important_python_packages", {}),
+        "r_version": workspace_dict.get("r_version", 0),
+        "julia_version": workspace_dict.get("julia_version", 0),
     }
     with open(filepath, "w", encoding="utf-8") as f:
         json.dump(to_store, f, indent=2)
@@ -134,6 +136,8 @@ def save_execution_log_ini(filepath, workspace_dict):
     config["timestamp"] = {k: str(v) for k, v in workspace_dict.get("timestamp", {}).items()}
     config["system_information"] = {k: str(v) for k, v in workspace_dict.get("system_information", {}).items()}
     config["important_python_packages"] = {k: str(v) for k, v in workspace_dict.get("important_python_packages", {}).items()}
+    config["r"] = {"r_version": str(workspace_dict.get("r_version", 0))}
+    config["julia"] = {"julia_version": str(workspace_dict.get("julia_version", 0))}
     with open(filepath, "w", encoding="utf-8") as f:
         config.write(f)
 

@@ -1523,10 +1523,18 @@ class SiPy_Shell(object):
             for dist in distributions():
                 name = dist.metadata["Name"]
                 version = dist.version
-                if name in ["numpy", "scipy", "pandas", "statsmodels", "scikit-learn", "seaborn", "xarray", "pingouin"]:
+                if name in ["numpy", "scipy", "pandas", "statsmodels", "scikit-learn", "xarray", "pingouin", "threadpoolctl", "libblas", "liblapack", "libgomp", "llvm-openmp", "python_abi"]:
                     packages[name] = version
+            try:
+                r_version = subprocess.run([self.environment["rscript_exe"], "-e", "cat(R.version.string)"], capture_output=True, text=True, check=True).stdout.strip()
+            except Exception as e:
+                r_version = f"R version not available ({e})"
+            try:
+                julia_version = subprocess.run([self.environment["julia_exe"], "-e", "print(VERSION)"], capture_output=True, text=True, check=True).stdout.strip()
+            except Exception as e:
+                julia_version = f"Julia version not available ({e})"
             log_timestamp = {"UTC_epoch": time.time(), "Local_Time": str(datetime.datetime.now())}
-            env = {"sipy_version": sipy_info.release_number, "sipy_codename": sipy_info.release_code_name, "environment": self.environment, "log_generation_timestamp": log_timestamp, "history": self.history, "result": self.result, "timestamp": self.timestamp, "system_information": system_information, "important_python_packages": packages}
+            env = {"sipy_version": sipy_info.release_number, "sipy_codename": sipy_info.release_code_name, "environment": self.environment, "log_generation_timestamp": log_timestamp, "history": self.history, "result": self.result, "timestamp": self.timestamp, "system_information": system_information, "important_python_packages": packages, "r_version": r_version, "julia_version": julia_version}
             if "name" in kwargs: name = kwargs["name"]
             else: name = "execution_log"
             if "format" in kwargs: fmat = kwargs["format"]
