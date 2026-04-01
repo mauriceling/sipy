@@ -21,9 +21,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
 draft = False
 
-release_number = "0.8.0"
-release_code_name = "Mango Yoghurt Cake"
-release_day = "09 January"
+release_number = "0.9.0"
+release_code_name = "Chocolate Banana Muffin"
+release_day = "01 April"
 release_year = "2026"
 release_date = " ".join([release_day, release_year])
 
@@ -56,10 +56,12 @@ Current and Past Contributors:
 """
 
 citations = """
-To cite SiPy in publications, use
+To cite SiPy in publications, use the following papers appropriately:
 
     Tan, NTF, Mugundhan, M, Liu, T, Tan, RYH, Tang, AY, Sim, BJH, Tan, JZH, Ling, MHT. 2025. SiPy – Bringing Python and R to the End-User in a Plugin-Extensible System. Medicon Medical Sciences 8(6): 32-41. https://doi.org/10.55162/MCMS.08.295
     Ambel, W, Ling, MHT. 2026. SiPy 0.7.0 – R-Based ANOVA and Survival Analyses. Open Access Journal of Science 9: 1-5.
+    Ling, MHT. 2026. SiPy 0.8.0 on the Three Legs of Python, R, and Julia. Acta Scientific Computer Sciences 8(1): 01-09.
+    Ambel, W, Ling, MHT. 2026. SiPy Kernel for Jupyter. Medical - Clinical - Research 2(3):59-65.
 
 We have invested a lot of time and effort in creating SiPy,please cite it when using it.
 """
