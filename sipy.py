@@ -21,6 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
 import datetime
 import os
+from pathlib import Path
 import shlex
 import shutil
 import subprocess
@@ -33,7 +34,6 @@ warnings.filterwarnings("ignore")
 
 import numpy
 import pandas as pd
-import FreeSimpleGUI as sg
 
 import libsipy
 import sipy_info
@@ -4543,6 +4543,8 @@ class SiPy_Shell(object):
         """!
         Basic GUI for SiPy using FreeSimpleGUI.
         """
+        try: import FreeSimpleGUI as sg
+        except ImportError: print("FreeSimpleGUI cannot be imported.")
         sg.theme("DarkGreen3")
         layout = [[sg.Text("Output Window", size=(40, 1))],
                   [sg.Multiline(size=(100, 20), 
@@ -4585,6 +4587,9 @@ def run_jupyter(cwd=os.getcwd()):
     sipy_py_path = cwd + os.sep + "sipy.py"
     custom_env = os.environ.copy()
     custom_env["SIPY_PY"] = sipy_py_path
+    # Add Scripts directory to PATH for portable Python
+    scripts_dir = str(Path(sys.executable).parent / "Scripts")
+    custom_env["PATH"] = scripts_dir + os.pathsep + custom_env.get("PATH", "")
     print(f"Changing directory to: {target_dir}")
     subprocess.run(
         [sys.executable, "-m", "pip", "install", "-e", "."], 
@@ -4592,7 +4597,7 @@ def run_jupyter(cwd=os.getcwd()):
         check=True)
     print("Pip install complete.")
     subprocess.run(
-        ["sipy-kernel-install"], 
+        [str(Path(sys.executable).parent / "Scripts" / "sipy-kernel-install")], 
         cwd=target_dir, 
         env=custom_env, 
         check=True)
@@ -4609,7 +4614,7 @@ def run_jupyter(cwd=os.getcwd()):
         print("You can find the URL/token in the terminal output or likely in nohup.out file in the sipy_kernel directory.")
     else: # Windows (might require different handling for backgrounding)
         print("Launching Jupyter Lab (Windows mode). It will block this script until closed.")
-        subprocess.run(["jupyter", "lab"], cwd=cwd, env=custom_env)
+        subprocess.run([str(Path(sys.executable).parent / "Scripts" / "jupyter"), "lab"], cwd=cwd, env=custom_env)
 
 if __name__ == "__main__":
     shell = SiPy_Shell()
