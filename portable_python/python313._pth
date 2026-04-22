@@ -1,0 +1,8 @@
+python313.zip
+.
+
+# Uncomment to run site.main() automatically
+import site
+Lib\site-packages
+..\
+..\sipy_kernel
