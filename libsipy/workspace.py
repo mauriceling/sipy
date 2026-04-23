@@ -68,15 +68,14 @@ def save_execution_log_json(filepath, workspace_dict):
     to_store = {
         "sipy_version": workspace_dict.get("sipy_version", 0),
         "sipy_codename": workspace_dict.get("sipy_codename", 0),
+        "sipy_release_date": workspace_dict.get("sipy_release_date", 0),
         "environment": workspace_dict.get("environment", {}),
         "log_generation_timestamp": workspace_dict.get("log_generation_timestamp", {}),
         "history": workspace_dict.get("history", {}),
         "result": workspace_dict.get("result", {}),
         "timestamp": workspace_dict.get("timestamp", {}),
         "system_information": workspace_dict.get("system_information", {}),
-        "important_python_packages": workspace_dict.get("important_python_packages", {}),
-        "r_version": workspace_dict.get("r_version", 0),
-        "julia_version": workspace_dict.get("julia_version", 0),
+        "important_python_packages": workspace_dict.get("important_python_packages", {})
     }
     with open(filepath, "w", encoding="utf-8") as f:
         json.dump(to_store, f, indent=2)
@@ -127,7 +126,8 @@ def save_execution_log_ini(filepath, workspace_dict):
     config = configparser.ConfigParser()
     config["sipy"] = {
         "sipy_version": str(workspace_dict.get("sipy_version", 0)),
-        "sipy_codename": str(workspace_dict.get("sipy_codename", 0))
+        "sipy_codename": str(workspace_dict.get("sipy_codename", 0)),
+        "sipy_release_date": str(workspace_dict.get("sipy_release_date", 0))
     }
     config["environment"] = {k: str(v) for k, v in workspace_dict.get("environment", {}).items()}
     config["log_generation_timestamp"] = {k: str(v) for k, v in workspace_dict.get("log_generation_timestamp", {}).items()}
@@ -136,8 +136,6 @@ def save_execution_log_ini(filepath, workspace_dict):
     config["timestamp"] = {k: str(v) for k, v in workspace_dict.get("timestamp", {}).items()}
     config["system_information"] = {k: str(v) for k, v in workspace_dict.get("system_information", {}).items()}
     config["important_python_packages"] = {k: str(v) for k, v in workspace_dict.get("important_python_packages", {}).items()}
-    config["r"] = {"r_version": str(workspace_dict.get("r_version", 0))}
-    config["julia"] = {"julia_version": str(workspace_dict.get("julia_version", 0))}
     with open(filepath, "w", encoding="utf-8") as f:
         config.write(f)
 
