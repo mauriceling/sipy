@@ -51,7 +51,6 @@ class SiPy_Shell(object):
         """
         self.count = 1
         self.data = {}
-        
         self.environment = {"cwd": os.getcwd(),
                             "julia_exe": libsipy.utils.find_julia_executable(),
                             "plugin_directory": "sipy_plugins",
@@ -64,6 +63,16 @@ class SiPy_Shell(object):
                             "sipy_directory": os.getcwd(),
                             "timing": False,
                             "verbosity": 0}
+        sipy_dir = Path(self.environment["sipy_directory"]).resolve()
+        python_path = Path(self.environment["python_exe"]).resolve()
+        if sipy_dir in python_path.parents: self.environment["python_mode"] = "embedded"
+        else: self.environment["python_mode"] = "external"
+        julia_path = Path(self.environment["julia_exe"]).resolve()
+        if sipy_dir in julia_path.parents: self.environment["julia_mode"] = "embedded"
+        else: self.environment["julia_mode"] = "external"
+        rscript_path = Path(self.environment["rscript_exe"]).resolve()
+        if sipy_dir in rscript_path.parents: self.environment["rscript_mode"] = "embedded"
+        else: self.environment["rscript_mode"] = "external"
         self.history = {}
         self.modules = [m for m in dir(libsipy) 
                         if m not in ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']]
@@ -1519,12 +1528,6 @@ class SiPy_Shell(object):
             system_information["Python_Compiler"] = platform.python_compiler()
             system_information["CPU_Count"] = os.cpu_count()
             system_information["Platform"] = sys.platform
-            packages = {}
-            for dist in distributions():
-                name = dist.metadata["Name"]
-                version = dist.version
-                if name in ["numpy", "scipy", "pandas", "statsmodels", "scikit-learn", "xarray", "pingouin", "threadpoolctl", "libblas", "liblapack", "libgomp", "llvm-openmp", "python_abi"]:
-                    packages[name] = version
             try:
                 r_version = subprocess.run([self.environment["rscript_exe"], "-e", "cat(R.version.string)"], capture_output=True, text=True, check=True).stdout.strip()
             except Exception as e:
@@ -1533,8 +1536,16 @@ class SiPy_Shell(object):
                 julia_version = subprocess.run([self.environment["julia_exe"], "-e", "print(VERSION)"], capture_output=True, text=True, check=True).stdout.strip()
             except Exception as e:
                 julia_version = f"Julia version not available ({e})"
+            system_information["R_Version"] = r_version
+            system_information["Julia_Version"] = julia_version
+            packages = {}
+            for dist in distributions():
+                name = dist.metadata["Name"]
+                version = dist.version
+                if name in ["numpy", "scipy", "pandas", "statsmodels", "scikit-learn", "xarray", "pingouin", "threadpoolctl", "libblas", "liblapack", "libgomp", "llvm-openmp", "python_abi"]:
+                    packages[name] = version
             log_timestamp = {"UTC_epoch": time.time(), "Local_Time": str(datetime.datetime.now())}
-            env = {"sipy_version": sipy_info.release_number, "sipy_codename": sipy_info.release_code_name, "environment": self.environment, "log_generation_timestamp": log_timestamp, "history": self.history, "result": self.result, "timestamp": self.timestamp, "system_information": system_information, "important_python_packages": packages, "r_version": r_version, "julia_version": julia_version}
+            env = {"sipy_version": sipy_info.release_number, "sipy_codename": sipy_info.release_code_name, "sipy_release_date": sipy_info.release_date,"environment": self.environment, "log_generation_timestamp": log_timestamp, "history": self.history, "result": self.result, "timestamp": self.timestamp, "system_information": system_information, "important_python_packages": packages}
             if "name" in kwargs: name = kwargs["name"]
             else: name = "execution_log"
             if "format" in kwargs: fmat = kwargs["format"]
