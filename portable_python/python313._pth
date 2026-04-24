@@ -5,4 +5,3 @@ python313.zip
 import site
 Lib\site-packages
 ..\
-..\sipy_kernel

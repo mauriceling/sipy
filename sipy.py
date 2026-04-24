@@ -4615,7 +4615,7 @@ def run_jupyter(cwd=os.getcwd()):
     print("sipy-kernel-install complete.")
     if os.name == 'posix': # Linux/macOS
         print("Launching Jupyter Lab in the background...")
-        subprocess.Popen(["nohup", "jupyter", "lab", "--no-browser", "&"], 
+        subprocess.Popen(["nohup", sys.executable, "-c", "from jupyterlab.labapp import main; main()", "--no-browser", "&"], 
                          cwd=cwd, 
                          env=custom_env, 
                          shell=True,
@@ -4625,7 +4625,10 @@ def run_jupyter(cwd=os.getcwd()):
         print("You can find the URL/token in the terminal output or likely in nohup.out file in the sipy_kernel directory.")
     else: # Windows (might require different handling for backgrounding)
         print("Launching Jupyter Lab (Windows mode). It will block this script until closed.")
-        subprocess.run([str(Path(sys.executable).parent / "Scripts" / "jupyter"), "lab"], cwd=cwd, env=custom_env)
+        print("Command: %s" % [sys.executable, "-c", "from jupyterlab.labapp import main; main()"])
+        print("CWD: %s" % cwd)
+        print("Environment (env): %s" % custom_env)
+        subprocess.run([sys.executable, "-c", "from jupyterlab.labapp import main; main()"], cwd=cwd, env=custom_env)
 
 if __name__ == "__main__":
     shell = SiPy_Shell()
