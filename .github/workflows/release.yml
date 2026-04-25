@@ -1,0 +1,38 @@
+# .github/workflows/release.yml
+name: Build Portable SiPy ZIP
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-zip:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build portable ZIP
+        run: |
+          VERSION="${{ github.ref_name }}"
+          VERSION="${VERSION#v}"
+          RELEASE_NAME="Portable-SiPy-${VERSION}"
+          
+          rsync -av \
+            --exclude='.github' \
+            --exclude='.ipynb_checkpoints' \
+            --exclude='manuscript' \
+            --exclude='test_reports' \
+            --exclude='*.log' \
+            --exclude='*.SlogI' \
+            --exclude='*.SlogJ' \
+            --exclude='*.pyc' \
+            ./ ./${RELEASE_NAME}/
+          
+          zip -r ${RELEASE_NAME}.zip ${RELEASE_NAME}/
+
+      - name: Upload ZIP to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: Portable-SiPy-${{ github.ref_name }}
+          files: Portable-SiPy-*.zip
