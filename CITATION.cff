@@ -1,0 +1,98 @@
+cff-version: 1.2.0
+title: "Statistics in Python (SiPy): Python-Based Statistical Graphical User Interface for R/Python"
+version: 0.10.0
+date-released: 2026-04-25
+license: GPL-3.0
+repository-code: https://github.com/mauriceling/sipy
+url: https://github.com/mauriceling/sipy/wiki
+abstract: >
+  SiPy is a free, plugin-extensible statistical interface that brings
+  Python (SciPy/pandas), R, and Julia backends to end-users without
+  requiring programming knowledge. It is designed to occupy the
+  underserved quadrant of statistical tools that are simultaneously
+  free and easy to use, and is available as a command-line shell,
+  a Jupyter kernel, and a portable Windows application.
+
+authors:
+  - family-names: Ling
+    given-names: Maurice HT
+    email: mauriceling@acm.org
+    orcid: https://orcid.org/0000-0003-3562-4836
+
+keywords:
+  - statistics
+  - data analysis
+  - Python
+  - R
+  - Julia
+  - SciPy
+  - pandas
+  - Jupyter
+  - education
+  - research
+
+preferred-citation:
+  type: article
+  title: "SiPy – Bringing Python and R to the End-User in a Plugin-Extensible System"
+  authors:
+    - family-names: Tan
+      given-names: Nicholas TF
+    - family-names: Mugundhan
+      given-names: Mathialagan
+    - family-names: Liu
+      given-names: Tiantong
+    - family-names: Tan
+      given-names: Rick YH
+    - family-names: Tang
+      given-names: Alexander Y
+    - family-names: Sim
+      given-names: Bryan JH
+    - family-names: Tan
+      given-names: Jensen ZH
+    - family-names: Ling
+      given-names: Maurice HT
+  journal: "Medicon Medical Sciences"
+  volume: 8
+  issue: 6
+  start: 32
+  end: 41
+  year: 2025
+  doi: 10.55162/MCMS.08.295
+
+references:
+  - type: article
+    title: "SiPy 0.7.0 – R-Based ANOVA and Survival Analyses"
+    authors:
+      - family-names: Ambel
+        given-names: Wira
+      - family-names: Ling
+        given-names: Maurice HT
+    journal: "Open Access Journal of Science"
+    volume: 9
+    year: 2026
+
+  - type: article
+    title: "SiPy 0.8.0 on the Three Legs of Python, R, and Julia"
+    authors:
+      - family-names: Ling
+        given-names: Maurice HT
+    journal: "Acta Scientific Computer Sciences"
+    volume: 8
+    issue: 1
+    start: 1
+    end: 9
+    year: 2026
+
+  - type: article
+    title: "SiPy Kernel for Jupyter Notebook / JupyterLab"
+    authors:
+      - family-names: Ambel
+        given-names: Wira
+      - family-names: Ling
+        given-names: Maurice HT
+    journal: "Medical - Clinical - Research"
+    volume: 2
+    issue: 3
+    start: 59
+    end: 65
+    year: 2026
