@@ -63,23 +63,6 @@ def _deserialize_data_json(data_dict):
 # -----------------------------
 # JSON Save / Load
 # -----------------------------
-def save_execution_log_json(filepath, workspace_dict):
-    """Save execution log to JSON file (human-readable, cross-version safe)."""
-    to_store = {
-        "sipy_version": workspace_dict.get("sipy_version", 0),
-        "sipy_codename": workspace_dict.get("sipy_codename", 0),
-        "sipy_release_date": workspace_dict.get("sipy_release_date", 0),
-        "environment": workspace_dict.get("environment", {}),
-        "log_generation_timestamp": workspace_dict.get("log_generation_timestamp", {}),
-        "history": workspace_dict.get("history", {}),
-        "result": workspace_dict.get("result", {}),
-        "timestamp": workspace_dict.get("timestamp", {}),
-        "system_information": workspace_dict.get("system_information", {}),
-        "important_python_packages": workspace_dict.get("important_python_packages", {})
-    }
-    with open(filepath, "w", encoding="utf-8") as f:
-        json.dump(to_store, f, indent=2)
-
 def save_workspace_json(filepath, workspace_dict):
     """Save workspace to JSON file (human-readable, cross-version safe)."""
     to_store = {
@@ -122,23 +105,6 @@ def load_workspace_json(filepath):
 # -----------------------------
 # INI Save / Load
 # -----------------------------
-def save_execution_log_ini(filepath, workspace_dict):
-    config = configparser.ConfigParser()
-    config["sipy"] = {
-        "sipy_version": str(workspace_dict.get("sipy_version", 0)),
-        "sipy_codename": str(workspace_dict.get("sipy_codename", 0)),
-        "sipy_release_date": str(workspace_dict.get("sipy_release_date", 0))
-    }
-    config["environment"] = {k: str(v) for k, v in workspace_dict.get("environment", {}).items()}
-    config["log_generation_timestamp"] = {k: str(v) for k, v in workspace_dict.get("log_generation_timestamp", {}).items()}
-    config["history"] = {k: str(v) for k, v in workspace_dict.get("history", {}).items()}
-    config["result"] = {k: str(v) for k, v in workspace_dict.get("result", {}).items()}
-    config["timestamp"] = {k: str(v) for k, v in workspace_dict.get("timestamp", {}).items()}
-    config["system_information"] = {k: str(v) for k, v in workspace_dict.get("system_information", {}).items()}
-    config["important_python_packages"] = {k: str(v) for k, v in workspace_dict.get("important_python_packages", {}).items()}
-    with open(filepath, "w", encoding="utf-8") as f:
-        config.write(f)
-
 def save_workspace_ini(filepath, workspace_dict):
     config = configparser.ConfigParser()
 

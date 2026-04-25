@@ -1515,37 +1515,19 @@ class SiPy_Shell(object):
             environment execlog name=execution_log format=ini
             environment execlog name=execution_log format=json
             """
-            import platform
-            from importlib.metadata import distributions
-            system_information = {}
-            system_information["OS_System"] = platform.system()
-            system_information["OS_Release"] = platform.release()
-            system_information["OS_Version"] = platform.version()
-            system_information["OS_Machine"] = platform.machine()
-            system_information["OS_Processor"] = platform.processor()
-            system_information["Python_Version"] = platform.python_version()
-            system_information["Python_Build"] = platform.python_build()
-            system_information["Python_Compiler"] = platform.python_compiler()
-            system_information["CPU_Count"] = os.cpu_count()
-            system_information["Platform"] = sys.platform
-            try:
-                r_version = subprocess.run([self.environment["rscript_exe"], "-e", "cat(R.version.string)"], capture_output=True, text=True, check=True).stdout.strip()
-            except Exception as e:
-                r_version = f"R version not available ({e})"
-            try:
-                julia_version = subprocess.run([self.environment["julia_exe"], "-e", "print(VERSION)"], capture_output=True, text=True, check=True).stdout.strip()
-            except Exception as e:
-                julia_version = f"Julia version not available ({e})"
-            system_information["R_Version"] = r_version
-            system_information["Julia_Version"] = julia_version
-            packages = {}
-            for dist in distributions():
-                name = dist.metadata["Name"]
-                version = dist.version
-                if name in ["numpy", "scipy", "pandas", "statsmodels", "scikit-learn", "xarray", "pingouin", "threadpoolctl", "libblas", "liblapack", "libgomp", "llvm-openmp", "python_abi"]:
-                    packages[name] = version
             log_timestamp = {"UTC_epoch": time.time(), "Local_Time": str(datetime.datetime.now())}
-            env = {"sipy_version": sipy_info.release_number, "sipy_codename": sipy_info.release_code_name, "sipy_release_date": sipy_info.release_date,"environment": self.environment, "log_generation_timestamp": log_timestamp, "history": self.history, "result": self.result, "timestamp": self.timestamp, "system_information": system_information, "important_python_packages": packages}
+            env = {
+                "sipy_version": sipy_info.release_number, 
+                "sipy_codename": sipy_info.release_code_name, 
+                "sipy_release_date": sipy_info.release_date,
+                "environment": self.environment, 
+                "log_generation_timestamp": log_timestamp, 
+                "history": self.history, 
+                "result": self.result, 
+                "timestamp": self.timestamp, 
+                "system_information": libsipy.execution_log.get_system_information(self.environment), 
+                "important_python_packages": libsipy.execution_log.get_package_information()
+                }
             if "name" in kwargs: name = kwargs["name"]
             else: name = "execution_log"
             if "format" in kwargs: fmat = kwargs["format"]
@@ -1553,11 +1535,11 @@ class SiPy_Shell(object):
             if fmat == "ini":
                 filename = name + ".SLogI"
                 filename = os.path.abspath(filename)
-                result = libsipy.workspace.save_execution_log_ini(filename, env)
+                result = libsipy.execution_log.save_execution_log_ini(filename, env)
             elif fmat == "json":
                 filename = name + ".SLogJ"
                 filename = os.path.abspath(filename)
-                result = libsipy.workspace.save_execution_log_json(filename, env)
+                result = libsipy.execution_log.save_execution_log_json(filename, env)
             retR = "Execution log saved as %s. Format = %s" % (filename, fmat)
         else: 
             retR = "Unknown sub-operation: %s" % operand[0].lower()

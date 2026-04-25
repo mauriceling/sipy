@@ -21,6 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from . import base
+from . import execution_log
 from . import data_wrangler
 from . import julia_wrap
 from . import plot
