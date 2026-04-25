@@ -1757,6 +1757,50 @@ class SiPy_Shell(object):
         print(retR)
         return retR
 
+    def do_log(self, operand, kwargs):
+        """!
+        Operations pertaining to execution logs.
+
+        Commands: 
+            log read name=<name of log file>
+            log save name=<name to save to> format=<format to save as>
+
+        @return: String containing results of command execution
+        """
+        if operand[0] == "read":
+            """
+            log read name=<name of log file>
+
+            Example:
+            log read name=execution_log.SLogI
+            log read name=execution_log.SLogJ
+            """
+            filepath = os.path.abspath(kwargs["name"])
+            if kwargs["name"].endswith(".SLogI"):
+                retR = libsipy.execution_log.load_execution_log_ini(filepath)
+            elif kwargs["name"].endswith(".SLogJ"):
+                retR = libsipy.execution_log.load_execution_log_json(filepath)
+        elif operand[0] == "save":
+            """
+            log save name=<name to save to> format=<format to save as>
+
+            Example:
+            let x be list 2,3,4,5,6,7,8,9
+            let X1 be list 1,2,3,4,5,6
+            let X2 be list 2,3,4,5,6,7
+            let X3 be list 3,4,5,6,7,8
+            let z be dataframe X1:X1 X2:X2 X3:X3
+            mean geometric x
+            normality kurtosis data=z
+            log save name=execution_log format=ini
+            log save name=execution_log format=json
+            """
+            retR = self.do_environment(['execlog'], kwargs)
+        else: 
+            retR = "Unknown sub-operation: %s" % operand[0].lower()
+        if operand[0].lower() not in ["save"]: print(retR)
+        return retR
+
     def do_mean(self, operand, kwargs):
         """!
         Calculating various means (arithmetic mean, geometric mean, harmonic mean) of the values.
@@ -4334,6 +4378,7 @@ class SiPy_Shell(object):
         elif operator == "execute": return self.do_execute(operand, kwargs)
         elif operator == "jregress": return self.do_Julia_regression(operand, kwargs)
         elif operator == "let": return self.do_let(operand, kwargs)
+        elif operator == "log": return self.do_log(operand, kwargs)
         elif operator == "mean": return self.do_mean(operand, kwargs)
         elif operator == "normality": return self.do_normality(operand, kwargs)
         elif operator == "plot": return self.do_plot(operand, kwargs)

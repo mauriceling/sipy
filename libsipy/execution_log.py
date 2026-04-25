@@ -98,3 +98,49 @@ def save_execution_log_ini(filepath, workspace_dict):
     with open(filepath, "w", encoding="utf-8") as f:
         config.write(f)
 
+
+def load_execution_log_ini(filepath):
+    if not os.path.exists(filepath):
+        raise FileNotFoundError(f"Execution log file not found: {filepath}")
+    config = configparser.ConfigParser()
+    config.read(filepath, encoding="utf-8")
+    sipy_info = dict(config["sipy"])
+    environment = dict(config["environment"])
+    for k in environment:
+        if environment[k] == "True": environment[k] = True
+        if environment[k] == "False": environment[k] = False
+    data = {"sipy_version": sipy_info["sipy_version"], 
+            "sipy_codename": sipy_info["sipy_codename"], 
+            "sipy_release_date": sipy_info["sipy_release_date"],
+            "environment": environment, 
+            "log_generation_timestamp": dict(config["log_generation_timestamp"]), 
+            "history": dict(config["history"]), 
+            "result": dict(config["result"]), 
+            "timestamp": dict(config["timestamp"]), 
+            "system_information": dict(config["system_information"]), 
+            "important_python_packages": dict(config["important_python_packages"])
+            }
+    return data
+
+
+def load_execution_log_json(filepath):
+    if not os.path.exists(filepath):
+        raise FileNotFoundError(f"Execution log file not found: {filepath}")
+    with open(filepath, "r", encoding="utf-8") as f:
+        raw = json.load(f)
+    environment = raw.get("environment", {})
+    for k in environment:
+        if environment[k] == "True": environment[k] = True
+        if environment[k] == "False": environment[k] = False
+    data = {"sipy_version": raw.get("sipy_version", None), 
+            "sipy_codename": raw.get("sipy_codename", None),  
+            "sipy_release_date": raw.get("sipy_release_date", None), 
+            "environment": environment, 
+            "log_generation_timestamp": raw.get("log_generation_timestamp", {}),  
+            "history": raw.get("history", {}), 
+            "result": raw.get("result", {}),  
+            "timestamp": raw.get("timestamp", {}), 
+            "system_information": raw.get("system_information", {}), 
+            "important_python_packages": raw.get("important_python_packages", {})
+            }
+    return data
