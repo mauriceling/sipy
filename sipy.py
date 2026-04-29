@@ -4453,6 +4453,7 @@ class SiPy_Shell(object):
             return retR
         try:
             self.history[str(self.count)] = statement
+            if self.environment["timing"]: start_time = time.time()
             if statement.lower() in ["citation", "citation;", "copyright", "copyright;", "credits", "credits;", "exit", "exit;", "license", "license;", "quit", "quit;"]:
                  retR = self.intercept_processor(statement)
                  if retR == "exit": return "exit"
@@ -4467,6 +4468,12 @@ class SiPy_Shell(object):
                     retR = self.command_processor(operator, operand, kwargs)
             self.result[str(self.count)] = retR
             self.timestamp[str(self.count)] = ";".join([str(time.time()), str(datetime.datetime.now())])
+            if self.environment["timing"]: 
+                try:
+                    end_time = time.time()
+                    elapsed_time = end_time - start_time
+                    print(f"The code executed in {elapsed_time:.5f} seconds")
+                except UnboundLocalError: pass
             self.count = self.count + 1
             return retR
         except:
@@ -4482,18 +4489,11 @@ class SiPy_Shell(object):
         """
         self.header()
         while True:
-            if self.environment["timing"]: start_time = time.time()
             statement = input("SiPy: %s %s " % (str(self.count), self.environment["prompt"])).strip() 
             if len(statement) == 0: pass
             elif statement.lower() in ["exit", "exit()"]: return 0
             elif statement.startswith("#"): continue
-            else: _ = self.interpret(statement)
-            if self.environment["timing"]: 
-                try:
-                    end_time = time.time()
-                    elapsed_time = end_time - start_time
-                    print(f"The code executed in {elapsed_time:.5f} seconds")
-                except UnboundLocalError: pass
+            else: _ = self.interpret(statement)  
             print("")
 
     def cmdScript(self, script):
