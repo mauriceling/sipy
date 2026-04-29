@@ -83,6 +83,7 @@ def save_execution_log_json(filepath, workspace_dict):
 
 def save_execution_log_ini(filepath, workspace_dict):
     config = configparser.ConfigParser()
+    config.optionxform = str  # Preserve case of keys
     config["sipy"] = {
         "sipy_version": str(workspace_dict.get("sipy_version", 0)),
         "sipy_codename": str(workspace_dict.get("sipy_codename", 0)),
@@ -103,6 +104,7 @@ def load_execution_log_ini(filepath):
     if not os.path.exists(filepath):
         raise FileNotFoundError(f"Execution log file not found: {filepath}")
     config = configparser.ConfigParser()
+    config.optionxform = str  # Preserve case of keys
     config.read(filepath, encoding="utf-8")
     sipy_info = dict(config["sipy"])
     environment = dict(config["environment"])
@@ -144,3 +146,106 @@ def load_execution_log_json(filepath):
             "important_python_packages": raw.get("important_python_packages", {})
             }
     return data
+
+"""
+env = {
+    "sipy_version": sipy_info.release_number, 
+    "sipy_codename": sipy_info.release_code_name, 
+    "sipy_release_date": sipy_info.release_date,
+    "environment": self.environment, 
+    "log_generation_timestamp": log_timestamp, 
+    "history": self.history, 
+    "result": self.result, 
+    "timestamp": self.timestamp, 
+    "system_information": libsipy.execution_log.get_system_information(self.environment), 
+    "important_python_packages": libsipy.execution_log.get_package_information()
+    }
+"""
+
+
+def _normalize_for_comparison(value):
+    """
+    Normalize values for comparison, handling type conversions from INI/JSON formats.
+    - Converts tuples to lists (JSON doesn't preserve tuples)
+    - Parses string representations of tuples/lists to actual lists
+    - Leaves other types unchanged
+    """
+    # If it's a tuple, convert to list
+    if isinstance(value, tuple):
+        return list(value)
+    
+    # If it's a string that looks like a tuple or list, try to parse it
+    if isinstance(value, str):
+        value_stripped = value.strip()
+        if (value_stripped.startswith('(') and value_stripped.endswith(')')) or \
+           (value_stripped.startswith('[') and value_stripped.endswith(']')):
+            try:
+                # Use ast.literal_eval for safe evaluation
+                import ast
+                parsed = ast.literal_eval(value_stripped)
+                # Convert tuples to lists for consistency
+                if isinstance(parsed, tuple):
+                    return list(parsed)
+                return parsed
+            except (ValueError, SyntaxError):
+                # If parsing fails, keep as string
+                return value
+    
+    return value
+
+
+def compare_system(filepath):
+    """
+    Compare system information and important Python packages from a log file with the current system.
+    
+    Args:
+        filepath (str): Path to the execution log file (.SLogI or .SLogJ)
+    
+    Returns:
+        list: List of comparison output lines
+    """
+    results = []
+    # Determine format
+    if '.SLogJ' in filepath:
+        data = load_execution_log_json(filepath)
+    else:
+        data = load_execution_log_ini(filepath)
+    # Get current system information
+    # Assume portable executables are in the workspace
+    workspace_dir = os.path.dirname(os.path.dirname(__file__))
+    environment = {
+        "rscript_exe": os.path.join(workspace_dir, "portable_R", "bin", "Rscript.exe"),
+        "julia_exe": os.path.join(workspace_dir, "portable_julia", "bin", "julia.exe")
+    }
+    current_sys = get_system_information(environment)
+    current_pkg = get_package_information()
+    # Compare system_information
+    logged_sys = data.get("system_information", {})
+    results.append("Comparing system_information:")
+    for key in set(logged_sys.keys()) | set(current_sys.keys()):
+        log_val = logged_sys.get(key, 'Not present')
+        curr_val = current_sys.get(key, 'Not present')
+        # Normalize values for comparison
+        log_val_normalized = _normalize_for_comparison(log_val)
+        curr_val_normalized = _normalize_for_comparison(curr_val)
+        status = 'Match' if log_val_normalized == curr_val_normalized else 'Mismatch'
+        results.append(f"(log file) {key} = {log_val}")
+        results.append(f"(this system) {key} = {curr_val}")
+        results.append(f"Status = {status}")
+        results.append("")
+    # Compare important_python_packages
+    logged_pkg = data.get("important_python_packages", {})
+    results.append("Comparing important_python_packages:")
+    for key in set(logged_pkg.keys()) | set(current_pkg.keys()):
+        log_val = logged_pkg.get(key, 'Not present')
+        curr_val = current_pkg.get(key, 'Not present')
+        # Normalize values for comparison
+        log_val_normalized = _normalize_for_comparison(log_val)
+        curr_val_normalized = _normalize_for_comparison(curr_val)
+        status = 'Match' if log_val_normalized == curr_val_normalized else 'Mismatch'
+        results.append(f"(log file) {key} = {log_val}")
+        results.append(f"(this system) {key} = {curr_val}")
+        results.append(f"Status = {status}")
+        results.append("")
+    results = "\n".join(results)
+    return results

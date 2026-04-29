@@ -1761,13 +1761,24 @@ class SiPy_Shell(object):
         """!
         Operations pertaining to execution logs.
 
-        Commands: 
+        Commands:
+            log compare_system name=<name of log file>
             log read name=<name of log file>
             log save name=<name to save to> format=<format to save as>
 
         @return: String containing results of command execution
         """
-        if operand[0] == "read":
+        if operand[0] == "compare_system":
+            """
+            log compare_system name=<name of log file>
+
+            Example:
+            log compare_system name=execution_log.SLogI
+            log compare_system name=execution_log.SLogJ
+            """
+            filepath = os.path.abspath(kwargs["name"])
+            retR = libsipy.execution_log.compare_system(filepath)
+        elif operand[0] == "read":
             """
             log read name=<name of log file>
 
