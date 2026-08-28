@@ -1763,6 +1763,8 @@ class SiPy_Shell(object):
 
         Commands:
             log compare_system name=<name of log file>
+            log compare_result name=<name of log file>
+            log extract_history name=<name of log file>
             log read name=<name of log file>
             log save name=<name to save to> format=<format to save as>
 
@@ -1778,6 +1780,45 @@ class SiPy_Shell(object):
             """
             filepath = os.path.abspath(kwargs["name"])
             retR = libsipy.execution_log.compare_system(filepath)
+        elif operand[0] == "compare_result":
+            """
+            log compare_result name=<name of log file>
+
+            Example:
+            log compare_result name=execution_log.SLogI
+            log compare_result name=execution_log.SLogJ
+            """
+            filepath = os.path.abspath(kwargs["name"])
+            # extract_history returns list of {index, command, result, timestamp}
+            entries = libsipy.execution_log.extract_history(filepath)
+            comparisons = []
+            for e in entries:
+                cmd = e.get("command")
+                logged_res = e.get("result")
+                ts = e.get("timestamp")
+                comparisons.append(f"Command: {cmd}")
+                comparisons.append(f"Logged timestamp: {ts}")
+                comparisons.append(f"Logged result: {logged_res}")
+                # Rerun the command using the interpreter; capture returned value
+                try:
+                    new_res = self.interpret(cmd)
+                except Exception as exc:
+                    new_res = f"__EXCEPTION__ {exc}"
+                comparisons.append(f"New result: {new_res}")
+                status = "Match" if str(new_res) == str(logged_res) else "Mismatch"
+                comparisons.append(f"Status: {status}")
+                comparisons.append("")
+            retR = "\n".join(comparisons)
+        elif operand[0] == "extract_history":
+            """
+            log extract_history name=<name of log file>
+
+            Example:
+            log extract_history name=execution_log.SLogI
+            log extract_history name=execution_log.SLogJ
+            """
+            filepath = os.path.abspath(kwargs["name"])
+            retR = libsipy.execution_log.extract_history(filepath)
         elif operand[0] == "read":
             """
             log read name=<name of log file>

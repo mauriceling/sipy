@@ -249,3 +249,39 @@ def compare_system(filepath):
         results.append("")
     results = "\n".join(results)
     return results
+
+
+def extract_history(filepath):
+    """
+    Extract history entries from an execution log file (INI or JSON).
+
+    Returns a list of dicts with keys: `index` (int), `command` (str),
+    `result` (str or None), and `timestamp` (str or None). Entries are
+    ordered by their numeric index.
+    """
+    # Load using existing loaders (they raise FileNotFoundError if missing)
+    if '.SLogJ' in filepath:
+        data = load_execution_log_json(filepath)
+    else:
+        data = load_execution_log_ini(filepath)
+
+    history = data.get("history", {}) or {}
+    results = data.get("result", {}) or {}
+
+    entries = []
+    # Keys are typically numeric strings; sort by integer value
+    try:
+        keys = sorted(history.keys(), key=lambda x: int(x))
+    except Exception:
+        # Fallback to lexical sort if keys are not numeric
+        keys = sorted(history.keys())
+
+    for k in keys:
+        entry = {
+            "index": int(k) if k.isdigit() else k,
+            "command": history.get(k),
+            "result": results.get(k),
+        }
+        entries.append(entry)
+
+    return entries
