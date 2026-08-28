@@ -7,3 +7,5 @@ Dataset = DiaBD.csv
     Tabia Tanzin Prama, Md. Jobayer Rahman, Marzia Zaman, Farhana Sarker, Khondaker A. Mamun. 2025. DiaBD: A diabetes dataset for enhanced risk analysis and research in Bangladesh. Data in Brief 61: 111746.
 Dataset = JUCars2024.csv
 	Thalji, N., Tahat, K., 2026. JUCars-2024: A dataset of used car listings in Jordan. Data Brief 66, 112682. https://doi.org/10.1016/j.dib.2026.112682
+Dataset = Rababah2024.csv
+    Rababah, Mumen, Etier, Morad. 2024. A dataset on anthropometric measurements of children in Jordan for ergonomic product design. Data in Brief 53, 110123. https://doi.org/10.1016/j.dib.2024.110123.
