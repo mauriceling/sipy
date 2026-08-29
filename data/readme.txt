@@ -15,3 +15,5 @@ Dataset = Pierola2017.csv
     Pierola, A., Epifanio, I., Alemany, S. 2017. Child t-shirt size data set from 3D body scanner anthropometric measurements and a questionnaire. Data in Brief 11: 311-315. https://doi.org/10.1016/j.dib.2017.02.025.
 Dataset = Rababah2024.csv
     Rababah, Mumen, Etier, Morad. 2024. A dataset on anthropometric measurements of children in Jordan for ergonomic product design. Data in Brief 53, 110123. https://doi.org/10.1016/j.dib.2024.110123.
+Dataset = Wattelez2025.csv
+    G. Wattelez, S. Frayon, A. Nedjar-Guerre, C. Caillaud, O. Galy, Food cultures, lifestyles and health of Pacific adolescents: Questionnaire data and anthropometric measurements focused on 11 to 16 years old students living in New Caledonia, Data in Brief 63 (2025) 112299, doi: 10.1016/j.dib.2025.112299.
