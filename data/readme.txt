@@ -1,3 +1,5 @@
+Dataset = BD-KDD.csv
+    Rahman, Muhammad Towfiqur, Akter, Salma, Islam, Md. Masudul, Islam, Md. Shafiqul. 2026. BD-KDD: A real-world clinical dataset for kidney disease diagnosis and healthy classification. Data in Brief 66: 112738. https://doi.org/10.1016/j.dib.2026.112738.
 Dataset = Bhuiyan2026.csv
 	Bhuiyan, Md.Y., Ayon, S.S., Hossain, Md.E., Miah, Md.S.U., Sarower, A.H., Bappee, F.K., 2026. A clinical dataset on type-2 diabetes including demographic, anthropometric, and biochemical parameters from Bangladesh. Data Brief 65, 112457. https://doi.org/10.1016/j.dib.2026.112457
 Dataset = diabetes.csv
