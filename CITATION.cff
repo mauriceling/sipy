@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "Statistics in Python (SiPy): Python-Based Statistical Graphical User Interface for R/Python"
+title: "Statistics in Python (SiPy): Python-Based Statistical Graphical User Interface for Python/R/Julia"
 version: 0.10.0
 date-released: 2026-04-25
 license: GPL-3.0
