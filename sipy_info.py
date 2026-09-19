@@ -21,9 +21,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
 draft = False
 
-release_number = "0.10.0"
-release_code_name = "Mulberry Honey Gose"
-release_day = "25 April"
+release_number = "0.11.0"
+release_code_name = "Long Island Peach Tea"
+release_day = "20 September"
 release_year = "2026"
 release_date = " ".join([release_day, release_year])
 
