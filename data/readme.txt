@@ -11,6 +11,8 @@ Dataset = Hitka2024.csv
     Hitka, Miloš; Gejdoš, Miloš; Sydor, Maciej. 2024. Dataset on anthropometric measurements of the adult population in Slovakia. Data in Brief 55: 110536. https://doi.org/10.1016/j.dib.2024.110536.
 Dataset = JUCars2024.csv
 	Thalji, N., Tahat, K., 2026. JUCars-2024: A dataset of used car listings in Jordan. Data Brief 66, 112682. https://doi.org/10.1016/j.dib.2026.112682
+Dataset = Scorza2022.csv
+	Scorza, L.C.T., Cameron, G.J., Murray-Williams, R. et al. SARS-CoV-2 RNA levels in Scotland’s wastewater. Sci Data 9, 713 (2022). https://doi.org/10.1038/s41597-022-01788-3
 Dataset = Pierola2017.csv
     Pierola, A., Epifanio, I., Alemany, S. 2017. Child t-shirt size data set from 3D body scanner anthropometric measurements and a questionnaire. Data in Brief 11: 311-315. https://doi.org/10.1016/j.dib.2017.02.025.
 Dataset = Rababah2024.csv
