@@ -17,3 +17,5 @@ Dataset = Rababah2024.csv
     Rababah, Mumen, Etier, Morad. 2024. A dataset on anthropometric measurements of children in Jordan for ergonomic product design. Data in Brief 53, 110123. https://doi.org/10.1016/j.dib.2024.110123.
 Dataset = Wattelez2025.csv
     G. Wattelez, S. Frayon, A. Nedjar-Guerre, C. Caillaud, O. Galy, Food cultures, lifestyles and health of Pacific adolescents: Questionnaire data and anthropometric measurements focused on 11 to 16 years old students living in New Caledonia, Data in Brief 63 (2025) 112299, doi: 10.1016/j.dib.2025.112299.
+Dataset = WideDepthDataset.csv
+	Berezowski, T. River depths and widths dataset for the territory of Poland. Sci Data 13, 1275 (2026). https://doi.org/10.1038/s41597-026-07537-0
