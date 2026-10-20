@@ -9,13 +9,17 @@ Dataset = DiaBD.csv
     Tabia Tanzin Prama, Md. Jobayer Rahman, Marzia Zaman, Farhana Sarker, Khondaker A. Mamun. 2025. DiaBD: A diabetes dataset for enhanced risk analysis and research in Bangladesh. Data in Brief 61: 111746.
 Dataset = Hitka2024.csv
     Hitka, Miloš; Gejdoš, Miloš; Sydor, Maciej. 2024. Dataset on anthropometric measurements of the adult population in Slovakia. Data in Brief 55: 110536. https://doi.org/10.1016/j.dib.2024.110536.
+Dataset = DiMuri2022.csv
+	Di Muri C, Rosati I, Bardelli R, Cilenti L, Li Veli D, Falco S, Vizzini S, Katselis GN, Kevrekidis K, Glamuzina L, Mancinelli G (2022) An individual-based dataset of carbon and nitrogen isotopic data of Callinectes sapidus in invaded Mediterranean waters. Biodiversity Data Journal 10: e77516. https://doi.org/10.3897/BDJ.10.e77516
 Dataset = JUCars2024.csv
 	Thalji, N., Tahat, K., 2026. JUCars-2024: A dataset of used car listings in Jordan. Data Brief 66, 112682. https://doi.org/10.1016/j.dib.2026.112682
+Dataset = Scorza2022.csv
+	Scorza, L.C.T., Cameron, G.J., Murray-Williams, R. et al. SARS-CoV-2 RNA levels in Scotland’s wastewater. Sci Data 9, 713 (2022). https://doi.org/10.1038/s41597-022-01788-3
 Dataset = Pierola2017.csv
     Pierola, A., Epifanio, I., Alemany, S. 2017. Child t-shirt size data set from 3D body scanner anthropometric measurements and a questionnaire. Data in Brief 11: 311-315. https://doi.org/10.1016/j.dib.2017.02.025.
 Dataset = Rababah2024.csv
     Rababah, Mumen, Etier, Morad. 2024. A dataset on anthropometric measurements of children in Jordan for ergonomic product design. Data in Brief 53, 110123. https://doi.org/10.1016/j.dib.2024.110123.
 Dataset = Wattelez2025.csv
     G. Wattelez, S. Frayon, A. Nedjar-Guerre, C. Caillaud, O. Galy, Food cultures, lifestyles and health of Pacific adolescents: Questionnaire data and anthropometric measurements focused on 11 to 16 years old students living in New Caledonia, Data in Brief 63 (2025) 112299, doi: 10.1016/j.dib.2025.112299.
-Dataset = WideDepthDataset.csv
+Dataset = WidthDepthDataset.csv
 	Berezowski, T. River depths and widths dataset for the territory of Poland. Sci Data 13, 1275 (2026). https://doi.org/10.1038/s41597-026-07537-0
